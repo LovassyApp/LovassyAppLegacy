@@ -1,0 +1,134 @@
+@import './colors.css';
+
+.layoutBase {
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: center;
+}
+
+.blur-hover {
+	transition: 0.3s transform cubic-bezier(0.155, 1.105, 0.295, 1.12), 0.3s box-shadow,
+		0.3s -webkit-transform cubic-bezier(0.155, 1.105, 0.295, 1.12);
+}
+
+.blur-hover:hover {
+	transform: scale(1.05);
+}
+
+/* slightly transparent fallback */
+
+.blur {
+	background-color: rgba(255, 255, 255, 0.85);
+	border-radius: 14px;
+	border: 0px;
+	z-index: 1 !important;
+}
+
+.blur ol {
+	background-color: rgba(255, 255, 255, 0.85);
+	border-radius: 14px;
+	border: 0px;
+	z-index: 1 !important;
+}
+
+.blur-dark {
+	background-color: rgba(0, 0, 0, 0.85);
+	border-radius: 14px;
+	border: 0px;
+	z-index: 1 !important;
+}
+
+.blur-dark ol {
+	background-color: rgba(0, 0, 0, 0.85);
+	border-radius: 14px;
+	border: 0px;
+	z-index: 1 !important;
+}
+
+/* if backdrop support: very transparent and blurred */
+
+@supports ((-webkit-backdrop-filter: blur(2em)) or (backdrop-filter: blur(2em))) {
+	.blur {
+		background-color: rgba(255, 255, 255, 0.6);
+		-webkit-backdrop-filter: blur(2em);
+		backdrop-filter: blur(2em);
+		z-index: 1;
+	}
+
+	.blur ol {
+		background-color: rgba(255, 255, 255, 0.1);
+		-webkit-backdrop-filter: blur(2em);
+		backdrop-filter: blur(2em);
+		z-index: 1;
+	}
+
+	.blur-dark {
+		background-color: rgba(0, 0, 0, 0.6);
+		-webkit-backdrop-filter: blur(2em);
+		backdrop-filter: blur(2em);
+		z-index: 1;
+	}
+
+	.blur-dark ol {
+		background-color: rgba(0, 0, 0, 0.1);
+		-webkit-backdrop-filter: blur(2em);
+		backdrop-filter: blur(2em);
+		z-index: 1;
+	}
+}
+
+/* Box shadow - Nav */
+
+.blur {
+	box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.blur-dark {
+	box-shadow: 0 15px 22px -10px rgba(0, 0, 0, 0.1);
+}
+
+.loading-background {
+	background: linear-gradient(
+		111.19deg,
+		rgb(170, 255, 236) -63.59%,
+		rgb(255, 78, 205) -20.3%,
+		rgb(0, 112, 243) 70.46%
+	) !important;
+}
+
+.bg-gradient {
+	background: linear-gradient(
+		111.19deg,
+		rgb(170, 255, 236) -63.59%,
+		rgb(255, 78, 205) -20.3%,
+		rgb(0, 112, 243) 70.46%
+	) !important;
+}
+
+.badge-white {
+	color: rgb(22, 22, 22);
+	background: rgb(230, 230, 230) !important;
+}
+
+.dropzone {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 30px;
+	border-width: 2px;
+	border-radius: 2px;
+	border-color: darkslategray;
+	border-style: dashed;
+	background-color: lightgray;
+	color: darkslategray;
+	outline: none;
+	transition: border 0.24s ease-in-out;
+}
+
+.dropdown-menu.show {
+	z-index: 111111;
+}
+.card {
+	border-radius: 14px;
+}

@@ -1,0 +1,10 @@
+{
+    "name": "blueboard-client",
+    "version": "0.1.0",
+    "private": true,
+    "main": "index.ts",
+    "dependencies": {
+        "axios": "^0.24.0",
+        "laravel-echo": "^1.11.3"
+    }
+}

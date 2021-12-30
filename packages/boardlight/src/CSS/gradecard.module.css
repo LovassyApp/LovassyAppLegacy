@@ -1,0 +1,21 @@
+.card {
+	position: relative;
+	flex-direction: column;
+	width: 100% !important;
+	word-wrap: break-word;
+	display: inline-block;
+	border-radius: 40px !important;
+	background-clip: border-box;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	border: 0px solid transparent !important;
+}
+
+.cardSubjectN {
+	position: relative;
+	top: 50%;
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+}

@@ -1,0 +1,206 @@
+import axios, { Axios, AxiosRequestConfig } from "axios";
+
+import BlueboardAccessDeniedException from "./errors/BlueboardAccessDeniedException";
+import BlueboardClientModuleConfig from "./models/BlueboardClientModuleConfig";
+import BlueboardEndpoints from "./BlueboardEndpoints";
+import BlueboardNotFoundException from "./errors/BlueboardNotFoundException";
+import BlueboardState from "./models/BlueboardState";
+import BlueboardStdException from "./errors/BlueboardStdException";
+import BlueboardTokenException from "./errors/BlueboardTokenException";
+import BlueboardValidationException from "./errors/BlueboardValidationException";
+
+class BlueboardBaseClient {
+  protected readonly endpoints: BlueboardEndpoints;
+  protected readonly token: string = "";
+  protected state: BlueboardState;
+  private readonly headers: any = {};
+  protected axios: Axios;
+
+  private handleAPIErrors = (err: any) => {
+    switch (err.response.status) {
+      case 404:
+        throw new BlueboardNotFoundException(
+          "The resource could not be found. (" + err.request.responseURL + ")"
+        );
+      case 403:
+        throw new BlueboardAccessDeniedException(
+          "You don't have the permission to access this resource. (" +
+            err.request.responseURL +
+            ")"
+        );
+      case 422:
+        throw new BlueboardValidationException(
+          err.response.data.errors ?? {},
+          err.response.data.message
+        );
+      default:
+        throw new BlueboardStdException(
+          err.response.data.message,
+          err.response.data.type ?? "BlueboardGenericException"
+        );
+    }
+  };
+
+  private registerInterceptor = () => {
+    this.axios.interceptors.response.use(
+      (res) => {
+        return res;
+      },
+      (err) => {
+        if (err.response) {
+          this.handleAPIErrors(err);
+        } else {
+          throw new BlueboardStdException(err.message);
+        }
+      }
+    );
+  };
+
+  constructor(config: BlueboardClientModuleConfig) {
+    this.endpoints = new BlueboardEndpoints(config.blueboardUrl);
+
+    if (config.apiToken) {
+      this.token = config.apiToken;
+      this.headers = {
+        Authorization: "Bearer " + config.apiToken,
+        Accept: "application/json",
+      };
+    }
+
+    this.axios = axios.create();
+    this.registerInterceptor();
+
+    this.state = config.state;
+  }
+
+  protected async stdRequest(config: AxiosRequestConfig) {
+    return (await this.axios.request(config)) as any;
+  }
+
+  protected async stdGetRequest(
+    url: string,
+    data: any = {},
+    params: any = {},
+    forcedHeaders?: any
+  ) {
+    if (this.token == "" && forcedHeaders == null) {
+      throw new BlueboardTokenException("No token supplied.");
+    }
+
+    const config: any = {
+      method: "get",
+      url: url,
+      headers: forcedHeaders ?? this.headers,
+      data: data,
+      params: params,
+    };
+
+    const res = await this.stdRequest(config);
+
+    return res.data.data == null || res.data.data.length == 0
+      ? res.data ?? {}
+      : res.data.data;
+  }
+
+  protected async stdPostRequest(
+    url: string,
+    data: any,
+    params: any = {},
+    forcedHeaders?: any
+  ) {
+    if (this.token == "" && forcedHeaders == null) {
+      throw new BlueboardTokenException("No token supplied.");
+    }
+
+    const config: any = {
+      method: "post",
+      url: url,
+      headers: forcedHeaders ?? this.headers,
+      data: data,
+      params: params,
+    };
+
+    const res = await this.stdRequest(config);
+
+    return res.data.data == null || res.data.data.length == 0
+      ? res.data ?? {}
+      : res.data.data;
+  }
+
+  protected async stdPutRequest(
+    url: string,
+    data: any,
+    params: any = {},
+    forcedHeaders?: any
+  ) {
+    if (this.token == "" && forcedHeaders == null) {
+      throw new BlueboardTokenException("No token supplied.");
+    }
+
+    const config: any = {
+      method: "put",
+      url: url,
+      headers: forcedHeaders ?? this.headers,
+      data: data,
+      params: params,
+    };
+
+    const res = await this.stdRequest(config);
+
+    return res.data.data == null || res.data.data.length == 0
+      ? res.data ?? {}
+      : res.data.data;
+  }
+
+  protected async stdPatchRequest(
+    url: string,
+    data: any,
+    params: any = {},
+    forcedHeaders?: any
+  ) {
+    if (this.token == "" && forcedHeaders == null) {
+      throw new BlueboardTokenException("No token supplied.");
+    }
+
+    const config: any = {
+      method: "patch",
+      url: url,
+      headers: forcedHeaders ?? this.headers,
+      data: data,
+      params: params,
+    };
+
+    const res = await this.stdRequest(config);
+
+    return res.data.data == null || res.data.data.length == 0
+      ? res.data ?? {}
+      : res.data.data;
+  }
+
+  protected async stdDeleteRequest(
+    url: string,
+    data: any,
+    params: any = {},
+    forcedHeaders?: any
+  ) {
+    if (this.token == "" && forcedHeaders == null) {
+      throw new BlueboardTokenException("No token supplied.");
+    }
+
+    const config: any = {
+      method: "delete",
+      url: url,
+      headers: forcedHeaders ?? this.headers,
+      data: data,
+      params: params,
+    };
+
+    const res = await this.stdRequest(config);
+
+    return res.data.data == null || res.data.data.length == 0
+      ? res.data ?? {}
+      : res.data.data;
+  }
+}
+
+export default BlueboardBaseClient;
