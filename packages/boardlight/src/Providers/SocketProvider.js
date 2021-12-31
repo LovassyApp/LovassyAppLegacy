@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { BlueboardSocketManager } from 'blueboard-client';
+import env from '../.env.json';
 
 export const SocketContext = React.createContext({});
 
 const SocketProvider = ({ token, children }) => {
-	const url = process.env.REACT_APP_BLUEBOARD_URL;
-	const soketiHost = process.env.REACT_APP_BLUEBOARD_SOKETI_HOST;
-	const soketiKey = process.env.REACT_APP_BLUEBOARD_SOKETI_KEY;
+	const url = env.REACT_APP_BLUEBOARD_URL;
+	const soketiHost = env.REACT_APP_BLUEBOARD_SOKETI_HOST;
+	const soketiKey = env.REACT_APP_BLUEBOARD_SOKETI_KEY;
 
 	const [socket, setSocket] = React.useState({});
 

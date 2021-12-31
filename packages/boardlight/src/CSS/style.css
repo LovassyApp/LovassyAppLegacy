@@ -1,4 +1,5 @@
 @import './colors.css';
+@import './nextui-min.css';
 
 .layoutBase {
 	background-repeat: no-repeat;
