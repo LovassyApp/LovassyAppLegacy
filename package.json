@@ -3,5 +3,18 @@
   "private": true,
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "devDependencies": {
+    "husky": "^7.0.0",
+    "lint-staged": "^12.1.4"
+  },
+  "lint-staged": {
+    "packages/boardlight-mobile/**": [
+      "yarn workspace boardlight-mobile lint",
+      "yarn workspace boardlight-mobile format"
+    ]
+  },
+  "scripts": {
+    "prepare": "husky install"
+  }
 }

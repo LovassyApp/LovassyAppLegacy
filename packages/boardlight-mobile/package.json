@@ -14,17 +14,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "prepare": "husky install",
-    "lint": "eslint *.js **/*.js src/**/*.js",
-    "format": "prettier --check ./src"
-  },
-  "lint-staged": {
-    "src/**/*.js": [
-      "eslint --ext .js src/ --fix"
-    ],
-    "./src/**": [
-      "prettier --write ."
-    ]
+    "lint": "eslint *.js **/*.js src/**/*.js --fix",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@expo-google-fonts/poppins": "^0.2.0",
@@ -65,8 +56,6 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.27.1",
     "eslint-plugin-react-hooks": "^4.3.0",
-    "husky": "^7.0.4",
-    "lint-staged": "^12.1.2",
     "prettier": "^2.5.1"
   },
   "bugs": {
