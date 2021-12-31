@@ -2,17 +2,19 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Collection;
+use App\Events\ProductUpdated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Collection;
 use URL;
+use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 
 class Product extends Model
 {
 	use HasFactory;
 
-	protected $appends = ['imageUrl'];
+	protected $appends = ['imageUrl', 'codeNames'];
 
 	public function getImageUrlAttribute()
 	{
@@ -21,15 +23,37 @@ class Product extends Model
 		]);
 	}
 
+	public static function boot()
+	{
+		parent::boot();
+
+		static::updated(function ($product) {
+			ProductUpdated::dispatch($product);
+		});
+	}
+
+	public function getCodeNamesAttribute()
+	{
+		return $this->codes()
+			->get()
+			->pluck('name');
+	}
+
 	public function codes(): BelongsToMany
 	{
 		return $this->belongsToMany(QRCode::class, 'product_code', 'product_id', 'code_id');
 	}
 
+	protected $casts = [
+		'inputs' => AsArrayObject::class,
+	];
+
 	protected $with = ['codes'];
 
 	public static function allVisible(): Collection
 	{
-		return self::where('visible', 1)->get();
+		return self::setEagerLoads([])
+			->where('visible', 1)
+			->get();
 	}
 }

@@ -114,7 +114,7 @@ class ProductController extends Controller
 		$product->codeActivated = $data['codeActivated'];
 		$product->price = $data['price'];
 		$product->quantity = $data['quantity'];
-		$product->inputs = json_encode($data['inputs']);
+		$product->inputs = $data['inputs'];
 		$product->imageName = $filename;
 		$product->visible = $data['visible'];
 		$product->save();
