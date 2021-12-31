@@ -24,7 +24,7 @@ class BlueboardProductsClient extends BlueboardBaseClient {
 
 		const res =
 			data.id === 'new'
-				? ((await this.stdPostRequest(url, data)) as BlueboardResponse)
+				? ((await this.stdPutRequest(url, data)) as BlueboardResponse)
 				: ((await this.stdPatchRequest(url, data)) as BlueboardResponse);
 
 		return res;

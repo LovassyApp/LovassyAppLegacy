@@ -8,6 +8,7 @@ class BlueboardEndpoints {
 	public readonly control: string = '';
 	public readonly kreta: any = {};
 	public readonly lolo: string = '';
+	public readonly store: string = '';
 
 	constructor(baseUrl: string) {
 		this.base = baseUrl + this.apiBase;
@@ -38,6 +39,7 @@ class BlueboardEndpoints {
 		};
 
 		this.lolo = this.base + '/lolo';
+		this.store = this.base + '/store';
 	}
 }
 
