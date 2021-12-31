@@ -64,7 +64,7 @@ const Groups = () => {
 			cell: (row) => (
 				<div>
 					{row.permissions.map((el, key) => (
-						<Badge key={key} className="badge-white m-1">
+						<Badge pill key={key} className="badge-white m-1">
 							{el}
 						</Badge>
 					))}

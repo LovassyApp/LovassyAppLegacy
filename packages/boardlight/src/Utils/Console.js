@@ -1,5 +1,12 @@
+class BoardlightConsole {
+	get msg() {
+		console.log('hello world!');
+	}
+}
+
 const register = () => {
-	window.tell = tell;
+	//window.tell = tell;
+	window.blc = new BoardlightConsole();
 };
 
 const tell = (msg) => {

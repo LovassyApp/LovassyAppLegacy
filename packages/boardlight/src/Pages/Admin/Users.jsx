@@ -84,7 +84,7 @@ const Users = () => {
 						<i>Itt nincs semmi.</i>
 					) : (
 						row.groups.map((el, key) => (
-							<Badge key={key} className="badge-white m-1">
+							<Badge pill key={key} className="badge-white m-1">
 								{el.name}
 							</Badge>
 						))
