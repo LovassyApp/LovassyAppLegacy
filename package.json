@@ -9,8 +9,10 @@
     "lint-staged": "^12.1.4"
   },
   "lint-staged": {
+    "packages/boardlight-mobile/**.js": [
+      "yarn workspace boardlight-mobile lint"
+    ],
     "packages/boardlight-mobile/**": [
-      "yarn workspace boardlight-mobile lint",
       "yarn workspace boardlight-mobile format"
     ]
   },
