@@ -1,0 +1,78 @@
+{
+  "name": "boardlight-mobile",
+  "version": "0.1.0",
+  "main": "node_modules/expo/AppEntry.js",
+  "keywords": [
+    "react",
+    "expo",
+    "template",
+    "nativebase"
+  ],
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "eject": "expo eject",
+    "prepare": "husky install",
+    "lint": "eslint *.js **/*.js src/**/*.js",
+    "format": "prettier --check ./src"
+  },
+  "lint-staged": {
+    "src/**/*.js": [
+      "eslint --ext .js src/ --fix"
+    ],
+    "./src/**": [
+      "prettier --write ."
+    ]
+  },
+  "dependencies": {
+    "@expo-google-fonts/poppins": "^0.2.0",
+    "@react-native-async-storage/async-storage": "~1.15.0",
+    "@react-navigation/bottom-tabs": "^6.0.9",
+    "@react-navigation/material-bottom-tabs": "^6.0.9",
+    "@react-navigation/native": "^6.0.6",
+    "@react-navigation/native-stack": "^6.2.5",
+    "@reduxjs/toolkit": "^1.6.2",
+    "axios": "^0.24.0",
+    "expo": "~42.0.0",
+    "expo-app-loading": "1.1.2",
+    "expo-barcode-scanner": "~10.2.2",
+    "expo-camera": "~11.2.2",
+    "expo-font": "~9.2.1",
+    "expo-secure-store": "~10.2.0",
+    "expo-status-bar": "~1.0.4",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "react-is": "^17.0.2",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
+    "react-native-barcode-mask": "^1.2.4",
+    "react-native-chart-kit": "^6.11.0",
+    "react-native-paper": "^4.10.1",
+    "react-native-safe-area-context": "3.2.0",
+    "react-native-screens": "~3.4.0",
+    "react-native-svg": "12.1.1",
+    "react-native-vector-icons": "^9.0.0",
+    "react-native-web": "~0.13.12",
+    "react-redux": "^7.2.6",
+    "styled-components": "^5.3.0",
+    "styled-system": "^5.1.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/eslint-parser": "^7.16.3",
+    "eslint": "^8.4.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.27.1",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.1.2",
+    "prettier": "^2.5.1"
+  },
+  "bugs": {
+    "url": "https://github.com/GeekyAnts/nativebase-templates/issues"
+  },
+  "homepage": "https://github.com/GeekyAnts/nativebase-templates#readme",
+  "author": "Aditya Jamuar",
+  "private": true
+}
