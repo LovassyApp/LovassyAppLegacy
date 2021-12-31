@@ -22,6 +22,4 @@ Szóval ömm ja... A Blueboard igazából egy elcseszett JSON-os REST API, Larav
 
 > Igazából ki vagyok én, hogy ezt betartassam? lol
 >
-> -   Máté Gyimesi (minigyima), 2021
->
 > BTW: Az egész név egy fos vicc: Krétát kezelünk, tehát kötelező a tanszerrel kapcsolatos név. 'Tábla napló' (geez miafasz) még nincs, ezért Board, a Blue pedig hát... A lovassy színe a kék, én meg basic vagyok... Szóval ja... Blueboard. (Jobb, mint a Kék tábla napló vagy idk)
