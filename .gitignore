@@ -126,3 +126,5 @@ dist
 .pnp.*
 
 .DS_Store
+.idea
+.vscode

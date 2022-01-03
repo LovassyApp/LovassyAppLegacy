@@ -17,14 +17,13 @@ import { NavigationDecider } from "./navigation/navigation";
 import { Provider as PaperProvider } from "react-native-paper";
 import { StatusBar } from "expo-status-bar";
 import { fetchLolo } from "./utils/api/loloUtils";
+import { registerRootComponent } from "expo";
 import { setTheme } from "./store/slices/themeSlice";
 import { setToken } from "./store/slices/tokenSlice";
 import store from "./store/store";
 
 // The only reason this exist is so I can use redux hooks
 const AppLogic = () => {
-  console.log("here");
-
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
@@ -100,10 +99,12 @@ const AppLogic = () => {
   );
 };
 
-export const App = () => {
+const App = () => {
   return (
     <Provider store={store}>
       <AppLogic />
     </Provider>
   );
 };
+
+registerRootComponent(App);

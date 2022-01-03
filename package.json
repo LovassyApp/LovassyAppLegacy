@@ -1,9 +1,14 @@
 {
-  "name": "LovassyApp",
+  "name": "lovassy-app",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": {
+      "packages": [
+          "packages/*"
+      ],
+      "nohoist": [
+          "**"
+      ]
+  },
   "devDependencies": {
     "husky": "^7.0.0",
     "lint-staged": "^12.1.4"
