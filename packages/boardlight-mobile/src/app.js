@@ -21,6 +21,7 @@ import { registerRootComponent } from "expo";
 import { setTheme } from "./store/slices/themeSlice";
 import { setToken } from "./store/slices/tokenSlice";
 import store from "./store/store";
+import { BlueboardClient } from "blueboard-client";
 
 // The only reason this exist is so I can use redux hooks
 const AppLogic = () => {
