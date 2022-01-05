@@ -6,3 +6,6 @@ src/assets
 .expo
 .expo-shared
 .vscode
+.env
+.env.example
+.prettierignore
