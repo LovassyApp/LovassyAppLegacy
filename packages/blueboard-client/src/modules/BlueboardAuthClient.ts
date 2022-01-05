@@ -64,7 +64,7 @@ class BlueboardAuthClient extends BlueboardBaseClient {
         return obj;
       })
       .catch((error) => {
-        throw new BlueboardLoginException(error.errors, error.message);
+        throw new BlueboardLoginException(error.errors, error.message, false);
       });
   };
 
@@ -98,7 +98,7 @@ class BlueboardAuthClient extends BlueboardBaseClient {
         return obj;
       })
       .catch((error) => {
-        throw new BlueboardLoginException({}, error.message);
+        throw new BlueboardLoginException({}, error.message, true);
       });
   };
 }
