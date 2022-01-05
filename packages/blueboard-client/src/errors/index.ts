@@ -5,6 +5,7 @@ export { default as BlueboardControlException } from "./BlueboardControlExceptio
 export { default as BlueboardLoginException } from "./BlueboardLoginException";
 export { default as BlueboardLogoutException } from "./BlueboardLogoutException";
 export { default as BlueboardNotFoundException } from "./BlueboardNotFoundException";
+export { default as BlueboardRegisterException } from "./BlueboardRegisterException";
 export { default as BlueboardSocketException } from "./BlueboardSocketException";
 export { default as BlueboardStdException } from "./BlueboardStdException";
 export { default as BlueboardTokenException } from "./BlueboardTokenException";
