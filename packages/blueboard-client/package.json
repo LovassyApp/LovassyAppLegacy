@@ -4,6 +4,7 @@
 	"private": true,
 	"main": "./src/index.ts",
 	"dependencies": {
+		"@react-native-community/netinfo": "^7.1.7",
 		"axios": "^0.24.0",
 		"laravel-echo": "^1.11.3",
 		"pusher-js": "^7.0.3"

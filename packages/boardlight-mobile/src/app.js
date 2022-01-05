@@ -21,6 +21,8 @@ import { registerRootComponent } from "expo";
 import { setTheme } from "./store/slices/themeSlice";
 import { setToken } from "./store/slices/tokenSlice";
 import store from "./store/store";
+import { SocketProvider } from "./providers/socketProvider";
+import { BlueboardClientProvider } from "./providers/blueboardClientProvider";
 
 // The only reason this exist is so I can use redux hooks
 const AppLogic = () => {
@@ -92,9 +94,13 @@ const AppLogic = () => {
   return (
     <>
       <StatusBar style={theme === lightTheme ? "dark" : "light"} />
-      <PaperProvider theme={theme}>
-        <NavigationDecider />
-      </PaperProvider>
+      <BlueboardClientProvider>
+        <SocketProvider>
+          <PaperProvider theme={theme}>
+            <NavigationDecider />
+          </PaperProvider>
+        </SocketProvider>
+      </BlueboardClientProvider>
     </>
   );
 };
