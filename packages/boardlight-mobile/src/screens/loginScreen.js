@@ -22,6 +22,7 @@ import { fetchLolo } from "../utils/api/loloUtils";
 import { removeRenewalError } from "../store/slices/tokenSlice";
 import { secureSaveData } from "../utils/misc/storageUtils";
 import store from "../store/store";
+import { useBlueboardClient } from "../hooks/useBlueboardClient";
 
 export const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -36,6 +37,7 @@ export const LoginScreen = ({ navigation }) => {
 
   const renewalError = useSelector((state) => state.token.renewalError);
   const dispatch = useDispatch();
+  const client = useBlueboardClient();
 
   const styles = StyleSheet.create({
     container: {
@@ -88,7 +90,7 @@ export const LoginScreen = ({ navigation }) => {
     setLoading(true);
 
     try {
-      const res = await login(`${email}@lovassy.edu.hu`, password);
+      const res = await client.auth.login(`${email}@lovassy.edu.hu`, password);
 
       try {
         await fetchControl(res.data.token);

@@ -11,7 +11,6 @@ export const SocketProvider = ({ token, children }) => {
     const url = BLUEBOARD_URL;
     const soketiHost = BLUEBOARD_SOKETI_HOST;
     const soketiKey = BLUEBOARD_SOKETI_KEY;
-
     if (token === null) {
       console.warn("No socket token set. Private channels may not be available.");
     }

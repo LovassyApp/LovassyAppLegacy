@@ -1,27 +1,20 @@
 {
-  "name": "lovassy-app",
-  "private": true,
-  "workspaces": {
-      "packages": [
-          "packages/*"
-      ],
-      "nohoist": [
-          "**"
-      ]
-  },
-  "devDependencies": {
-    "husky": "^7.0.0",
-    "lint-staged": "^12.1.4"
-  },
-  "lint-staged": {
-    "packages/boardlight-mobile/**.js": [
-      "yarn workspace boardlight-mobile lint"
-    ],
-    "packages/boardlight-mobile/**": [
-      "yarn workspace boardlight-mobile format"
-    ]
-  },
-  "scripts": {
-    "prepare": "husky install"
-  }
+	"name": "lovassy-app",
+	"private": true,
+	"devDependencies": {
+		"lerna": "^4.0.0",
+		"husky": "^7.0.0",
+		"lint-staged": "^12.1.4"
+	},
+	"lint-staged": {
+		"packages/boardlight-mobile/**.js": [
+			"cd packages/boardlight-mobile && yarn run lint"
+		],
+		"packages/boardlight-mobile/**": [
+			"cd packages/boardlight-mobile && yarn run format"
+		]
+	},
+	"scripts": {
+		"prepare": "husky install"
+	}
 }

@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"git.ignoreLimitWarning": true,
+		"artisan.docker.command": "docker exec llgapp-app",
+		"artisan.docker.enabled": true
+	}
+}
