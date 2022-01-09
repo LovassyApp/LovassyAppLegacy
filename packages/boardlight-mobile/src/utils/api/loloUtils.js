@@ -1,6 +1,6 @@
 import { Endpoints } from "./endpionts";
 import axios from "axios";
-import store from "../../store/store";
+import store from "../../../../../../../Downloads/LovassyApp-master/packages/boardlight-mobile/src/store/store";
 
 export const fetchLolo = async (token, refresh) => {
   const { dispatch } = store;

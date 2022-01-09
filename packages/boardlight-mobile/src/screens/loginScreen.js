@@ -90,7 +90,7 @@ export const LoginScreen = ({ navigation }) => {
     setLoading(true);
 
     try {
-      const res = await client.auth.login(`${email}@lovassy.edu.hu`, password);
+      const res = await client.auth.login(`${email}@lovassy.edu.hu`, password, false);
 
       try {
         await fetchControl(res.data.token);

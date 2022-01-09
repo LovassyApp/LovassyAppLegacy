@@ -1,7 +1,7 @@
 import { Endpoints } from "./endpionts";
 import axios from "axios";
-import { secureLoadData } from "../misc/storageUtils";
-import store from "../../store/store";
+import { secureLoadData } from "../../../../../../../Downloads/LovassyApp-master/packages/boardlight-mobile/src/utils/misc/storageUtils";
+import store from "../../../../../../../Downloads/LovassyApp-master/packages/boardlight-mobile/src/store/store";
 
 var interval;
 
