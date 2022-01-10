@@ -1,7 +1,7 @@
 enum BlueboardLoloReason {
-  FromFive,
-  FromFour,
-  FromResponse,
+    FromFive,
+    FromFour,
+    FromRequest,
 }
 
 export default BlueboardLoloReason;

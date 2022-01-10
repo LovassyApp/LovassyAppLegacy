@@ -1,29 +1,32 @@
 {
-	"name": "blueboard-client",
-	"version": "0.1.0",
-	"description": "A client for the Blueboard backend server",
-	"keywords": [
-		"client",
-		"blueboard",
-		"lovassyapp",
-		"llgapp",
-		"llgapp-api",
-		"lovassyapp-api"
-	],
-	"author": "Máté Gyimesi <gyim.mate@gmail.com>",
-	"homepage": "",
-	"license": "MIT",
-	"main": "lib/index.ts",
-	"directories": {
-		"lib": "lib"
-	},
-	"files": [
-		"lib"
-	],
-	"dependencies": {
-		"@react-native-community/netinfo": "^7.1.7",
-		"axios": "^0.24.0",
-		"laravel-echo": "^1.11.3",
-		"pusher-js": "^7.0.3"
-	}
+    "name": "blueboard-client",
+    "version": "0.1.0",
+    "description": "A client for the Blueboard backend server",
+    "keywords": [
+        "client",
+        "blueboard",
+        "lovassyapp",
+        "llgapp",
+        "llgapp-api",
+        "lovassyapp-api"
+    ],
+    "contributors": [
+        "Nándor Ocskó <Xeretis@users.noreply.github.com>",
+        "Máté Gyimesi <gyim.mate@gmail.com>"
+    ],
+    "homepage": "",
+    "license": "MIT",
+    "main": "lib/index.ts",
+    "directories": {
+        "lib": "lib"
+    },
+    "files": [
+        "lib"
+    ],
+    "dependencies": {
+        "@react-native-community/netinfo": "^7.1.7",
+        "axios": "^0.24.0",
+        "laravel-echo": "^1.11.3",
+        "pusher-js": "^7.0.3"
+    }
 }

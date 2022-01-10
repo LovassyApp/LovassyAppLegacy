@@ -1,20 +1,27 @@
 {
-	"name": "lovassy-app",
-	"private": true,
-	"devDependencies": {
-		"lerna": "^4.0.0",
-		"husky": "^7.0.0",
-		"lint-staged": "^12.1.4"
-	},
-	"lint-staged": {
-		"packages/boardlight-mobile/**.js": [
-			"cd packages/boardlight-mobile && yarn run lint"
-		],
-		"packages/boardlight-mobile/**": [
-			"cd packages/boardlight-mobile && yarn run format"
-		]
-	},
-	"scripts": {
-		"prepare": "husky install"
-	}
+    "name": "lovassy-app",
+    "contributors": [
+        "Nándor Ocskó <Xeretis@users.noreply.github.com>",
+        "Máté Gyimesi <gyim.mate@gmail.com>"
+    ],
+    "private": true,
+    "devDependencies": {
+        "lerna": "^4.0.0",
+        "husky": "^7.0.0",
+        "lint-staged": "^12.1.4"
+    },
+    "lint-staged": {
+        "packages/boardlight-mobile/**.js": [
+            "cd packages/boardlight-mobile && yarn run lint"
+        ],
+        "packages/boardlight-mobile/**": [
+            "cd packages/boardlight-mobile && yarn run format"
+        ]
+    },
+    "scripts": {
+        "prepare": "husky install",
+        "docker-build": "cd docker && docker-compose build app && docker-compose build",
+        "docker-start": "cd docker && docker-compose up",
+        "docker-down": "cd docker && docker-compose down --volumes -t 0"
+    }
 }
