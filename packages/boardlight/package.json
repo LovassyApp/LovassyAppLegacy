@@ -53,7 +53,8 @@
         "start": "craco start",
         "build": "craco build",
         "test": "craco test",
-        "eject": "craco eject"
+        "eject": "craco eject",
+        "lint-fix": "eslint --fix --ext .js,.jsx src/"
     },
     "eslintConfig": {
         "extends": [
