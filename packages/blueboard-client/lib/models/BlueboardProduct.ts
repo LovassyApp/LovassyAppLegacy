@@ -1,22 +1,24 @@
-import BlueboardQRCode from './BlueboardQRCode';
+import BlueboardQRCode from "./BlueboardQRCode";
+import BlueboardTimestamps from "./BlueboardTimestamps";
+import BlueboardProductInput from "./BlueboardProductInput";
 
 class BlueboardProduct {
-	constructor(
-		public readonly codeActivated: boolean,
-		public readonly created_at: string,
-		public readonly updated_at: string,
-		public readonly description: string,
-		public readonly id: number | string,
-		public readonly imageName: string,
-		public readonly imageUrl: string,
-		public readonly inputs: Array<any>,
-		public readonly markdownContent: string,
-		public readonly price: number,
-		public readonly quantity: number,
-		public readonly visible: boolean,
-		public readonly codeNames: Array<string>,
-		public readonly codes?: Array<BlueboardQRCode>
-	) {}
+    constructor(
+        public readonly id: number | string,
+        public readonly timestamps: BlueboardTimestamps,
+        public readonly name: string,
+        public readonly description: string,
+        public readonly markdownContent: string,
+        public readonly codeActivated: boolean,
+        public readonly price: number,
+        public readonly quantity: number,
+        public readonly inputs: Array<BlueboardProductInput>,
+        public readonly imageName: string,
+        public readonly visible: boolean,
+        public readonly imageUrl: string,
+        public readonly codeNames: Array<string>,
+        public readonly codes?: Array<BlueboardQRCode>
+    ) {}
 }
 
 export default BlueboardProduct;

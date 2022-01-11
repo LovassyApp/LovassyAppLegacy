@@ -1,24 +1,23 @@
-import BlueboardKretaGrade from '../models/BlueboardKretaGrade';
-import BlueboardKretaGradeData from '../models/BlueboardKretaGradeData';
-import BlueboardTimestamps from '../models/BlueboardTimestamps';
-import BlueboardKretaGradeResponse from '../models/BlueboardKretaGradeResponse';
+import BlueboardKretaGrade from "../models/BlueboardKretaGrade";
+import BlueboardKretaGradeData from "../models/BlueboardKretaGradeData";
+import BlueboardTimestamps from "../models/BlueboardTimestamps";
 
-class BlueboardKretaGradeResponseFactory {
+class BlueboardKretaGradeDataFactory {
     static getResponse(obj: any) {
-        const status = obj.status;
-        const message = obj.message;
+        const data: Array<BlueboardKretaGradeData> = [];
 
-        var data: Array<BlueboardKretaGradeData> = [];
-
-        for (var gradeData of obj.data) {
+        for (const gradeData of obj.data) {
             const subject = gradeData.subject;
-            var grades: Array<BlueboardKretaGrade> = [];
+            const grades: Array<BlueboardKretaGrade> = [];
 
-            for (var grade of gradeData.grades) {
+            for (const grade of gradeData.grades) {
                 grades.push(
                     new BlueboardKretaGrade(
                         grade.id,
-                        new BlueboardTimestamps(grade.created_at, grade.updated_at),
+                        new BlueboardTimestamps(
+                            grade.created_at,
+                            grade.updated_at
+                        ),
                         grade.user_id,
                         grade.lolo_id,
                         grade.uid,
@@ -38,6 +37,8 @@ class BlueboardKretaGradeResponseFactory {
             data.push(new BlueboardKretaGradeData(subject, grades));
         }
 
-        return new BlueboardKretaGradeResponse(status, message, data);
+        return data;
     }
 }
+
+export default BlueboardKretaGradeDataFactory;

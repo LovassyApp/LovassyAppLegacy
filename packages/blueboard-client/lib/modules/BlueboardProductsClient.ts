@@ -1,43 +1,54 @@
-import BlueboardBaseClient from '../BlueboardBaseClient';
-import BlueboardProduct from '../models/BlueboardProduct';
-import BlueboardResponse from '../models/BlueboardResponse';
+import BlueboardBaseClient from "../BlueboardBaseClient";
+import BlueboardProduct from "../models/BlueboardProduct";
+import BlueboardResponse from "../models/BlueboardResponse";
+import BlueboardProductFactory from "../factories/BlueboardProductFactory";
 
 class BlueboardProductsClient extends BlueboardBaseClient {
-	public all = async () => {
-		const url = this.endpoints.admin.products;
+    public all = async () => {
+        const url = this.endpoints.admin.products;
 
-		const res = (await this.stdGetRequest(url)) as Array<BlueboardProduct>;
+        const res = BlueboardProductFactory.getResponse(
+            await this.stdGetRequest(url)
+        );
 
-		return res;
-	};
+        return res;
+    };
 
-	public get = async (id: number) => {
-		const url = this.endpoints.admin.products + `/${id}`;
+    public get = async (id: number) => {
+        const url = this.endpoints.admin.products + `/${id}`;
 
-		const res = (await this.stdGetRequest(url)) as BlueboardProduct;
+        const res = BlueboardProductFactory.getResponse(
+            await this.stdGetRequest(url)
+        );
 
-		return res;
-	};
+        return res;
+    };
 
-	public save = async (data: BlueboardProduct) => {
-		const url = this.endpoints.admin.products;
+    public save = async (data: any) => {
+        const url = this.endpoints.admin.products;
 
-		const res =
-			data.id === 'new'
-				? ((await this.stdPutRequest(url, data)) as BlueboardResponse)
-				: ((await this.stdPatchRequest(url, data)) as BlueboardResponse);
+        const res =
+            data.id === "new"
+                ? ((await this.stdPutRequest(url, data)) as BlueboardResponse)
+                : ((await this.stdPatchRequest(
+                      url,
+                      data
+                  )) as BlueboardResponse);
 
-		return res;
-	};
+        return res;
+    };
 
-	public delete = async (id: number) => {
-		const data: { id: number } = { id: id };
-		const url = this.endpoints.admin.products;
+    public delete = async (id: number) => {
+        const data: { id: number } = { id: id };
+        const url = this.endpoints.admin.products;
 
-		const res = (await this.stdDeleteRequest(url, data)) as BlueboardResponse;
+        const res = (await this.stdDeleteRequest(
+            url,
+            data
+        )) as BlueboardResponse;
 
-		return res;
-	};
+        return res;
+    };
 }
 
 export default BlueboardProductsClient;

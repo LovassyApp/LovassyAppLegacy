@@ -1,11 +1,10 @@
-import BlueboardLoloData from "./BlueboardLoloData";
+import BlueboardLoloCoin from "./BlueboardLoloCoin";
 
 class BlueboardLoloResponse {
-  constructor(
-    public readonly status: string,
-    public readonly message: string,
-    public readonly data: BlueboardLoloData
-  ) {}
+    constructor(
+        public readonly balance: number,
+        public readonly coins: Array<BlueboardLoloCoin>
+    ) {}
 }
 
 export default BlueboardLoloResponse;
