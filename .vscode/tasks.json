@@ -1,0 +1,28 @@
+{
+    "tasks": [
+        {
+            "type": "npm",
+            "script": "docker-build",
+            "group": "build",
+            "problemMatcher": [],
+            "label": "Build containers for Blueboard",
+            "detail": "cd docker && docker-compose build app && docker-compose build"
+        },
+        {
+            "type": "npm",
+            "script": "docker-down",
+            "problemMatcher": [],
+            "label": "Stop all Docker containers",
+            "detail": "cd docker && docker-compose down --volumes -t 0"
+        },
+        {
+            "type": "npm",
+            "script": "build",
+            "path": "packages/boardlight/",
+            "group": "build",
+            "problemMatcher": [],
+            "label": "Build Boardlight for production",
+            "detail": "craco build"
+        }
+    ]
+}
