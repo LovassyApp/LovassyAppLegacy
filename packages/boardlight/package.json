@@ -1,8 +1,9 @@
 {
     "name": "boardlight",
+    "description": "The web client of LovassyApp",
     "author": "Máté Gyimesi <gyim.mate@gmail.com>",
     "contributors": [
-        "Nándor Ocskó <Xeretis@users.noreply.github.com>",
+        "Nándor Ocskó <ocskon@gmail.com>",
         "Máté Gyimesi <gyim.mate@gmail.com>"
     ],
     "version": "0.1.0",
@@ -55,7 +56,7 @@
         "build": "craco build",
         "test": "craco test",
         "eject": "craco eject",
-        "lint-fix": "eslint --fix --ext .js,.jsx src/"
+        "lint": "eslint --fix --ext .js,.jsx src/"
     },
     "eslintConfig": {
         "extends": [

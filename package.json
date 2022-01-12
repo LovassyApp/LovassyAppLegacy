@@ -1,7 +1,7 @@
 {
     "name": "lovassy-app",
     "contributors": [
-        "Nándor Ocskó <Xeretis@users.noreply.github.com>",
+        "Nándor Ocskó <ocskon@gmail.com>",
         "Máté Gyimesi <gyim.mate@gmail.com>"
     ],
     "private": true,
@@ -16,6 +16,9 @@
         ],
         "packages/boardlight-mobile/**": [
             "cd packages/boardlight-mobile && yarn run format"
+        ],
+        "packages/boardlight/**": [
+            "cd packages/boardlight && yarn run lint"
         ]
     },
     "scripts": {
