@@ -12,20 +12,20 @@ import EditProduct from '../Pages/Admin/EditProduct';
 import Store from '../Pages/Store';
 
 const protectedRoutes = [
-	{ path: '/test', component: <Protected />, exact: true },
-	{
-		path: '/home',
-		component: <Middleware permission="General.home" displayError={true} component={<NewHome />} />,
-		exact: true,
-	},
-	{ path: '/store', component: <Store />, exact: true },
-	{ path: '/admin/users', component: <Users />, exact: true },
-	{ path: '/admin/users/edit/:id', component: <EditUser />, exact: false },
-	{ path: '/admin/permissions', component: <Permissions />, exact: true },
-	{ path: '/admin/permissions/edit/:id', component: <EditGroup />, exact: false },
-	{ path: '/admin/qrcodes', component: <QRCodes />, exact: true },
-	{ path: '/admin/products', component: <Products />, exact: true },
-	{ path: '/admin/products/edit/:id', component: <EditProduct />, exact: false },
+    //{ path: '/test', component: <Protected />, exact: true },
+    {
+        path: '/home',
+        component: <Middleware permission="General.home" displayError={true} component={<NewHome />} />,
+        exact: true,
+    },
+    { path: '/store', component: <Store />, exact: true },
+    { path: '/admin/users', component: <Users />, exact: true },
+    { path: '/admin/users/edit/:id', component: <EditUser />, exact: false },
+    { path: '/admin/permissions', component: <Permissions />, exact: true },
+    { path: '/admin/permissions/edit/:id', component: <EditGroup />, exact: false },
+    { path: '/admin/qrcodes', component: <QRCodes />, exact: true },
+    { path: '/admin/products', component: <Products />, exact: true },
+    { path: '/admin/products/edit/:id', component: <EditProduct />, exact: false },
 ];
 
 export default protectedRoutes;

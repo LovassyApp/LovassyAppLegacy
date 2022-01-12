@@ -4,16 +4,13 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import store from './State';
 import { Provider } from 'react-redux';
-import axios from 'axios';
 import register from './Utils/Console';
 
-axios.defaults.withCredentials = true;
-
 ReactDOM.render(
-	<Provider store={store}>
-		<App />
-	</Provider>,
-	document.getElementById('root')
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    document.getElementById('root')
 );
 
 //register();

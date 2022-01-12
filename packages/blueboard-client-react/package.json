@@ -1,14 +1,16 @@
 {
-    "name": "blueboard-client",
+    "name": "blueboard-client-react",
     "version": "0.1.0",
-    "description": "A client for the Blueboard backend server",
+    "description": "React bindings for the blueboard-client library",
     "keywords": [
         "client",
+        "react",
         "blueboard",
         "lovassyapp",
         "llgapp",
         "llgapp-api",
-        "lovassyapp-api"
+        "lovassyapp-api",
+        "react"
     ],
     "contributors": [
         "Nándor Ocskó <Xeretis@users.noreply.github.com>",
@@ -28,9 +30,10 @@
         "url": "git+https://github.com/Xeretis/LovassyApp.git"
     },
     "dependencies": {
-        "@react-native-community/netinfo": "^7.1.7",
-        "axios": "^0.24.0",
-        "laravel-echo": "^1.11.3",
-        "pusher-js": "^7.0.3"
+        "blueboard-client": "^0.1.0"
+    },
+    "peerDependencies": {
+        "@types/react": "^17.0.38",
+        "react": "^17.0.1"
     }
 }
