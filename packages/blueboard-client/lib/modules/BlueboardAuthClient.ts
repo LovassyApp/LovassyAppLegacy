@@ -1,12 +1,17 @@
-import BlueboardLoginResponse, { BlueboardLoginResponseInterface } from '../models/BlueboardLoginResponse';
-import BlueboardBaseClient from '../BlueboardBaseClient';
-import BlueboardLoginException from '../errors/BlueboardLoginException';
-import BlueboardLogoutException from '../errors/BlueboardLogoutException';
-import BlueboardRegisterException from '../errors/BlueboardRegisterException';
-import { AxiosRequestConfig } from 'axios';
+import BlueboardBaseClient from "../BlueboardBaseClient";
+import BlueboardLoginException from "../errors/BlueboardLoginException";
+import BlueboardLogoutException from "../errors/BlueboardLogoutException";
+import BlueboardRegisterException from "../errors/BlueboardRegisterException";
+import { AxiosRequestConfig } from "axios";
+import BlueboardLoginResponseFactory from "../factories/BlueboardLoginResponseFactory";
 
 class BlueboardAuthClient extends BlueboardBaseClient {
-    public register = async (email: string, password: string, kretaUsername: string, kretaPassword: string) => {
+    public register = async (
+        email: string,
+        password: string,
+        kretaUsername: string,
+        kretaPassword: string
+    ) => {
         const url: string = this.endpoints.auth.register;
 
         var data = {
@@ -21,15 +26,30 @@ class BlueboardAuthClient extends BlueboardBaseClient {
                 return true;
             })
             .catch((error) => {
-                if (error.type != null && error.type == 'KretaCredentialException') {
-                    throw new BlueboardRegisterException({}, error.message, true);
+                if (
+                    error.type != null &&
+                    error.type == "KretaCredentialException"
+                ) {
+                    throw new BlueboardRegisterException(
+                        {},
+                        error.message,
+                        true
+                    );
                 } else {
-                    throw new BlueboardRegisterException(error.errors, error.message, false);
+                    throw new BlueboardRegisterException(
+                        error.errors,
+                        error.message,
+                        false
+                    );
                 }
             });
     };
 
-    public login = async (username: string, password: string, remember: boolean) => {
+    public login = async (
+        username: string,
+        password: string,
+        remember: boolean
+    ) => {
         const url: string = this.endpoints.auth.login;
 
         var data = {
@@ -40,11 +60,15 @@ class BlueboardAuthClient extends BlueboardBaseClient {
 
         return await this.stdPostRequest(url, data, {}, {})
             .then((res) => {
-                const obj = new BlueboardLoginResponse(res.message, res.result, res.status, res.user, res.token);
+                const obj = BlueboardLoginResponseFactory.getResponse(res);
                 return obj;
             })
             .catch((error) => {
-                throw new BlueboardLoginException(error.errors, error.message, false);
+                throw new BlueboardLoginException(
+                    error.errors,
+                    error.message,
+                    false
+                );
             });
     };
 
@@ -73,8 +97,7 @@ class BlueboardAuthClient extends BlueboardBaseClient {
         return this.axios
             .get(url, props)
             .then((res) => {
-                const data = res.data as BlueboardLoginResponseInterface;
-                const obj = new BlueboardLoginResponse(data.message, data.result, res.status, data.user, data.token);
+                const obj = BlueboardLoginResponseFactory.getResponse(res);
                 return obj;
             })
             .catch((error) => {

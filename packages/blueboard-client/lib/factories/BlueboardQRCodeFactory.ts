@@ -6,6 +6,7 @@ class BlueboardQRCodeFactory {
     static getResponse(obj: any) {
         const data: Array<BlueboardQRCode> = [];
 
+        //Note: this may breakk once there's an option to only get a single code
         for (const code of obj) {
             data.push(BlueboardQRCodeFactory.getQRCode(code));
         }

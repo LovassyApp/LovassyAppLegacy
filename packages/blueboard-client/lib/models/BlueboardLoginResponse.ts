@@ -1,24 +1,24 @@
-import BlueboardResponse from './BlueboardResponse';
-import BlueboardUser from './BlueboardUser';
+import BlueboardResponse from "./BlueboardResponse";
+import BlueboardUser from "./BlueboardUser";
 
 class BlueboardLoginResponse extends BlueboardResponse {
-	public readonly user: BlueboardUser | null = null;
-	public readonly token: string | null = null;
+    public readonly user: BlueboardUser;
+    public readonly token: string;
+    public readonly rememberToken: string;
 
-	constructor(message: string, result: string, status: number, user: BlueboardUser, token: string) {
-		super(message, result, status);
-		this.user = user;
-		this.token = token;
-	}
+    constructor(
+        result: string,
+        message: string,
+        status: number,
+        user: BlueboardUser,
+        token: string,
+        rememberToken: string
+    ) {
+        super(message, result, status);
+        this.user = user;
+        this.token = token;
+        this.rememberToken = rememberToken;
+    }
 }
-
-interface BlueboardLoginResponseInterface {
-	message: string;
-	result: string;
-	user: BlueboardUser;
-	token: string;
-}
-
-export type { BlueboardLoginResponseInterface };
 
 export default BlueboardLoginResponse;
