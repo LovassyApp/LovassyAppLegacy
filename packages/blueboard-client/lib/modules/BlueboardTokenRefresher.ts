@@ -1,62 +1,57 @@
-import BlueboardAuthClient from "./BlueboardAuthClient";
-import BlueboardBaseClient from "../BlueboardBaseClient";
-import BlueboardClientModuleConfig from "../models/BlueboardClientModuleConfig";
-import BlueboardControlException from "../errors/BlueboardControlException";
-import BlueboardTokenRefreshException from "../errors/BlueboardTokenRefreshException";
+import BlueboardAuthClient from './BlueboardAuthClient';
+import BlueboardBaseClient from '../BlueboardBaseClient';
+import BlueboardClientModuleConfig from '../models/BlueboardClientModuleConfig';
+import BlueboardControlException from '../errors/BlueboardControlException';
+import BlueboardTokenRefreshException from '../errors/BlueboardTokenRefreshException';
 
 class BlueboardTokenRefresher extends BlueboardBaseClient {
-  private timeout: any;
-  private auth: BlueboardAuthClient;
+    private timeout: any;
+    private auth: BlueboardAuthClient;
 
-  constructor(config: BlueboardClientModuleConfig) {
-    super(config);
-    this.auth = new BlueboardAuthClient(config);
-  }
-
-  private getTimeout = async () => {
-    const expiry = this.state.control?.session.expiry ?? false;
-
-    if (expiry == false) {
-      throw new BlueboardControlException("Please fetch Control first.");
+    constructor(config: BlueboardClientModuleConfig) {
+        super(config);
+        this.auth = new BlueboardAuthClient(config);
     }
 
-    return (expiry - Math.floor(Date.now() / 1000) - 2) * 1000;
-  };
+    private getTimeout = async () => {
+        const expiry = this.state.control?.session.expiry ?? false;
 
-  public async start(refreshCallback: any, errorCallback: any) {
-    clearTimeout(this.timeout);
-    const timeout = await this.getTimeout();
-    console.log(
-      "DEBUG: Token expiry thread sleep: " + timeout / 1000 + " seconds."
-    );
+        if (expiry == false) {
+            throw new BlueboardControlException('Please fetch Control first.');
+        }
 
-    const cb = () => {
-      this.timeoutCallback(refreshCallback, errorCallback);
+        return (expiry - Math.floor(Date.now() / 1000) - 2) * 1000;
     };
 
-    this.timeout = setTimeout(cb, timeout);
-  }
+    public async start(refreshCallback: any, errorCallback: any, refreshToken?: string) {
+        clearTimeout(this.timeout);
+        const timeout = await this.getTimeout();
+        console.log('DEBUG: Token expiry thread sleep: ' + timeout / 1000 + ' seconds.');
 
-  public stop = () => {
-    clearTimeout(this.timeout);
-  };
+        const cb = () => {
+            this.timeoutCallback(refreshCallback, errorCallback, refreshToken);
+        };
 
-  private timeoutCallback = async (
-    refreshCallback: any,
-    errorCallback: any
-  ) => {
-    console.log("DEBUG: Renewing token...");
-    try {
-      await this.auth
-        .loginWithCookie()
-        .then(refreshCallback)
-        .catch((err) => {
-          throw new BlueboardTokenRefreshException(err.message);
-        });
-    } catch (e) {
-      errorCallback(e);
+        this.timeout = setTimeout(cb, timeout);
     }
-  };
+
+    public stop = () => {
+        clearTimeout(this.timeout);
+    };
+
+    private timeoutCallback = async (refreshCallback: any, errorCallback: any, refreshToken?: string) => {
+        console.log('DEBUG: Renewing token...');
+        try {
+            await this.auth
+                .loginWithCookie(refreshToken)
+                .then(refreshCallback)
+                .catch((err) => {
+                    throw new BlueboardTokenRefreshException(err.message);
+                });
+        } catch (e) {
+            errorCallback(e);
+        }
+    };
 }
 
 export default BlueboardTokenRefresher;
