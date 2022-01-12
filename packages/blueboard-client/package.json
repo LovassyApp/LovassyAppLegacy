@@ -11,11 +11,9 @@
         "lovassyapp-api"
     ],
     "contributors": [
-        "Nándor Ocskó <Xeretis@users.noreply.github.com>",
+        "Nándor Ocskó <ocskon@gmail.com>",
         "Máté Gyimesi <gyim.mate@gmail.com>"
     ],
-    "homepage": "",
-    "license": "MIT",
     "main": "lib/index.ts",
     "directories": {
         "lib": "lib"

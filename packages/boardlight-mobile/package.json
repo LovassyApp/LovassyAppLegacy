@@ -1,5 +1,7 @@
 {
     "name": "boardlight-mobile",
+    "description": "The mobile client of LovassyApp",
+    "author": "Nándor Ocskó <ocskon@gmail.com>",
     "version": "0.1.0",
     "main": "node_modules/expo/AppEntry.js",
     "keywords": [
@@ -8,7 +10,6 @@
         "template",
         "nativebase"
     ],
-    "license": "MIT",
     "scripts": {
         "start": "expo start",
         "android": "expo start --android",
@@ -27,7 +28,7 @@
         "@react-navigation/native-stack": "^6.2.5",
         "@reduxjs/toolkit": "^1.6.2",
         "axios": "^0.24.0",
-        "blueboard-client": "0.1.0",
+        "blueboard-client": "*",
         "expo": "^44.0.0",
         "expo-app-loading": "~1.3.0",
         "expo-barcode-scanner": "~11.2.0",
@@ -63,10 +64,5 @@
         "prettier": "^2.5.1",
         "typescript": "~4.3.5"
     },
-    "bugs": {
-        "url": "https://github.com/GeekyAnts/nativebase-templates/issues"
-    },
-    "homepage": "https://github.com/GeekyAnts/nativebase-templates#readme",
-    "author": "Aditya Jamuar",
     "private": true
 }
