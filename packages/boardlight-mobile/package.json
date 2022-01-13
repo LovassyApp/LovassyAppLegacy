@@ -29,7 +29,7 @@
         "@reduxjs/toolkit": "^1.6.2",
         "axios": "^0.24.0",
         "blueboard-client": "*",
-        "blueboard-client-mobile": "*",
+        "blueboard-client-react": "*",
         "expo": "^44.0.0",
         "expo-app-loading": "~1.3.0",
         "expo-barcode-scanner": "~11.2.0",
