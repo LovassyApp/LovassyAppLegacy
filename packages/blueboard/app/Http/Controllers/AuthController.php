@@ -41,6 +41,7 @@ class AuthController extends Controller
                 ->json(
                     [
                         'result' => 'success',
+                        'status' => 200,
                         'message' => 'Login successful',
                         'user' => User::where('id', Auth::user()->id)
                             ->setEagerLoads([])

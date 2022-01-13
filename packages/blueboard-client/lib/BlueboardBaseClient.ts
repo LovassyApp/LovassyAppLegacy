@@ -68,8 +68,28 @@ class BlueboardBaseClient {
         this.state = config.state;
     }
 
+    /*
+        Axios vs React Native: Round 1
+    */
+    private configFilter(config: AxiosRequestConfig): AxiosRequestConfig {
+        const mutatedConfig: AxiosRequestConfig = { ...config };
+
+        const dataLength: number = Object.keys(mutatedConfig.data).length;
+        const paramLength: number = Object.keys(mutatedConfig.params).length;
+
+        if (paramLength === 0) {
+            delete mutatedConfig.params;
+        }
+
+        if (dataLength === 0) {
+            delete mutatedConfig.data;
+        }
+
+        return mutatedConfig;
+    }
+
     protected async stdRequest(config: AxiosRequestConfig) {
-        return (await this.axios.request(config)) as any;
+        return (await this.axios.request(this.configFilter(config))) as any;
     }
 
     protected async stdGetRequest(url: string, data: any = {}, params: any = {}, forcedHeaders?: any) {
