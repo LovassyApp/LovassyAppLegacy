@@ -1,111 +1,111 @@
-import { Endpoints } from './endpionts';
-import axios from 'axios';
-import { secureLoadData } from '../misc/storageUtils';
-import store from '../../store/store';
+import { Endpoints } from "./endpionts";
+import axios from "axios";
+import { secureLoadData } from "../misc/storageUtils";
+import store from "../../store/store";
 
 var interval;
 
 export const setRenewal = (tokenParam = null) => {
-    const state = store.getState();
-    const token = tokenParam ?? state.token.value;
+  const state = store.getState();
+  const token = tokenParam ?? state.token.value;
 
-    if (token === null) {
-        clearInterval(interval);
-    } else {
-        fetchControl(token).then(() => {
-            var control = state.control.value;
-            var timeout = (control.session.expiry - Math.floor(Date.now() / 1000) - 2) * 1000;
-            console.log(`DEBUG: Token expiry thread sleep: ${timeout / 1000}`);
-            interval = setInterval(callback, timeout);
-        });
-    }
+  if (token === null) {
+    clearInterval(interval);
+  } else {
+    fetchControl(token).then(() => {
+      var control = state.control.value;
+      var timeout = (control.session.expiry - Math.floor(Date.now() / 1000) - 2) * 1000;
+      console.log(`DEBUG: Token expiry thread sleep: ${timeout / 1000}`);
+      interval = setInterval(callback, timeout);
+    });
+  }
 };
 
 export const clearRenewal = () => {
-    if (interval !== null) {
-        clearInterval(interval);
-    }
+  if (interval !== null) {
+    clearInterval(interval);
+  }
 };
 
 const callback = async () => {
-    const { dispatch } = store;
+  const { dispatch } = store;
 
-    const email = await secureLoadData('email');
-    const password = await secureLoadData('password');
+  const email = await secureLoadData("email");
+  const password = await secureLoadData("password");
 
-    console.log('DEBUG: Renewing token');
+  console.log("DEBUG: Renewing token");
 
-    try {
-        const res = await login(email, password);
+  try {
+    const res = await login(email, password);
 
-        dispatch({ type: 'token/setToken', payload: res.data.token });
-    } catch (err) {
-        clearInterval(interval);
+    dispatch({ type: "token/setToken", payload: res.data.token });
+  } catch (err) {
+    clearInterval(interval);
 
-        dispatch({ type: 'token/removeToken', payload: true });
-        dispatch({ type: 'control/removeControl' });
-    }
+    dispatch({ type: "token/removeToken", payload: true });
+    dispatch({ type: "control/removeControl" });
+  }
 };
 
 export const fetchControl = async (token) => {
-    const { dispatch } = store;
-    const url = Endpoints.base + Endpoints.control;
+  const { dispatch } = store;
+  const url = Endpoints.base + Endpoints.control;
 
-    const config = {
-        method: 'get',
-        url: url,
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    };
+  const config = {
+    method: "get",
+    url: url,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
 
-    try {
-        const res = await axios(config);
+  try {
+    const res = await axios(config);
 
-        dispatch({ type: 'control/setControl', payload: res.data });
+    dispatch({ type: "control/setControl", payload: res.data });
 
-        return res;
-    } catch (err) {
-        dispatch({ type: 'token/removeToken' });
+    return res;
+  } catch (err) {
+    dispatch({ type: "token/removeToken" });
 
-        throw err;
-    }
+    throw err;
+  }
 };
 
 // must fetch control afterwards and save token + credentials
 export const login = async (email, password) => {
-    const url = Endpoints.base + Endpoints.login;
+  const url = Endpoints.base + Endpoints.login;
 
-    const data = {
-        email: email,
-        password: password,
-        remember: 0,
-    };
+  const data = {
+    email: email,
+    password: password,
+    remember: 0,
+  };
 
-    const config = {
-        method: 'post',
-        url: url,
-        data: data,
-    };
+  const config = {
+    method: "post",
+    url: url,
+    data: data,
+  };
 
-    return await axios(config);
+  return await axios(config);
 };
 
 export const register = async (email, password, kretaUsername, kretaPassword) => {
-    const url = Endpoints.base + Endpoints.register;
+  const url = Endpoints.base + Endpoints.register;
 
-    var data = {
-        email: email,
-        password: password,
-        kreta_username: kretaUsername,
-        kreta_password: kretaPassword,
-    };
+  var data = {
+    email: email,
+    password: password,
+    kreta_username: kretaUsername,
+    kreta_password: kretaPassword,
+  };
 
-    var config = {
-        method: 'post',
-        url: url,
-        data: data,
-    };
+  var config = {
+    method: "post",
+    url: url,
+    data: data,
+  };
 
-    return await axios(config);
+  return await axios(config);
 };

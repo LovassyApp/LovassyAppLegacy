@@ -10,7 +10,6 @@ import {
 } from "react-native-paper";
 import { KeyboardAvoidingView, StyleSheet, View } from "react-native";
 import React, { useState } from "react";
-import { fetchControl, login, setRenewal } from "../utils/api/accountUtils";
 import { useDispatch, useSelector } from "react-redux";
 
 import { FullScreenLoading } from "../components/fullScreenLoading";
@@ -21,6 +20,7 @@ import { ScreenContainer } from "../components/screenContainer";
 import { fetchLolo } from "../utils/api/loloUtils";
 import { removeRenewalError } from "../store/slices/tokenSlice";
 import { secureSaveData } from "../utils/misc/storageUtils";
+import { setRenewal } from "../utils/api/accountUtils";
 import store from "../store/store";
 import { useBlueboardClient } from "blueboard-client-react";
 
