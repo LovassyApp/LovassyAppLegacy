@@ -11,13 +11,13 @@
         "lint-staged": "^12.1.4"
     },
     "lint-staged": {
-        "packages/boardlight-mobile/**.js": [
+        "apps/boardlight-mobile/**.js": [
             "cd apps/boardlight-mobile && yarn run lint"
         ],
-        "packages/boardlight-mobile/**": [
+        "apps/boardlight-mobile/**": [
             "cd apps/boardlight-mobile && yarn run format"
         ],
-        "packages/boardlight/**": [
+        "apps/boardlight/**": [
             "cd apps/boardlight && yarn run lint"
         ]
     },

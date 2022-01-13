@@ -17,7 +17,7 @@
             "port": 9000,
             // server -> local
             "pathMappings": {
-                "/var/www/api": "${workspaceFolder}/packages/blueboard"
+                "/var/www/api": "${workspaceFolder}/apps/blueboard"
             }
         }
     ]
