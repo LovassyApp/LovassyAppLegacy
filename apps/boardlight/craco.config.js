@@ -3,7 +3,8 @@ const { getLoader, loaderByName } = require("@craco/craco");
 
 //add all packages from the monorepo here as well, or they won't be compiled
 const packages = [];
-packages.push(path.join(__dirname, "../blueboard-client"));
+packages.push(path.join(__dirname, "../../packages/blueboard-client"));
+packages.push(path.join(__dirname, "../../packages/blueboard-client-react"));
 
 module.exports = {
   webpack: {

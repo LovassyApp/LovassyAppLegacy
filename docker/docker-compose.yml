@@ -12,7 +12,7 @@ services:
     expose:
       - 9000
     volumes:
-      - ../packages/blueboard/:/var/www/api/
+      - ../apps/blueboard/:/var/www/api/
       - ./logs:/var/log/
       - ./root:/root
     depends_on:
@@ -27,7 +27,7 @@ services:
       default:
         ipv4_address: 172.128.3.6
     volumes:
-      - ../packages/blueboard/:/var/www/api/
+      - ../apps/blueboard/:/var/www/api/
       - ./logs:/var/log/
       - ./root:/root
     depends_on:
@@ -43,7 +43,7 @@ services:
       default:
         ipv4_address: 172.128.3.8
     volumes:
-      - ../packages/blueboard/:/var/www/api/
+      - ../apps/blueboard/:/var/www/api/
       - ./logs:/var/log/
       - ./root:/root
     depends_on:
@@ -60,8 +60,8 @@ services:
       default:
         ipv4_address: 172.128.3.3
     volumes:
-      - ../packages/blueboard/:/var/www/api/
-      - ../packages/boardlight:/var/www/frontend/
+      - ../apps/blueboard/:/var/www/api/
+      - ../apps/boardlight:/var/www/frontend/
       - ./nginx/:/etc/nginx/conf.d/
       - ./logs:/var/log/
       - ./root:/root

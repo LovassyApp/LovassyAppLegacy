@@ -12,13 +12,13 @@
     },
     "lint-staged": {
         "packages/boardlight-mobile/**.js": [
-            "cd packages/boardlight-mobile && yarn run lint"
+            "cd apps/boardlight-mobile && yarn run lint"
         ],
         "packages/boardlight-mobile/**": [
-            "cd packages/boardlight-mobile && yarn run format"
+            "cd apps/boardlight-mobile && yarn run format"
         ],
         "packages/boardlight/**": [
-            "cd packages/boardlight && yarn run lint"
+            "cd apps/boardlight && yarn run lint"
         ]
     },
     "scripts": {
