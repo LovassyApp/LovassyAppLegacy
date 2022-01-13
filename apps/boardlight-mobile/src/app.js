@@ -21,8 +21,14 @@ import { registerRootComponent } from "expo";
 import { setTheme } from "./store/slices/themeSlice";
 import { setToken } from "./store/slices/tokenSlice";
 import store from "./store/store";
-import { SocketProvider } from "./providers/socketProvider";
-import { BlueboardClientProvider } from "./providers/blueboardClientProvider";
+import { BlueboardClientInit } from "blueboard-client-react";
+import { BLUEBOARD_URL, BLUEBOARD_SOKETI_HOST, BLUEBOARD_SOKETI_KEY } from "@env";
+
+const [BlueboardProvider] = BlueboardClientInit(
+  BLUEBOARD_URL,
+  BLUEBOARD_SOKETI_HOST,
+  BLUEBOARD_SOKETI_KEY,
+);
 
 // The only reason this exist is so I can use redux hooks
 const AppLogic = () => {
@@ -94,13 +100,11 @@ const AppLogic = () => {
   return (
     <>
       <StatusBar style={theme === lightTheme ? "dark" : "light"} />
-      <BlueboardClientProvider>
-        <SocketProvider>
-          <PaperProvider theme={theme}>
-            <NavigationDecider />
-          </PaperProvider>
-        </SocketProvider>
-      </BlueboardClientProvider>
+      <BlueboardProvider token={token}>
+        <PaperProvider theme={theme}>
+          <NavigationDecider />
+        </PaperProvider>
+      </BlueboardProvider>
     </>
   );
 };
