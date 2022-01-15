@@ -6,7 +6,7 @@ import { BlueboardClient } from 'blueboard-client';
 import { createContext } from 'react';
 
 let globalState: {
-    env: BlueboardClientProps;
+    props: BlueboardClientProps;
     BlueboardClientInstance: BlueboardClient;
     BlueboardClientContext: any;
     BlueboardSocketContext: any;
@@ -15,11 +15,11 @@ let globalState: {
 export { globalState };
 
 const BlueboardClientInit = (blueboardUrl: string, blueboardWsUrl: string, blueboardSocketKey: string) => {
-    const env: BlueboardClientProps = new BlueboardClientProps(blueboardUrl, blueboardWsUrl, blueboardSocketKey);
-    const client: BlueboardClient = new BlueboardClient(env.blueboardUrl);
+    const props: BlueboardClientProps = new BlueboardClientProps(blueboardUrl, blueboardWsUrl, blueboardSocketKey);
+    const client: BlueboardClient = new BlueboardClient(props.blueboardUrl);
 
     globalState = {
-        env: env,
+        props: props,
         BlueboardClientInstance: client,
         BlueboardClientContext: createContext(client),
         BlueboardSocketContext: createContext({}),

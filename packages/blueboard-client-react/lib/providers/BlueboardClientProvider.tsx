@@ -9,7 +9,7 @@ const BlueboardClientProvider = ({ token, children }: providerProps) => {
     const [client, setClient] = useState<BlueboardClient>(globalState.BlueboardClientInstance);
 
     useEffect(() => {
-        let newClient: BlueboardClient = new BlueboardClient(globalState.env.blueboardUrl, token);
+        let newClient: BlueboardClient = new BlueboardClient(globalState.props.blueboardUrl, token);
         globalState.BlueboardClientInstance = newClient;
         setClient(newClient);
     }, [token]);

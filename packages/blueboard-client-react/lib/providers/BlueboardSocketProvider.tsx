@@ -15,9 +15,9 @@ const BlueboardSocketProvider = ({ token, children }: providerProps) => {
 
         console.log('DEBUG: Initializing WebSocket...');
         const sock: BlueboardSocketManager = new BlueboardSocketManager(
-            globalState.env.blueboardUrl,
-            globalState.env.blueboardWsUrl,
-            globalState.env.blueboardSocketKey,
+            globalState.props.blueboardUrl,
+            globalState.props.blueboardWsUrl,
+            globalState.props.blueboardSocketKey,
             token
         );
 
