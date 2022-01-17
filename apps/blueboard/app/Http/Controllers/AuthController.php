@@ -82,7 +82,8 @@ class AuthController extends Controller
 
         // kíjdzsen hax klikbéjt jutúb tutoriál ikszdé
         $password = $data['password'];
-        $key = Crypter::generateKey($password);
+        $salt = Crypter::generateSalt();
+        $key = Crypter::generateKey($password, $salt);
 
         // wut? hes?
         $data['password'] = Hash::make($password);
@@ -91,9 +92,13 @@ class AuthController extends Controller
         $user = new User($data);
 
         // Krétát veriFIKÁlni, és elmenteni titkosítva -> Chain of trust kezdete
-        KretaTokenHelper::registerUserKreta($user, $data['kreta_username'], $data['kreta_password'], $key);
+        KretaTokenHelper::registerUserKreta($user, $data['kreta_username'], $data['kreta_password'], $key, $salt);
 
         $user->groups()->sync([1]);
+
+        Crypter::saveSalt($salt, $user->id);
+
+        //Crypter::saveSalt($salt, $user->id);
 
         // Szépségességes dzséjszon response
         return response()->json(

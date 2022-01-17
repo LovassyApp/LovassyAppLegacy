@@ -1,6 +1,7 @@
-// TODO: Use .env
+import { BLUEBOARD_URL } from "@env";
+
 export const Endpoints = {
-  base: "http://localhost/api",
+  base: BLUEBOARD_URL + "/api",
   login: "/login",
   register: "/register",
   logout: "/logout",

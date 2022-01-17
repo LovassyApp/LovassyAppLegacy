@@ -94,7 +94,7 @@ export const HomeScreen = ({ navigation }) => {
     setLoading(true);
 
     client.lolo
-      .get()
+      .get(true)
       .then((res) => {
         dispatch({
           type: "lolo/setLolo",
