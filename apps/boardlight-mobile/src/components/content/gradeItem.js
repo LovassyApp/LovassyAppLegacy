@@ -1,10 +1,13 @@
 import { Avatar, List, useTheme } from "react-native-paper";
 
 import React from "react";
+import { lightTheme } from "../../utils/theme/themes";
+import { useSelector } from "react-redux";
 
 export const GradeItem = (props) => {
   const { grade } = props.data;
   const theme = useTheme();
+  const reduxTheme = useSelector((state) => state.theme.value);
 
   const colors = {
     1: "#f44336",
@@ -35,7 +38,8 @@ export const GradeItem = (props) => {
       )}
       style={{
         padding: 0,
-        backgroundColor: theme.colors.surface,
+        // Because of adaptive mode in the default dark theme of react native paper
+        backgroundColor: reduxTheme === lightTheme ? theme.colors.surface : "#1e1e1e",
         borderRadius: theme.roundness,
         elevation: 1,
         shadowRadius: 0.75,
