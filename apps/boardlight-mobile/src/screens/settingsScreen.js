@@ -25,6 +25,7 @@ import { removeControl } from "../store/slices/controlSlice";
 import { removeToken } from "../store/slices/tokenSlice";
 import { setAdmin } from "../store/slices/adminSlice";
 import { setTheme } from "../store/slices/themeSlice";
+import { removeRefreshToken } from "../store/slices/refreshTokenSlice";
 
 export const SettingsScreen = () => {
   const [showInformation, setShowInformation] = useState(false);
@@ -73,13 +74,13 @@ export const SettingsScreen = () => {
 
     setLoading(true);
 
-    await secureDeleteData("email");
-    await secureDeleteData("password");
+    await secureDeleteData("refreshToken");
 
     setLoading(false);
 
     dispatch(removeToken());
     dispatch(removeControl());
+    dispatch(removeRefreshToken());
   };
 
   const toggleTheme = async () => {

@@ -23,6 +23,7 @@ import { secureSaveData } from "../utils/misc/storageUtils";
 import { setRenewal } from "../utils/api/accountUtils";
 import store from "../store/store";
 import { useBlueboardClient } from "blueboard-client-react";
+import { setRefreshToken } from "../store/slices/refreshTokenSlice";
 
 export const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -90,7 +91,7 @@ export const LoginScreen = ({ navigation }) => {
     setLoading(true);
 
     try {
-      const res = await client.auth.login(`${email}@lovassy.edu.hu`, password, false);
+      const res = await client.auth.login(`${email}@lovassy.edu.hu`, password, true);
       try {
         await client.account.control(res.token);
         secureSaveData("email", `${email}@lovassy.edu.hu`);
@@ -105,10 +106,10 @@ export const LoginScreen = ({ navigation }) => {
         }
 
         const { dispatch } = store;
+        dispatch(setRefreshToken(res.rememberToken));
+        dispatch({ type: "token/setToken", payload: res.token });
 
         setLoading(false);
-
-        dispatch({ type: "token/setToken", payload: res.token });
       } catch (err) {
         console.log(err);
         setGeneralError("Couldn't fetch control");
@@ -154,6 +155,7 @@ export const LoginScreen = ({ navigation }) => {
 
           <LaInput
             label="Email"
+            autoCorrect={false}
             value={email}
             error={emailError !== ""}
             style={emailError === "" ? styles.input : null}
@@ -164,6 +166,7 @@ export const LoginScreen = ({ navigation }) => {
           {emailError !== "" && <HelperText type="error">{emailError}</HelperText>}
           <LaInput
             label="Password"
+            autoCorrect={false}
             value={password}
             error={passwordError !== ""}
             style={passwordError === "" ? styles.input : null}

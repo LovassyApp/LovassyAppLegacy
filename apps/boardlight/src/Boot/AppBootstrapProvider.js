@@ -64,14 +64,15 @@ const AppBootstrapProvider = ({ children }) => {
             client.auth
                 .loginWithCookie()
                 .then((res) => {
-                    fcontrol(res.data.token).then(() => {
+                    fcontrol(res.token).then(() => {
                         startRenew();
-                        dispatch({ type: 'token/setToken', payload: res.data.token });
+                        dispatch({ type: 'token/setToken', payload: res.token });
                         dispatch({ type: 'loader/removeLoader' });
                         setBootstrapInProgress(false);
                     });
                 })
                 .catch((err) => {
+                    console.log(err);
                     setTimeout(() => setShow(true), 0);
                     setTimeout(() => setLoading(false), 300);
                 });

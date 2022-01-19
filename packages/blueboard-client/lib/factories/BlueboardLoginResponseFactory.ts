@@ -1,5 +1,5 @@
-import BlueboardLoginResponse from "../models/BlueboardLoginResponse";
-import BlueboardUserFactory from "./BlueboardUserFactory";
+import BlueboardLoginResponse from '../models/BlueboardLoginResponse';
+import BlueboardUserFactory from './BlueboardUserFactory';
 
 class BlueboardLoginResponseFactory {
     static getResponse(obj: any) {

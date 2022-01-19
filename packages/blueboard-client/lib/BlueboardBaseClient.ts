@@ -61,8 +61,7 @@ class BlueboardBaseClient {
             };
         }
 
-        this.axios = axios.create();
-        this.axios.defaults.withCredentials = true;
+        this.axios = axios.create({ withCredentials: config.cookies });
         this.registerInterceptor();
 
         this.state = config.state;

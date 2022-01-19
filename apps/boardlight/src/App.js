@@ -17,7 +17,8 @@ import env from './.env.json';
 const [BlueboardProvider] = BlueboardClientInit(
     env.REACT_APP_BLUEBOARD_URL,
     env.REACT_APP_BLUEBOARD_SOKETI_HOST,
-    env.REACT_APP_BLUEBOARD_SOKETI_KEY
+    env.REACT_APP_BLUEBOARD_SOKETI_KEY,
+    true
 );
 
 const ToasterContainer = () => {

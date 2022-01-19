@@ -14,9 +14,19 @@ let globalState: {
 
 export { globalState };
 
-const BlueboardClientInit = (blueboardUrl: string, blueboardWsUrl: string, blueboardSocketKey: string) => {
-    const props: BlueboardClientProps = new BlueboardClientProps(blueboardUrl, blueboardWsUrl, blueboardSocketKey);
-    const client: BlueboardClient = new BlueboardClient(props.blueboardUrl);
+const BlueboardClientInit = (
+    blueboardUrl: string,
+    blueboardWsUrl: string,
+    blueboardSocketKey: string,
+    cookies: boolean = false
+) => {
+    const props: BlueboardClientProps = new BlueboardClientProps(
+        blueboardUrl,
+        blueboardWsUrl,
+        blueboardSocketKey,
+        cookies
+    );
+    const client: BlueboardClient = new BlueboardClient(props.blueboardUrl, props.cookies);
 
     globalState = {
         props: props,

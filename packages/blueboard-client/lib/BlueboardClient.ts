@@ -1,15 +1,15 @@
-import BlueboardClientModuleConfig from "./models/BlueboardClientModuleConfig";
-import BlueboardAccountClient from "./modules/BlueboardAccountClient";
-import BlueboardAuthClient from "./modules/BlueboardAuthClient";
-import BlueboardGroupsClient from "./modules/BlueboardGroupsClient";
-import BlueboardProductsClient from "./modules/BlueboardProductsClient";
-import BlueboardQRCodesClient from "./modules/BlueboardQRCodesClient";
-import BlueboardScopesClient from "./modules/BlueboardScopesClient";
-import BlueboardState from "./models/BlueboardState";
-import BlueboardTokenRefresher from "./modules/BlueboardTokenRefresher";
-import BlueboardUsersClient from "./modules/BlueboardUsersClient";
-import BlueboardStoreClient from "./modules/BlueboardStoreClient";
-import BlueboardLoloClient from "./modules/BlueboardLoloClient";
+import BlueboardClientModuleConfig from './models/BlueboardClientModuleConfig';
+import BlueboardAccountClient from './modules/BlueboardAccountClient';
+import BlueboardAuthClient from './modules/BlueboardAuthClient';
+import BlueboardGroupsClient from './modules/BlueboardGroupsClient';
+import BlueboardProductsClient from './modules/BlueboardProductsClient';
+import BlueboardQRCodesClient from './modules/BlueboardQRCodesClient';
+import BlueboardScopesClient from './modules/BlueboardScopesClient';
+import BlueboardState from './models/BlueboardState';
+import BlueboardTokenRefresher from './modules/BlueboardTokenRefresher';
+import BlueboardUsersClient from './modules/BlueboardUsersClient';
+import BlueboardStoreClient from './modules/BlueboardStoreClient';
+import BlueboardLoloClient from './modules/BlueboardLoloClient';
 
 class BlueboardClient {
     public readonly auth: BlueboardAuthClient;
@@ -25,12 +25,8 @@ class BlueboardClient {
 
     private state: BlueboardState = new BlueboardState();
 
-    constructor(blueboardUrl: string, apiToken?: string) {
-        const config = new BlueboardClientModuleConfig(
-            blueboardUrl,
-            this.state,
-            apiToken
-        );
+    constructor(blueboardUrl: string, cookies = false, apiToken?: string) {
+        const config = new BlueboardClientModuleConfig(blueboardUrl, this.state, cookies, apiToken);
 
         this.auth = new BlueboardAuthClient(config);
         this.account = new BlueboardAccountClient(config);

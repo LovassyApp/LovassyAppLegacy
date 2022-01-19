@@ -49,7 +49,6 @@ const Login = () => {
             client.auth
                 .login(username, password, remember)
                 .then((res) => {
-                    console.log(res);
                     const token = res.token;
                     client.account.control(token).then((res) => {
                         dispatch({ type: 'control/setControl', payload: res });

@@ -6,10 +6,12 @@ import controlReducer from "./slices/controlSlice";
 import loloReducer from "./slices/loloSlice";
 import themeReducer from "./slices/themeSlice";
 import tokenReducer from "./slices/tokenSlice";
+import refreshTokenSlice from "./slices/refreshTokenSlice";
 
 const store = configureStore({
   reducer: {
     token: tokenReducer,
+    refreshToken: refreshTokenSlice,
     control: controlReducer,
     lolo: loloReducer,
     admin: adminReducer,
@@ -25,5 +27,6 @@ export default store;
 
 store.subscribe(async () => {
   secureSaveData("token", store.getState().token);
+  secureSaveData("refreshToken", store.getState().refreshToken);
   saveData("control", store.getState().control);
 });
