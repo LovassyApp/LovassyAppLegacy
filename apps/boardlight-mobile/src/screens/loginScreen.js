@@ -17,13 +17,14 @@ import { Ionicons } from "@expo/vector-icons";
 import { LaButton } from "../components/content/customized/laButton";
 import { LaInput } from "../components/content/customized/laInput";
 import { ScreenContainer } from "../components/screenContainer";
-import { fetchLolo } from "../utils/api/loloUtils";
+import { fetchLolo } from "../utils/api/apiUtils";
 import { removeRenewalError } from "../store/slices/tokenSlice";
 import { secureSaveData } from "../utils/misc/storageUtils";
+import { setRefreshToken } from "../store/slices/refreshTokenSlice";
 import { setRenewal } from "../utils/api/accountUtils";
 import store from "../store/store";
 import { useBlueboardClient } from "blueboard-client-react";
-import { setRefreshToken } from "../store/slices/refreshTokenSlice";
+import useRenew from "../hooks/useRenew";
 
 export const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -38,7 +39,9 @@ export const LoginScreen = ({ navigation }) => {
 
   const renewalError = useSelector((state) => state.token.renewalError);
   const dispatch = useDispatch();
+
   const client = useBlueboardClient();
+  const renew = useRenew();
 
   const styles = StyleSheet.create({
     container: {
@@ -94,22 +97,17 @@ export const LoginScreen = ({ navigation }) => {
       const res = await client.auth.login(`${email}@lovassy.edu.hu`, password, true);
       try {
         await client.account.control(res.token);
-        secureSaveData("email", `${email}@lovassy.edu.hu`);
-        secureSaveData("password", password);
 
-        setRenewal(res.token);
+        renew(res.rememberToken);
 
-        try {
-          await fetchLolo(res.token, true);
-        } catch (err) {
-          console.log(err);
-        }
+        await fetchLolo(res.token, true);
 
         const { dispatch } = store;
         dispatch(setRefreshToken(res.rememberToken));
-        dispatch({ type: "token/setToken", payload: res.token });
 
         setLoading(false);
+
+        dispatch({ type: "token/setToken", payload: res.token });
       } catch (err) {
         console.log(err);
         setGeneralError("Couldn't fetch control");

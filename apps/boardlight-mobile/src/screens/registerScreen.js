@@ -17,9 +17,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { LaButton } from "../components/content/customized/laButton";
 import { LaInput } from "../components/content/customized/laInput";
 import { ScreenContainer } from "../components/screenContainer";
-import { fetchLolo } from "../utils/api/loloUtils";
+import { fetchLolo } from "../utils/api/apiUtils";
 import { secureSaveData } from "../utils/misc/storageUtils";
 import store from "../store/store";
+import { useBlueboardClient } from "blueboard-client-react";
 
 export const RegisterScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -41,6 +42,8 @@ export const RegisterScreen = ({ navigation }) => {
   const [generalError, setGeneralError] = useState("");
 
   const [loading, setLoading] = useState(false);
+
+  const client = useBlueboardClient();
 
   const styles = StyleSheet.create({
     container: {
@@ -156,11 +159,7 @@ export const RegisterScreen = ({ navigation }) => {
 
         setRenewal(res.data.token);
 
-        try {
-          await fetchLolo(res.data.token, true);
-        } catch (err) {
-          console.log(err);
-        }
+        fetchLolo(client);
 
         const { dispatch } = store;
 

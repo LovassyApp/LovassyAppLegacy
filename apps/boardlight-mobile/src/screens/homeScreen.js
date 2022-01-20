@@ -1,15 +1,15 @@
 import { Button, Divider, Headline, Subheading, Text } from "react-native-paper";
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 
+import { BlueboardLoloReason } from "blueboard-client";
 import { FullScreenLoading } from "../components/fullScreenLoading";
 import { LaButton } from "../components/content/customized/laButton";
 import { LaCard } from "../components/content/laCard";
 import { ScreenContainer } from "../components/screenContainer";
-import { fetchLolo } from "../utils/api/loloUtils";
-import { useSelector, useDispatch } from "react-redux";
+import { fetchLolo } from "../utils/api/apiUtils";
 import { useBlueboardClient } from "blueboard-client-react";
-import { BlueboardLoloReason } from "blueboard-client";
 
 export const HomeScreen = ({ navigation }) => {
   //* Useless chart shit that the library was unable to comprehend, maybe one day
@@ -70,12 +70,7 @@ export const HomeScreen = ({ navigation }) => {
 
   const [loading, setLoading] = useState(false);
 
-  const token = useSelector((state) => state.token.value);
-
-  const dispatch = useDispatch();
-
-  const bal = useSelector((state) => state.lolo.bal);
-  const coins = useSelector((state) => state.lolo.coins);
+  const lolo = useSelector((state) => state.lolo.value);
   const client = useBlueboardClient();
 
   const styles = StyleSheet.create({
@@ -90,28 +85,22 @@ export const HomeScreen = ({ navigation }) => {
     },
   });
 
-  const tryAgain = () => {
+  const tryAgain = async () => {
     setLoading(true);
 
-    client.lolo
-      .get(true)
-      .then((res) => {
-        dispatch({
-          type: "lolo/setLolo",
-          payload: { bal: res.balance, coins: res.coins },
-        });
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
-      });
+    try {
+      await fetchLolo(client);
+    } catch (err) {
+      console.log(err);
+    }
+
+    setLoading(false);
   };
 
   const getCoinsFromGrades = () => {
     var res = 0;
 
-    for (const coin of coins) {
+    for (const coin of lolo.coins) {
       if (
         coin.reason === BlueboardLoloReason.FromFive ||
         coin.reason === BlueboardLoloReason.FromFour
@@ -126,7 +115,7 @@ export const HomeScreen = ({ navigation }) => {
   const getCoinsFromRequests = () => {
     var res = 0;
 
-    for (const coin of coins) {
+    for (const coin of lolo.coins) {
       if (coin.reason === BlueboardLoloReason.FromRequest) {
         res++;
       }
@@ -138,7 +127,7 @@ export const HomeScreen = ({ navigation }) => {
   const getTotalSpendings = () => {
     var res = 0;
 
-    for (const coin of coins) {
+    for (const coin of lolo.coins) {
       if (coin.isSpent === 1) {
         res++;
       }
@@ -156,7 +145,8 @@ export const HomeScreen = ({ navigation }) => {
       <Headline>Home</Headline>
       <LaCard title="Balance" actionIcon="arrow-forward">
         <View style={styles.balanceContainer}>
-          {bal === null ? (
+          {console.log(lolo)}
+          {lolo === null ? (
             <>
               <Text style={{ alignItems: "center", margin: 25 }}>Unable to fetch balance</Text>
               <Button onPress={() => tryAgain()}>Try Again</Button>
@@ -164,11 +154,11 @@ export const HomeScreen = ({ navigation }) => {
           ) : (
             <View style={styles.balanceView}>
               <Subheading>Current balance:</Subheading>
-              <Subheading>{bal}</Subheading>
+              <Subheading>{lolo.balance}</Subheading>
             </View>
           )}
 
-          {coins && (
+          {lolo && lolo.coins && (
             <>
               <Divider style={{ width: "100%", marginVertical: 5 }} />
               <View style={styles.balanceView}>

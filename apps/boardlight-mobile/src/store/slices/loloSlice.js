@@ -3,14 +3,11 @@ import { createSlice } from "@reduxjs/toolkit";
 export const loloSlice = createSlice({
   name: "lolo",
   initialState: {
-    bal: null,
-    coins: null,
+    value: null,
   },
   reducers: {
     setLolo: (state, action) => {
-      state.bal = action.payload.bal;
-      state.coins = action.payload.coins;
-      state.error = false;
+      state.value = action.payload;
     },
   },
 });

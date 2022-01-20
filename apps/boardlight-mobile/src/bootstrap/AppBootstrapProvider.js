@@ -1,9 +1,3 @@
-import React from "react";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useBlueboardClient } from "blueboard-client-react";
-import { secureLoadData } from "../utils/misc/storageUtils";
-import AppLoading from "expo-app-loading";
 import {
   Poppins_100Thin,
   Poppins_300Light,
@@ -11,11 +5,17 @@ import {
   Poppins_500Medium,
   useFonts,
 } from "@expo-google-fonts/poppins";
-import { removeToken, setToken } from "../store/slices/tokenSlice";
+import React, { useEffect, useState } from "react";
 import { removeControl, setControl } from "../store/slices/controlSlice";
 import { removeRefreshToken, setRefreshToken } from "../store/slices/refreshTokenSlice";
-import useRenew from "../hooks/useRenew";
+import { removeToken, setToken } from "../store/slices/tokenSlice";
+import { useDispatch, useSelector } from "react-redux";
+
+import AppLoading from "expo-app-loading";
 import EagerLoads from "./EagerLoads";
+import { secureLoadData } from "../utils/misc/storageUtils";
+import { useBlueboardClient } from "blueboard-client-react";
+import useRenew from "../hooks/useRenew";
 
 const AppBootstrapProvider = ({ children }) => {
   const [isReady, setIsReady] = useState(false);

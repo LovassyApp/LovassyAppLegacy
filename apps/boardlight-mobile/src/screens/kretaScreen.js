@@ -1,4 +1,3 @@
-import { BlueboardKretaGrade } from "blueboard-client";
 import { GradeItem } from "../components/content/gradeItem";
 import { Headline } from "react-native-paper";
 import React from "react";
