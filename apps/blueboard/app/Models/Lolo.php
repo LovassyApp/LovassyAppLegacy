@@ -11,29 +11,30 @@ use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 
 class Lolo extends Model
 {
-	use HasFactory;
+    use \Spiritix\LadaCache\Database\LadaCacheTrait;
+    use HasFactory;
 
-	protected $guarded = '';
+    protected $guarded = '';
 
-	public function grades(): HasMany
-	{
-		return $this->hasMany(Grade::class, 'lolo_id', 'id');
-	}
+    public function grades(): HasMany
+    {
+        return $this->hasMany(Grade::class, 'lolo_id', 'id');
+    }
 
-	public function user(): HasOne
-	{
-		return $this->hasOne(User::class, 'id', 'user_id');
-	}
+    public function user(): HasOne
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
 
-	protected $casts = [
-		'reason' => AsArrayObject::class,
-	];
+    protected $casts = [
+        'reason' => AsArrayObject::class,
+    ];
 
-	protected static function boot()
-	{
-		parent::boot();
-		static::addGlobalScope('order', function (Builder $builder) {
-			$builder->orderBy('created_at', 'asc');
-		});
-	}
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope('order', function (Builder $builder) {
+            $builder->orderBy('created_at', 'asc');
+        });
+    }
 }

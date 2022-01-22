@@ -8,14 +8,15 @@ use URL;
 
 class QRCode extends Model
 {
-	use HasFactory;
+    use \Spiritix\LadaCache\Database\LadaCacheTrait;
+    use HasFactory;
 
-	protected $appends = ['image'];
+    protected $appends = ['image'];
 
-	public function getImageAttribute()
-	{
-		return URL::signedRoute('qrimage', [
-			'image' => $this->id,
-		]);
-	}
+    public function getImageAttribute()
+    {
+        return URL::signedRoute('qrimage', [
+            'image' => $this->id,
+        ]);
+    }
 }

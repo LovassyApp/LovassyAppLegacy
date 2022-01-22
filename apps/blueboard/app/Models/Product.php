@@ -12,48 +12,49 @@ use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 
 class Product extends Model
 {
-	use HasFactory;
+    use \Spiritix\LadaCache\Database\LadaCacheTrait;
+    use HasFactory;
 
-	protected $appends = ['imageUrl', 'codeNames'];
+    protected $appends = ['imageUrl', 'codeNames'];
 
-	public function getImageUrlAttribute()
-	{
-		return URL::signedRoute('productimage', [
-			'productID' => $this->id,
-		]);
-	}
+    public function getImageUrlAttribute()
+    {
+        return URL::signedRoute('productimage', [
+            'productID' => $this->id,
+        ]);
+    }
 
-	public static function boot()
-	{
-		parent::boot();
+    public static function boot()
+    {
+        parent::boot();
 
-		static::updated(function ($product) {
-			ProductUpdated::dispatch($product);
-		});
-	}
+        static::updated(function ($product) {
+            ProductUpdated::dispatch($product);
+        });
+    }
 
-	public function getCodeNamesAttribute()
-	{
-		return $this->codes()
-			->get()
-			->pluck('name');
-	}
+    public function getCodeNamesAttribute()
+    {
+        return $this->codes()
+            ->get()
+            ->pluck('name');
+    }
 
-	public function codes(): BelongsToMany
-	{
-		return $this->belongsToMany(QRCode::class, 'product_code', 'product_id', 'code_id');
-	}
+    public function codes(): BelongsToMany
+    {
+        return $this->belongsToMany(QRCode::class, 'product_code', 'product_id', 'code_id');
+    }
 
-	protected $casts = [
-		'inputs' => AsArrayObject::class,
-	];
+    protected $casts = [
+        'inputs' => AsArrayObject::class,
+    ];
 
-	protected $with = ['codes'];
+    protected $with = ['codes'];
 
-	public static function allVisible(): Collection
-	{
-		return self::setEagerLoads([])
-			->where('visible', 1)
-			->get();
-	}
+    public static function allVisible(): Collection
+    {
+        return self::setEagerLoads([])
+            ->where('visible', 1)
+            ->get();
+    }
 }

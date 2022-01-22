@@ -7,11 +7,11 @@ use Illuminate\Http\Request;
 
 class VersionController extends Controller
 {
-	public function index()
-	{
-		return ResponseMaker::generate([
-			'body' => 'Blueboard - Server for LovassyAPP',
-			'version' => config('app.blueboard_version'),
-		]);
-	}
+    public function index()
+    {
+        return ResponseMaker::generate([
+            'message' => 'Blueboard - Server for LovassyAPP',
+            'version' => config('app.blueboard_version'),
+        ]);
+    }
 }

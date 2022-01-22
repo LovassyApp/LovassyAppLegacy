@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserGroup extends Model
 {
-	use HasFactory;
+    use \Spiritix\LadaCache\Database\LadaCacheTrait;
+    use HasFactory;
 
-	protected $casts = [
-		'permissions' => AsArrayObject::class,
-	];
+    protected $casts = [
+        'permissions' => AsArrayObject::class,
+    ];
 }

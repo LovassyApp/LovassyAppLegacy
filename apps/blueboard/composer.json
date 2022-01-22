@@ -14,7 +14,8 @@
         "laravel/tinker": "^2.5",
         "orkhanahmadov/laravel-accept-language-middleware": "^1.2",
         "pusher/pusher-php-server": "^7.0",
-        "simplesoftwareio/simple-qrcode": "^4.2"
+        "simplesoftwareio/simple-qrcode": "^4.2",
+        "spiritix/lada-cache": "^5.1"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.10",

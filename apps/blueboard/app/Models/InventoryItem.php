@@ -7,5 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class InventoryItem extends Model
 {
+    use \Spiritix\LadaCache\Database\LadaCacheTrait;
     use HasFactory;
 }

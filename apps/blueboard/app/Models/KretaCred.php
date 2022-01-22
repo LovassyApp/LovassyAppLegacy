@@ -7,5 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class KretaCred extends Model
 {
-	use HasFactory;
+    use \Spiritix\LadaCache\Database\LadaCacheTrait;
+    use HasFactory;
 }

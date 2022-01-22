@@ -8,13 +8,14 @@ use Illuminate\Database\Eloquent\Builder;
 
 class Grade extends Model
 {
-	use HasFactory;
+    use \Spiritix\LadaCache\Database\LadaCacheTrait;
+    use HasFactory;
 
-	protected static function boot()
-	{
-		parent::boot();
-		static::addGlobalScope('order', function (Builder $builder) {
-			$builder->orderBy('date', 'asc');
-		});
-	}
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope('order', function (Builder $builder) {
+            $builder->orderBy('date', 'asc');
+        });
+    }
 }
