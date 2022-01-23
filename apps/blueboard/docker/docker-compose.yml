@@ -76,6 +76,9 @@ services:
     restart: on-failure
     environment:
       - PORTS=3306,9000
+    networks:
+      blueboard:
+        ipv4_address: 172.128.3.7
 
   mysql:
     image: mariadb:10.6.5
