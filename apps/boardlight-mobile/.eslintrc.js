@@ -73,6 +73,7 @@ module.exports = {
     "react/jsx-wrap-multilines": "error",
     "react/self-closing-comp": "error",
     "no-unused-vars": "warn",
+    "no-empty": "warn",
   },
   settings: {
     react: {

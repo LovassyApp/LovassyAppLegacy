@@ -17,7 +17,6 @@
         "Máté Gyimesi <gyim.mate@gmail.com>"
     ],
     "homepage": "https://github.com/Xeretis/LovassyApp",
-    "license": "MIT",
     "main": "lib/index.ts",
     "directories": {
         "lib": "lib"

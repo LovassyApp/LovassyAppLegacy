@@ -2,7 +2,12 @@
     "name": "boardlight-mobile",
     "description": "The mobile client of LovassyApp",
     "author": "Nándor Ocskó <ocskon@gmail.com>",
-    "version": "0.1.0",
+	"contributors": [
+        "Nándor Ocskó <ocskon@gmail.com>",
+        "Máté Gyimesi <gyim.mate@gmail.com>"
+    ],
+    "homepage": "https://github.com/Xeretis/LovassyApp",
+	"version": "0.1.0",
     "main": "node_modules/expo/AppEntry.js",
     "keywords": [
         "react",

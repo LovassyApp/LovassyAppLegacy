@@ -6,6 +6,7 @@
         "Nándor Ocskó <ocskon@gmail.com>",
         "Máté Gyimesi <gyim.mate@gmail.com>"
     ],
+    "homepage": "https://github.com/Xeretis/LovassyApp",
     "version": "0.1.0",
     "private": true,
     "dependencies": {
