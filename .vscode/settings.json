@@ -9,5 +9,6 @@
         "node_modules": true,
         "packages/blueboard-client/node_modules": true,
         "packages/blueboard-client-react/node_modules": true
-    }
+    },
+    "workspace.isHidden": false
 }
