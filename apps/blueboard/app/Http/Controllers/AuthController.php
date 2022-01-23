@@ -12,6 +12,7 @@ use App\Helpers\LibSession\SessionManager;
 use App\Helpers\LibKreta\KretaTokenHelper;
 use App\Helpers\LibSession\AuthCookie;
 use Http;
+use Validator;
 
 class AuthController extends Controller
 {
@@ -25,13 +26,18 @@ class AuthController extends Controller
             'password' => ['required', 'max:255', 'string'],
         ]);
 
+        $cookie = (bool) $request->remember ?? false;
+
+        return $this->doLogin($cookie, $data);
+    }
+
+    private function doLogin(bool $remember, array $data)
+    {
         if (Auth::attempt($data)) {
             $token = SessionManager::start();
             SessionManager::setKey($data['password']);
 
-            $cookie = (bool) $request->remember ?? false;
-
-            if ($cookie) {
+            if ($remember) {
                 $authCookie = AuthCookie::make($data['email'], $data['password']);
             } else {
                 $authCookie = AuthCookie::forget();
@@ -128,16 +134,18 @@ class AuthController extends Controller
         $val = AuthCookie::parse($encrypted);
 
         if (!isset($val->username) || !isset($val->password)) {
-            throw new AuthErrorException('Invalid cookie.');
+            throw new AuthErrorException('Invalid cookie / token.');
         }
 
-        $response = Http::post('http://172.128.3.1/api/login', [
-            'email' => $val->username,
-            'password' => $val->password,
-            'remember' => true,
-        ]);
+        $data = Validator::validate(
+            ['email' => $val->username, 'password' => $val->password],
+            [
+                'email' => ['required', 'string', 'email', 'max:255', 'exists:users'],
+                'password' => ['required', 'max:255', 'string'],
+            ]
+        );
 
-        return response()->json(json_decode($response->body()));
+        return $this->doLogin(true, $data);
     }
 
     public function destroyCookie()
