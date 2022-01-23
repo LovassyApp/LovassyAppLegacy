@@ -131,13 +131,13 @@ class AuthController extends Controller
             throw new AuthErrorException('Invalid cookie.');
         }
 
-        $response = Http::post('http://172.128.3.3/api/login', [
+        $response = Http::post('http://172.128.3.1/api/login', [
             'email' => $val->username,
             'password' => $val->password,
             'remember' => true,
         ]);
 
-        return $response;
+        return response()->json(json_decode($response->body()));
     }
 
     public function destroyCookie()
