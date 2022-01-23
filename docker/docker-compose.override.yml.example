@@ -1,0 +1,21 @@
+version: '3.9'
+
+# Router config:
+
+# Default behaviour: Blueboard boots without waiting for router.
+
+# blueboard, force waiting for router
+#depends_on:
+#  - router
+#  - mysql
+#  - redis
+
+# disabled
+#router:
+#  profiles:
+#   - nope
+
+services:
+  blueboard:
+    environment:
+      - FORCED_DEBUG_HOST=${IP}

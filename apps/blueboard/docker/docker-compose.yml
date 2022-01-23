@@ -19,7 +19,6 @@ services:
     depends_on:
       - mysql
       - redis
-      - router
     restart: on-failure
 
   blueboard-shell:
@@ -33,6 +32,10 @@ services:
       - ./data/root:/root
     hostname: blueboard-shell
     container_name: blueboard-shell
+    networks:
+      blueboard:
+        # Yep, I'm really that mature.
+        ipv4_address: 172.128.3.69
 
   cron:
     build: ./cron
