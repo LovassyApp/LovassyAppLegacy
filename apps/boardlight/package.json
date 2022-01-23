@@ -78,5 +78,8 @@
     },
     "devDependencies": {
         "@craco/craco": "^6.4.3"
+    },
+    "resolutions": {
+        "react-error-overlay": "6.0.9"
     }
 }
