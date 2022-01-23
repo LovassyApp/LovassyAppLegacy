@@ -6,8 +6,8 @@
     ],
     "private": true,
     "devDependencies": {
-        "lerna": "^4.0.0",
         "husky": "^7.0.0",
+        "lerna": "^4.0.0",
         "lint-staged": "^12.1.4"
     },
     "lint-staged": {
@@ -17,17 +17,18 @@
         "apps/boardlight-mobile/**": [
             "yarn --cwd apps/boardlight-mobile run format"
         ],
-        "apps/boardlight/**": [
+        "apps/boardlight/**.js": [
+            "yarn --cwd apps/boardlight run lint"
+        ],
+        "apps/boardlight/**.jsx": [
             "yarn --cwd apps/boardlight run lint"
         ]
     },
     "scripts": {
         "prepare": "husky install",
-        "docker-build": "cd docker && docker-compose build app && docker-compose build",
-        "blueboard-pkg": "cd docker && docker-compose up -d && docker exec -t llgapp-app composer update && docker-compose down --volumes -t 0",
-        "blueboard-migrate": "cd docker && docker-compose up -d && docker exec -t llgapp-app php artisan migrate && docker-compose down --volumes -t 0",
-        "blueboard-keygen": "cd docker && docker-compose up -d && docker exec -t llgapp-app php artisan key:generate && docker-compose down --volumes -t 0",
+        "docker-build": "cd docker && docker-compose build blueboard && docker-compose build",
         "docker-start": "cd docker && docker-compose up",
+        "docker-shell": "cd docker && docker-compose run blueboard-shell",
         "docker-down": "cd docker && docker-compose down --volumes -t 0"
     }
 }

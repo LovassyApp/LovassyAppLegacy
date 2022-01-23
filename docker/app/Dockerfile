@@ -25,7 +25,7 @@ RUN apt-get update && \
     pdo_mysql \
     shmop \
     soap \
-    sockets \
+    #sockets \
     sysvmsg \ 
     pcntl \
     zip && \

@@ -10,6 +10,7 @@ import Middleware from '../Helpers/Middleware';
 import Products from '../Pages/Admin/Products';
 import EditProduct from '../Pages/Admin/EditProduct';
 import Store from '../Pages/Store';
+import Grades from '../Pages/Grades';
 
 const protectedRoutes = [
     //{ path: '/test', component: <Protected />, exact: true },
@@ -18,6 +19,7 @@ const protectedRoutes = [
         component: <Middleware permission="General.home" displayError={true} component={<NewHome />} />,
         exact: true,
     },
+    { path: '/grades', component: <Grades />, exact: true },
     { path: '/store', component: <Store />, exact: true },
     { path: '/admin/users', component: <Users />, exact: true },
     { path: '/admin/users/edit/:id', component: <EditUser />, exact: false },

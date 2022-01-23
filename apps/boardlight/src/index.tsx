@@ -5,6 +5,7 @@ import * as serviceWorker from './serviceWorker';
 import store from './State';
 import { Provider } from 'react-redux';
 import register from './Utils/Console';
+import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
     <Provider store={store}>
@@ -15,7 +16,9 @@ ReactDOM.render(
 
 //register();
 
+//reportWebVitals(console.log);
+
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+serviceWorker.register();

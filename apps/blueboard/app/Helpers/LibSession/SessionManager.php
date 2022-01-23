@@ -11,6 +11,7 @@ use App\Helpers\LibSession\Session;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\LibKreta\KretaEncrypter;
+use App\Models\PersonalAccessToken;
 
 /**
  * Session kezelő helper
@@ -51,11 +52,7 @@ class SessionManager
     {
         $hash = Crypter::makeTokenHash($this->token);
 
-        if (
-            !DB::table('personal_access_tokens')
-                ->where('token', $hash)
-                ->exists()
-        ) {
+        if (!PersonalAccessToken::where('token', $hash)->exists()) {
             throw new TokenMissingException('Unauthorized.');
         }
 

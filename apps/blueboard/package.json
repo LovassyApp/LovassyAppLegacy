@@ -2,5 +2,8 @@
     "name": "blueboard",
     "author": "Máté Gyimesi <gyim.mate@gmail.com>",
     "version": "0.1.0",
-    "private": true
+    "private": true,
+    "dependencies": {
+        "chokidar": "^3.5.3"
+    }
 }
