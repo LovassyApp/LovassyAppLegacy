@@ -52,8 +52,8 @@ services:
       - ../apps/blueboard/:/var/www/api/
       - ../apps/boardlight:/var/www/frontend/
       - ./nginx/:/etc/nginx/conf.d/
-      - ./logs:/var/log/
-      - ./root:/root
+      - ./data/logs:/var/log/
+      - ./data/root:/root
     ports:
       - 80:80
       - 443:443

@@ -1,7 +1,5 @@
 {
-    "eslint.workingDirectories": [
-        "./apps/boardlight-mobile"
-    ],
+    "eslint.workingDirectories": ["./apps/boardlight-mobile"],
     "files.exclude": {
         "apps/boardlight-mobile/node_modules": true,
         "apps/boardlight/node_modules": true,
@@ -9,6 +7,14 @@
         "node_modules": true,
         "packages/blueboard-client/node_modules": true,
         "packages/blueboard-client-react/node_modules": true
+    },
+    "files.watcherExclude": {
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true,
+        "**/node_modules/*/**": true,
+        "**/.hg/store/**": true,
+        "apps/blueboard/docker/data": true,
+        "docker/data": true
     },
     "workspace.isHidden": false
 }
