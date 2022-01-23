@@ -41,7 +41,7 @@ const AppBootstrapProvider = ({ children }) => {
 
     return await client.auth.loginWithCookie(refreshToken).then((res) => {
       dispatch(setToken(res.token));
-      dispatch(setRefreshToken(res.rememberToken));
+      dispatch(setRefreshToken(res.refreshToken));
       return res;
     });
   };

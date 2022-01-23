@@ -4,7 +4,7 @@ import BlueboardUser from "./BlueboardUser";
 class BlueboardLoginResponse extends BlueboardResponse {
     public readonly user: BlueboardUser;
     public readonly token: string;
-    public readonly rememberToken: string;
+    public readonly refreshToken: string;
 
     constructor(
         result: string,
@@ -12,12 +12,12 @@ class BlueboardLoginResponse extends BlueboardResponse {
         status: number,
         user: BlueboardUser,
         token: string,
-        rememberToken: string
+        refreshToken: string
     ) {
         super(message, result, status);
         this.user = user;
         this.token = token;
-        this.rememberToken = rememberToken;
+        this.refreshToken = refreshToken;
     }
 }
 

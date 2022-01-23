@@ -1,7 +1,6 @@
 import { Button, Divider, Headline, Subheading, Text } from "react-native-paper";
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
 
 import { BlueboardLoloReason } from "blueboard-client";
 import { FullScreenLoading } from "../components/fullScreenLoading";
@@ -10,6 +9,7 @@ import { LaCard } from "../components/content/laCard";
 import { ScreenContainer } from "../components/screenContainer";
 import { fetchLolo } from "../utils/api/apiUtils";
 import { useBlueboardClient } from "blueboard-client-react";
+import { useSelector } from "react-redux";
 
 export const HomeScreen = ({ navigation }) => {
   //* Useless chart shit that the library was unable to comprehend, maybe one day

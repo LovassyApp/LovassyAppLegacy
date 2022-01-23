@@ -26,9 +26,9 @@
     },
     "scripts": {
         "prepare": "husky install",
-        "docker-build": "cd docker && docker-compose build blueboard && docker-compose build",
-        "docker-start": "cd docker && docker-compose up",
-        "docker-shell": "cd docker && docker-compose run blueboard-shell",
-        "docker-down": "cd docker && docker-compose down --volumes -t 0"
+        "docker-build": "docker-compose -f \"docker/docker-compose.yml\" build blueboard && docker-compose -f \"docker/docker-compose.yml\" build",
+        "docker-start": "docker-compose -f \"docker/docker-compose.yml\" up",
+        "docker-shell": "docker-compose -f \"docker/docker-compose.yml\" run blueboard-shell",
+        "docker-down": "docker-compose -f \"docker/docker-compose.yml\" down --volumes -t 0"
     }
 }

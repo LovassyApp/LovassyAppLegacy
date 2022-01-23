@@ -10,6 +10,7 @@ import {
 } from "react-native-paper";
 import { KeyboardAvoidingView, StyleSheet, View } from "react-native";
 import React, { useState } from "react";
+import { removeRenewalError, setToken } from "../store/slices/tokenSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 import { FullScreenLoading } from "../components/fullScreenLoading";
@@ -18,8 +19,8 @@ import { LaButton } from "../components/content/customized/laButton";
 import { LaInput } from "../components/content/customized/laInput";
 import { ScreenContainer } from "../components/screenContainer";
 import { fetchLolo } from "../utils/api/apiUtils";
-import { removeRenewalError } from "../store/slices/tokenSlice";
 import { secureSaveData } from "../utils/misc/storageUtils";
+import { setControl } from "../store/slices/controlSlice";
 import { setRefreshToken } from "../store/slices/refreshTokenSlice";
 import { setRenewal } from "../utils/api/accountUtils";
 import store from "../store/store";
@@ -96,18 +97,19 @@ export const LoginScreen = ({ navigation }) => {
     try {
       const res = await client.auth.login(`${email}@lovassy.edu.hu`, password, true);
       try {
-        await client.account.control(res.token);
+        const control = await client.account.control(res.token);
 
-        renew(res.rememberToken);
+        dispatch(setControl(control));
 
-        await fetchLolo(res.token, true);
+        renew(res.refreshToken);
 
-        const { dispatch } = store;
-        dispatch(setRefreshToken(res.rememberToken));
+        await fetchLolo(client, true, res.token);
+
+        dispatch(setRefreshToken(res.refreshToken));
 
         setLoading(false);
 
-        dispatch({ type: "token/setToken", payload: res.token });
+        dispatch(setToken(res.token));
       } catch (err) {
         console.log(err);
         setGeneralError("Couldn't fetch control");

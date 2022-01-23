@@ -1,8 +1,8 @@
-import BlueboardKretaGrade from '../models/BlueboardKretaGrade';
-import BlueboardLoloCoin from '../models/BlueboardLoloCoin';
-import BlueboardLoloResponse from '../models/BlueboardLoloResponse';
-import BlueboardLoloReason from '../models/BlueboardLoloReason';
-import BlueboardTimestamps from '../models/BlueboardTimestamps';
+import BlueboardKretaGrade from "../models/BlueboardKretaGrade";
+import BlueboardLoloCoin from "../models/BlueboardLoloCoin";
+import BlueboardLoloReason from "../models/BlueboardLoloReason";
+import BlueboardLoloResponse from "../models/BlueboardLoloResponse";
+import BlueboardTimestamps from "../models/BlueboardTimestamps";
 
 class BlueboardLoloResponseFactory {
     static getResponse(obj: any) {
@@ -11,17 +11,20 @@ class BlueboardLoloResponseFactory {
 
         for (const coin of obj.coins) {
             const id = coin.id;
-            const timestamps = new BlueboardTimestamps(coin.created_at, coin.updated_at);
+            const timestamps = new BlueboardTimestamps(
+                coin.created_at,
+                coin.updated_at
+            );
             const userId = coin.user_id;
             const historyId = coin.history_id;
             const isSpent = Boolean(coin.isSpent);
             let reason: BlueboardLoloReason;
 
             switch (coin.reason.message) {
-                case 'Ötösökből automatikusan generálva.':
+                case "Ötösökből automatikusan generálva.":
                     reason = BlueboardLoloReason.FromFive;
                     break;
-                case 'Négyesekből automatikusan generálva.':
+                case "Négyesekből automatikusan generálva.":
                     reason = BlueboardLoloReason.FromFour;
                     break;
                 default:
@@ -35,24 +38,41 @@ class BlueboardLoloResponseFactory {
                 grades.push(
                     new BlueboardKretaGrade(
                         grade.id,
-                        new BlueboardTimestamps(grade.created_at, grade.updated_at),
+                        new BlueboardTimestamps(
+                            grade.created_at,
+                            grade.updated_at
+                        ),
                         grade.user_id,
                         grade.lolo_id,
                         grade.uid,
-                        grade.date,
+                        grade.bounds,
                         grade.subject,
                         grade.teacher,
                         grade.name,
+                        grade.grade,
+                        grade.textGrade,
+                        grade.shortTextGrade,
+                        grade.weight,
+                        grade.date,
                         grade.type,
                         grade.gradeType,
-                        grade.gradeText,
-                        grade.grade,
-                        grade.weight
+                        grade.evaluationType,
+                        grade.evaluationTypeDescription
                     )
                 );
             }
 
-            coins.push(new BlueboardLoloCoin(id, timestamps, userId, historyId, isSpent, reason, grades));
+            coins.push(
+                new BlueboardLoloCoin(
+                    id,
+                    timestamps,
+                    userId,
+                    historyId,
+                    isSpent,
+                    reason,
+                    grades
+                )
+            );
         }
 
         return new BlueboardLoloResponse(balance, coins);

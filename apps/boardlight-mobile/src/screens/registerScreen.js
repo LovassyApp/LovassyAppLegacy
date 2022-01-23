@@ -19,8 +19,13 @@ import { LaInput } from "../components/content/customized/laInput";
 import { ScreenContainer } from "../components/screenContainer";
 import { fetchLolo } from "../utils/api/apiUtils";
 import { secureSaveData } from "../utils/misc/storageUtils";
+import { setControl } from "../store/slices/controlSlice";
+import { setRefreshToken } from "../store/slices/refreshTokenSlice";
+import { setToken } from "../store/slices/tokenSlice";
 import store from "../store/store";
 import { useBlueboardClient } from "blueboard-client-react";
+import { useDispatch } from "react-redux";
+import useRenew from "../hooks/useRenew";
 
 export const RegisterScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -43,7 +48,10 @@ export const RegisterScreen = ({ navigation }) => {
 
   const [loading, setLoading] = useState(false);
 
+  const dispatch = useDispatch();
+
   const client = useBlueboardClient();
+  const renew = useRenew();
 
   const styles = StyleSheet.create({
     container: {
@@ -118,29 +126,22 @@ export const RegisterScreen = ({ navigation }) => {
     setLoading(true);
 
     try {
-      await register(`${email}@lovassy.edu.hu`, password, kretaUsername, kretaPassword);
+      await client.auth.register(`${email}@lovassy.edu.hu`, password, kretaUsername, kretaPassword);
     } catch (err) {
-      if (err.response) {
-        if (err.response.data && err.response.data.errors) {
-          setEmailError(err.response.data.errors.email ?? "");
-          setPasswordError(err.response.data.errors.password ?? "");
+      // I love working with ts stuff inside js
+      if (Object.keys(err.errors).length !== 0) {
+        setEmailError(err.errors.email ?? "");
+        setPasswordError(err.errors.password ?? "");
 
-          // To get rid of previous errors with kreta stuff
-          setKretaUsernameError("");
-          setKretaPasswordError("");
+        // To get rid of previous errors with kreta stuff
+        setKretaUsernameError("");
+        setKretaPasswordError("");
 
-          setStageTwo(false);
-        } else if (
-          err.response.data &&
-          err.response.data.status === "error" &&
-          err.response.data.type === "KretaCredentialException"
-        ) {
-          setGeneralError("Invalid kreta credentials");
-        } else {
-          setGeneralError("An unknown error occured");
-        }
+        setStageTwo(false);
+      } else if (err.isKretaError) {
+        setGeneralError("Invalid kreta credentials");
       } else {
-        setGeneralError(err.message);
+        setGeneralError("An unknown error occured");
       }
 
       setLoading(false);
@@ -149,23 +150,22 @@ export const RegisterScreen = ({ navigation }) => {
     }
 
     try {
-      const res = await login(`${email}@lovassy.edu.hu`, password);
+      const res = await client.auth.login(`${email}@lovassy.edu.hu`, password, true);
 
       try {
-        await fetchControl(res.data.token);
+        const control = await client.account.control(res.token);
 
-        secureSaveData("email", `${email}@lovassy.edu.hu`);
-        secureSaveData("password", password);
+        dispatch(setControl(control));
 
-        setRenewal(res.data.token);
+        renew(res.refreshToken);
 
-        fetchLolo(client);
+        fetchLolo(client, true, res.token);
 
-        const { dispatch } = store;
+        dispatch(setRefreshToken(res.refreshToken));
 
         setLoading(false);
 
-        dispatch({ type: "token/setToken", payload: res.data.token });
+        dispatch(setToken(res.token));
       } catch (err) {
         setGeneralError("Couldn't fetch control");
 

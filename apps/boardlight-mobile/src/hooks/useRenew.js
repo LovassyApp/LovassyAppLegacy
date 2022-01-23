@@ -1,4 +1,5 @@
 import { setControl } from "../store/slices/controlSlice";
+import { setRefreshToken } from "../store/slices/refreshTokenSlice";
 import { setToken } from "../store/slices/tokenSlice";
 import { useBlueboardClient } from "blueboard-client-react";
 import { useDispatch } from "react-redux";
@@ -10,8 +11,8 @@ const useRenew = () => {
 
   const logout = useLogout();
 
-  const renew = async (token) => {
-    return client.renew.start(refreshCallback, errorCallback, token);
+  const renew = async (refreshToken) => {
+    return client.renew.start(refreshCallback, errorCallback, refreshToken);
   };
 
   const errorCallback = async (err) => {
@@ -23,8 +24,9 @@ const useRenew = () => {
     const { token } = res;
     client.account.control(token).then((control) => {
       dispatch(setToken(res.token));
+      dispatch(setRefreshToken(res.refreshToken));
       dispatch(setControl(control));
-      renew(res.rememberToken);
+      renew(res.refreshToken);
     });
   };
 
