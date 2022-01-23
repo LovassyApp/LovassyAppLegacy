@@ -1,12 +1,12 @@
-import BlueboardKretaGrade from "../models/BlueboardKretaGrade";
-import BlueboardKretaGradeData from "../models/BlueboardKretaGradeData";
-import BlueboardTimestamps from "../models/BlueboardTimestamps";
+import BlueboardKretaGrade from '../models/BlueboardKretaGrade';
+import BlueboardKretaGradeData from '../models/BlueboardKretaGradeData';
+import BlueboardTimestamps from '../models/BlueboardTimestamps';
 
 class BlueboardKretaGradeDataFactory {
     static getResponse(obj: any) {
         const data: Array<BlueboardKretaGradeData> = [];
 
-        for (const gradeData of obj.data) {
+        for (const gradeData of obj) {
             const subject = gradeData.subject;
             const grades: Array<BlueboardKretaGrade> = [];
 
@@ -14,22 +14,23 @@ class BlueboardKretaGradeDataFactory {
                 grades.push(
                     new BlueboardKretaGrade(
                         grade.id,
-                        new BlueboardTimestamps(
-                            grade.created_at,
-                            grade.updated_at
-                        ),
+                        new BlueboardTimestamps(grade.created_at, grade.updated_at),
                         grade.user_id,
                         grade.lolo_id,
                         grade.uid,
-                        grade.date,
+                        grade.bounds,
                         grade.subject,
                         grade.teacher,
                         grade.name,
+                        grade.grade,
+                        grade.textGrade,
+                        grade.shortTextGrade,
+                        grade.weight,
+                        grade.date,
                         grade.type,
                         grade.gradeType,
-                        grade.gradeText,
-                        grade.grade,
-                        grade.weight
+                        grade.evaluationType,
+                        grade.evaluationTypeDescription
                     )
                 );
             }

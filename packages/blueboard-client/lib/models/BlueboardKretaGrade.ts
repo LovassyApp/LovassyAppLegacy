@@ -1,4 +1,5 @@
-import BlueboardTimestamps from "./BlueboardTimestamps";
+import BlueboardTimestamps from './BlueboardTimestamps';
+import BluboardKretaEvaluationType from './BlueboardKretaEvaluationType';
 
 class BlueboardKretaGrade {
     constructor(
@@ -7,17 +8,21 @@ class BlueboardKretaGrade {
         public readonly userId: number,
         public readonly loloId: number,
 
+        // AU.
         public readonly uid: string,
-        public readonly date: string,
+        public readonly bounds: string,
         public readonly subject: string,
         public readonly teacher: string,
         public readonly name: string,
+        public readonly grade: number,
+        public readonly textGrade: string,
+        public readonly shortTextGrade: string,
+        public readonly weight: number,
+        public readonly date: string,
         public readonly type: string,
         public readonly gradeType: string,
-        public readonly gradeText: string,
-
-        public readonly grade: number,
-        public readonly weight: number
+        public readonly evaluationType: BluboardKretaEvaluationType,
+        public readonly evaluationTypeDescription: string
     ) {}
 }
 

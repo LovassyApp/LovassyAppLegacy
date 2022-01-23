@@ -10,6 +10,7 @@ import BlueboardTokenRefresher from './modules/BlueboardTokenRefresher';
 import BlueboardUsersClient from './modules/BlueboardUsersClient';
 import BlueboardStoreClient from './modules/BlueboardStoreClient';
 import BlueboardLoloClient from './modules/BlueboardLoloClient';
+import { BlueboardKretaClient } from '.';
 
 class BlueboardClient {
     public readonly auth: BlueboardAuthClient;
@@ -22,6 +23,7 @@ class BlueboardClient {
     public readonly users: BlueboardUsersClient;
     public readonly store: BlueboardStoreClient;
     public readonly lolo: BlueboardLoloClient;
+    public readonly kreta: BlueboardKretaClient;
 
     private state: BlueboardState = new BlueboardState();
 
@@ -38,6 +40,7 @@ class BlueboardClient {
         this.users = new BlueboardUsersClient(config);
         this.store = new BlueboardStoreClient(config);
         this.lolo = new BlueboardLoloClient(config);
+        this.kreta = new BlueboardKretaClient(config);
     }
 }
 
