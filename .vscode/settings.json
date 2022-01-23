@@ -13,8 +13,8 @@
         "**/.git/subtree-cache/**": true,
         "**/node_modules/*/**": true,
         "**/.hg/store/**": true,
-        "apps/blueboard/docker/data": true,
-        "docker/data": true
+        "apps/blueboard/docker/data/**": true,
+        "docker/data/**": true
     },
     "workspace.isHidden": false
 }
