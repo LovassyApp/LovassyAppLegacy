@@ -1,1 +1,6 @@
 docker-compose.override.yml
+root
+redis
+mysql
+logs
+app
