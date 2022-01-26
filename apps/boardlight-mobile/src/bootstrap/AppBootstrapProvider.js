@@ -46,7 +46,7 @@ const AppBootstrapProvider = ({ children }) => {
     });
   };
 
-  const getNewToken = async (refreshToken, isExpired = true) => {
+  const getNewToken = async (refreshToken, isExpired = false) => {
     await renewToken(refreshToken)
       .then((res) => {
         fetchControl(res.token, refreshToken).catch((err) => {
@@ -85,13 +85,8 @@ const AppBootstrapProvider = ({ children }) => {
           dispatch(setRefreshToken(refreshToken.value));
         } catch (e) {
           console.log("DEBUG: Fetching control failed! Likely expired session");
-          try {
-            await getNewToken(refreshToken.value);
-          } catch (e) {
-            console.log("DEBUG: Couldn't get new token!");
-            dispatch(removeToken());
-            dispatch(removeControl());
-          }
+
+          await getNewToken(refreshToken.value);
         } finally {
           setContinue(true);
         }
