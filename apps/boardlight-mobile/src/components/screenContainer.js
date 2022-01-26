@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -13,6 +13,16 @@ export const ScreenContainer = (props) => {
       height: "100%",
     },
   });
+
+  if (props.scrollable) {
+    return (
+      <SafeAreaView style={{ backgroundColor: theme.colors.background }}>
+        <View style={styles.container}>
+          <ScrollView>{props.children}</ScrollView>
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={{ backgroundColor: theme.colors.background }}>
