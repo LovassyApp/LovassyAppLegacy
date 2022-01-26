@@ -1,7 +1,8 @@
 import { FlatList, ScrollView, View } from "react-native";
-import { Headline, List } from "react-native-paper";
+import { Headline, List, useTheme } from "react-native-paper";
 
 import { GradeItem } from "../components/content/gradeItem";
+import { Ionicons } from "@expo/vector-icons";
 import { LaCard } from "../components/content/laCard";
 import React from "react";
 import { ScreenContainer } from "../components/screenContainer";
@@ -27,6 +28,7 @@ export const KretaScreen = () => {
   };
 
   const gradesData = useSelector((state) => state.kreta.gradesValue);
+  const theme = useTheme();
 
   const [currentSubjectData, setCurrentSubjectData] = React.useState(null);
   const [showSubjects, setShowSubjects] = React.useState(true);
@@ -36,6 +38,14 @@ export const KretaScreen = () => {
       <List.Item
         key={item.subject}
         title={item.subject}
+        style={{
+          padding: 0,
+          marginVertical: 5,
+          borderRadius: theme.roundness,
+        }}
+        right={() => (
+          <Ionicons name="chevron-forward-outline" size={24} color={theme.colors.text} />
+        )}
         onPress={() => {
           setCurrentSubjectData(item);
           setShowSubjects(false);
@@ -54,15 +64,15 @@ export const KretaScreen = () => {
     <ScreenContainer scrollable={true}>
       <Headline>Kreta</Headline>
       {showSubjects ? (
-        <LaCard title="Subjects" actionIcon="arrow-forward">
-          <View>{getSubjects()}</View>
+        <LaCard title="Subjects">
+          <View style={{ paddingTop: 5 }}>{getSubjects()}</View>
         </LaCard>
       ) : (
         <LaCard
           title={currentSubjectData.subject}
           actionIcon="arrow-back"
           onPress={() => setShowSubjects(true)}>
-          <View>{getGrades()}</View>
+          <View style={{ paddingTop: 5 }}>{getGrades()}</View>
         </LaCard>
       )}
     </ScreenContainer>
