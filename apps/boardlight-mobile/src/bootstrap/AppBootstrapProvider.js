@@ -47,7 +47,7 @@ const AppBootstrapProvider = ({ children }) => {
   };
 
   const getNewToken = async (refreshToken, isExpired = true) => {
-    await renewToken(refreshToken.value)
+    await renewToken(refreshToken)
       .then((res) => {
         fetchControl(res.token, refreshToken).catch((err) => {
           dispatch(removeToken(isExpired));
@@ -74,29 +74,30 @@ const AppBootstrapProvider = ({ children }) => {
     console.log("DEBUG: Bootstrapping token...");
     (async () => {
       const storedToken = (await secureLoadData("token")) ?? { value: null, renewalError: false };
-      const refreshToken = (await secureLoadData("refreshToken")) ?? {
-        value: null,
-        renewalError: false,
-      };
+      const refreshToken = await secureLoadData("refreshToken");
+
+      console.log("DEBUG: Stored token: ", storedToken);
+      console.log("DEBUG: Stored refresh token: ", refreshToken);
+
       if (storedToken.value !== null) {
         try {
-          await fetchControl(storedToken.value, refreshToken.value)
-            .then(() => {
-              dispatch(setRefreshToken(refreshToken.value));
-            })
-            .catch((err) => {
-              dispatch(removeToken(true));
-              dispatch(removeControl());
-            });
+          await fetchControl(storedToken.value, refreshToken.value);
+          dispatch(setRefreshToken(refreshToken.value));
         } catch (e) {
           console.log("DEBUG: Fetching control failed! Likely expired session");
-          await getNewToken(refreshToken.value);
+          try {
+            await getNewToken(refreshToken.value);
+          } catch (e) {
+            console.log("DEBUG: Couldn't get new token!");
+            dispatch(removeToken());
+            dispatch(removeControl());
+          }
         } finally {
           setContinue(true);
         }
       } else {
         console.log("DEBUG: No token found! Trying to refresh...");
-        await getNewToken(refreshToken, false);
+        await getNewToken(refreshToken.value, false);
         setContinue(true);
       }
     })();

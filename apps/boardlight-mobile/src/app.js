@@ -1,14 +1,15 @@
+import { BLUEBOARD_SOKETI_HOST, BLUEBOARD_SOKETI_KEY, BLUEBOARD_URL } from "@env";
 import { Provider, useSelector } from "react-redux";
-import React from "react";
-import { lightTheme } from "./utils/theme/themes";
+
+import AppBootstrapProvider from "./bootstrap/AppBootstrapProvider";
+import { BlueboardClientInit } from "blueboard-client-react";
 import { NavigationDecider } from "./navigation/navigation";
 import { Provider as PaperProvider } from "react-native-paper";
+import React from "react";
 import { StatusBar } from "expo-status-bar";
+import { lightTheme } from "./utils/theme/themes";
 import { registerRootComponent } from "expo";
 import store from "./store/store";
-import { BlueboardClientInit } from "blueboard-client-react";
-import { BLUEBOARD_URL, BLUEBOARD_SOKETI_HOST, BLUEBOARD_SOKETI_KEY } from "@env";
-import AppBootstrapProvider from "./bootstrap/AppBootstrapProvider";
 
 const [BlueboardProvider, BlueboardSocketProvider, BlueboardClientProvider] = BlueboardClientInit(
   BLUEBOARD_URL,
