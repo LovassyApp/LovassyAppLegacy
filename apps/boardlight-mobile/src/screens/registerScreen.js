@@ -11,13 +11,13 @@ import {
 import { KeyboardAvoidingView, StyleSheet, View } from "react-native";
 import React, { useState } from "react";
 import { fetchControl, login, register, setRenewal } from "../utils/api/accountUtils";
+import { fetchGrades, fetchLolo } from "../utils/api/apiUtils";
 
 import { FullScreenLoading } from "../components/fullScreenLoading";
 import { Ionicons } from "@expo/vector-icons";
 import { LaButton } from "../components/content/customized/laButton";
 import { LaInput } from "../components/content/customized/laInput";
 import { ScreenContainer } from "../components/screenContainer";
-import { fetchLolo } from "../utils/api/apiUtils";
 import { secureSaveData } from "../utils/misc/storageUtils";
 import { setControl } from "../store/slices/controlSlice";
 import { setRefreshToken } from "../store/slices/refreshTokenSlice";
@@ -159,7 +159,10 @@ export const RegisterScreen = ({ navigation }) => {
 
         renew(res.refreshToken);
 
-        await fetchLolo(client, true, res.token);
+        await Promise.all([
+          fetchLolo(client, true, res.token),
+          fetchGrades(client, true, res.token),
+        ]);
 
         dispatch(setRefreshToken(res.refreshToken));
 
@@ -193,6 +196,7 @@ export const RegisterScreen = ({ navigation }) => {
             <>
               <LaInput
                 label="Email"
+                autoCorrect={false}
                 value={email}
                 error={emailError !== ""}
                 style={emailError === "" ? styles.input : null}
@@ -202,6 +206,7 @@ export const RegisterScreen = ({ navigation }) => {
               {emailError !== "" && <HelperText type="error">{emailError}</HelperText>}
               <LaInput
                 label="Password"
+                autoCorrect={false}
                 value={password}
                 error={passwordError !== ""}
                 style={passwordError === "" ? styles.input : null}
@@ -212,6 +217,7 @@ export const RegisterScreen = ({ navigation }) => {
               {passwordError !== "" && <HelperText type="error">{passwordError}</HelperText>}
               <LaInput
                 label="Confirm Password"
+                autoCorrect={false}
                 value={confirmPassword}
                 error={confirmPasswordError !== ""}
                 style={confirmPasswordError === "" ? styles.input : null}
@@ -240,6 +246,7 @@ export const RegisterScreen = ({ navigation }) => {
             <>
               <LaInput
                 label="Kreta username"
+                autoCorrect={false}
                 style={kretaUsernameError === "" ? styles.input : null}
                 value={kretaUsername}
                 error={kretaUsernameError !== ""}
@@ -251,6 +258,7 @@ export const RegisterScreen = ({ navigation }) => {
               )}
               <LaInput
                 label="Kreta password"
+                autoCorrect={false}
                 style={kretaPasswordError === "" ? styles.input : null}
                 value={kretaPassword}
                 error={kretaPasswordError !== ""}

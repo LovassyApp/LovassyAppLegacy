@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+// Timetable stuff is gonna go here as well
 export const kretaSlice = createSlice({
   name: "kreta",
   initialState: {
     gradesValue: null,
   },
   reducers: {
-    setLolo: (state, action) => {
+    setGradeValue: (state, action) => {
       state.gradesValue = action.payload;
     },
   },
