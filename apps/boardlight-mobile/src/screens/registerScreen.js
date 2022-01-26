@@ -129,7 +129,6 @@ export const RegisterScreen = ({ navigation }) => {
       await client.auth.register(`${email}@lovassy.edu.hu`, password, kretaUsername, kretaPassword);
     } catch (err) {
       // I love working with ts stuff inside js
-      console.log(err);
       if (err.errors && Object.keys(err.errors).length !== 0) {
         setEmailError(err.errors.email ?? "");
         setPasswordError(err.errors.password ?? "");
