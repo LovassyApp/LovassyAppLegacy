@@ -14,12 +14,11 @@ services:
         ipv4_address: 172.128.3.1
     volumes:
       - ../:/var/www/api/
-      - ./logs:/var/log/
-      - ./root:/root
+      - ./data/logs:/var/log/
+      - ./data/root:/root
     depends_on:
       - mysql
       - redis
-      - router
     restart: on-failure
 
   blueboard-shell:
@@ -29,10 +28,14 @@ services:
       - nope
     volumes:
       - ../:/var/www/api/
-      - ./logs:/var/log/
-      - ./root:/root
+      - ./data/logs:/var/log/
+      - ./data/root:/root
     hostname: blueboard-shell
     container_name: blueboard-shell
+    networks:
+      blueboard:
+        # Yep, I'm really that mature.
+        ipv4_address: 172.128.3.69
 
   cron:
     build: ./cron
@@ -43,8 +46,8 @@ services:
         ipv4_address: 172.128.3.2
     volumes:
       - ../:/var/www/api/
-      - ./logs:/var/log/
-      - ./root:/root
+      - ./data/logs:/var/log/
+      - ./data/root:/root
     depends_on:
       - blueboard
       - mysql
@@ -60,8 +63,8 @@ services:
         ipv4_address: 172.128.3.3
     volumes:
       - ../:/var/www/api/
-      - ./logs:/var/log/
-      - ./root:/root
+      - ./data/logs:/var/log/
+      - ./data/root:/root
     depends_on:
       - app
       - mysql
@@ -96,7 +99,7 @@ services:
       blueboard:
         ipv4_address: 172.128.3.4
     volumes:
-      - ./mysql:/var/lib/mysql
+      - ./data/mysql:/var/lib/mysql
     ports:
       - 127.0.0.1:3307:3306
 
@@ -109,12 +112,12 @@ services:
         ipv4_address: 172.128.3.5
     ports:
       - 127.0.0.1:6379:6379
-    command: redis-server /redis.conf
+    command: redis-server /redis/redis.conf
     environment:
       - REDIS_REPLICATION_MODE=master
     volumes:
-      - ./redis/data:/data
-      - ./redis/conf/redis.conf:/redis.conf
+      - ./data/redis:/data
+      - ./redis:/redis
 
   soketi:
     image: 'quay.io/soketi/soketi:latest-16-alpine'
