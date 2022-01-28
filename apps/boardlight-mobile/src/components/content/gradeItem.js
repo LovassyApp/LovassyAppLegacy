@@ -3,7 +3,7 @@ import { Avatar, Caption, List, Subheading, Text, Title, useTheme } from "react-
 import React, { useCallback, useMemo, useRef } from "react";
 import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
 
-import BottomSheet from "react-native-gesture-bottom-sheet";
+import BottomSheet from "../bottomSheet";
 import { lightTheme } from "../../utils/theme/themes";
 import { useSelector } from "react-redux";
 
