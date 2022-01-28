@@ -1,11 +1,14 @@
 import { FlatList, ScrollView, View } from "react-native";
 import { Headline, List, useTheme } from "react-native-paper";
+import React, { useState } from "react";
 
+import { FullScreenLoading } from "../components/fullScreenLoading";
 import { GradeItem } from "../components/content/gradeItem";
 import { Ionicons } from "@expo/vector-icons";
 import { LaCard } from "../components/content/laCard";
-import React from "react";
 import { ScreenContainer } from "../components/screenContainer";
+import { fetchGrades } from "../utils/api/apiUtils";
+import { useBlueboardClient } from "blueboard-client-react";
 import { useSelector } from "react-redux";
 
 export const KretaScreen = () => {
@@ -33,8 +36,11 @@ export const KretaScreen = () => {
   const [currentSubjectData, setCurrentSubjectData] = React.useState(null);
   const [showSubjects, setShowSubjects] = React.useState(true);
 
+  const [loading, setLoading] = useState(false);
+  const client = useBlueboardClient();
+
   const getSubjects = () => {
-    return gradesData.map((item) => (
+    return gradesData?.map((item) => (
       <List.Item
         key={item.subject}
         title={item.subject}
@@ -55,16 +61,32 @@ export const KretaScreen = () => {
   };
 
   const getGrades = () => {
-    return currentSubjectData.grades.map((item) => (
+    return currentSubjectData?.grades.map((item) => (
       <GradeItem key={item.id} data={item} minimal={true} />
     ));
   };
+
+  const tryAgain = async () => {
+    setLoading(true);
+
+    try {
+      await fetchGrades(client);
+    } catch (err) {
+      console.log(err);
+    }
+
+    setLoading(false);
+  };
+
+  if (loading) {
+    return <FullScreenLoading />;
+  }
 
   return (
     <ScreenContainer scrollable={true}>
       <Headline>Kreta</Headline>
       {showSubjects ? (
-        <LaCard title="Subjects">
+        <LaCard title="Subjects" error={gradesData === null} retry={() => tryAgain()}>
           <View style={{ paddingTop: 5 }}>{getSubjects()}</View>
         </LaCard>
       ) : (

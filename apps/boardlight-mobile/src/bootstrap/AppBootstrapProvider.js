@@ -76,9 +76,6 @@ const AppBootstrapProvider = ({ children }) => {
       const storedToken = (await secureLoadData("token")) ?? { value: null, renewalError: false };
       const refreshToken = await secureLoadData("refreshToken");
 
-      console.log("DEBUG: Stored token: ", storedToken);
-      console.log("DEBUG: Stored refresh token: ", refreshToken);
-
       if (storedToken.value !== null) {
         try {
           await fetchControl(storedToken.value, refreshToken.value);

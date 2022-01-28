@@ -1,5 +1,5 @@
+import { Button, Surface, Text, Title, useTheme } from "react-native-paper";
 import { Pressable, StyleSheet, View } from "react-native";
-import { Surface, Title, useTheme } from "react-native-paper";
 
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
@@ -20,6 +20,18 @@ export const LaCard = (props) => {
       justifyContent: "space-between",
     },
   });
+
+  if (props.error) {
+    return (
+      <Surface style={styles.container}>
+        <View style={styles.topRow}>
+          <Title>{props.title}</Title>
+        </View>
+        <Text style={{ alignSelf: "center", margin: 25 }}>Unable to fetch data</Text>
+        <Button onPress={() => props.retry()}>Try Again</Button>
+      </Surface>
+    );
+  }
 
   if (props.actionIcon) {
     return (
