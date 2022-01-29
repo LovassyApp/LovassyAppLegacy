@@ -4,8 +4,8 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import store from './State';
 import { Provider } from 'react-redux';
-import register from './Utils/Console';
-import reportWebVitals from './reportWebVitals';
+//import register from './Utils/Console';
+//import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
     <Provider store={store}>

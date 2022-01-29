@@ -1,14 +1,15 @@
+import { BlueboardUserGroup } from '.';
 import BlueboardTimestamps from './BlueboardTimestamps';
 
 class BlueboardUser {
-	constructor(
-		public readonly id: number,
-		public readonly name: string,
-		public readonly email: string,
-		public readonly timestamps: BlueboardTimestamps,
-		public readonly balance: number,
-		public readonly groups: Array<number>
-	) {}
+    constructor(
+        public readonly id: number | string,
+        public readonly name: string,
+        public readonly email: string,
+        public readonly groups: Array<number> | Array<BlueboardUserGroup>,
+        public readonly timestamps?: BlueboardTimestamps,
+        public readonly balance?: number
+    ) {}
 }
 
 export default BlueboardUser;

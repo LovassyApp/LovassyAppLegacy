@@ -11,7 +11,6 @@ use App\Helpers\LibSession\Crypter;
 use App\Helpers\LibSession\SessionManager;
 use App\Helpers\LibKreta\KretaTokenHelper;
 use App\Helpers\LibSession\AuthCookie;
-use Http;
 use Validator;
 
 class AuthController extends Controller
@@ -125,7 +124,7 @@ class AuthController extends Controller
         /*
             Rendes remember token query param-ként
         */
-        $encrypted = $request->cookie('llgapp_auth', null) ?? ($request->query('token', null) ?? false);
+        $encrypted = $request->cookie('blueboard_refresh', null) ?? ($request->query('token', null) ?? false);
 
         if ($encrypted == false) {
             throw new AuthErrorException('Auth cookie not set.');

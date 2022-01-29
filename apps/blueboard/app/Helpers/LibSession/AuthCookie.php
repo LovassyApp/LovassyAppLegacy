@@ -35,7 +35,7 @@ class AuthCookie
     {
         $cookie = new self($username, $password);
 
-        $ret = cookie('llgapp_auth', $cookie->serializeCookie(), 14400);
+        $ret = cookie('blueboard_refresh', $cookie->serializeCookie(), 14400);
         $ret->rawBody = $cookie->serializeCookie();
 
         return $ret;
@@ -43,7 +43,7 @@ class AuthCookie
 
     public static function forget()
     {
-        return Cookie::forget('llgapp_auth');
+        return Cookie::forget('blueboard_refresh');
     }
 
     public static function parse(string $cookieString)

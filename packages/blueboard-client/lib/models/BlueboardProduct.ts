@@ -1,6 +1,6 @@
-import BlueboardQRCode from "./BlueboardQRCode";
-import BlueboardTimestamps from "./BlueboardTimestamps";
-import BlueboardProductInput from "./BlueboardProductInput";
+import BlueboardQRCode from './BlueboardQRCode';
+import BlueboardTimestamps from './BlueboardTimestamps';
+import BlueboardProductInput from './BlueboardProductInput';
 
 class BlueboardProduct {
     constructor(
