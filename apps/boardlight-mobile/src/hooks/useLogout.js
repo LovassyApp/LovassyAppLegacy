@@ -1,9 +1,9 @@
 import { removeControl } from "../store/slices/controlSlice";
+import { removeRefreshToken } from "../store/slices/refreshTokenSlice";
 import { removeToken } from "../store/slices/tokenSlice";
+import { secureDeleteData } from "../utils/misc/storageUtils";
 import { useBlueboardClient } from "blueboard-client-react";
 import { useDispatch } from "react-redux";
-import { removeRefreshToken } from "../store/slices/refreshTokenSlice";
-import { secureDeleteData } from "../utils/misc/storageUtils";
 
 const useLogout = () => {
   const client = useBlueboardClient();
@@ -16,7 +16,7 @@ const useLogout = () => {
     await client.auth.logout().then(() => {
       dispatch(removeToken(renewalError));
       dispatch(removeControl(renewalError));
-      dispatch(removeRefreshToken(renewalError));
+      dispatch(removeRefreshToken());
     });
   };
 };

@@ -14,3 +14,18 @@ export const fetchLolo = async (client, refresh = true, token = null) => {
     console.log(err);
   }
 };
+
+export const fetchGrades = async (client, refresh = true, token = null) => {
+  const { dispatch } = store;
+
+  try {
+    const res = await client.kreta.grades(refresh, token);
+
+    dispatch({
+      type: "kreta/setGradeValue",
+      payload: res,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};

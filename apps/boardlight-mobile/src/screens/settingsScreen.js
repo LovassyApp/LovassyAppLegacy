@@ -22,10 +22,11 @@ import { Ionicons } from "@expo/vector-icons";
 import { ScreenContainer } from "../components/screenContainer";
 import { SettingsItem } from "../components/content/settingsItem";
 import { removeControl } from "../store/slices/controlSlice";
+import { removeRefreshToken } from "../store/slices/refreshTokenSlice";
 import { removeToken } from "../store/slices/tokenSlice";
 import { setAdmin } from "../store/slices/adminSlice";
 import { setTheme } from "../store/slices/themeSlice";
-import { removeRefreshToken } from "../store/slices/refreshTokenSlice";
+import useLogout from "../hooks/useLogout";
 
 export const SettingsScreen = () => {
   const [showInformation, setShowInformation] = useState(false);
@@ -42,6 +43,8 @@ export const SettingsScreen = () => {
   const reduxTheme = useSelector((state) => state.theme.value);
 
   const dispatch = useDispatch();
+
+  const logout = useLogout();
 
   useEffect(() => {
     (async () => {
@@ -68,20 +71,6 @@ export const SettingsScreen = () => {
       marginBottom: 5,
     },
   });
-
-  const logout = async () => {
-    setConfirmLogout(false);
-
-    setLoading(true);
-
-    await secureDeleteData("refreshToken");
-
-    setLoading(false);
-
-    dispatch(removeToken());
-    dispatch(removeControl());
-    dispatch(removeRefreshToken());
-  };
 
   const toggleTheme = async () => {
     if (reduxTheme === darkTheme) {
@@ -187,7 +176,7 @@ export const SettingsScreen = () => {
             </Dialog.Content>
             <Dialog.Actions>
               <Button onPress={() => setConfirmLogout(false)}>Cancel</Button>
-              <Button onPress={() => logout()}>Ok</Button>
+              <Button onPress={() => logout(false)}>Ok</Button>
             </Dialog.Actions>
           </Dialog>
         </Portal>

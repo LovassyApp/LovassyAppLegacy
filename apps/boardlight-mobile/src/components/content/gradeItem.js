@@ -1,8 +1,9 @@
+/* eslint-disable indent */
 import { Avatar, Caption, List, Subheading, Text, Title, useTheme } from "react-native-paper";
 import React, { useCallback, useMemo, useRef } from "react";
 import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
 
-import BottomSheet from "react-native-gesture-bottom-sheet";
+import BottomSheet from "../bottomSheet";
 import { lightTheme } from "../../utils/theme/themes";
 import { useSelector } from "react-redux";
 
@@ -52,9 +53,13 @@ export const GradeItem = (props) => {
         height={220}>
         <View style={styles.sheetContainer}>
           <View style={styles.dataContainer}>
-            <View>
-              <Title style={styles.title}>{props.data.type}</Title>
-              <Text style={styles.subTitle}>{props.data.name}</Text>
+            <View style={{ width: "80%" }}>
+              <Title style={styles.title} numberOfLines={1}>
+                {props.data.type}
+              </Title>
+              <Text style={styles.subTitle} numberOfLines={1}>
+                {props.data.name}
+              </Text>
             </View>
             <Avatar.Text
               {...props}
@@ -104,20 +109,31 @@ export const GradeItem = (props) => {
             label={grade}
           />
         )}
-        style={{
-          padding: 0,
-          // Because of adaptive mode in the default dark theme of react native paper
-          backgroundColor: reduxTheme === lightTheme ? theme.colors.surface : "#1e1e1e",
-          borderRadius: theme.roundness,
-          elevation: 1,
-          shadowRadius: 0.75,
-          shadowOpacity: 0.24,
-          shadowOffset: {
-            width: 0,
-            height: 0.75,
-          },
-          height: 56,
-        }}
+        descriptionNumberOfLines={1}
+        style={
+          props.minimal
+            ? {
+                padding: 0,
+                // Because of adaptive mode in the default dark theme of react native paper
+                backgroundColor: reduxTheme === lightTheme ? theme.colors.surface : "#1e1e1e",
+                borderRadius: theme.roundness,
+                height: 56,
+              }
+            : {
+                padding: 0,
+                // Because of adaptive mode in the default dark theme of react native paper
+                backgroundColor: reduxTheme === lightTheme ? theme.colors.surface : "#1e1e1e",
+                borderRadius: theme.roundness,
+                elevation: 1,
+                shadowRadius: 0.75,
+                shadowOpacity: 0.24,
+                shadowOffset: {
+                  width: 0,
+                  height: 0.75,
+                },
+                height: 56,
+              }
+        }
       />
     </>
   );

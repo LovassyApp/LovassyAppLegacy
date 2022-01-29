@@ -143,22 +143,18 @@ export const HomeScreen = ({ navigation }) => {
   return (
     <ScreenContainer>
       <Headline>Home</Headline>
-      <LaCard title="Balance" actionIcon="arrow-forward">
+      <LaCard
+        title="Balance"
+        actionIcon="arrow-forward"
+        error={lolo === null}
+        retry={() => tryAgain()}>
         <View style={styles.balanceContainer}>
-          {console.log(lolo)}
-          {lolo === null ? (
-            <>
-              <Text style={{ alignItems: "center", margin: 25 }}>Unable to fetch balance</Text>
-              <Button onPress={() => tryAgain()}>Try Again</Button>
-            </>
-          ) : (
-            <View style={styles.balanceView}>
-              <Subheading>Current balance:</Subheading>
-              <Subheading>{lolo.balance}</Subheading>
-            </View>
-          )}
+          <View style={styles.balanceView}>
+            <Subheading>Current balance:</Subheading>
+            <Subheading>{lolo?.balance}</Subheading>
+          </View>
 
-          {lolo && lolo.coins && (
+          {lolo?.coins && Object.keys(lolo.coins).length !== 0 && (
             <>
               <Divider style={{ width: "100%", marginVertical: 5 }} />
               <View style={styles.balanceView}>

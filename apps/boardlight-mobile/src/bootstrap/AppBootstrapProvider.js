@@ -46,8 +46,8 @@ const AppBootstrapProvider = ({ children }) => {
     });
   };
 
-  const getNewToken = async (refreshToken, isExpired = true) => {
-    await renewToken(refreshToken.value)
+  const getNewToken = async (refreshToken, isExpired = false) => {
+    await renewToken(refreshToken)
       .then((res) => {
         fetchControl(res.token, refreshToken).catch((err) => {
           dispatch(removeToken(isExpired));
@@ -74,29 +74,22 @@ const AppBootstrapProvider = ({ children }) => {
     console.log("DEBUG: Bootstrapping token...");
     (async () => {
       const storedToken = (await secureLoadData("token")) ?? { value: null, renewalError: false };
-      const refreshToken = (await secureLoadData("refreshToken")) ?? {
-        value: null,
-        renewalError: false,
-      };
+      const refreshToken = await secureLoadData("refreshToken");
+
       if (storedToken.value !== null) {
         try {
-          await fetchControl(storedToken.value, refreshToken.value)
-            .then(() => {
-              dispatch(setRefreshToken(refreshToken.value));
-            })
-            .catch((err) => {
-              dispatch(removeToken(true));
-              dispatch(removeControl());
-            });
+          await fetchControl(storedToken.value, refreshToken.value);
+          dispatch(setRefreshToken(refreshToken.value));
         } catch (e) {
           console.log("DEBUG: Fetching control failed! Likely expired session");
+
           await getNewToken(refreshToken.value);
         } finally {
           setContinue(true);
         }
       } else {
         console.log("DEBUG: No token found! Trying to refresh...");
-        await getNewToken(refreshToken, false);
+        await getNewToken(refreshToken.value, false);
         setContinue(true);
       }
     })();
