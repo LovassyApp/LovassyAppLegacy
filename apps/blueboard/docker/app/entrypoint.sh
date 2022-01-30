@@ -48,6 +48,9 @@ set_lock() {
     touch /root/firststart.lock
 }
 
+# Totally dumb, and even more unnescessary. To be fair, it does look cool...
+figlet "Blueboard"
+
 echo "Starting Blueboard..."
 # Check if this is the first start of Blueboard...
 if [ ! -f /root/firststart.lock ]; then

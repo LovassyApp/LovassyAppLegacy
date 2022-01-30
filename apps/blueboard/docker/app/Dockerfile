@@ -23,7 +23,8 @@ RUN apt-get install -y libbz2-dev \
     # Yep, really
     mariadb-client \
     vim \
-    mc
+    mc \
+    figlet
 
 # Base extensions
 RUN docker-php-ext-configure gd && \
