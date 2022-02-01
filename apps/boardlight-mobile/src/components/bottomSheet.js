@@ -1,6 +1,14 @@
 // From https://github.com/kcotias/react-native-gesture-bottom-sheet slightly modified
 
-import { Animated, Modal, PanResponder, StyleSheet, TouchableOpacity, View } from "react-native";
+import {
+  Animated,
+  Easing,
+  Modal,
+  PanResponder,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React, { Component } from "react";
 
 const styles = StyleSheet.create({
@@ -52,14 +60,16 @@ class BottomSheet extends Component {
       this.setState({ modalVisible: visible });
       Animated.timing(animatedHeight, {
         toValue: height,
-        duration: 300,
+        duration: 250,
         useNativeDriver: false,
+        easing: Easing.in(Easing.ease),
       }).start();
     } else {
       Animated.timing(animatedHeight, {
         toValue: 0,
-        duration: 300,
+        duration: 250,
         useNativeDriver: false,
+        easing: Easing.in(Easing.ease),
       }).start(() => {
         pan.setValue({ x: 0, y: 0 });
         this.setState({
