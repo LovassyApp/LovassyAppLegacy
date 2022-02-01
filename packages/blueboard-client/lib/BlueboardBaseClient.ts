@@ -1,16 +1,18 @@
-import axios, { Axios, AxiosRequestConfig } from 'axios';
-import BlueboardEndpoints from './BlueboardEndpoints';
-import BlueboardAccessDeniedException from './errors/BlueboardAccessDeniedException';
-import BlueboardNotFoundException from './errors/BlueboardNotFoundException';
-import BlueboardStdException from './errors/BlueboardStdException';
-import BlueboardTokenException from './errors/BlueboardTokenException';
-import BlueboardValidationException from './errors/BlueboardValidationException';
-import BlueboardClientModuleConfig from './models/BlueboardClientModuleConfig';
-import BlueboardState from './models/BlueboardState';
+import axios, { Axios, AxiosRequestConfig } from "axios";
+
+import BlueboardAccessDeniedException from "./errors/BlueboardAccessDeniedException";
+import BlueboardClientModuleConfig from "./models/BlueboardClientModuleConfig";
+import BlueboardEndpoints from "./BlueboardEndpoints";
+import BlueboardNotFoundException from "./errors/BlueboardNotFoundException";
+import BlueboardState from "./models/BlueboardState";
+import BlueboardStdException from "./errors/BlueboardStdException";
+import BlueboardTokenException from "./errors/BlueboardTokenException";
+import BlueboardValidationException from "./errors/BlueboardValidationException";
+import axiosRetry from "axios-retry";
 
 class BlueboardBaseClient {
     protected readonly endpoints: BlueboardEndpoints;
-    protected readonly token: string = '';
+    protected readonly token: string = "";
     protected state: BlueboardState;
     private readonly headers: any = {};
     protected axios: Axios;
@@ -19,18 +21,25 @@ class BlueboardBaseClient {
         switch (err.response.status) {
             case 404:
                 throw new BlueboardNotFoundException(
-                    'The resource could not be found. (' + err.request.responseURL + ')'
+                    "The resource could not be found. (" +
+                        err.request.responseURL +
+                        ")"
                 );
             case 403:
                 throw new BlueboardAccessDeniedException(
-                    "You don't have the permission to access this resource. (" + err.request.responseURL + ')'
+                    "You don't have the permission to access this resource. (" +
+                        err.request.responseURL +
+                        ")"
                 );
             case 422:
-                throw new BlueboardValidationException(err.response.data.errors ?? {}, err.response.data.message);
+                throw new BlueboardValidationException(
+                    err.response.data.errors ?? {},
+                    err.response.data.message
+                );
             default:
                 throw new BlueboardStdException(
                     err.response.data.message,
-                    err.response.data.type ?? 'BlueboardGenericException'
+                    err.response.data.type ?? "BlueboardGenericException"
                 );
         }
     };
@@ -56,12 +65,28 @@ class BlueboardBaseClient {
         if (config.apiToken) {
             this.token = config.apiToken;
             this.headers = {
-                Authorization: 'Bearer ' + config.apiToken,
-                Accept: 'application/json',
+                Authorization: "Bearer " + config.apiToken,
+                Accept: "application/json",
             };
         }
 
-        this.axios = axios.create({ withCredentials: config.cookies });
+        const blueboardClientAxios = axios.create({
+            withCredentials: config.cookies,
+        });
+
+        const retryDelay = (retryNumber = 0) => {
+            const seconds = Math.pow(2, retryNumber) * 1000;
+            const randomMs = 1000 * Math.random();
+            return seconds + randomMs;
+        };
+
+        axiosRetry(blueboardClientAxios, {
+            retries: 2,
+            retryDelay,
+            retryCondition: axiosRetry.isRetryableError,
+        });
+
+        this.axios = blueboardClientAxios;
         this.registerInterceptor();
 
         this.state = config.state;
@@ -91,13 +116,18 @@ class BlueboardBaseClient {
         return (await this.axios.request(this.configFilter(config))) as any;
     }
 
-    protected async stdGetRequest(url: string, data: any = {}, params: any = {}, forcedHeaders?: any) {
-        if (this.token == '' && forcedHeaders == null) {
-            throw new BlueboardTokenException('No token supplied.');
+    protected async stdGetRequest(
+        url: string,
+        data: any = {},
+        params: any = {},
+        forcedHeaders?: any
+    ) {
+        if (this.token == "" && forcedHeaders == null) {
+            throw new BlueboardTokenException("No token supplied.");
         }
 
         const config: any = {
-            method: 'get',
+            method: "get",
             url: url,
             headers: forcedHeaders ?? this.headers,
             data: data,
@@ -109,13 +139,18 @@ class BlueboardBaseClient {
         return res.data.data == null ? res.data ?? {} : res.data.data;
     }
 
-    protected async stdPostRequest(url: string, data: any, params: any = {}, forcedHeaders?: any) {
-        if (this.token == '' && forcedHeaders == null) {
-            throw new BlueboardTokenException('No token supplied.');
+    protected async stdPostRequest(
+        url: string,
+        data: any,
+        params: any = {},
+        forcedHeaders?: any
+    ) {
+        if (this.token == "" && forcedHeaders == null) {
+            throw new BlueboardTokenException("No token supplied.");
         }
 
         const config: any = {
-            method: 'post',
+            method: "post",
             url: url,
             headers: forcedHeaders ?? this.headers,
             data: data,
@@ -127,13 +162,18 @@ class BlueboardBaseClient {
         return res.data.data == null ? res.data ?? {} : res.data.data;
     }
 
-    protected async stdPutRequest(url: string, data: any, params: any = {}, forcedHeaders?: any) {
-        if (this.token == '' && forcedHeaders == null) {
-            throw new BlueboardTokenException('No token supplied.');
+    protected async stdPutRequest(
+        url: string,
+        data: any,
+        params: any = {},
+        forcedHeaders?: any
+    ) {
+        if (this.token == "" && forcedHeaders == null) {
+            throw new BlueboardTokenException("No token supplied.");
         }
 
         const config: any = {
-            method: 'put',
+            method: "put",
             url: url,
             headers: forcedHeaders ?? this.headers,
             data: data,
@@ -145,13 +185,18 @@ class BlueboardBaseClient {
         return res.data.data == null ? res.data ?? {} : res.data.data;
     }
 
-    protected async stdPatchRequest(url: string, data: any, params: any = {}, forcedHeaders?: any) {
-        if (this.token == '' && forcedHeaders == null) {
-            throw new BlueboardTokenException('No token supplied.');
+    protected async stdPatchRequest(
+        url: string,
+        data: any,
+        params: any = {},
+        forcedHeaders?: any
+    ) {
+        if (this.token == "" && forcedHeaders == null) {
+            throw new BlueboardTokenException("No token supplied.");
         }
 
         const config: any = {
-            method: 'patch',
+            method: "patch",
             url: url,
             headers: forcedHeaders ?? this.headers,
             data: data,
@@ -163,13 +208,18 @@ class BlueboardBaseClient {
         return res.data.data == null ? res.data ?? {} : res.data.data;
     }
 
-    protected async stdDeleteRequest(url: string, data: any, params: any = {}, forcedHeaders?: any) {
-        if (this.token == '' && forcedHeaders == null) {
-            throw new BlueboardTokenException('No token supplied.');
+    protected async stdDeleteRequest(
+        url: string,
+        data: any,
+        params: any = {},
+        forcedHeaders?: any
+    ) {
+        if (this.token == "" && forcedHeaders == null) {
+            throw new BlueboardTokenException("No token supplied.");
         }
 
         const config: any = {
-            method: 'delete',
+            method: "delete",
             url: url,
             headers: forcedHeaders ?? this.headers,
             data: data,
