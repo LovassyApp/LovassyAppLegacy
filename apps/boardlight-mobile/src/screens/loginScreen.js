@@ -25,6 +25,7 @@ import { setRefreshToken } from "../store/slices/refreshTokenSlice";
 import { setRenewal } from "../utils/api/accountUtils";
 import store from "../store/store";
 import { useBlueboardClient } from "blueboard-client-react";
+import { useLoading } from "../hooks/useLoading";
 import useRenew from "../hooks/useRenew";
 
 export const LoginScreen = ({ navigation }) => {
@@ -36,13 +37,12 @@ export const LoginScreen = ({ navigation }) => {
 
   const [generalError, setGeneralError] = useState("");
 
-  const [loading, setLoading] = useState(false);
-
   const renewalError = useSelector((state) => state.token.renewalError);
   const dispatch = useDispatch();
 
   const client = useBlueboardClient();
   const renew = useRenew();
+  const loading = useLoading();
 
   const styles = StyleSheet.create({
     container: {
@@ -92,7 +92,7 @@ export const LoginScreen = ({ navigation }) => {
     setEmailError("");
     setPasswordError("");
 
-    setLoading(true);
+    loading(true);
 
     try {
       const res = await client.auth.login(`${email}@lovassy.edu.hu`, password, true);
@@ -110,14 +110,14 @@ export const LoginScreen = ({ navigation }) => {
 
         dispatch(setRefreshToken(res.refreshToken));
 
-        setLoading(false);
+        loading(false);
 
         dispatch(setToken(res.token));
       } catch (err) {
         console.log(err);
         setGeneralError("Couldn't fetch control");
 
-        setLoading(false);
+        loading(false);
       }
     } catch (err) {
       if (err.response) {
@@ -137,17 +137,13 @@ export const LoginScreen = ({ navigation }) => {
         setGeneralError(err.message);
       }
 
-      setLoading(false);
+      loading(false);
     }
   };
 
   if (renewalError) {
     setGeneralError("Your session has expired");
     dispatch(removeRenewalError());
-  }
-
-  if (loading) {
-    return <FullScreenLoading />;
   }
 
   return (

@@ -13,6 +13,6 @@ export const kretaSlice = createSlice({
   },
 });
 
-export const { setLolo } = kretaSlice.actions;
+export const { setGradeValue } = kretaSlice.actions;
 
 export default kretaSlice.reducer;

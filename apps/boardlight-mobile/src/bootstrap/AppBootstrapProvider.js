@@ -12,7 +12,8 @@ import { removeToken, setToken } from "../store/slices/tokenSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 import AppLoading from "expo-app-loading";
-import EagerLoads from "./EagerLoads";
+import EagerLoads from "./eagerLoads";
+import { FullScreenLoading } from "../components/fullScreenLoading";
 import { secureLoadData } from "../utils/misc/storageUtils";
 import { useBlueboardClient } from "blueboard-client-react";
 import useRenew from "../hooks/useRenew";
@@ -51,14 +52,14 @@ const AppBootstrapProvider = ({ children }) => {
       .then((res) => {
         fetchControl(res.token, refreshToken).catch((err) => {
           dispatch(removeToken(isExpired));
-          dispatch(removeRefreshToken(isExpired));
+          dispatch(removeRefreshToken());
           dispatch(removeControl());
         });
       })
       .catch((err) => {
         console.log("DEBUG: Couldn't get token! Cleaning up...");
         dispatch(removeToken(isExpired));
-        dispatch(removeRefreshToken(isExpired));
+        dispatch(removeRefreshToken());
         dispatch(removeControl());
       });
   };
@@ -74,7 +75,7 @@ const AppBootstrapProvider = ({ children }) => {
     console.log("DEBUG: Bootstrapping token...");
     (async () => {
       const storedToken = (await secureLoadData("token")) ?? { value: null, renewalError: false };
-      const refreshToken = await secureLoadData("refreshToken");
+      const refreshToken = (await secureLoadData("refreshToken")) ?? { value: null };
 
       if (storedToken.value !== null) {
         try {
@@ -83,7 +84,7 @@ const AppBootstrapProvider = ({ children }) => {
         } catch (e) {
           console.log("DEBUG: Fetching control failed! Likely expired session");
 
-          await getNewToken(refreshToken.value);
+          await getNewToken(refreshToken.value, true);
         } finally {
           setContinue(true);
         }
@@ -93,6 +94,7 @@ const AppBootstrapProvider = ({ children }) => {
         setContinue(true);
       }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -103,18 +105,11 @@ const AppBootstrapProvider = ({ children }) => {
     }
   }, [stateToken, canContinue, stateRefreshToken]);
 
-  return (
-    <>
-      {isReady && fontsLoaded ? (
-        <>
-          <EagerLoads />
-          {children}
-        </>
-      ) : (
-        <AppLoading />
-      )}
-    </>
-  );
+  if (!(isReady && fontsLoaded)) {
+    return <AppLoading />;
+  }
+
+  return children;
 };
 
 export default AppBootstrapProvider;

@@ -4,6 +4,7 @@ import adminReducer from "./slices/adminSlice";
 import { configureStore } from "@reduxjs/toolkit";
 import controlReducer from "./slices/controlSlice";
 import kretaReducer from "./slices/kretaSlice";
+import loadingReducer from "./slices/loadingSlice";
 import loloReducer from "./slices/loloSlice";
 import refreshTokenReducer from "./slices/refreshTokenSlice";
 import themeReducer from "./slices/themeSlice";
@@ -18,6 +19,7 @@ const store = configureStore({
     admin: adminReducer,
     theme: themeReducer,
     kreta: kretaReducer,
+    loading: loadingReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

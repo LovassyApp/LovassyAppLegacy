@@ -26,6 +26,7 @@ import { removeRefreshToken } from "../store/slices/refreshTokenSlice";
 import { removeToken } from "../store/slices/tokenSlice";
 import { setAdmin } from "../store/slices/adminSlice";
 import { setTheme } from "../store/slices/themeSlice";
+import { useLoading } from "../hooks/useLoading";
 import useLogout from "../hooks/useLogout";
 
 export const SettingsScreen = () => {
@@ -34,7 +35,7 @@ export const SettingsScreen = () => {
 
   const [showAdminPopup, setShowAdminPopup] = useState(false);
 
-  const [loading, setLoading] = useState(false);
+  const loading = useLoading();
 
   const theme = useTheme();
 
@@ -81,10 +82,6 @@ export const SettingsScreen = () => {
       dispatch(setTheme(darkTheme));
     }
   };
-
-  if (loading) {
-    return <FullScreenLoading />;
-  }
 
   return (
     <ScreenContainer>

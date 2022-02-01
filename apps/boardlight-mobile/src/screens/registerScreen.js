@@ -25,6 +25,7 @@ import { setToken } from "../store/slices/tokenSlice";
 import store from "../store/store";
 import { useBlueboardClient } from "blueboard-client-react";
 import { useDispatch } from "react-redux";
+import { useLoading } from "../hooks/useLoading";
 import useRenew from "../hooks/useRenew";
 
 export const RegisterScreen = ({ navigation }) => {
@@ -46,7 +47,7 @@ export const RegisterScreen = ({ navigation }) => {
 
   const [generalError, setGeneralError] = useState("");
 
-  const [loading, setLoading] = useState(false);
+  const loading = useLoading();
 
   const dispatch = useDispatch();
 
@@ -123,7 +124,7 @@ export const RegisterScreen = ({ navigation }) => {
     setKretaUsernameError("");
     setKretaPasswordError("");
 
-    setLoading(true);
+    loading(true);
 
     try {
       await client.auth.register(`${email}@lovassy.edu.hu`, password, kretaUsername, kretaPassword);
@@ -144,7 +145,7 @@ export const RegisterScreen = ({ navigation }) => {
         setGeneralError("An unknown error occured");
       }
 
-      setLoading(false);
+      loading(false);
 
       return;
     }
@@ -166,26 +167,22 @@ export const RegisterScreen = ({ navigation }) => {
 
         dispatch(setRefreshToken(res.refreshToken));
 
-        setLoading(false);
+        loading(false);
 
         dispatch(setToken(res.token));
       } catch (err) {
         setGeneralError("Couldn't fetch control");
 
-        setLoading(false);
+        loading(false);
       }
     } catch (err) {
       setGeneralError(
         "Something went seriously wrong because you shouldn't be able to ever see this",
       );
 
-      setLoading(false);
+      loading(false);
     }
   };
-
-  if (loading) {
-    return <FullScreenLoading />;
-  }
 
   return (
     <ScreenContainer>

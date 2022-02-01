@@ -9,6 +9,7 @@ import { LaCard } from "../components/content/laCard";
 import { ScreenContainer } from "../components/screenContainer";
 import { fetchGrades } from "../utils/api/apiUtils";
 import { useBlueboardClient } from "blueboard-client-react";
+import { useLoading } from "../hooks/useLoading";
 import { useSelector } from "react-redux";
 
 export const KretaScreen = () => {
@@ -36,7 +37,7 @@ export const KretaScreen = () => {
   const [currentSubjectData, setCurrentSubjectData] = React.useState(null);
   const [showSubjects, setShowSubjects] = React.useState(true);
 
-  const [loading, setLoading] = useState(false);
+  const loading = useLoading();
   const client = useBlueboardClient();
 
   const getSubjects = () => {
@@ -67,7 +68,7 @@ export const KretaScreen = () => {
   };
 
   const tryAgain = async () => {
-    setLoading(true);
+    loading(true);
 
     try {
       await fetchGrades(client);
@@ -75,12 +76,8 @@ export const KretaScreen = () => {
       console.log(err);
     }
 
-    setLoading(false);
+    loading(false);
   };
-
-  if (loading) {
-    return <FullScreenLoading />;
-  }
 
   return (
     <ScreenContainer scrollable={true}>

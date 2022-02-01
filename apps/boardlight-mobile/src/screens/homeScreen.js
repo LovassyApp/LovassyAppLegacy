@@ -9,6 +9,7 @@ import { LaCard } from "../components/content/laCard";
 import { ScreenContainer } from "../components/screenContainer";
 import { fetchLolo } from "../utils/api/apiUtils";
 import { useBlueboardClient } from "blueboard-client-react";
+import { useLoading } from "../hooks/useLoading";
 import { useSelector } from "react-redux";
 
 export const HomeScreen = ({ navigation }) => {
@@ -68,7 +69,7 @@ export const HomeScreen = ({ navigation }) => {
   //   return res;
   // };
 
-  const [loading, setLoading] = useState(false);
+  const loading = useLoading();
 
   const lolo = useSelector((state) => state.lolo.value);
   const client = useBlueboardClient();
@@ -86,7 +87,7 @@ export const HomeScreen = ({ navigation }) => {
   });
 
   const tryAgain = async () => {
-    setLoading(true);
+    loading(true);
 
     try {
       await fetchLolo(client);
@@ -94,7 +95,7 @@ export const HomeScreen = ({ navigation }) => {
       console.log(err);
     }
 
-    setLoading(false);
+    loading(false);
   };
 
   const getCoinsFromGrades = () => {
@@ -135,10 +136,6 @@ export const HomeScreen = ({ navigation }) => {
 
     return res;
   };
-
-  if (loading) {
-    return <FullScreenLoading />;
-  }
 
   return (
     <ScreenContainer>
