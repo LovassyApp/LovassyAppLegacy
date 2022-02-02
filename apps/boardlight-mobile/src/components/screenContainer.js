@@ -18,7 +18,7 @@ export const ScreenContainer = (props) => {
     return (
       <SafeAreaView style={{ backgroundColor: theme.colors.background }}>
         <View style={styles.container}>
-          <ScrollView>{props.children}</ScrollView>
+          <ScrollView showsVerticalScrollIndicator={false}>{props.children}</ScrollView>
         </View>
       </SafeAreaView>
     );
