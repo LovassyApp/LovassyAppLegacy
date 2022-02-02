@@ -80,7 +80,7 @@ export const KretaScreen = () => {
         </LaCard>
       ) : (
         <LaCard
-          title={`${currentSubjectData.subject} ${calculateAverage()}`}
+          title={`${currentSubjectData.subject} - ${calculateAverage()}`}
           actionIcon="arrow-back"
           onPress={() => setShowSubjects(true)}>
           <View style={{ paddingTop: 5 }}>{getGrades()}</View>
