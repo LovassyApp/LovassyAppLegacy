@@ -10,20 +10,15 @@ import {
 } from "react-native-paper";
 import { KeyboardAvoidingView, StyleSheet, View } from "react-native";
 import React, { useState } from "react";
-import { fetchControl, login, register, setRenewal } from "../utils/api/accountUtils";
-import { fetchGrades, fetchLolo } from "../utils/api/apiUtils";
 
-import { FullScreenLoading } from "../components/fullScreenLoading";
 import { Ionicons } from "@expo/vector-icons";
 import { LaButton } from "../components/content/customized/laButton";
 import { LaInput } from "../components/content/customized/laInput";
 import { ScreenContainer } from "../components/screenContainer";
 import { eagerLoad } from "../utils/api/eagerLoad";
-import { secureSaveData } from "../utils/misc/storageUtils";
 import { setControl } from "../store/slices/controlSlice";
 import { setRefreshToken } from "../store/slices/refreshTokenSlice";
 import { setToken } from "../store/slices/tokenSlice";
-import store from "../store/store";
 import { useBlueboardClient } from "blueboard-client-react";
 import { useDispatch } from "react-redux";
 import { useLoading } from "../hooks/useLoading";

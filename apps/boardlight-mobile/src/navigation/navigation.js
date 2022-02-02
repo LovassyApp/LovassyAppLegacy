@@ -22,6 +22,7 @@ const Stack = createNativeStackNavigator();
 
 const MainNavigation = () => {
   const theme = useTheme();
+
   const admin = useSelector((state) => state.admin.value);
 
   //* For testing the scanner

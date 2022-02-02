@@ -20,10 +20,19 @@ import useRenew from "../hooks/useRenew";
 const AppBootstrapProvider = ({ children }) => {
   const [isReady, setIsReady] = useState(false);
   const [canContinue, setContinue] = useState(false);
-  const client = useBlueboardClient();
-  const dispatch = useDispatch();
-  const renew = useRenew();
+
   const stateToken = useSelector((state) => state.token.value);
+  const dispatch = useDispatch();
+
+  const client = useBlueboardClient();
+  const renew = useRenew();
+
+  const [fontsLoaded] = useFonts({
+    Poppins_400Regular,
+    Poppins_500Medium,
+    Poppins_300Light,
+    Poppins_100Thin,
+  });
 
   const fetchControl = async (token, refreshToken) => {
     console.log("DEBUG: Control fetch...");
@@ -61,13 +70,6 @@ const AppBootstrapProvider = ({ children }) => {
         dispatch(removeControl());
       });
   };
-
-  const [fontsLoaded] = useFonts({
-    Poppins_400Regular,
-    Poppins_500Medium,
-    Poppins_300Light,
-    Poppins_100Thin,
-  });
 
   useEffect(() => {
     console.log("DEBUG: Bootstrapping token...");

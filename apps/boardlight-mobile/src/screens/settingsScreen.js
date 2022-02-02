@@ -14,18 +14,14 @@ import {
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { darkTheme, lightTheme } from "../utils/theme/themes";
-import { loadData, saveData, secureDeleteData } from "../utils/misc/storageUtils";
+import { loadData, saveData } from "../utils/misc/storageUtils";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Ionicons } from "@expo/vector-icons";
 import { ScreenContainer } from "../components/screenContainer";
 import { SettingsItem } from "../components/content/settingsItem";
-import { removeControl } from "../store/slices/controlSlice";
-import { removeRefreshToken } from "../store/slices/refreshTokenSlice";
-import { removeToken } from "../store/slices/tokenSlice";
 import { setAdmin } from "../store/slices/adminSlice";
 import { setTheme } from "../store/slices/themeSlice";
-import { useLoading } from "../hooks/useLoading";
 import useLogout from "../hooks/useLogout";
 
 export const SettingsScreen = () => {
@@ -34,17 +30,13 @@ export const SettingsScreen = () => {
 
   const [showAdminPopup, setShowAdminPopup] = useState(false);
 
-  const loading = useLoading();
-
+  const logout = useLogout();
   const theme = useTheme();
 
   const control = useSelector((state) => state.control.value);
   const admin = useSelector((state) => state.admin.value);
   const reduxTheme = useSelector((state) => state.theme.value);
-
   const dispatch = useDispatch();
-
-  const logout = useLogout();
 
   useEffect(() => {
     (async () => {

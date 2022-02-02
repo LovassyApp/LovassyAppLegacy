@@ -18,6 +18,7 @@ export const ScanScreen = () => {
   const [scanned, setScanned] = useState(false);
 
   const isFocused = useIsFocused();
+
   const theme = useTheme();
 
   useEffect(() => {

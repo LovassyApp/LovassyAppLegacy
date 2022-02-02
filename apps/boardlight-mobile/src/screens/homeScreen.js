@@ -1,11 +1,10 @@
-import { Button, Divider, Headline, Subheading, Text } from "react-native-paper";
-import React, { useState } from "react";
+import { Divider, Headline, Subheading, Text } from "react-native-paper";
 import { StyleSheet, View } from "react-native";
 
 import { BlueboardLoloReason } from "blueboard-client";
-import { FullScreenLoading } from "../components/fullScreenLoading";
 import { LaButton } from "../components/content/customized/laButton";
 import { LaCard } from "../components/content/laCard";
+import React from "react";
 import { ScreenContainer } from "../components/screenContainer";
 import { fetchLolo } from "../utils/api/apiUtils";
 import { useBlueboardClient } from "blueboard-client-react";
@@ -13,65 +12,10 @@ import { useLoading } from "../hooks/useLoading";
 import { useSelector } from "react-redux";
 
 export const HomeScreen = ({ navigation }) => {
-  //* Useless chart shit that the library was unable to comprehend, maybe one day
-
-  // const chartConfig = {
-  //   backgroundGradientFrom: "#1E2923",
-  //   backgroundGradientFromOpacity: 0,
-  //   backgroundGradientTo: "#08130D",
-  //   backgroundGradientToOpacity: 0.5,
-  //   color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
-  //   strokeWidth: 2, // optional, default 3
-  //   barPercentage: 0.5,
-  //   useShadowColorFromDataset: false, // optional
-  // };
-
-  // const getColor = () => {
-  //   return "#" + Math.floor(Math.random() * 16777215).toString(16);
-  // };
-
-  // const getProcessedData = () => {
-  //   var reasons = [];
-  //   var colors = [];
-
-  //   var res = [];
-
-  //   for (const coin of coins) {
-  //     if (!reasons.includes(coin.reason.type)) {
-  //       reasons.push(coin.reason.type);
-
-  //       var color = getColor();
-
-  //       while (color === theme.colors.surface || colors.includes(color)) {
-  //         color = getColor();
-  //       }
-
-  //       colors.push(color);
-
-  //       res.push({
-  //         name: coin.reason.message,
-  //         value: 1,
-  //         color: color,
-  //         legendFontColor: theme.colors.text,
-  //         legendFontSize: 12,
-  //       });
-  //     } else {
-  //       const index = res.findIndex(
-  //         (element) => element.name === coin.reason.message
-  //       );
-
-  //       if (index != -1) {
-  //         res[index].value++;
-  //       }
-  //     }
-  //   }
-
-  //   return res;
-  // };
-
   const loading = useLoading();
 
   const lolo = useSelector((state) => state.lolo.value);
+
   const client = useBlueboardClient();
 
   const styles = StyleSheet.create({
