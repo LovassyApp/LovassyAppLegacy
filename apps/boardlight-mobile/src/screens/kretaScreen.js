@@ -61,6 +61,16 @@ export const KretaScreen = () => {
     loading(false);
   };
 
+  const calculateAverage = () => {
+    var res = 0;
+
+    for (const grade of currentSubjectData.grades) {
+      res += grade.grade;
+    }
+
+    return Number(res / currentSubjectData.grades.length).toFixed(2);
+  };
+
   return (
     <ScreenContainer scrollable={true}>
       <Headline>Kreta</Headline>
@@ -70,7 +80,7 @@ export const KretaScreen = () => {
         </LaCard>
       ) : (
         <LaCard
-          title={currentSubjectData.subject}
+          title={`${currentSubjectData.subject} ${calculateAverage()}`}
           actionIcon="arrow-back"
           onPress={() => setShowSubjects(true)}>
           <View style={{ paddingTop: 5 }}>{getGrades()}</View>

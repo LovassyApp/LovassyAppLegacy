@@ -98,13 +98,16 @@ const AppBootstrapProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    if (canContinue) {
-      if (stateToken !== null && !isReady) {
-        eagerLoad(client);
+    (async () => {
+      if (canContinue) {
+        if (stateToken !== null && !isReady) {
+          await eagerLoad(client);
+          setIsReady(true);
+        } else {
+          setIsReady(true);
+        }
       }
-
-      setIsReady(true);
-    }
+    })();
   }, [stateToken, canContinue, client, isReady]);
 
   if (!(isReady && fontsLoaded)) {
