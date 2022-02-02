@@ -17,7 +17,6 @@ import { darkTheme, lightTheme } from "../utils/theme/themes";
 import { loadData, saveData, secureDeleteData } from "../utils/misc/storageUtils";
 import { useDispatch, useSelector } from "react-redux";
 
-import { FullScreenLoading } from "../components/fullScreenLoading";
 import { Ionicons } from "@expo/vector-icons";
 import { ScreenContainer } from "../components/screenContainer";
 import { SettingsItem } from "../components/content/settingsItem";

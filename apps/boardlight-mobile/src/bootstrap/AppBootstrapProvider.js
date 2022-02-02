@@ -12,8 +12,7 @@ import { removeToken, setToken } from "../store/slices/tokenSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 import AppLoading from "expo-app-loading";
-import EagerLoads from "./eagerLoads";
-import { FullScreenLoading } from "../components/fullScreenLoading";
+import { eagerLoad } from "../utils/api/eagerLoad";
 import { secureLoadData } from "../utils/misc/storageUtils";
 import { useBlueboardClient } from "blueboard-client-react";
 import useRenew from "../hooks/useRenew";
@@ -25,7 +24,6 @@ const AppBootstrapProvider = ({ children }) => {
   const dispatch = useDispatch();
   const renew = useRenew();
   const stateToken = useSelector((state) => state.token.value);
-  const stateRefreshToken = useSelector((state) => state.refreshToken.value);
 
   const fetchControl = async (token, refreshToken) => {
     console.log("DEBUG: Control fetch...");
@@ -98,12 +96,14 @@ const AppBootstrapProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    if (canContinue && stateRefreshToken !== null && !isReady) {
-    }
     if (canContinue) {
+      if (stateToken !== null && !isReady) {
+        eagerLoad(client);
+      }
+
       setIsReady(true);
     }
-  }, [stateToken, canContinue, stateRefreshToken]);
+  }, [stateToken, canContinue, client, isReady]);
 
   if (!(isReady && fontsLoaded)) {
     return <AppLoading />;

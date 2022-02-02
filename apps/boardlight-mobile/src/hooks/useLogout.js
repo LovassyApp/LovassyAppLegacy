@@ -13,6 +13,7 @@ const useLogout = () => {
 
   return async (renewalError = false) => {
     loading(true);
+
     client.renew.stop();
     await secureDeleteData("refreshToken");
 
@@ -21,6 +22,7 @@ const useLogout = () => {
       dispatch(removeControl(renewalError));
       dispatch(removeRefreshToken());
     });
+
     loading(false);
   };
 };

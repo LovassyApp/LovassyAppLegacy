@@ -2,7 +2,6 @@ import { FlatList, ScrollView, View } from "react-native";
 import { Headline, List, useTheme } from "react-native-paper";
 import React, { useState } from "react";
 
-import { FullScreenLoading } from "../components/fullScreenLoading";
 import { GradeItem } from "../components/content/gradeItem";
 import { Ionicons } from "@expo/vector-icons";
 import { LaCard } from "../components/content/laCard";

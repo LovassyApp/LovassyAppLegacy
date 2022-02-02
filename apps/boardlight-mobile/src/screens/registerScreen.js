@@ -18,6 +18,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { LaButton } from "../components/content/customized/laButton";
 import { LaInput } from "../components/content/customized/laInput";
 import { ScreenContainer } from "../components/screenContainer";
+import { eagerLoad } from "../utils/api/eagerLoad";
 import { secureSaveData } from "../utils/misc/storageUtils";
 import { setControl } from "../store/slices/controlSlice";
 import { setRefreshToken } from "../store/slices/refreshTokenSlice";
@@ -160,10 +161,7 @@ export const RegisterScreen = ({ navigation }) => {
 
         renew(res.refreshToken);
 
-        await Promise.all([
-          fetchLolo(client, true, res.token),
-          fetchGrades(client, true, res.token),
-        ]);
+        eagerLoad(client, res.token);
 
         dispatch(setRefreshToken(res.refreshToken));
 
