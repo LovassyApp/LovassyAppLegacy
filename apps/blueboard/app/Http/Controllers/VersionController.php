@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ResponseMaker;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Http;
@@ -52,6 +51,8 @@ class VersionController extends Controller
 
         $full = $dbOnline && $redisOnline && $soketiOnline;
 
+        //$full = false;
+
         return ResponseMaker::generate(
             [
                 'ready' => $full,
@@ -61,7 +62,7 @@ class VersionController extends Controller
                     'sockets' => $soketiOnline ? 'OK' : 'DOWN',
                 ],
             ],
-            $full ? 200 : 500,
+            $full ? 200 : 503,
             $full ? 'Ready for requests!' : 'Service error!'
         );
     }

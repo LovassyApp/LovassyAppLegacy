@@ -12,6 +12,7 @@ import useThemePrefs from './Hooks/useThemePrefs';
 import GlobalListeners from './Boot/GlobalListeners';
 import AppBootstrapProvider, { AppBootstrapContext } from './Boot/AppBootstrapProvider';
 import { BlueboardClientInit } from 'blueboard-client-react';
+import CheckBlueboard from './Boot/CheckBluaboard';
 
 const [BlueboardProvider] = BlueboardClientInit(
     process.env.REACT_APP_BLUEBOARD_URL as string,
@@ -48,15 +49,16 @@ const ToasterContainer = (): JSX.Element => {
 const ProviderStack = ({ children }: { children: React.ReactNode }): JSX.Element => {
     const theme = useThemePrefs();
     const token = useToken();
-
     return (
         <ThemeProvider theme={{ type: theme.isDark ? 'dark' : 'light' }}>
             <BlueboardProvider token={token}>
-                <AppBootstrapProvider>
-                    <ToasterContainer />
-                    <GlobalListeners />
-                    {children}
-                </AppBootstrapProvider>
+                <CheckBlueboard>
+                    <AppBootstrapProvider>
+                        <ToasterContainer />
+                        <GlobalListeners />
+                        {children}
+                    </AppBootstrapProvider>
+                </CheckBlueboard>
             </BlueboardProvider>
         </ThemeProvider>
     );

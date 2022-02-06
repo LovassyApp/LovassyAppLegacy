@@ -100,7 +100,7 @@ const GradeCard = ({ grade }: { grade: BlueboardKretaGrade }) => {
                 <div className="col">
                     <p className={style.cardSubjectN}>
                         <b>
-                            {grade.name} ({grade.type})
+                            {grade.name} - {grade.type}
                         </b>
                     </p>
                 </div>

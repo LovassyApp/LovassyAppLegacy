@@ -10,6 +10,7 @@ import TableLoader from '../Components/TableLoader';
 import { Col, Container, Row } from 'reactstrap';
 import Center from '../Components/Center';
 import { BlueboardKretaGradeData } from 'blueboard-client';
+import toast from 'react-hot-toast';
 
 const Grades = (): JSX.Element => {
     const client = useBlueboardClient();
@@ -17,12 +18,17 @@ const Grades = (): JSX.Element => {
     const [grades, setGrades] = React.useState<BlueboardKretaGradeData[]>([]);
 
     React.useEffect(() => {
-        client.kreta.grades(true).then((res) => {
-            console.log(res);
-            //console.log('fetch');
-            setGrades(res);
-            setLoading(false);
-        });
+        client.kreta
+            .grades(true)
+            .then((res) => {
+                console.log(res);
+                //console.log('fetch');
+                setGrades(res);
+                setLoading(false);
+            })
+            .catch((err) => {
+                toast.error('ERROR! - ' + err.message);
+            });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

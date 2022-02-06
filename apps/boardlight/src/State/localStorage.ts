@@ -23,7 +23,6 @@ export const saveState = (state: RootState): void => {
     try {
         const saveState = __savedStateFactory__(state);
         const serializedData = JSON.stringify(saveState);
-        console.log(saveState);
         localStorage.setItem('boardlight.persist', serializedData);
     } catch (err) {}
 };
