@@ -6,7 +6,8 @@
         ".idea": true,
         "node_modules": true,
         "packages/blueboard-client/node_modules": true,
-        "packages/blueboard-client-react/node_modules": true
+        "packages/blueboard-client-react/node_modules": true,
+        "apps/blueboard/vendor": false
     },
     "files.watcherExclude": {
         "**/.git/objects/**": true,

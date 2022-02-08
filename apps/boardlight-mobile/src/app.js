@@ -1,14 +1,17 @@
 import { BLUEBOARD_SOKETI_HOST, BLUEBOARD_SOKETI_KEY, BLUEBOARD_URL } from "@env";
-import { Provider, useSelector } from "react-redux";
+import { Provider, useDispatch, useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { darkTheme, lightTheme } from "./utils/theme/themes";
+import { setState, setTheme } from "./store/slices/settingsSlice";
 
 import AppBootstrapProvider from "./bootstrap/appBootstrapProvider";
+import { Appearance } from "react-native";
 import { BlueboardClientInit } from "blueboard-client-react";
 import { FullScreenLoading } from "./components/fullScreenLoading";
 import { NavigationDecider } from "./navigation/navigation";
 import { Provider as PaperProvider } from "react-native-paper";
-import React from "react";
 import { StatusBar } from "expo-status-bar";
-import { lightTheme } from "./utils/theme/themes";
+import { loadData } from "./utils/misc/storageUtils";
 import { registerRootComponent } from "expo";
 import store from "./store/store";
 
@@ -20,8 +23,25 @@ const [BlueboardProvider, BlueboardSocketProvider, BlueboardClientProvider] = Bl
 
 const ProviderStack = ({ children }) => {
   const token = useSelector((state) => state.token.value);
-  const theme = useSelector((state) => state.theme.value);
+  const theme = useSelector((state) => state.settings.theme);
   const loading = useSelector((state) => state.loading.value);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const savedSettings = await loadData("settings");
+
+        if (savedSettings !== null) {
+          dispatch(setState(savedSettings));
+        } else {
+          throw new Error("No saved settings");
+        }
+      } catch (err) {
+        dispatch(setTheme(Appearance.getColorScheme() === "dark" ? darkTheme : lightTheme));
+      }
+    })();
+  }, []);
 
   return (
     <>

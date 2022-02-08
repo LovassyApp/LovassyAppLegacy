@@ -21,7 +21,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { ScreenContainer } from "../components/screenContainer";
 import { SettingsItem } from "../components/content/settingsItem";
 import { setAdmin } from "../store/slices/adminSlice";
-import { setTheme } from "../store/slices/themeSlice";
+import { setTheme } from "../store/slices/settingsSlice";
 import useLogout from "../hooks/useLogout";
 
 export const SettingsScreen = () => {
@@ -35,7 +35,7 @@ export const SettingsScreen = () => {
 
   const control = useSelector((state) => state.control.value);
   const admin = useSelector((state) => state.admin.value);
-  const reduxTheme = useSelector((state) => state.theme.value);
+  const reduxTheme = useSelector((state) => state.settings.theme);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -66,10 +66,8 @@ export const SettingsScreen = () => {
 
   const toggleTheme = async () => {
     if (reduxTheme === darkTheme) {
-      saveData("settings_theme", "light");
       dispatch(setTheme(lightTheme));
     } else {
-      saveData("settings_theme", "dark");
       dispatch(setTheme(darkTheme));
     }
   };

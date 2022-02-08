@@ -1,15 +1,22 @@
 import { Headline, List, useTheme } from "react-native-paper";
+import { LayoutAnimation, Platform, UIManager, View } from "react-native";
 
 import { GradeItem } from "../components/content/gradeItem";
 import { Ionicons } from "@expo/vector-icons";
 import { LaCard } from "../components/content/laCard";
 import React from "react";
 import { ScreenContainer } from "../components/screenContainer";
-import { View } from "react-native";
+import { fadeInDown } from "react-animations";
 import { fetchGrades } from "../utils/api/apiUtils";
 import { useBlueboardClient } from "blueboard-client-react";
 import { useLoading } from "../hooks/useLoading";
 import { useSelector } from "react-redux";
+
+// if (Platform.OS === "android") {
+//   if (UIManager.setLayoutAnimationEnabledExperimental) {
+//     UIManager.setLayoutAnimationEnabledExperimental(true);
+//   }
+// }
 
 export const KretaScreen = () => {
   const [currentSubjectData, setCurrentSubjectData] = React.useState(null);
@@ -37,6 +44,13 @@ export const KretaScreen = () => {
         )}
         onPress={() => {
           setCurrentSubjectData(item);
+          // LayoutAnimation.configureNext(
+          //   LayoutAnimation.create(
+          //     1000,
+          //     LayoutAnimation.Types.linear,
+          //     LayoutAnimation.Properties.scaleXY,
+          //   ),
+          // );
           setShowSubjects(false);
         }}
       />
@@ -74,6 +88,27 @@ export const KretaScreen = () => {
   return (
     <ScreenContainer scrollable={true}>
       <Headline>Kreta</Headline>
+      {/* <LaCard
+        title={showSubjects ? "Subjects" : `${currentSubjectData.subject} - ${calculateAverage()}`}
+        error={gradesData === null}
+        retry={() => tryAgain()}
+        actionIcon={showSubjects ? null : "arrow-back"}
+        onPress={
+          showSubjects
+            ? null
+            : () => {
+                LayoutAnimation.configureNext(
+                  LayoutAnimation.create(
+                    1000,
+                    LayoutAnimation.Types.linear,
+                    LayoutAnimation.Properties.scaleXY,
+                  ),
+                );
+                setShowSubjects(true);
+              }
+        }>
+        <View style={{ paddingTop: 5 }}>{showSubjects ? getSubjects() : getGrades()}</View>
+      </LaCard> */}
       {showSubjects ? (
         <LaCard title="Subjects" error={gradesData === null} retry={() => tryAgain()}>
           <View style={{ paddingTop: 5 }}>{getSubjects()}</View>
