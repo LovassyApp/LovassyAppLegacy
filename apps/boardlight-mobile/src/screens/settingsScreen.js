@@ -15,13 +15,13 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { darkTheme, lightTheme } from "../utils/theme/themes";
 import { loadData, saveData } from "../utils/misc/storageUtils";
+import { setPredictiveLoad, setTheme } from "../store/slices/settingsSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Ionicons } from "@expo/vector-icons";
 import { ScreenContainer } from "../components/screenContainer";
 import { SettingsItem } from "../components/content/settingsItem";
 import { setAdmin } from "../store/slices/adminSlice";
-import { setTheme } from "../store/slices/settingsSlice";
 import useLogout from "../hooks/useLogout";
 
 export const SettingsScreen = () => {
@@ -35,6 +35,7 @@ export const SettingsScreen = () => {
 
   const control = useSelector((state) => state.control.value);
   const admin = useSelector((state) => state.admin.value);
+  const predictiveLoad = useSelector((state) => state.settings.predictiveLoad);
   const reduxTheme = useSelector((state) => state.settings.theme);
   const dispatch = useDispatch();
 
@@ -64,12 +65,12 @@ export const SettingsScreen = () => {
     },
   });
 
-  const toggleTheme = async () => {
-    if (reduxTheme === darkTheme) {
-      dispatch(setTheme(lightTheme));
-    } else {
-      dispatch(setTheme(darkTheme));
-    }
+  const toggleTheme = () => {
+    dispatch(setTheme(reduxTheme === lightTheme ? darkTheme : lightTheme));
+  };
+
+  const togglePredictiveLoad = () => {
+    dispatch(setPredictiveLoad(!predictiveLoad));
   };
 
   return (
@@ -119,6 +120,18 @@ export const SettingsScreen = () => {
               color={theme.colors.primary}
               value={reduxTheme === darkTheme}
               onValueChange={() => toggleTheme()}
+            />
+          }
+        />
+        <Divider style={{ width: "100%", marginVertical: 5 }} />
+        <Caption>Experimental</Caption>
+        <SettingsItem
+          title="Predictive loading"
+          right={
+            <Switch
+              color={theme.colors.primary}
+              value={predictiveLoad}
+              onValueChange={() => togglePredictiveLoad()}
             />
           }
         />
