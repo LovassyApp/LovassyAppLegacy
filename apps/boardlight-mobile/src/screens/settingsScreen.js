@@ -66,7 +66,8 @@ export const SettingsScreen = () => {
   });
 
   const toggleTheme = () => {
-    dispatch(setTheme(reduxTheme === lightTheme ? darkTheme : lightTheme));
+    console.log(lightTheme);
+    dispatch(setTheme(reduxTheme.dark ? lightTheme : darkTheme));
   };
 
   const togglePredictiveLoad = () => {
@@ -118,7 +119,7 @@ export const SettingsScreen = () => {
           right={
             <Switch
               color={theme.colors.primary}
-              value={reduxTheme === darkTheme}
+              value={reduxTheme.dark}
               onValueChange={() => toggleTheme()}
             />
           }
