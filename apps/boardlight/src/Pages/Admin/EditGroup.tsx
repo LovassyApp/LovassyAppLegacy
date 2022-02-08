@@ -5,7 +5,20 @@ import { useHistory, useParams } from 'react-router';
 import TableLoader from '../../Components/TableLoader';
 import { Loading, Input, Button, Text, Switch, useTheme } from '@nextui-org/react';
 import { Card as NextUICard } from '@nextui-org/react';
-import { Row, Col, CardBody, Card, Nav, NavItem, NavLink, TabContent, TabPane, Badge, Alert } from 'reactstrap';
+import {
+    Row,
+    Col,
+    CardBody,
+    Card,
+    Nav,
+    NavItem,
+    NavLink,
+    TabContent,
+    TabPane,
+    Badge,
+    Alert,
+    Container,
+} from 'reactstrap';
 import toast from 'react-hot-toast';
 import { checkPermission } from '../../Helpers/Middleware';
 import Four0Three from '../403';
@@ -124,118 +137,129 @@ const EditGroup = () => {
                     <TableLoader />
                 </Center>
             ) : (
-                <div className="mx-2 mt-2">
-                    <Center>
-                        <Card
-                            style={{
-                                background: theme.type === 'dark' ? theme.palette.accents_1 : theme.palette.background,
-                                width: '95%',
-                            }}
-                        >
-                            <CardBody>
-                                <Input
-                                    style={{ width: '200px' }}
-                                    className="mt-2"
-                                    clearable
-                                    bordered
-                                    underlined
-                                    color={name === '' ? 'error' : 'primary'}
-                                    shadow={false}
-                                    onChange={(e) => setName(e.target.value)}
-                                    labelLeft="Név: "
-                                    initialValue={name}
-                                />
-                                <Button
-                                    auto
-                                    className="mt-2"
-                                    loading={savePending}
-                                    loaderType="points"
-                                    color="gradient"
-                                    rounded
-                                    onClick={trySave}
-                                >
-                                    Mentés
-                                </Button>
-                                <Alert
-                                    className="mt-2"
-                                    color="danger"
-                                    isOpen={nameIsVisible}
-                                    toggle={() => nameSetVisible(false)}
-                                >
-                                    {nameErr.map((el) => (
-                                        <span>
-                                            {' '}
-                                            {el} <br />{' '}
-                                        </span>
-                                    ))}
-                                </Alert>
-                                <Alert
-                                    className="mt-2"
-                                    color="danger"
-                                    isOpen={permissionsIsVisible}
-                                    toggle={() => permissionsSetVisible(false)}
-                                >
-                                    {permissionsErr.map((el) => (
-                                        <span>
-                                            {' '}
-                                            {el} <br />{' '}
-                                        </span>
-                                    ))}
-                                </Alert>
-                                <Alert color="danger" className="mt-2" isOpen={globIsVisible} toggle={onDismiss}>
-                                    <h4 className="alert-heading">Hoppácska!</h4>
-                                    <p>{GLOBERR}</p>
-                                </Alert>
-                                <p className="mt-3">Jogosultságok:</p>
-                                <div className="dropdown-divider"></div>
-                                <div className="mt-2">
-                                    <Nav pills>
-                                        {permissions.map((el, key) => (
-                                            <NavItem key={key}>
-                                                <NavLink active={tab === key} href="#" onClick={() => setTab(key)}>
-                                                    {el.scopeDisplayName}
-                                                </NavLink>
-                                            </NavItem>
-                                        ))}
-                                    </Nav>
-                                    <TabContent className="mt-2" activeTab={tab}>
-                                        {permissions.map((el, key) => (
-                                            <TabPane key={key} tabId={key}>
-                                                <Row>
-                                                    {el.permissions.map((el: any, key: number) => (
-                                                        <Col md="6" className="mt-2" key={key}>
-                                                            <NextUICard
-                                                                color={
-                                                                    getChecked(el.permissionString)
-                                                                        ? 'default'
-                                                                        : theme.palette.accents_2
-                                                                }
-                                                                width="100%"
-                                                                onClick={() => togglePermission(el.permissionString)}
-                                                                bordered
-                                                                hoverable
-                                                                clickable
-                                                            >
-                                                                <Text h5>
-                                                                    {el.displayName}{' '}
-                                                                    <Badge pill className="badge-white">
-                                                                        {el.permissionString}
-                                                                    </Badge>{' '}
-                                                                </Text>
-                                                                <p>{el.description}</p>
-                                                                <Switch checked={getChecked(el.permissionString)} />
-                                                            </NextUICard>
-                                                        </Col>
-                                                    ))}
-                                                </Row>
-                                            </TabPane>
-                                        ))}
-                                    </TabContent>
-                                </div>
-                            </CardBody>
-                        </Card>
-                    </Center>
-                </div>
+                <Container fluid style={{ width: '95%' }}>
+                    <Row className="ml-2 mr-2">
+                        <Col md="12">
+                            <Card
+                                style={{
+                                    background:
+                                        theme.type === 'dark' ? theme.palette.accents_1 : theme.palette.background,
+                                }}
+                            >
+                                <CardBody>
+                                    <Center>
+                                        <Input
+                                            style={{ width: '200px' }}
+                                            className="mt-2"
+                                            clearable
+                                            bordered
+                                            underlined
+                                            color={name === '' ? 'error' : 'primary'}
+                                            shadow={false}
+                                            onChange={(e) => setName(e.target.value)}
+                                            labelLeft="Név: "
+                                            initialValue={name}
+                                        />
+                                        <Button
+                                            auto
+                                            className="mt-2"
+                                            loading={savePending}
+                                            loaderType="points"
+                                            color="gradient"
+                                            rounded
+                                            onClick={trySave}
+                                        >
+                                            Mentés
+                                        </Button>
+                                        <Alert
+                                            className="mt-2"
+                                            color="danger"
+                                            isOpen={nameIsVisible}
+                                            toggle={() => nameSetVisible(false)}
+                                        >
+                                            {nameErr.map((el) => (
+                                                <span>
+                                                    {' '}
+                                                    {el} <br />{' '}
+                                                </span>
+                                            ))}
+                                        </Alert>
+                                        <Alert
+                                            className="mt-2"
+                                            color="danger"
+                                            isOpen={permissionsIsVisible}
+                                            toggle={() => permissionsSetVisible(false)}
+                                        >
+                                            {permissionsErr.map((el) => (
+                                                <span>
+                                                    {' '}
+                                                    {el} <br />{' '}
+                                                </span>
+                                            ))}
+                                        </Alert>
+                                        <Alert
+                                            color="danger"
+                                            className="mt-2"
+                                            isOpen={globIsVisible}
+                                            toggle={onDismiss}
+                                        >
+                                            <h4 className="alert-heading">Hoppácska!</h4>
+                                            <p>{GLOBERR}</p>
+                                        </Alert>
+                                        <p className="mt-3">Jogosultságok:</p>
+                                    </Center>
+                                    <div className="dropdown-divider"></div>
+                                    <div className="mt-2">
+                                        <Nav pills>
+                                            {permissions.map((el, key) => (
+                                                <NavItem key={key}>
+                                                    <NavLink active={tab === key} href="#" onClick={() => setTab(key)}>
+                                                        {el.scopeDisplayName}
+                                                    </NavLink>
+                                                </NavItem>
+                                            ))}
+                                        </Nav>
+                                        <TabContent className="mt-2" activeTab={tab}>
+                                            {permissions.map((el, key) => (
+                                                <TabPane key={key} tabId={key}>
+                                                    <Row>
+                                                        {el.permissions.map((el: any, key: number) => (
+                                                            <Col md="6" className="mt-2" key={key}>
+                                                                <NextUICard
+                                                                    color={
+                                                                        getChecked(el.permissionString)
+                                                                            ? 'default'
+                                                                            : theme.palette.accents_2
+                                                                    }
+                                                                    width="100%"
+                                                                    onClick={() =>
+                                                                        togglePermission(el.permissionString)
+                                                                    }
+                                                                    bordered
+                                                                    hoverable
+                                                                    clickable
+                                                                >
+                                                                    <Text h5>
+                                                                        {el.displayName}{' '}
+                                                                        <Badge pill className="badge-white">
+                                                                            {el.permissionString}
+                                                                        </Badge>{' '}
+                                                                    </Text>
+                                                                    <p>{el.description}</p>
+                                                                    <Switch checked={getChecked(el.permissionString)} />
+                                                                </NextUICard>
+                                                            </Col>
+                                                        ))}
+                                                    </Row>
+                                                </TabPane>
+                                            ))}
+                                        </TabContent>
+                                    </div>
+                                </CardBody>
+                            </Card>
+                        </Col>
+                    </Row>
+                </Container>
             )}
         </AuthLayout>
     );

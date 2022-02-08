@@ -1,6 +1,7 @@
 import BlueboardBaseClient from '../BlueboardBaseClient';
 import BlueboardControl from '../models/BlueboardControl';
 import BlueboardControlException from '../errors/BlueboardControlException';
+import { BlueboardUnavailableException } from '..';
 
 class BlueboardAccountClient extends BlueboardBaseClient {
     public async control(forcedToken?: string) {
@@ -24,6 +25,16 @@ class BlueboardAccountClient extends BlueboardBaseClient {
         this.state.control = cObj;
 
         return cObj;
+    }
+
+    public async ping() {
+        const url = this.endpoints.ping;
+
+        const res = await this.stdGetRequest(url, {}, {}, { Accept: 'application/json' }).catch(() => {
+            throw new BlueboardUnavailableException('Blueboard is down');
+        });
+
+        return res;
     }
 }
 

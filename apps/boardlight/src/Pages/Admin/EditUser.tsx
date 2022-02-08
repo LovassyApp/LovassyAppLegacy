@@ -114,136 +114,138 @@ const EditUser = () => {
                     <TableLoader />
                 </Center>
             ) : (
-                <div className="mx-2 mt-2">
-                    <Center>
-                        <Card
-                            style={{
-                                background: theme.type === 'dark' ? theme.palette.accents_1 : theme.palette.background,
-                                width: '95%',
-                            }}
-                        >
-                            <CardBody>
-                                <Container gap={0}>
-                                    <Row>
-                                        <Col lg="6">
-                                            <Input
-                                                fullWidth
-                                                className="mt-2"
-                                                clearable
-                                                bordered
-                                                underlined
-                                                color={name === '' ? 'error' : 'primary'}
-                                                shadow={false}
-                                                onChange={(e) => setName(e.target.value)}
-                                                labelLeft="Név: "
-                                                initialValue={name}
-                                            />
-                                            <Alert
-                                                className="mt-2"
-                                                color="danger"
-                                                isOpen={nameIsVisible}
-                                                toggle={() => nameSetVisible(false)}
-                                            >
-                                                {nameErr.map((el) => (
-                                                    <span>
-                                                        {' '}
-                                                        {el} <br />{' '}
-                                                    </span>
-                                                ))}
-                                            </Alert>
-                                        </Col>
-                                        <Col lg="6">
-                                            <Input
-                                                fullWidth
-                                                className="mt-2"
-                                                clearable
-                                                bordered
-                                                underlined
-                                                color={email === '' ? 'error' : 'primary'}
-                                                shadow={false}
-                                                onChange={(e) => setEmail(e.target.value)}
-                                                labelLeft="Email: "
-                                                initialValue={email}
-                                            />
-                                            <Alert
-                                                className="mt-2"
-                                                color="danger"
-                                                isOpen={emailIsVisible}
-                                                toggle={() => emailSetVisible(false)}
-                                            >
-                                                {emailErr.map((el) => (
-                                                    <span>
-                                                        {' '}
-                                                        {el} <br />{' '}
-                                                    </span>
-                                                ))}
-                                            </Alert>
-                                        </Col>
-                                    </Row>
-                                    <Row className="align-items-center">
-                                        <Col lg="1" md="2">
-                                            <div className="align-text-middle">Csoportok:</div>
-                                        </Col>
-                                        <Col lg="11" md="10">
-                                            <Select
-                                                components={animatedComponents}
-                                                closeMenuOnSelect={false}
-                                                defaultValue={groups}
-                                                isMulti
-                                                theme={(dropTheme) => {
-                                                    return {
-                                                        ...dropTheme,
-                                                        borderRadius: 4,
-                                                        colors: {
-                                                            ...dropTheme.colors,
-                                                            primary: theme.palette.primary,
-                                                            primary25: theme.palette.primary,
-                                                            primary50: theme.palette.primary,
-                                                            primary75: theme.palette.primary,
-                                                            danger: theme.palette.errorDark,
-                                                            dangerLight: theme.palette.secondary,
-                                                            neutral0: theme.palette.accents_1,
-                                                            neutral10: theme.palette.accents_2,
-                                                            neutral20: theme.palette.accents_2,
-                                                            neutral30: theme.palette.accents_3,
-                                                            neutral40: theme.palette.accents_4,
-                                                            neutral50: theme.palette.accents_5,
-                                                            neutral60: theme.palette.accents_6,
-                                                            neutral70: theme.palette.accents_7,
-                                                            neutral80: theme.palette.accents_8,
-                                                            neutral90: theme.palette.accents_8,
-                                                        },
-                                                    };
-                                                }}
-                                                options={allGroups}
-                                                className="mt-2"
-                                                onChange={(e: any) => setGroups(e.map((e: any) => e.value))}
-                                            />
-                                        </Col>
-                                    </Row>
-                                </Container>
+                <Container fluid style={{ width: '95%' }}>
+                    <Row className="ml-2 mr-2">
+                        <Col md="12">
+                            <Card
+                                style={{
+                                    background:
+                                        theme.type === 'dark' ? theme.palette.accents_1 : theme.palette.background,
+                                }}
+                            >
+                                <CardBody>
+                                    <Container gap={0}>
+                                        <Row>
+                                            <Col lg="6">
+                                                <Input
+                                                    fullWidth
+                                                    className="mt-2"
+                                                    clearable
+                                                    bordered
+                                                    underlined
+                                                    color={name === '' ? 'error' : 'primary'}
+                                                    shadow={false}
+                                                    onChange={(e) => setName(e.target.value)}
+                                                    labelLeft="Név: "
+                                                    initialValue={name}
+                                                />
+                                                <Alert
+                                                    className="mt-2"
+                                                    color="danger"
+                                                    isOpen={nameIsVisible}
+                                                    toggle={() => nameSetVisible(false)}
+                                                >
+                                                    {nameErr.map((el) => (
+                                                        <span>
+                                                            {' '}
+                                                            {el} <br />{' '}
+                                                        </span>
+                                                    ))}
+                                                </Alert>
+                                            </Col>
+                                            <Col lg="6">
+                                                <Input
+                                                    fullWidth
+                                                    className="mt-2"
+                                                    clearable
+                                                    bordered
+                                                    underlined
+                                                    color={email === '' ? 'error' : 'primary'}
+                                                    shadow={false}
+                                                    onChange={(e) => setEmail(e.target.value)}
+                                                    labelLeft="Email: "
+                                                    initialValue={email}
+                                                />
+                                                <Alert
+                                                    className="mt-2"
+                                                    color="danger"
+                                                    isOpen={emailIsVisible}
+                                                    toggle={() => emailSetVisible(false)}
+                                                >
+                                                    {emailErr.map((el) => (
+                                                        <span>
+                                                            {' '}
+                                                            {el} <br />{' '}
+                                                        </span>
+                                                    ))}
+                                                </Alert>
+                                            </Col>
+                                        </Row>
+                                        <Row className="align-items-center">
+                                            <Col lg="1" md="2">
+                                                <div className="align-text-middle">Csoportok:</div>
+                                            </Col>
+                                            <Col lg="11" md="10">
+                                                <Select
+                                                    components={animatedComponents}
+                                                    closeMenuOnSelect={false}
+                                                    defaultValue={groups}
+                                                    isMulti
+                                                    theme={(dropTheme) => {
+                                                        return {
+                                                            ...dropTheme,
+                                                            borderRadius: 4,
+                                                            colors: {
+                                                                ...dropTheme.colors,
+                                                                primary: theme.palette.primary,
+                                                                primary25: theme.palette.primary,
+                                                                primary50: theme.palette.primary,
+                                                                primary75: theme.palette.primary,
+                                                                danger: theme.palette.errorDark,
+                                                                dangerLight: theme.palette.secondary,
+                                                                neutral0: theme.palette.accents_1,
+                                                                neutral10: theme.palette.accents_2,
+                                                                neutral20: theme.palette.accents_2,
+                                                                neutral30: theme.palette.accents_3,
+                                                                neutral40: theme.palette.accents_4,
+                                                                neutral50: theme.palette.accents_5,
+                                                                neutral60: theme.palette.accents_6,
+                                                                neutral70: theme.palette.accents_7,
+                                                                neutral80: theme.palette.accents_8,
+                                                                neutral90: theme.palette.accents_8,
+                                                            },
+                                                        };
+                                                    }}
+                                                    options={allGroups}
+                                                    className="mt-2"
+                                                    onChange={(e: any) => setGroups(e.map((e: any) => e.value))}
+                                                />
+                                            </Col>
+                                        </Row>
+                                    </Container>
 
-                                <Alert color="danger" className="mt-2" isOpen={globIsVisible} toggle={onDismiss}>
-                                    <h4 className="alert-heading">Hoppácska!</h4>
-                                    <p>{GLOBERR}</p>
-                                </Alert>
-                                <Center>
-                                    <Button
-                                        auto
-                                        className="mt-2"
-                                        loading={savePending}
-                                        loaderType="points"
-                                        color="gradient"
-                                        rounded
-                                        onClick={trySave}
-                                    >
-                                        Mentés
-                                    </Button>
-                                </Center>
-                            </CardBody>
-                        </Card>
-                    </Center>
-                </div>
+                                    <Alert color="danger" className="mt-2" isOpen={globIsVisible} toggle={onDismiss}>
+                                        <h4 className="alert-heading">Hoppácska!</h4>
+                                        <p>{GLOBERR}</p>
+                                    </Alert>
+                                    <Center>
+                                        <Button
+                                            auto
+                                            className="mt-2"
+                                            loading={savePending}
+                                            loaderType="points"
+                                            color="gradient"
+                                            rounded
+                                            onClick={trySave}
+                                        >
+                                            Mentés
+                                        </Button>
+                                    </Center>
+                                </CardBody>
+                            </Card>
+                        </Col>
+                    </Row>
+                </Container>
             )}
         </AuthLayout>
     );
