@@ -7,17 +7,20 @@ import {
   Headline,
   Paragraph,
   Portal,
+  Subheading,
   Switch,
+  Text,
   Title,
   useTheme,
 } from "react-native-paper";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { darkTheme, lightTheme } from "../utils/theme/themes";
 import { loadData, saveData } from "../utils/misc/storageUtils";
 import { setPredictiveLoad, setTheme } from "../store/slices/settingsSlice";
 import { useDispatch, useSelector } from "react-redux";
 
+import BottomSheet from "../components/bottomSheet";
 import { Ionicons } from "@expo/vector-icons";
 import { ScreenContainer } from "../components/screenContainer";
 import { SettingsItem } from "../components/content/settingsItem";
@@ -39,6 +42,8 @@ export const SettingsScreen = () => {
   const reduxTheme = useSelector((state) => state.settings.theme);
   const dispatch = useDispatch();
 
+  const bottomSheetRef = useRef();
+
   useEffect(() => {
     (async () => {
       if (admin) {
@@ -54,6 +59,10 @@ export const SettingsScreen = () => {
   }, [admin]);
 
   const styles = StyleSheet.create({
+    sheetContainer: {
+      flex: 1,
+      padding: 20,
+    },
     content: {
       paddingTop: 15,
     },
@@ -75,7 +84,7 @@ export const SettingsScreen = () => {
   };
 
   return (
-    <ScreenContainer>
+    <ScreenContainer scrollable={true}>
       <Headline>Settings</Headline>
       <View style={styles.content}>
         <View style={styles.accountContent}>
@@ -136,6 +145,30 @@ export const SettingsScreen = () => {
             />
           }
         />
+        <Divider style={{ width: "100%", marginVertical: 5 }} />
+        <Caption>About</Caption>
+        <SettingsItem
+          title="Version"
+          right={<Subheading>{require("../../package.json").version}</Subheading>}
+        />
+        <SettingsItem
+          title="Contributors"
+          onPress={() => bottomSheetRef.current.show()}
+          right={<Ionicons name="people" size={20} color={theme.colors.text} />}
+        />
+
+        <BottomSheet
+          backgroundColor={reduxTheme === lightTheme ? "#25252599" : "#00000099"}
+          sheetBackgroundColor={reduxTheme === lightTheme ? theme.colors.surface : "#1e1e1e"}
+          radius={theme.roundness}
+          ref={bottomSheetRef}
+          height={130}>
+          <View style={styles.sheetContainer}>
+            <Title>Contributors</Title>
+            <Text>Mobile app - Ocskó Nándor</Text>
+            <Text>Backend - Gyimesi Máté</Text>
+          </View>
+        </BottomSheet>
 
         <Portal>
           <Dialog visible={showInformation} dismissable={false}>
