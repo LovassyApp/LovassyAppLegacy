@@ -1,6 +1,5 @@
 import { saveData, secureSaveData } from "../utils/misc/storageUtils";
 
-import adminReducer from "./slices/adminSlice";
 import { configureStore } from "@reduxjs/toolkit";
 import controlReducer from "./slices/controlSlice";
 import kretaReducer from "./slices/kretaSlice";
@@ -17,7 +16,6 @@ const store = configureStore({
     refreshToken: refreshTokenReducer,
     control: controlReducer,
     lolo: loloReducer,
-    admin: adminReducer,
     settings: settingsReducer,
     kreta: kretaReducer,
     loading: loadingReducer,

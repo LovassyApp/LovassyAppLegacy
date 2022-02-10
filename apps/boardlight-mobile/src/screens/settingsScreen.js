@@ -17,14 +17,13 @@ import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { darkTheme, lightTheme } from "../utils/theme/themes";
 import { loadData, saveData } from "../utils/misc/storageUtils";
-import { setPredictiveLoad, setTheme } from "../store/slices/settingsSlice";
+import { setAdmin, setPredictiveLoad, setTheme } from "../store/slices/settingsSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 import BottomSheet from "../components/bottomSheet";
 import { Ionicons } from "@expo/vector-icons";
 import { ScreenContainer } from "../components/screenContainer";
 import { SettingsItem } from "../components/content/settingsItem";
-import { setAdmin } from "../store/slices/adminSlice";
 import useLogout from "../hooks/useLogout";
 
 export const SettingsScreen = () => {
@@ -37,7 +36,7 @@ export const SettingsScreen = () => {
   const theme = useTheme();
 
   const control = useSelector((state) => state.control.value);
-  const admin = useSelector((state) => state.admin.value);
+  const admin = useSelector((state) => state.settings.admin);
   const predictiveLoad = useSelector((state) => state.settings.predictiveLoad);
   const reduxTheme = useSelector((state) => state.settings.theme);
   const dispatch = useDispatch();
