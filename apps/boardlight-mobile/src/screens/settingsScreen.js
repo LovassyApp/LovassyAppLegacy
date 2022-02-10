@@ -154,7 +154,14 @@ export const SettingsScreen = () => {
         <SettingsItem
           title="Contributors"
           onPress={() => bottomSheetRef.current.show()}
-          right={<Ionicons name="people" size={20} color={theme.colors.text} />}
+          right={
+            <Ionicons
+              style={{ marginRight: 2 }}
+              name="people"
+              size={20}
+              color={theme.colors.text}
+            />
+          }
         />
 
         <BottomSheet
