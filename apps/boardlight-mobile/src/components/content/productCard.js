@@ -24,7 +24,7 @@ export const ProductCard = (props) => {
     },
     titleContainer: {
       padding: 10,
-      width: "70%",
+      width: "75%",
     },
     imgContainer: {
       height: 200,
@@ -46,14 +46,24 @@ export const ProductCard = (props) => {
           <View style={styles.inline}>
             <View style={{ flexDirection: "row" }}>
               <Chip
+                textStyle={{
+                  color: "#ffffff",
+                }}
                 style={{
-                  backgroundColor: theme.colors.accent,
+                  backgroundColor: theme.colors.primary,
                   marginBottom: 2,
                   marginRight: 10,
                 }}>
                 {props.product.price} Loló
               </Chip>
-              <Chip style={{ backgroundColor: theme.colors.accent, marginBottom: 2 }}>
+              <Chip
+                textStyle={{
+                  color: "#ffffff",
+                }}
+                style={{
+                  backgroundColor: props.product.quantity ? "#2e7d32" : "#d32f2f",
+                  marginBottom: 2,
+                }}>
                 Raktáron: {props.product.quantity} db
               </Chip>
             </View>
@@ -63,7 +73,7 @@ export const ProductCard = (props) => {
       <View style={styles.spaced}>
         <View style={styles.titleContainer}>
           <Title numberOfLines={1}>{props.product.name}</Title>
-          <Caption>{props.product.description}</Caption>
+          <Caption numberOfLines={2}>{props.product.description}</Caption>
         </View>
         <LaButton style={{ alignSelf: "center", margin: 10 }} dense={true}>
           Get
