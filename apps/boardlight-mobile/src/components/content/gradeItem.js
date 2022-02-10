@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 export const GradeItem = (props) => {
   const { grade } = props.data;
   const theme = useTheme();
-  const reduxTheme = useSelector((state) => state.settings.state);
+  const reduxTheme = useSelector((state) => state.settings.theme);
 
   const colors = {
     1: "#f44336",
