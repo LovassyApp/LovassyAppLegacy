@@ -46,7 +46,7 @@ export const GradeItem = (props) => {
   return (
     <>
       <BottomSheet
-        backgroundColor={reduxTheme === lightTheme ? "#25252599" : "#00000099"}
+        backgroundColor={theme.colors.backdrop}
         sheetBackgroundColor={reduxTheme === lightTheme ? theme.colors.surface : "#1e1e1e"}
         radius={theme.roundness}
         ref={bottomSheetRef}
