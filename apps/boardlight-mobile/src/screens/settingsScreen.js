@@ -75,7 +75,6 @@ export const SettingsScreen = () => {
   });
 
   const toggleTheme = () => {
-    console.log(lightTheme);
     dispatch(setTheme(reduxTheme.dark ? lightTheme : darkTheme));
   };
 
