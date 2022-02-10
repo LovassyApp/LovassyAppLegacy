@@ -8,6 +8,7 @@ import loadingReducer from "./slices/loadingSlice";
 import loloReducer from "./slices/loloSlice";
 import refreshTokenReducer from "./slices/refreshTokenSlice";
 import settingsReducer from "./slices/settingsSlice";
+import storeReducer from "./slices/storeSlice";
 import tokenReducer from "./slices/tokenSlice";
 
 const store = configureStore({
@@ -20,6 +21,7 @@ const store = configureStore({
     settings: settingsReducer,
     kreta: kretaReducer,
     loading: loadingReducer,
+    store: storeReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
