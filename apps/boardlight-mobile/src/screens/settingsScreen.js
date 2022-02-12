@@ -17,14 +17,13 @@ import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { darkTheme, lightTheme } from "../utils/theme/themes";
 import { loadData, saveData } from "../utils/misc/storageUtils";
-import { setPredictiveLoad, setTheme } from "../store/slices/settingsSlice";
+import { setAdmin, setPredictiveLoad, setTheme } from "../store/slices/settingsSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 import BottomSheet from "../components/bottomSheet";
 import { Ionicons } from "@expo/vector-icons";
 import { ScreenContainer } from "../components/screenContainer";
 import { SettingsItem } from "../components/content/settingsItem";
-import { setAdmin } from "../store/slices/adminSlice";
 import useLogout from "../hooks/useLogout";
 
 export const SettingsScreen = () => {
@@ -37,7 +36,7 @@ export const SettingsScreen = () => {
   const theme = useTheme();
 
   const control = useSelector((state) => state.control.value);
-  const admin = useSelector((state) => state.admin.value);
+  const admin = useSelector((state) => state.settings.admin);
   const predictiveLoad = useSelector((state) => state.settings.predictiveLoad);
   const reduxTheme = useSelector((state) => state.settings.theme);
   const dispatch = useDispatch();
@@ -75,7 +74,6 @@ export const SettingsScreen = () => {
   });
 
   const toggleTheme = () => {
-    console.log(lightTheme);
     dispatch(setTheme(reduxTheme.dark ? lightTheme : darkTheme));
   };
 
@@ -85,7 +83,7 @@ export const SettingsScreen = () => {
 
   return (
     <ScreenContainer scrollable={true}>
-      <Headline>Settings</Headline>
+      <Headline>Beállítások</Headline>
       <View style={styles.content}>
         <View style={styles.accountContent}>
           <Avatar.Text
@@ -98,21 +96,21 @@ export const SettingsScreen = () => {
           <Title style={styles.name}>{control.user.name}</Title>
         </View>
         <SettingsItem
-          title="Log out"
+          title="Kilépés"
           right={<Ionicons name="log-out" size={20} color="#f44336" />}
           onPress={() => setConfirmLogout(true)}
           dense={true}
         />
         <SettingsItem
-          title="Account information"
+          title="Fiók információk"
           right={<Ionicons name="information-circle" size={20} color="#2196f3" />}
           onPress={() => setShowInformation(true)}
           dense={true}
         />
         <Divider style={{ width: "100%", marginVertical: 5 }} />
-        <Caption>Secret stuff</Caption>
+        <Caption>Titkos cuccok</Caption>
         <SettingsItem
-          title="Admin mode"
+          title="Admin mód"
           right={
             <Switch
               color={theme.colors.primary}
@@ -122,9 +120,9 @@ export const SettingsScreen = () => {
           }
         />
         <Divider style={{ width: "100%", marginVertical: 5 }} />
-        <Caption>Appearance</Caption>
+        <Caption>Kinézet</Caption>
         <SettingsItem
-          title="Dark theme"
+          title="Sötét téma"
           right={
             <Switch
               color={theme.colors.primary}
@@ -134,9 +132,9 @@ export const SettingsScreen = () => {
           }
         />
         <Divider style={{ width: "100%", marginVertical: 5 }} />
-        <Caption>Experimental</Caption>
+        <Caption>Kísérleti</Caption>
         <SettingsItem
-          title="Predictive loading"
+          title="Prediktív betöltés"
           right={
             <Switch
               color={theme.colors.primary}
@@ -146,53 +144,60 @@ export const SettingsScreen = () => {
           }
         />
         <Divider style={{ width: "100%", marginVertical: 5 }} />
-        <Caption>About</Caption>
+        <Caption>Névjegy</Caption>
         <SettingsItem
-          title="Version"
+          title="Verzió"
           right={<Subheading>{require("../../package.json").version}</Subheading>}
         />
         <SettingsItem
-          title="Contributors"
+          title="Fejlesztők"
           onPress={() => bottomSheetRef.current.show()}
-          right={<Ionicons name="people" size={20} color={theme.colors.text} />}
+          right={
+            <Ionicons
+              style={{ marginRight: 2 }}
+              name="people"
+              size={20}
+              color={theme.colors.text}
+            />
+          }
         />
 
         <BottomSheet
-          backgroundColor={reduxTheme === lightTheme ? "#25252599" : "#00000099"}
-          sheetBackgroundColor={reduxTheme === lightTheme ? theme.colors.surface : "#1e1e1e"}
+          backgroundColor={theme.colors.backdrop}
+          sheetBackgroundColor={theme.dark ? "#1e1e1e" : theme.colors.surface}
           radius={theme.roundness}
           ref={bottomSheetRef}
           height={130}>
           <View style={styles.sheetContainer}>
-            <Title>Contributors</Title>
-            <Text>Mobile app - Ocskó Nándor</Text>
+            <Title>Fejlesztők</Title>
+            <Text>Mobil app - Ocskó Nándor</Text>
             <Text>Backend - Gyimesi Máté</Text>
           </View>
         </BottomSheet>
 
         <Portal>
           <Dialog visible={showInformation} dismissable={false}>
-            <Dialog.Title>Account information</Dialog.Title>
+            <Dialog.Title>Fiók információk</Dialog.Title>
             <Dialog.Content>
-              <Paragraph>User ID: {control.user.id}</Paragraph>
+              <Paragraph>Azonosító: {control.user.id}</Paragraph>
               <Paragraph>
-                Name: {"\n"}
+                Név: {"\n"}
                 {control.user.name}
               </Paragraph>
               <Paragraph>
-                Email: {"\n"}
+                E-mail: {"\n"}
                 {control.user.email}
               </Paragraph>
               <Paragraph>
-                Created at: {"\n"}
+                Készült: {"\n"}
                 {control.user.created_at.split(".")[0].split("T").join(" ")}
               </Paragraph>
               <Paragraph>
-                Last updated at: {"\n"}
+                Utoljára frissítve: {"\n"}
                 {control.user.updated_at.split(".")[0].split("T").join(" ")}
               </Paragraph>
               <Paragraph>
-                Permissions: {"\n"}
+                Engedélyek: {"\n"}
                 {control.permissions.join(", ")}
               </Paragraph>
             </Dialog.Content>
@@ -203,24 +208,24 @@ export const SettingsScreen = () => {
         </Portal>
         <Portal>
           <Dialog visible={confirmLogout} dismissable={false}>
-            <Dialog.Title>Log out</Dialog.Title>
+            <Dialog.Title>Kilépés</Dialog.Title>
             <Dialog.Content>
-              <Paragraph>Are you sure you want to log out?</Paragraph>
+              <Paragraph>Biztos ki akarsz lépni?</Paragraph>
             </Dialog.Content>
             <Dialog.Actions>
-              <Button onPress={() => setConfirmLogout(false)}>Cancel</Button>
-              <Button onPress={() => logout(false)}>Ok</Button>
+              <Button onPress={() => setConfirmLogout(false)}>Mégsem</Button>
+              <Button onPress={() => logout(false)}>Igen</Button>
             </Dialog.Actions>
           </Dialog>
         </Portal>
         <Portal>
           <Dialog visible={showAdminPopup} dismissable={false}>
-            <Dialog.Title>Welocome to the admin panel!</Dialog.Title>
+            <Dialog.Title>Üdvözöllek az admin módban</Dialog.Title>
             <Dialog.Content>
               <Paragraph>
-                In the admin panel you are able to manage all the users of LovassyApp, answer
-                requests, add or edit buyable products and manage the qr codes used or activating
-                products. Have fun!
+                Az admin módban kezelni tudod a LovassyApp felhasználóit, válaszolni tudsz
+                kérelmekre, kezelni tudod a termékeket és a QR kódokat amikkel termékeket lehet
+                aktiválni. Jó szórakozást!
               </Paragraph>
             </Dialog.Content>
             <Dialog.Actions>

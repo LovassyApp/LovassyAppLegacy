@@ -5,7 +5,7 @@ import { ScreenContainer } from "../../components/screenContainer";
 export const ProductsScreen = () => {
   return (
     <ScreenContainer>
-      <Headline>Products</Headline>
+      <Headline>Termékek</Headline>
     </ScreenContainer>
   );
 };

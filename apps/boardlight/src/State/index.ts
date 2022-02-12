@@ -1,11 +1,13 @@
-import { combineReducers, createStore } from 'redux';
-import tokenReducer from './tokenReducer';
-import controlReducer from './controlReducer';
-import { saveState, loadState } from './sessionStorage';
-import * as LocalStorage from './localStorage';
-import loaderReducer from './loaderReducer';
-import themeReducer from './themeReducer';
-import settingsModalReducer from './settingsModalReducer';
+import * as LocalStorage from "./localStorage";
+
+import { combineReducers, createStore } from "redux";
+import { loadState, saveState } from "./sessionStorage";
+
+import controlReducer from "./controlReducer";
+import loaderReducer from "./loaderReducer";
+import settingsModalReducer from "./settingsModalReducer";
+import themeReducer from "./themeReducer";
+import tokenReducer from "./tokenReducer";
 
 const rootReducer = combineReducers({
     token: tokenReducer,

@@ -29,3 +29,18 @@ export const fetchGrades = async (client, refresh = true, token = null) => {
     console.log(err);
   }
 };
+
+export const fetchStore = async (client, token = null) => {
+  const { dispatch } = store;
+
+  try {
+    const res = await client.store.all(token);
+
+    dispatch({
+      type: "store/setStore",
+      payload: res,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};

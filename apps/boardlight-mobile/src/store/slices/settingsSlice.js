@@ -6,12 +6,16 @@ export const settingsSlice = createSlice({
   initialState: {
     theme: lightTheme,
     predictiveLoad: false,
+    admin: false,
   },
   reducers: {
+    setAdmin: (state, action) => {
+      state.admin = action.payload;
+    },
     setState: (state, action) => {
       state.theme = action.payload.theme;
       state.predictiveLoad = action.payload.predictiveLoad;
-      // add all other state values here
+      // add all other state values here except for admin, we don't want to load that
     },
     setTheme: (state, action) => {
       state.theme = action.payload;
@@ -22,6 +26,6 @@ export const settingsSlice = createSlice({
   },
 });
 
-export const { setTheme, setState, setPredictiveLoad } = settingsSlice.actions;
+export const { setTheme, setState, setPredictiveLoad, setAdmin } = settingsSlice.actions;
 
 export default settingsSlice.reducer;

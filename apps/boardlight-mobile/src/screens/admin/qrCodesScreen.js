@@ -5,7 +5,7 @@ import { ScreenContainer } from "../../components/screenContainer";
 export const QrCodesScreen = () => {
   return (
     <ScreenContainer>
-      <Headline>QR Codes</Headline>
+      <Headline>QR Kódok</Headline>
     </ScreenContainer>
   );
 };

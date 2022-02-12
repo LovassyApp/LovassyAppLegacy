@@ -4,13 +4,10 @@ import React, { useCallback, useMemo, useRef } from "react";
 import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
 
 import BottomSheet from "../bottomSheet";
-import { lightTheme } from "../../utils/theme/themes";
-import { useSelector } from "react-redux";
 
 export const GradeItem = (props) => {
   const { grade } = props.data;
   const theme = useTheme();
-  const reduxTheme = useSelector((state) => state.settings.state);
 
   const colors = {
     1: "#f44336",
@@ -46,8 +43,8 @@ export const GradeItem = (props) => {
   return (
     <>
       <BottomSheet
-        backgroundColor={reduxTheme === lightTheme ? "#25252599" : "#00000099"}
-        sheetBackgroundColor={reduxTheme === lightTheme ? theme.colors.surface : "#1e1e1e"}
+        backgroundColor={theme.colors.backdrop}
+        sheetBackgroundColor={theme.dark ? "#1e1e1e" : theme.colors.surface}
         radius={theme.roundness}
         ref={bottomSheetRef}
         height={220}>
@@ -70,15 +67,15 @@ export const GradeItem = (props) => {
             />
           </View>
           <View style={{ ...styles.dataContainer, paddingTop: 4 }}>
-            <Text>Subject:</Text>
+            <Text>Tantárgy:</Text>
             <Text>{props.data.subject}</Text>
           </View>
           <View style={styles.dataContainer}>
-            <Text>Teacher:</Text>
+            <Text>Tanár:</Text>
             <Text>{props.data.teacher}</Text>
           </View>
           <View style={styles.dataContainer}>
-            <Text>Date:</Text>
+            <Text>Dátum:</Text>
             <Text>
               {
                 // Budget inline formatting let's go
@@ -91,7 +88,7 @@ export const GradeItem = (props) => {
             </Text>
           </View>
           <View style={styles.dataContainer}>
-            <Text>Weight:</Text>
+            <Text>Súly:</Text>
             <Text>{props.data.weight}%</Text>
           </View>
         </View>
@@ -115,14 +112,14 @@ export const GradeItem = (props) => {
             ? {
                 padding: 0,
                 // Because of adaptive mode in the default dark theme of react native paper
-                backgroundColor: reduxTheme === lightTheme ? theme.colors.surface : "#1e1e1e",
+                backgroundColor: theme.dark ? "#1e1e1e" : theme.colors.surface,
                 borderRadius: theme.roundness,
                 height: 56,
               }
             : {
                 padding: 0,
                 // Because of adaptive mode in the default dark theme of react native paper
-                backgroundColor: reduxTheme === lightTheme ? theme.colors.surface : "#1e1e1e",
+                backgroundColor: theme.dark ? "#1e1e1e" : theme.colors.surface,
                 borderRadius: theme.roundness,
                 elevation: 1,
                 shadowRadius: 0.75,

@@ -62,7 +62,7 @@ export const ScanScreen = () => {
     return (
       <ScreenContainer>
         <View style={{ ...styles.container, alignSelf: "center" }}>
-          <Text>Requesting for camera permission</Text>
+          <Text>Engedély kérése a kamera használatához</Text>
         </View>
       </ScreenContainer>
     );
@@ -71,7 +71,7 @@ export const ScanScreen = () => {
     return (
       <ScreenContainer>
         <View style={{ ...styles.container, alignSelf: "center" }}>
-          <Text>No access to camera</Text>
+          <Text>Kamera használata nem engedélyezett</Text>
         </View>
       </ScreenContainer>
     );
@@ -79,9 +79,11 @@ export const ScanScreen = () => {
 
   return (
     <ScreenContainer>
-      <Headline>Scanner</Headline>
+      <Headline>Beolvasás</Headline>
       <View style={styles.container}>
-        <Text style={{ alignSelf: "center", margin: 10 }}>Please scan the activation QR code</Text>
+        <Text style={{ alignSelf: "center", margin: 10 }}>
+          Kérlek olvasd be az aktiváló QR kódot
+        </Text>
         <View style={styles.scanContainer}>
           {isFocused && (
             <Camera

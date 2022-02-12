@@ -27,8 +27,8 @@ export const LaCard = (props) => {
         <View style={styles.topRow}>
           <Title>{props.title}</Title>
         </View>
-        <Text style={{ alignSelf: "center", margin: 25 }}>Unable to fetch data</Text>
-        <Button onPress={() => props.retry()}>Try Again</Button>
+        <Text style={{ alignSelf: "center", margin: 25 }}>Az adatok lekérése sikertelen</Text>
+        <Button onPress={() => props.retry()}>Próbáld újra</Button>
       </Surface>
     );
   }

@@ -64,6 +64,7 @@ export const lightTheme = {
   colors: {
     ...DefaultTheme.colors,
     primary: "#1976d2",
+    accent: "#0d47a1",
   },
 };
 
@@ -74,5 +75,6 @@ export const darkTheme = {
   colors: {
     ...DarkTheme.colors,
     primary: "#1976d2",
+    accent: "#0d47a1",
   },
 };

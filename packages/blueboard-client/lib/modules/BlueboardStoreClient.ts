@@ -1,14 +1,25 @@
 import BlueboardBaseClient from "../BlueboardBaseClient";
 import BlueboardProduct from "../models/BlueboardProduct";
+import { BlueboardProductFactory } from "..";
 import BlueboardResponse from "../models/BlueboardResponse";
 
 class BlueboardStoreClient extends BlueboardBaseClient {
-    public all = async () => {
+    public all = async (forcedToken?: string) => {
         const url = this.endpoints.store;
 
-        const res = (await this.stdGetRequest(url)) as Array<BlueboardProduct>;
-
-        return res;
+        return BlueboardProductFactory.getResponse(
+            forcedToken
+                ? await this.stdGetRequest(
+                      url,
+                      {},
+                      {},
+                      {
+                          Authorization: "Bearer " + forcedToken,
+                          Accept: "application/json",
+                      }
+                  )
+                : await this.stdGetRequest(url)
+        );
     };
 
     public buy = async (id: number) => {

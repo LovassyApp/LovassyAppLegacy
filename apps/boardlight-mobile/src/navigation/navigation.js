@@ -23,7 +23,7 @@ const Stack = createNativeStackNavigator();
 const MainNavigation = () => {
   const theme = useTheme();
 
-  const admin = useSelector((state) => state.admin.value);
+  const admin = useSelector((state) => state.settings.admin);
 
   //* For testing the scanner
   // return (
@@ -58,8 +58,8 @@ const MainNavigation = () => {
   if (admin) {
     return (
       <Tab.Navigator
-        initialRouteName="Settings"
-        screenOptions={{ safeAreaInsets: { bottom: 100 } }}
+        initialRouteName="Beállítások"
+        screenOptions={{ safeAreaInsets: { top: 0 } }}
         barStyle={{
           backgroundColor: theme.colors.background,
           elevation: 0,
@@ -67,35 +67,35 @@ const MainNavigation = () => {
         }}
         activeColor={theme.colors.primary}>
         <Tab.Screen
-          name="Users"
+          name="Felhasználók"
           options={{
             tabBarIcon: ({ color }) => <Ionicons name="people" size={24} color={color} />,
           }}
           component={UsersScreen}
         />
         <Tab.Screen
-          name="Requests"
+          name="Kérelmek"
           options={{
             tabBarIcon: ({ color }) => <Ionicons name="mail" size={24} color={color} />,
           }}
           component={RequestsScreen}
         />
         <Tab.Screen
-          name="Products"
+          name="Termékek"
           options={{
             tabBarIcon: ({ color }) => <Ionicons name="pricetags" size={24} color={color} />,
           }}
           component={ProductsScreen}
         />
         <Tab.Screen
-          name="QR Codes"
+          name="QR Kódok"
           options={{
             tabBarIcon: ({ color }) => <Ionicons name="layers" size={24} color={color} />,
           }}
           component={QrCodesScreen}
         />
         <Tab.Screen
-          name="Settings"
+          name="Beállítások"
           options={{
             tabBarIcon: ({ color }) => <Ionicons name="settings" size={24} color={color} />,
           }}
@@ -114,35 +114,35 @@ const MainNavigation = () => {
       }}
       activeColor={theme.colors.primary}>
       <Tab.Screen
-        name="Home"
+        name="Kezdőlap"
         options={{
           tabBarIcon: ({ color }) => <Ionicons name="home" size={24} color={color} />,
         }}
         component={HomeScreen}
       />
       <Tab.Screen
-        name="Kreta"
+        name="Kréta"
         options={{
           tabBarIcon: ({ color }) => <Ionicons name="school" size={24} color={color} />,
         }}
         component={KretaScreen}
       />
       <Tab.Screen
-        name="Scan"
+        name="Beolvasás"
         options={{
           tabBarIcon: ({ color }) => <Ionicons name="qr-code" size={24} color={color} />,
         }}
         component={ScanScreen}
       />
       <Tab.Screen
-        name="Store"
+        name="Áruház"
         options={{
           tabBarIcon: ({ color }) => <Ionicons name="cart" size={24} color={color} />,
         }}
         component={StoreScreen}
       />
       <Tab.Screen
-        name="Settings"
+        name="Beállítások"
         options={{
           tabBarIcon: ({ color }) => <Ionicons name="settings" size={24} color={color} />,
         }}

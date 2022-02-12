@@ -86,18 +86,18 @@ export const RegisterScreen = ({ navigation }) => {
 
   const next = () => {
     if (email === "") {
-      setEmailError("Email cannot be empty");
+      setEmailError("Az e-mail mező kitöltése kötelező");
     } else if (password === "") {
       setEmailError("");
-      setPasswordError("Password cannot be empty");
+      setPasswordError("A jelszó mező kitöltése kötelező");
     } else if (confirmPassword === "") {
       setEmailError("");
       setPasswordError("");
-      setConfirmPasswordError("Confirm password cannot be empty");
+      setConfirmPasswordError("A jelszó megerősítése mező kitöltése kötelező");
     } else if (password !== confirmPassword) {
       setEmailError("");
       setPasswordError("");
-      setConfirmPasswordError("Passwords do not match");
+      setConfirmPasswordError("A jelszavak nem egyeznek");
     } else {
       setEmailError("");
       setPasswordError("");
@@ -108,12 +108,12 @@ export const RegisterScreen = ({ navigation }) => {
 
   const finish = async () => {
     if (kretaUsername === "") {
-      setKretaUsernameError("Kreta username cannot be empty");
+      setKretaUsernameError("A kréta felhasználónév mező kitöltése kötelező");
       setKretaPasswordError("");
       return;
     } else if (kretaPassword === "") {
       setKretaUsernameError("");
-      setKretaPasswordError("Kreta password cannot be empty");
+      setKretaPasswordError("A kréta jelszó mező kitöltése kötelező");
       return;
     }
 
@@ -136,9 +136,9 @@ export const RegisterScreen = ({ navigation }) => {
 
         setStageTwo(false);
       } else if (err.isKretaError) {
-        setGeneralError("Invalid kreta credentials");
+        setGeneralError("Hibás kréta adatok");
       } else {
-        setGeneralError("An unknown error occured");
+        setGeneralError("Egy ismeretlen hiba történt");
       }
 
       loading(false);
@@ -156,7 +156,7 @@ export const RegisterScreen = ({ navigation }) => {
 
         renew(res.refreshToken);
 
-        eagerLoad(client, res.token);
+        await eagerLoad(client, res.token);
 
         dispatch(setRefreshToken(res.refreshToken));
 
@@ -164,14 +164,12 @@ export const RegisterScreen = ({ navigation }) => {
 
         dispatch(setToken(res.token));
       } catch (err) {
-        setGeneralError("Couldn't fetch control");
+        setGeneralError("A control lekérése sikertelen");
 
         loading(false);
       }
     } catch (err) {
-      setGeneralError(
-        "Something went seriously wrong because you shouldn't be able to ever see this",
-      );
+      setGeneralError("Valami nagyon nagy hiba van itt, mert ezt sose kéne látnod");
 
       loading(false);
     }
@@ -181,11 +179,11 @@ export const RegisterScreen = ({ navigation }) => {
     <ScreenContainer>
       <View style={styles.container}>
         <KeyboardAvoidingView style={styles.form} behavior="position">
-          <Headline style={styles.title}>Please register</Headline>
+          <Headline style={styles.title}>Regisztrálás</Headline>
           {!stageTwo ? (
             <>
               <LaInput
-                label="Email"
+                label="E-mail"
                 autoCorrect={false}
                 value={email}
                 error={emailError !== ""}
@@ -195,7 +193,7 @@ export const RegisterScreen = ({ navigation }) => {
               />
               {emailError !== "" && <HelperText type="error">{emailError}</HelperText>}
               <LaInput
-                label="Password"
+                label="Jelszó"
                 autoCorrect={false}
                 value={password}
                 error={passwordError !== ""}
@@ -206,7 +204,7 @@ export const RegisterScreen = ({ navigation }) => {
               />
               {passwordError !== "" && <HelperText type="error">{passwordError}</HelperText>}
               <LaInput
-                label="Confirm Password"
+                label="Jelszó megerősítése"
                 autoCorrect={false}
                 value={confirmPassword}
                 error={confirmPasswordError !== ""}
@@ -223,11 +221,11 @@ export const RegisterScreen = ({ navigation }) => {
                 <LaButton
                   customStyle={styles.rowBackButton}
                   onPress={() => navigation.navigate("Login")}>
-                  <Text style={styles.buttonLabel}>Log in</Text>
+                  <Text style={styles.buttonLabel}>Belépés</Text>
                   <Ionicons name="arrow-forward" size={16} />
                 </LaButton>
                 <LaButton customStyle={styles.rowNextButton} onPress={() => next()}>
-                  <Text style={styles.buttonLabel}>Next</Text>
+                  <Text style={styles.buttonLabel}>Tovább</Text>
                   <Ionicons name="arrow-forward" size={16} />
                 </LaButton>
               </View>
@@ -235,7 +233,7 @@ export const RegisterScreen = ({ navigation }) => {
           ) : (
             <>
               <LaInput
-                label="Kreta username"
+                label="Kréta felhasználónév"
                 autoCorrect={false}
                 style={kretaUsernameError === "" ? styles.input : null}
                 value={kretaUsername}
@@ -247,7 +245,7 @@ export const RegisterScreen = ({ navigation }) => {
                 <HelperText type="error">{kretaUsernameError}</HelperText>
               )}
               <LaInput
-                label="Kreta password"
+                label="Kréta jelszó"
                 autoCorrect={false}
                 style={kretaPasswordError === "" ? styles.input : null}
                 value={kretaPassword}
@@ -262,21 +260,21 @@ export const RegisterScreen = ({ navigation }) => {
               <View style={styles.buttonRow}>
                 <LaButton customStyle={styles.rowBackButton} onPress={() => setStageTwo(false)}>
                   <Ionicons name="arrow-back" size={16} />
-                  <Text style={styles.buttonLabel}>Back</Text>
+                  <Text style={styles.buttonLabel}>Vissza</Text>
                 </LaButton>
                 <LaButton customStyle={styles.rowNextButton} onPress={async () => await finish()}>
-                  <Text style={styles.buttonLabel}>Finish</Text>
+                  <Text style={styles.buttonLabel}>Befejezés</Text>
                   <Ionicons name="arrow-forward" size={16} />
                 </LaButton>
               </View>
               <Portal>
                 <Dialog visible={generalError !== ""} dismissable={false}>
-                  <Dialog.Title>Error</Dialog.Title>
+                  <Dialog.Title>Hiba</Dialog.Title>
                   <Dialog.Content>
                     <Paragraph>{generalError}</Paragraph>
                   </Dialog.Content>
                   <Dialog.Actions>
-                    <Button onPress={() => setGeneralError("")}>Retry</Button>
+                    <Button onPress={() => setGeneralError("")}>Újra</Button>
                   </Dialog.Actions>
                 </Dialog>
               </Portal>

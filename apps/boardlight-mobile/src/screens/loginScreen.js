@@ -77,12 +77,12 @@ export const LoginScreen = ({ navigation }) => {
 
   const doLogin = async () => {
     if (email === "") {
-      setEmailError("Email is required");
+      setEmailError("Az e-mail mező kitöltése kötelező");
       setPasswordError("");
       return;
     } else if (password === "") {
       setEmailError("");
-      setPasswordError("Password is required");
+      setPasswordError("A jelszó mező kitöltése kötelező");
       return;
     }
 
@@ -100,7 +100,7 @@ export const LoginScreen = ({ navigation }) => {
 
         renew(res.refreshToken);
 
-        eagerLoad(client, res.token);
+        await eagerLoad(client, res.token);
 
         dispatch(setRefreshToken(res.refreshToken));
 
@@ -109,7 +109,7 @@ export const LoginScreen = ({ navigation }) => {
         dispatch(setToken(res.token));
       } catch (err) {
         console.log(err);
-        setGeneralError("Couldn't fetch control");
+        setGeneralError("A control lekérése sikertelen");
 
         loading(false);
       }
@@ -123,9 +123,9 @@ export const LoginScreen = ({ navigation }) => {
           err.response.data.type === "AuthErrorException"
         ) {
           setEmailError("");
-          setPasswordError("The selected password is invalid");
+          setPasswordError("A megadott jelszó helytelen");
         } else {
-          setGeneralError("An unknown error occured");
+          setGeneralError("Egy ismeretlen hiba történt");
         }
       } else {
         setGeneralError(err.message);
@@ -136,7 +136,7 @@ export const LoginScreen = ({ navigation }) => {
   };
 
   if (renewalError) {
-    setGeneralError("Your session has expired");
+    setGeneralError("Lejárt a hozzáférésed");
     dispatch(removeRenewalError());
   }
 
@@ -144,10 +144,10 @@ export const LoginScreen = ({ navigation }) => {
     <ScreenContainer>
       <View style={styles.container}>
         <KeyboardAvoidingView style={styles.form} behavior="position">
-          <Headline style={styles.title}>Please log in</Headline>
+          <Headline style={styles.title}>Belépés</Headline>
 
           <LaInput
-            label="Email"
+            label="E-mail"
             autoCorrect={false}
             value={email}
             error={emailError !== ""}
@@ -158,7 +158,7 @@ export const LoginScreen = ({ navigation }) => {
 
           {emailError !== "" && <HelperText type="error">{emailError}</HelperText>}
           <LaInput
-            label="Password"
+            label="Jelszó"
             autoCorrect={false}
             value={password}
             error={passwordError !== ""}
@@ -174,23 +174,23 @@ export const LoginScreen = ({ navigation }) => {
             <LaButton
               customStyle={styles.rowBackButton}
               onPress={() => navigation.navigate("Register")}>
-              <Text style={styles.buttonLabel}>Register</Text>
+              <Text style={styles.buttonLabel}>Regisztrálás</Text>
               <Ionicons name="arrow-forward" size={16} />
             </LaButton>
             <LaButton customStyle={styles.rowNextButton} onPress={async () => await doLogin()}>
-              <Text style={styles.buttonLabel}>Log in</Text>
+              <Text style={styles.buttonLabel}>Belépés</Text>
               <Ionicons name="arrow-forward" size={16} />
             </LaButton>
           </View>
           <Portal>
             <Dialog visible={generalError !== ""}>
-              <Dialog.Title>Error</Dialog.Title>
+              <Dialog.Title>Hiba</Dialog.Title>
               <Dialog.Content>
                 <Paragraph>{generalError}</Paragraph>
               </Dialog.Content>
               <Dialog.Actions>
                 <Button onPress={() => setGeneralError("")}>
-                  {generalError === "Your session has expired" ? "Ok" : "Retry"}
+                  {generalError === "Lejárt a hozzáférésed" ? "Ok" : "Újra"}
                 </Button>
               </Dialog.Actions>
             </Dialog>
