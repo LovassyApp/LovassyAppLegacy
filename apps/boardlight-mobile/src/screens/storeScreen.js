@@ -205,6 +205,14 @@ export const StoreScreen = () => {
             setSnackBarOpen(false);
             setSnackBarTimeout(30000);
           }}
+          theme={{
+            ...theme,
+            colors: {
+              ...theme.colors,
+              surface: theme.colors.text,
+              onSurface: theme.dark ? "#1e1e1e" : theme.colors.surface,
+            },
+          }}
           duration={snackBarTimeout}>
           {snackBarMessage}
         </Snackbar>
