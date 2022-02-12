@@ -1,26 +1,22 @@
-import { Headline, List, useTheme } from "react-native-paper";
-import { LayoutAnimation, Platform, UIManager, View } from "react-native";
+import { Avatar, Headline, List, Text, Title, useTheme } from "react-native-paper";
+import { StyleSheet, View } from "react-native";
 
+import BottomSheet from "../components/bottomSheet";
 import { GradeItem } from "../components/content/gradeItem";
 import { Ionicons } from "@expo/vector-icons";
 import { LaCard } from "../components/content/laCard";
 import React from "react";
 import { ScreenContainer } from "../components/screenContainer";
-import { fadeInDown } from "react-animations";
 import { fetchGrades } from "../utils/api/apiUtils";
 import { useBlueboardClient } from "blueboard-client-react";
 import { useLoading } from "../hooks/useLoading";
 import { useSelector } from "react-redux";
 
-// if (Platform.OS === "android") {
-//   if (UIManager.setLayoutAnimationEnabledExperimental) {
-//     UIManager.setLayoutAnimationEnabledExperimental(true);
-//   }
-// }
-
 export const KretaScreen = () => {
   const [currentSubjectData, setCurrentSubjectData] = React.useState(null);
   const [showSubjects, setShowSubjects] = React.useState(true);
+  const [currentGrade, setCurrentGrade] = React.useState(null);
+  const bottomSheetRef = React.useRef(null);
 
   const theme = useTheme();
   const loading = useLoading();
@@ -28,6 +24,35 @@ export const KretaScreen = () => {
   const gradesData = useSelector((state) => state.kreta.gradesValue);
 
   const client = useBlueboardClient();
+
+  const styles = StyleSheet.create({
+    sheetContainer: {
+      flex: 1,
+      padding: 20,
+    },
+    dataContainer: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+    },
+    title: {
+      paddingTop: 8,
+    },
+    subTitle: {
+      paddingBottom: 8,
+    },
+  });
+
+  const colors = {
+    1: "#f44336",
+    // orange:
+    2: "#ff9800",
+    // yellow
+    3: "#ffeb3b",
+    // light green
+    4: "#8bc34a",
+    // dark green
+    5: "#4caf50",
+  };
 
   const getSubjects = () => {
     return gradesData?.map((item) => (
@@ -44,13 +69,6 @@ export const KretaScreen = () => {
         )}
         onPress={() => {
           setCurrentSubjectData(item);
-          // LayoutAnimation.configureNext(
-          //   LayoutAnimation.create(
-          //     1000,
-          //     LayoutAnimation.Types.linear,
-          //     LayoutAnimation.Properties.scaleXY,
-          //   ),
-          // );
           setShowSubjects(false);
         }}
       />
@@ -59,8 +77,13 @@ export const KretaScreen = () => {
 
   const getGrades = () => {
     return currentSubjectData?.grades.map((item) => (
-      <GradeItem key={item.id} data={item} minimal={true} />
+      <GradeItem key={item.id} data={item} minimal={true} onPress={() => openSheet(item)} />
     ));
+  };
+
+  const openSheet = (grade) => {
+    setCurrentGrade(grade);
+    bottomSheetRef.current.show();
   };
 
   const tryAgain = async () => {
@@ -88,27 +111,6 @@ export const KretaScreen = () => {
   return (
     <ScreenContainer scrollable={true}>
       <Headline>Kréta</Headline>
-      {/* <LaCard
-        title={showSubjects ? "Subjects" : `${currentSubjectData.subject} - ${calculateAverage()}`}
-        error={gradesData === null}
-        retry={() => tryAgain()}
-        actionIcon={showSubjects ? null : "arrow-back"}
-        onPress={
-          showSubjects
-            ? null
-            : () => {
-                LayoutAnimation.configureNext(
-                  LayoutAnimation.create(
-                    1000,
-                    LayoutAnimation.Types.linear,
-                    LayoutAnimation.Properties.scaleXY,
-                  ),
-                );
-                setShowSubjects(true);
-              }
-        }>
-        <View style={{ paddingTop: 5 }}>{showSubjects ? getSubjects() : getGrades()}</View>
-      </LaCard> */}
       {showSubjects ? (
         <LaCard title="Tantárgyak" error={gradesData === null} retry={() => tryAgain()}>
           <View style={{ paddingTop: 5 }}>{getSubjects()}</View>
@@ -121,6 +123,57 @@ export const KretaScreen = () => {
           <View style={{ paddingTop: 5 }}>{getGrades()}</View>
         </LaCard>
       )}
+
+      <BottomSheet
+        backgroundColor={theme.colors.backdrop}
+        sheetBackgroundColor={theme.dark ? "#1e1e1e" : theme.colors.surface}
+        radius={theme.roundness}
+        ref={bottomSheetRef}
+        height={220}>
+        <View style={styles.sheetContainer}>
+          <View style={styles.dataContainer}>
+            <View style={{ width: "80%" }}>
+              <Title style={styles.title} numberOfLines={1}>
+                {currentGrade?.type}
+              </Title>
+              <Text style={styles.subTitle} numberOfLines={1}>
+                {currentGrade?.name}
+              </Text>
+            </View>
+            <Avatar.Text
+              style={{ backgroundColor: colors[currentGrade?.grade], margin: 8 }}
+              size={56}
+              color="#000000"
+              label={currentGrade?.grade}
+            />
+          </View>
+          <View style={{ ...styles.dataContainer, paddingTop: 4 }}>
+            <Text>Tantárgy:</Text>
+            <Text>{currentGrade?.subject}</Text>
+          </View>
+          <View style={styles.dataContainer}>
+            <Text>Tanár:</Text>
+            <Text>{currentGrade?.teacher}</Text>
+          </View>
+          <View style={styles.dataContainer}>
+            <Text>Dátum:</Text>
+            <Text>
+              {
+                // Budget inline formatting let's go
+                currentGrade?.date
+                  .replace("-", ". ")
+                  .replace("-", ". ")
+                  .replace("T", ". ")
+                  .replace("Z", "")
+              }
+            </Text>
+          </View>
+          <View style={styles.dataContainer}>
+            <Text>Súly:</Text>
+            <Text>{currentGrade?.weight}%</Text>
+          </View>
+        </View>
+      </BottomSheet>
     </ScreenContainer>
   );
 };
