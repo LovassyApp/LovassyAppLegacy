@@ -35,7 +35,7 @@ export const StoreScreen = () => {
   const [currentProduct, setCurrentProduct] = useState(null);
   const [snackBarOpen, setSnackBarOpen] = useState(false);
   const [snackBarMessage, setSnackBarMessage] = useState("");
-  const [snackBarTimeout, setSnackBarTimeout] = useState(null);
+  const [snackBarTimeout, setSnackBarTimeout] = useState(30000);
   const [query, setQuery] = React.useState("");
 
   const theme = useTheme();
@@ -85,10 +85,10 @@ export const StoreScreen = () => {
     try {
       await client.store.buy(id);
       setSnackBarMessage("Vásárlás sikeres!");
-      setSnackBarTimeout(2000);
+      setSnackBarTimeout(4000);
     } catch (err) {
       setSnackBarMessage("Vásárlás sikertelen!");
-      setSnackBarTimeout(2000);
+      setSnackBarTimeout(4000);
     }
   };
 
@@ -164,7 +164,10 @@ export const StoreScreen = () => {
               <LaButton dense={true} onPress={() => bottomSheetRef.current.close()}>
                 Cancel
               </LaButton>
-              <LaButton dense={true} onPress={() => buyCallback(currentProduct?.id)}>
+              <LaButton
+                dense={true}
+                onPress={() => buyCallback(currentProduct?.id)}
+                disabled={lolo.balance < currentProduct?.price || currentProduct?.quantity === 0}>
                 Buy
               </LaButton>
             </View>
@@ -176,7 +179,7 @@ export const StoreScreen = () => {
           visible={snackBarOpen}
           onDismiss={() => {
             setSnackBarOpen(false);
-            setSnackBarTimeout(null);
+            setSnackBarTimeout(30000);
           }}
           theme={theme}
           duration={snackBarTimeout}>
