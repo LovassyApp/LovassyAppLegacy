@@ -141,12 +141,12 @@ export const StoreScreen = () => {
           right={
             <TextInput.Icon name="close" onPress={() => setQuery("")} forceTextInputFocus={false} />
           }
-          error={renderedProducts.length === 0}
+          error={renderedProducts.length === 0 && products.length !== 0}
           blurOnSubmit={true}
           returnKeyType="search"
           placeholder="Keresés"
         />
-        {renderedProducts.length === 0 && (
+        {renderedProducts.length === 0 && products.length !== 0 && (
           <HelperText style={{ marginTop: -5 }} type="error">
             No products found
           </HelperText>
