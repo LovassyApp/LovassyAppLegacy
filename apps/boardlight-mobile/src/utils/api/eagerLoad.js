@@ -5,7 +5,7 @@ export const eagerLoad = async (client, token) => {
   if (token) {
     await Promise.all([
       fetchLolo(client, true, token),
-      fetchGrades(client, true, token),
+      fetchGrades(client, false, token),
       fetchStore(client, token),
     ]);
   } else {

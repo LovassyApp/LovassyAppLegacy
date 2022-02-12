@@ -2,7 +2,6 @@
 import {
   Button,
   Chip,
-  Divider,
   Headline,
   HelperText,
   Snackbar,
@@ -14,18 +13,17 @@ import {
 } from "react-native-paper";
 import React, { useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
+import { fetchLolo, fetchStore } from "../utils/api/apiUtils";
 import { useBlueboardClient, useBlueboardPrivateChannel } from "blueboard-client-react";
-import { useDispatch, useSelector } from "react-redux";
-import { useStatefulEvent, useStatefulListener } from "../hooks/eventHooks";
 
 import BottomSheet from "../components/bottomSheet";
-import { Ionicons } from "@expo/vector-icons";
 import { LaButton } from "../components/content/customized/laButton";
 import { LaInput } from "../components/content/customized/laInput";
 import { ProductCard } from "../components/content/productCard";
 import { ScreenContainer } from "../components/screenContainer";
 import { matchSorter } from "match-sorter";
-import { setStore } from "../store/slices/storeSlice";
+import { useLoading } from "../hooks/useLoading";
+import { useSelector } from "react-redux";
 
 export const StoreScreen = () => {
   const products = useSelector((state) => state.store.value);
@@ -40,6 +38,7 @@ export const StoreScreen = () => {
 
   const theme = useTheme();
   const client = useBlueboardClient();
+  const loading = useLoading();
 
   const renderedProducts =
     query === ""
@@ -104,6 +103,31 @@ export const StoreScreen = () => {
     },
   });
 
+  const tryAgain = async () => {
+    loading(true);
+
+    try {
+      await fetchLolo(client);
+      await fetchStore(client);
+    } catch (err) {
+      console.log(err);
+    }
+
+    loading(false);
+  };
+
+  if (!lolo || !products) {
+    return (
+      <ScreenContainer>
+        <Headline>Store</Headline>
+        <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+          <Text>Unable to fetch data</Text>
+          <Button onPress={() => tryAgain()}>Try Again</Button>
+        </View>
+      </ScreenContainer>
+    );
+  }
+
   return (
     <>
       <ScreenContainer scrollable={true}>
@@ -152,7 +176,7 @@ export const StoreScreen = () => {
             <View style={styles.inline}>
               <Subheading>Final Balance: </Subheading>
               <Chip style={{ marginBottom: 5 }}>
-                {lolo.balance} - {currentProduct?.price} = {lolo.balance - currentProduct?.price}{" "}
+                {lolo?.balance} - {currentProduct?.price} = {lolo?.balance - currentProduct?.price}{" "}
                 Loló
               </Chip>
             </View>
@@ -167,7 +191,7 @@ export const StoreScreen = () => {
               <LaButton
                 dense={true}
                 onPress={() => buyCallback(currentProduct?.id)}
-                disabled={lolo.balance < currentProduct?.price || currentProduct?.quantity === 0}>
+                disabled={lolo?.balance < currentProduct?.price || currentProduct?.quantity === 0}>
                 Buy
               </LaButton>
             </View>
