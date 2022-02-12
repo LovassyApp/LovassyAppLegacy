@@ -1,7 +1,9 @@
-import { Divider, Headline, Subheading, Text } from "react-native-paper";
+import { Divider, Headline, Subheading, Text, Title, useTheme } from "react-native-paper";
 import { StyleSheet, View } from "react-native";
 
 import { BlueboardLoloReason } from "blueboard-client";
+import BottomSheet from "../components/bottomSheet";
+import { GradeItem } from "../components/content/gradeItem";
 import { LaButton } from "../components/content/customized/laButton";
 import { LaCard } from "../components/content/laCard";
 import { LoloCoin } from "../components/content/loloCoin";
@@ -73,7 +75,7 @@ export const HomeScreen = ({ navigation }) => {
   };
 
   const getCoins = () => {
-    return lolo?.coins.map((coin) => <LoloCoin coin={coin} key={coin.id} minimal={true} />);
+    return lolo?.coins.map((coin) => <LoloCoin data={coin} key={coin.id} minimal={true} />);
   };
 
   const getTotalSpendings = () => {
