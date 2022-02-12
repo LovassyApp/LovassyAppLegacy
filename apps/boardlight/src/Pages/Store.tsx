@@ -5,7 +5,7 @@ import { Modal, Button, Card, Container, Input, Text } from '@nextui-org/react';
 import { Row, Col, Badge } from 'reactstrap';
 import toast from 'react-hot-toast';
 import { useUser } from '../Hooks/ControlHooks';
-import StoreCard from '../Components/StoreCard';
+import ProductCard from '../Components/ProductCard';
 import { useBlueboardClient, useBlueboardPrivateChannel } from 'blueboard-client-react';
 import TableLoader from '../Components/TableLoader';
 import EmptyTable from '../Components/EmptyTable';
@@ -13,6 +13,7 @@ import { matchSorter } from 'match-sorter';
 import { eventDeclaration, useStatefulEvent, useStatefulListener } from '../Hooks/EventHooks';
 import { BlueboardProduct, BlueboardUser } from 'blueboard-client';
 import Center from '../Components/Center';
+import MDEditor from '@uiw/react-md-editor';
 
 const defaultProduct = {} as BlueboardProduct;
 
@@ -40,12 +41,19 @@ const ProductModalContent = ({
             </Modal.Header>
             <Modal.Body>
                 <Row>
-                    <Col>{product.description}</Col>
+                    <Col xs="4" md="2">
+                        Leírás:
+                    </Col>
+                    <Col>
+                        <MDEditor.Markdown source={product.markdownContent} />
+                    </Col>
                 </Row>
 
                 {product.inputs?.length > 0 ?? false ? (
                     <Row>
-                        <Col xs="4">Inputok:</Col>
+                        <Col xs="4" md="2">
+                            Inputok:
+                        </Col>
                         <Col>
                             {product.inputs.map((el) => (
                                 <Badge pill className="me-1" color="primary">
@@ -57,22 +65,24 @@ const ProductModalContent = ({
                     </Row>
                 ) : null}
                 <Row>
-                    <Col xs="4">Aktiválás:</Col>
+                    <Col xs="4" md="2">
+                        Aktiválás:
+                    </Col>
                     <Col>
                         {product.codeActivated ? (
-                            <Badge pill color="warning">
+                            <Badge style={{ whiteSpace: 'normal' }} pill color="warning">
                                 Csak QR kóddal aktiválható ({product.codeNames.join(', ')})
                             </Badge>
                         ) : (
-                            <Badge pill color="success">
+                            <Badge style={{ whiteSpace: 'normal' }} pill color="success">
                                 Magában aktiválható
                             </Badge>
                         )}
                     </Col>
                 </Row>
                 <Row>
-                    <Col xs="8" md="4">
-                        Végleges egyenleged:
+                    <Col xs="4" md="2">
+                        Végleges egyenleg:
                     </Col>
                     <Col>
                         <Badge
@@ -108,7 +118,9 @@ const ProductModalContent = ({
                     </Col>
                 </Row>
                 <Row>
-                    <Col xs="4">Készlet:</Col>
+                    <Col xs="4" md="2">
+                        Készlet:
+                    </Col>
                     <Col>
                         {product.quantity > 0 ? (
                             product.quantity === 1 ? (
@@ -280,8 +292,8 @@ const Store = () => {
                         {renderedProducts.length > 0 ? (
                             <Row className="mt-4">
                                 {renderedProducts.map((el) => (
-                                    <Col key={el.id} className="mt-2 mb-3" md="3">
-                                        <StoreCard product={el} callback={openBuy} />
+                                    <Col key={el.id} className="mt-2 mb-3" xl="3" md="6">
+                                        <ProductCard product={el} callback={openBuy} />
                                     </Col>
                                 ))}
                             </Row>

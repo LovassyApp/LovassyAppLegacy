@@ -68,6 +68,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Store
     Route::get('/store', 'StoreController@index');
     Route::post('/store', 'StoreController@buy');
+
+    // Inventory
+    Route::get('/inventory', 'InventoryController@index');
 });
 
 Route::get('/qrcodes/view/{image}', 'QRCodeController@show')

@@ -116,6 +116,17 @@
     background: rgb(230, 230, 230) !important;
 }
 
+.badge-primary {
+    color: whitesmoke;
+    background: linear-gradient(
+        111.19deg,
+        rgb(170, 255, 236) -63.59%,
+        rgb(255, 78, 205) -20.3%,
+        rgb(0, 112, 243) 70.46%
+    ) !important;
+    border: none;
+}
+
 .dropzone {
     flex: 1;
     display: flex;

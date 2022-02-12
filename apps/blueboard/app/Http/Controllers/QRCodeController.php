@@ -11,62 +11,64 @@ use Response;
 
 class QRCodeController extends Controller
 {
-	protected string $permissionScope = 'QRCode';
+    protected string $permissionScope = 'QRCode';
 
-	public function index()
-	{
-		$this->checkPermission('view');
-		$codes = QRCode::all();
+    public function index()
+    {
+        $this->checkPermission('view');
+        $codes = QRCode::all();
 
-		return ResponseMaker::generate($codes);
-	}
+        return ResponseMaker::generate($codes);
+    }
 
-	public function create(Request $request)
-	{
-		$this->checkPermission('add');
-		$name = $request->validate([
-			'name' => ['required', 'max:255', 'string', 'unique:q_r_codes'],
-		])['name'];
-		$code = new QRCode();
+    public function create(Request $request)
+    {
+        $this->checkPermission('add');
+        $name = $request->validate([
+            'name' => ['required', 'max:255', 'string', 'unique:q_r_codes'],
+        ])['name'];
+        $code = new QRCode();
 
-		$code->name = $name;
-		$code->secret = Str::random(20);
+        $code->name = $name;
+        $code->secret = Str::random(20);
 
-		$code->save();
+        $code->save();
 
-		return ResponseMaker::generate([], 200, 'Code generated successfully!');
-	}
+        return ResponseMaker::generate([], 200, 'Code generated successfully!');
+    }
 
-	public function show($image)
-	{
-		$code = QRCode::findOrFail($image);
-		$payload = encrypt(
-			(object) [
-				'name' => $code->name,
-				'secret' => $code->secret,
-			]
-		);
+    public function show($image)
+    {
+        $code = QRCode::findOrFail($image);
+        $payload = encrypt(
+            (object) [
+                'name' => $code->name,
+                'secret' => $code->secret,
+            ]
+        );
 
-		$image = QRGen::size(200)
-			->format('png')
-			->generate($payload);
+        $image = QRGen::errorCorrection('H')
+            ->encoding('UTF-8')
+            ->size(600)
+            ->format('png')
+            ->generate($code->secret);
 
-		return Response::make($image, 200, [
-			'Content-Type' => 'image/png',
-			'Content-Disposition' => 'attachment',
-		]);
-	}
+        return Response::make($image, 200, [
+            'Content-Type' => 'image/png',
+            'Content-Disposition' => 'attachment',
+        ]);
+    }
 
-	public function delete(Request $request)
-	{
-		$this->checkPermission('delete');
-		$id = $request->validate([
-			'id' => ['required', 'integer'],
-		])['id'];
+    public function delete(Request $request)
+    {
+        $this->checkPermission('delete');
+        $id = $request->validate([
+            'id' => ['required', 'integer'],
+        ])['id'];
 
-		$code = QRCode::findOrFail($id);
-		$code->delete();
+        $code = QRCode::findOrFail($id);
+        $code->delete();
 
-		return ResponseMaker::generate([], 200, 'Code deleted successfully!');
-	}
+        return ResponseMaker::generate([], 200, 'Code deleted successfully!');
+    }
 }

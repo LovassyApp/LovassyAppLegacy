@@ -73,6 +73,11 @@ class User extends Authenticatable
         return $this->belongsToMany(UserGroup::class, 'user_group', 'user_id', 'group_id');
     }
 
+    public function items(): HasMany
+    {
+        return $this->hasMany(InventoryItem::class);
+    }
+
     protected $with = ['lolo'];
     protected $appends = ['balance', 'groups'];
 

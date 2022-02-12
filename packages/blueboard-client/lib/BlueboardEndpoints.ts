@@ -2,14 +2,20 @@ class BlueboardEndpoints {
     public readonly base: string | null = null;
     public readonly apiBase: string = '/api';
     public readonly version: string = '';
-    public readonly auth: any = {};
-    public readonly admin: any = {};
+    public readonly auth: { register: string; login: string; logout: string; socket: string };
+    public readonly admin: {
+        qrcodes: string;
+        products: string;
+        permissions: { scopes: string; groups: string };
+        users: string;
+    };
 
     public readonly control: string = '';
-    public readonly kreta: any = {};
+    public readonly kreta: { base: string; grades: string };
     public readonly lolo: string = '';
     public readonly store: string = '';
     public readonly ping: string = '';
+    public readonly inventory: string = '';
 
     constructor(baseUrl: string) {
         this.base = baseUrl + this.apiBase;
@@ -42,6 +48,7 @@ class BlueboardEndpoints {
 
         this.lolo = this.base + '/lolo';
         this.store = this.base + '/store';
+        this.inventory = this.base + '/inventory';
 
         this.ping = this.base + '/status';
     }
