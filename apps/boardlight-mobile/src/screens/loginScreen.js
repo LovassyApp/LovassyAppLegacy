@@ -100,7 +100,7 @@ export const LoginScreen = ({ navigation }) => {
 
         renew(res.refreshToken);
 
-        eagerLoad(client, res.token);
+        await eagerLoad(client, res.token);
 
         dispatch(setRefreshToken(res.refreshToken));
 
