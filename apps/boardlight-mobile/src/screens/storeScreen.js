@@ -144,7 +144,13 @@ export const StoreScreen = () => {
           onChangeText={(text) => setQuery(text)}
           dense={true}
           right={
-            <TextInput.Icon name="close" onPress={() => setQuery("")} forceTextInputFocus={false} />
+            query !== "" && (
+              <TextInput.Icon
+                name="close"
+                onPress={() => setQuery("")}
+                forceTextInputFocus={false}
+              />
+            )
           }
           error={renderedProducts.length === 0 && products.length !== 0}
           blurOnSubmit={true}

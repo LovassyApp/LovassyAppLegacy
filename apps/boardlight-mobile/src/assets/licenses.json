@@ -1,0 +1,424 @@
+{
+    "@brainhubeu/react-carousel@2.0.4": {
+        "licenses": "MIT",
+        "repository": "https://github.com/brainhubeu/react-carousel",
+        "licenseUrl": "https://github.com/brainhubeu/react-carousel/raw/master/LICENSE.md",
+        "parents": "boardlight"
+    },
+    "@expo-google-fonts/poppins@0.2.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/expo/google-fonts",
+        "licenseUrl": "https://github.com/expo/google-fonts",
+        "parents": "boardlight-mobile"
+    },
+    "@fortawesome/fontawesome-free@5.15.4": {
+        "licenses": "(CC-BY-4.0 AND OFL-1.1 AND MIT)",
+        "repository": "https://github.com/FortAwesome/Font-Awesome",
+        "licenseUrl": "https://github.com/FortAwesome/Font-Awesome/raw/master/LICENSE.txt",
+        "parents": "boardlight"
+    },
+    "@nextui-org/react@1.0.1-alpha.57": {
+        "licenses": "MIT",
+        "repository": "https://github.com/nextui-org/nextui",
+        "licenseUrl": "https://github.com/nextui-org/nextui/raw/master/LICENSE",
+        "parents": "boardlight"
+    },
+    "@popperjs/core@2.11.2": {
+        "licenses": "MIT",
+        "repository": "github:popperjs/popper-core",
+        "licenseUrl": "github:popperjs/popper-core",
+        "parents": "boardlight"
+    },
+    "@react-native-async-storage/async-storage@1.15.15": {
+        "licenses": "MIT",
+        "repository": "https://github.com/react-native-async-storage/async-storage",
+        "licenseUrl": "https://github.com/react-native-async-storage/async-storage/raw/master/LICENSE",
+        "parents": "boardlight-mobile"
+    },
+    "@react-native-community/netinfo@7.1.7": {
+        "licenses": "MIT",
+        "repository": "https://github.com/react-native-netinfo/react-native-netinfo",
+        "licenseUrl": "https://github.com/react-native-netinfo/react-native-netinfo/raw/master/LICENSE",
+        "parents": "blueboard-client"
+    },
+    "@react-navigation/bottom-tabs@6.0.9": {
+        "licenses": "MIT",
+        "repository": "https://github.com/react-navigation/react-navigation",
+        "licenseUrl": "https://github.com/react-navigation/react-navigation/raw/master/LICENSE",
+        "parents": "boardlight-mobile"
+    },
+    "@react-navigation/material-bottom-tabs@6.0.9": {
+        "licenses": "MIT",
+        "repository": "https://github.com/react-navigation/react-navigation",
+        "licenseUrl": "https://github.com/react-navigation/react-navigation/raw/master/LICENSE",
+        "parents": "boardlight-mobile"
+    },
+    "@react-navigation/native-stack@6.2.5": {
+        "licenses": "MIT",
+        "repository": "https://github.com/react-navigation/react-navigation",
+        "licenseUrl": "https://github.com/react-navigation/react-navigation/raw/master/LICENSE",
+        "parents": "boardlight-mobile"
+    },
+    "@react-navigation/native@6.0.6": {
+        "licenses": "MIT",
+        "repository": "https://github.com/react-navigation/react-navigation",
+        "licenseUrl": "https://github.com/react-navigation/react-navigation/raw/master/LICENSE",
+        "parents": "boardlight-mobile"
+    },
+    "@reduxjs/toolkit@1.7.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/reduxjs/redux-toolkit",
+        "licenseUrl": "https://github.com/reduxjs/redux-toolkit/raw/master/LICENSE",
+        "parents": "boardlight-mobile"
+    },
+    "@testing-library/jest-dom@5.16.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/testing-library/jest-dom",
+        "licenseUrl": "https://github.com/testing-library/jest-dom/raw/master/LICENSE",
+        "parents": "boardlight"
+    },
+    "@testing-library/react@11.2.7": {
+        "licenses": "MIT",
+        "repository": "https://github.com/testing-library/react-testing-library",
+        "licenseUrl": "https://github.com/testing-library/react-testing-library/raw/master/LICENSE",
+        "parents": "boardlight"
+    },
+    "@testing-library/user-event@12.8.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/testing-library/user-event",
+        "licenseUrl": "https://github.com/testing-library/user-event/raw/master/LICENSE",
+        "parents": "boardlight"
+    },
+    "@types/brainhubeu__react-carousel@2.0.5": {
+        "licenses": "MIT",
+        "repository": "https://github.com/DefinitelyTyped/DefinitelyTyped",
+        "licenseUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped/raw/master/LICENSE",
+        "parents": "boardlight"
+    },
+    "@types/jest@27.4.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/DefinitelyTyped/DefinitelyTyped",
+        "licenseUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped/raw/master/LICENSE",
+        "parents": "boardlight"
+    },
+    "@types/radium@0.24.4": {
+        "licenses": "MIT",
+        "repository": "https://github.com/DefinitelyTyped/DefinitelyTyped",
+        "licenseUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped/raw/master/LICENSE",
+        "parents": "boardlight"
+    },
+    "@types/react-animations@1.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/DefinitelyTyped/DefinitelyTyped",
+        "licenseUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped/raw/master/LICENSE",
+        "parents": "boardlight"
+    },
+    "@types/react-dom@17.0.11": {
+        "licenses": "MIT",
+        "repository": "https://github.com/DefinitelyTyped/DefinitelyTyped",
+        "licenseUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped/raw/master/LICENSE",
+        "parents": "boardlight"
+    },
+    "@types/react-redux@7.1.21": {
+        "licenses": "MIT",
+        "repository": "https://github.com/DefinitelyTyped/DefinitelyTyped",
+        "licenseUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped/raw/master/LICENSE",
+        "parents": "boardlight"
+    },
+    "@types/react-router-dom@5.3.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/DefinitelyTyped/DefinitelyTyped",
+        "licenseUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped/raw/master/LICENSE",
+        "parents": "boardlight"
+    },
+    "@types/styled-components@5.1.21": {
+        "licenses": "MIT",
+        "repository": "https://github.com/DefinitelyTyped/DefinitelyTyped",
+        "licenseUrl": "https://github.com/DefinitelyTyped/DefinitelyTyped/raw/master/LICENSE",
+        "parents": "boardlight"
+    },
+    "@uiw/react-md-editor@3.9.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/uiwjs/react-md-editor",
+        "licenseUrl": "https://github.com/uiwjs/react-md-editor/raw/master/LICENSE",
+        "parents": "boardlight"
+    },
+    "axios-retry@3.2.4": {
+        "licenses": "Apache-2.0",
+        "repository": "https://github.com/softonic/axios-retry",
+        "licenseUrl": "https://github.com/softonic/axios-retry/raw/master/LICENSE",
+        "parents": "blueboard-client"
+    },
+    "axios@0.24.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/axios/axios",
+        "licenseUrl": "https://github.com/axios/axios/raw/master/LICENSE",
+        "parents": "blueboard-client"
+    },
+    "bootstrap@5.1.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/twbs/bootstrap",
+        "licenseUrl": "https://github.com/twbs/bootstrap/raw/master/LICENSE",
+        "parents": "boardlight"
+    },
+    "chokidar@3.5.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/paulmillr/chokidar",
+        "licenseUrl": "https://github.com/paulmillr/chokidar/raw/master/LICENSE",
+        "parents": "blueboard"
+    },
+    "expo-app-loading@1.3.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/expo/expo",
+        "licenseUrl": "https://github.com/expo/expo",
+        "parents": "boardlight-mobile"
+    },
+    "expo-barcode-scanner@11.2.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/expo/expo",
+        "licenseUrl": "https://github.com/expo/expo",
+        "parents": "boardlight-mobile"
+    },
+    "expo-camera@12.1.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/expo/expo",
+        "licenseUrl": "https://github.com/expo/expo",
+        "parents": "boardlight-mobile"
+    },
+    "expo-font@10.0.4": {
+        "licenses": "MIT",
+        "repository": "https://github.com/expo/expo",
+        "licenseUrl": "https://github.com/expo/expo",
+        "parents": "boardlight-mobile"
+    },
+    "expo-secure-store@11.1.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/expo/expo",
+        "licenseUrl": "https://github.com/expo/expo",
+        "parents": "boardlight-mobile"
+    },
+    "expo-status-bar@1.2.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/expo/expo",
+        "licenseUrl": "https://github.com/expo/expo",
+        "parents": "boardlight-mobile"
+    },
+    "expo@44.0.5": {
+        "licenses": "MIT",
+        "repository": "https://github.com/expo/expo",
+        "licenseUrl": "https://github.com/expo/expo",
+        "parents": "boardlight-mobile"
+    },
+    "jquery@3.6.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jquery/jquery",
+        "licenseUrl": "https://github.com/jquery/jquery/raw/master/LICENSE.txt",
+        "parents": "boardlight"
+    },
+    "laravel-echo@1.11.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/laravel/echo",
+        "licenseUrl": "https://github.com/laravel/echo/raw/master/LICENSE.md",
+        "parents": "blueboard-client"
+    },
+    "match-sorter@6.3.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/kentcdodds/match-sorter",
+        "licenseUrl": "https://github.com/kentcdodds/match-sorter/raw/master/LICENSE",
+        "parents": "boardlight-mobile"
+    },
+    "pusher-js@7.0.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/pusher/pusher-js",
+        "licenseUrl": "https://github.com/pusher/pusher-js/raw/master/LICENCE",
+        "parents": "blueboard-client"
+    },
+    "radium@0.26.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/formidablelabs/radium",
+        "licenseUrl": "https://github.com/formidablelabs/radium/raw/master/LICENSE.md",
+        "parents": "boardlight"
+    },
+    "react-animations@1.0.0": {
+        "licenses": "MIT",
+        "parents": "boardlight"
+    },
+    "react-data-table-component@7.4.6": {
+        "licenses": "Apache-2.0",
+        "repository": "https://github.com/jbetancur/react-data-table-component",
+        "licenseUrl": "https://github.com/jbetancur/react-data-table-component/raw/master/LICENSE",
+        "parents": "boardlight"
+    },
+    "react-dom@17.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/facebook/react",
+        "licenseUrl": "https://github.com/facebook/react/raw/master/LICENSE",
+        "parents": "boardlight-mobile"
+    },
+    "react-dom@17.0.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/facebook/react",
+        "licenseUrl": "https://github.com/facebook/react/raw/master/LICENSE",
+        "parents": "boardlight"
+    },
+    "react-dropzone@11.4.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/react-dropzone/react-dropzone",
+        "licenseUrl": "https://github.com/react-dropzone/react-dropzone/raw/master/LICENSE",
+        "parents": "boardlight"
+    },
+    "react-hot-toast@2.2.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/timolins/react-hot-toast",
+        "licenseUrl": "https://github.com/timolins/react-hot-toast/raw/master/LICENSE",
+        "parents": "boardlight"
+    },
+    "react-icons@4.3.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com:react-icons/react-icons",
+        "licenseUrl": "https://github.com:react-icons/react-icons/raw/master/LICENSE",
+        "parents": "boardlight"
+    },
+    "react-is@17.0.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/facebook/react",
+        "licenseUrl": "https://github.com/facebook/react/raw/master/LICENSE",
+        "parents": "boardlight-mobile"
+    },
+    "react-native-barcode-mask@1.2.4": {
+        "licenses": "MIT",
+        "repository": "https://github.com/shahnawaz/react-native-barcode-mask",
+        "licenseUrl": "https://github.com/shahnawaz/react-native-barcode-mask/raw/master/LICENSE",
+        "parents": "boardlight-mobile"
+    },
+    "react-native-dotenv@3.3.1": {
+        "licenses": "MIT",
+        "repository": "github:goatandsheep/react-native-dotenv",
+        "licenseUrl": "github:goatandsheep/react-native-dotenv",
+        "parents": "boardlight-mobile"
+    },
+    "react-native-event-listeners@1.0.7": {
+        "licenses": "MIT",
+        "repository": "https://github.com/tobiasMeinhardt/react-native-event-listeners",
+        "licenseUrl": "https://github.com/tobiasMeinhardt/react-native-event-listeners/raw/master/LICENSE",
+        "parents": "boardlight-mobile"
+    },
+    "react-native-paper@4.11.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/callstack/react-native-paper",
+        "licenseUrl": "https://github.com/callstack/react-native-paper/raw/master/LICENSE.md",
+        "parents": "boardlight-mobile"
+    },
+    "react-native-safe-area-context@3.3.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/th3rdwave/react-native-safe-area-context",
+        "licenseUrl": "https://github.com/th3rdwave/react-native-safe-area-context/raw/master/LICENSE",
+        "parents": "boardlight-mobile"
+    },
+    "react-native-screens@3.10.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/software-mansion/react-native-screens",
+        "licenseUrl": "https://github.com/software-mansion/react-native-screens/raw/master/LICENSE",
+        "parents": "boardlight-mobile"
+    },
+    "react-native-svg@12.1.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/react-native-community/react-native-svg",
+        "licenseUrl": "https://github.com/react-native-community/react-native-svg/raw/master/LICENSE",
+        "parents": "boardlight-mobile"
+    },
+    "react-native-vector-icons@9.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/oblador/react-native-vector-icons",
+        "licenseUrl": "https://github.com/oblador/react-native-vector-icons/raw/master/LICENSE",
+        "parents": "boardlight-mobile"
+    },
+    "react-native-web@0.17.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/necolas/react-native-web",
+        "licenseUrl": "https://github.com/necolas/react-native-web",
+        "parents": "boardlight-mobile"
+    },
+    "react-native@0.64.3": {
+        "licenses": "MIT",
+        "repository": "github:facebook/react-native",
+        "licenseUrl": "github:facebook/react-native",
+        "parents": "boardlight-mobile"
+    },
+    "react-redux@7.2.6": {
+        "licenses": "MIT",
+        "repository": "github:reduxjs/react-redux",
+        "licenseUrl": "github:reduxjs/react-redux",
+        "parents": "boardlight-mobile"
+    },
+    "react-router-dom@5.3.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/ReactTraining/react-router",
+        "licenseUrl": "https://github.com/ReactTraining/react-router",
+        "parents": "boardlight"
+    },
+    "react-scripts@4.0.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/facebook/create-react-app",
+        "licenseUrl": "https://github.com/facebook/create-react-app/raw/master/LICENSE",
+        "parents": "boardlight"
+    },
+    "react-select@5.2.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/JedWatson/react-select/tree/master/packages/react-select",
+        "licenseUrl": "https://github.com/JedWatson/react-select/tree/master/packages/react-select",
+        "parents": "boardlight"
+    },
+    "react@17.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/facebook/react",
+        "licenseUrl": "https://github.com/facebook/react/raw/master/LICENSE",
+        "parents": "boardlight-mobile"
+    },
+    "react@17.0.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/facebook/react",
+        "licenseUrl": "https://github.com/facebook/react/raw/master/LICENSE",
+        "parents": "boardlight"
+    },
+    "reactstrap@9.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/reactstrap/reactstrap",
+        "licenseUrl": "https://github.com/reactstrap/reactstrap/raw/master/LICENSE",
+        "parents": "boardlight"
+    },
+    "styled-components@5.3.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/styled-components/styled-components",
+        "licenseUrl": "https://github.com/styled-components/styled-components",
+        "parents": "boardlight-mobile"
+    },
+    "styled-system@5.1.5": {
+        "licenses": "MIT",
+        "parents": "boardlight-mobile"
+    },
+    "sweetalert2-react-content@4.2.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sweetalert2/sweetalert2-react-content",
+        "licenseUrl": "https://github.com/sweetalert2/sweetalert2-react-content/raw/master/LICENSE",
+        "parents": "boardlight"
+    },
+    "sweetalert2@11.3.4": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sweetalert2/sweetalert2",
+        "licenseUrl": "https://github.com/sweetalert2/sweetalert2/raw/master/LICENSE",
+        "parents": "boardlight"
+    },
+    "typescript@4.5.4": {
+        "licenses": "Apache-2.0",
+        "repository": "https://github.com/Microsoft/TypeScript",
+        "licenseUrl": "https://github.com/Microsoft/TypeScript/raw/master/LICENSE.txt",
+        "parents": "boardlight"
+    },
+    "web-vitals@1.1.2": {
+        "licenses": "Apache-2.0",
+        "repository": "https://github.com/GoogleChrome/web-vitals",
+        "licenseUrl": "https://github.com/GoogleChrome/web-vitals/raw/master/LICENSE",
+        "parents": "boardlight"
+    }
+}
