@@ -15,6 +15,7 @@ import React, { useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { fetchLolo, fetchStore } from "../utils/api/apiUtils";
 import { useBlueboardClient, useBlueboardPrivateChannel } from "blueboard-client-react";
+import { useDispatch, useSelector } from "react-redux";
 
 import BottomSheet from "../components/bottomSheet";
 import { LaButton } from "../components/content/customized/laButton";
@@ -22,12 +23,13 @@ import { LaInput } from "../components/content/customized/laInput";
 import { ProductCard } from "../components/content/productCard";
 import { ScreenContainer } from "../components/screenContainer";
 import { matchSorter } from "match-sorter";
+import { setStore } from "../store/slices/storeSlice";
 import { useLoading } from "../hooks/useLoading";
-import { useSelector } from "react-redux";
 
 export const StoreScreen = () => {
   const products = useSelector((state) => state.store.value);
   const lolo = useSelector((state) => state.lolo.value);
+  const dispatch = useDispatch();
 
   const bottomSheetRef = useRef();
   const [currentProduct, setCurrentProduct] = useState(null);
@@ -55,11 +57,14 @@ export const StoreScreen = () => {
   };
 
   const updateCallback = (data) => {
+    const { products } = data;
     const { product } = data;
 
     if (product.id === currentProduct?.id) {
       setCurrentProduct(product);
     }
+
+    dispatch(setStore(products));
   };
 
   useBlueboardPrivateChannel("Store", "ProductUpdated", updateCallback);
@@ -80,7 +85,7 @@ export const StoreScreen = () => {
   const buyCallback = async (id) => {
     bottomSheetRef.current.close();
     setSnackBarOpen(true);
-    setSnackBarMessage("Vásárlás folyamatban...");
+    setSnackBarMessage("Tranzakció folyamatban...");
     try {
       await client.store.buy(id);
       setSnackBarMessage("Vásárlás sikeres!");
@@ -119,10 +124,10 @@ export const StoreScreen = () => {
   if (!lolo || !products) {
     return (
       <ScreenContainer>
-        <Headline>Store</Headline>
+        <Headline>Áruház</Headline>
         <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-          <Text>Unable to fetch data</Text>
-          <Button onPress={() => tryAgain()}>Try Again</Button>
+          <Text>Az adatok lekérése sikertelen</Text>
+          <Button onPress={() => tryAgain()}>Próbáld újra</Button>
         </View>
       </ScreenContainer>
     );
@@ -131,7 +136,7 @@ export const StoreScreen = () => {
   return (
     <>
       <ScreenContainer scrollable={true}>
-        <Headline>Store</Headline>
+        <Headline>Áruház</Headline>
 
         <LaInput
           style={{ marginBottom: 5 }}
@@ -148,7 +153,7 @@ export const StoreScreen = () => {
         />
         {renderedProducts.length === 0 && products.length !== 0 && (
           <HelperText style={{ marginTop: -5 }} type="error">
-            No products found
+            Nem található ilyen termék
           </HelperText>
         )}
         {getProducts()}
@@ -161,38 +166,38 @@ export const StoreScreen = () => {
           height={460}>
           <View style={styles.sheetContainer}>
             <Title style={{ textAlign: "center", marginBottom: 10 }}>
-              Buy - {currentProduct?.name}
+              Vásárlás - {currentProduct?.name}
             </Title>
             <View style={styles.inline}>
-              {currentProduct?.inputs.length !== 0 && <Subheading>Inputs: </Subheading>}
+              {currentProduct?.inputs.length !== 0 && <Subheading>Inputok: </Subheading>}
               {getInputs()}
             </View>
             <View style={styles.inline}>
-              <Subheading>Activation: </Subheading>
+              <Subheading>Aktiválás: </Subheading>
               <Chip style={{ marginBottom: 5 }}>
                 {currentProduct?.codeActivated ? "Kóddal aktiválható" : "Magában aktiválható"}
               </Chip>
             </View>
             <View style={styles.inline}>
-              <Subheading>Final Balance: </Subheading>
+              <Subheading>Végső egyenleg: </Subheading>
               <Chip style={{ marginBottom: 5 }}>
                 {lolo?.balance} - {currentProduct?.price} = {lolo?.balance - currentProduct?.price}{" "}
                 Loló
               </Chip>
             </View>
             <View style={styles.inline}>
-              <Subheading>In stock: </Subheading>
+              <Subheading>Raktáron: </Subheading>
               <Chip style={{ marginBottom: 5 }}>{currentProduct?.quantity} Darab</Chip>
             </View>
             <View style={{ ...styles.inline, justifyContent: "space-between" }}>
               <LaButton dense={true} onPress={() => bottomSheetRef.current.close()}>
-                Cancel
+                Mégsem
               </LaButton>
               <LaButton
                 dense={true}
                 onPress={() => buyCallback(currentProduct?.id)}
                 disabled={lolo?.balance < currentProduct?.price || currentProduct?.quantity === 0}>
-                Buy
+                Megveszem
               </LaButton>
             </View>
           </View>

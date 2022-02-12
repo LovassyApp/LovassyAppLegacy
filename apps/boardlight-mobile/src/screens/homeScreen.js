@@ -83,15 +83,15 @@ export const HomeScreen = ({ navigation }) => {
 
   return (
     <ScreenContainer>
-      <Headline>Home</Headline>
+      <Headline>Kezdőlap</Headline>
       <LaCard
-        title="Balance"
+        title="Egyenleg"
         actionIcon="arrow-forward"
         error={lolo === null}
         retry={() => tryAgain()}>
         <View style={styles.balanceContainer}>
           <View style={styles.balanceView}>
-            <Subheading>Current balance:</Subheading>
+            <Subheading>Jelenlegi egyenleg:</Subheading>
             <Subheading>{lolo?.balance}</Subheading>
           </View>
 
@@ -99,25 +99,25 @@ export const HomeScreen = ({ navigation }) => {
             <>
               <Divider style={{ width: "100%", marginVertical: 5 }} />
               <View style={styles.balanceView}>
-                <Text>Total coins from grades:</Text>
+                <Text>Összes loló jegyekből:</Text>
                 <Text>{getCoinsFromGrades()}</Text>
               </View>
               <View style={styles.balanceView}>
-                <Text>Total coins from requests:</Text>
+                <Text>Összes loló kérelmekből:</Text>
                 <Text>{getCoinsFromRequests()}</Text>
               </View>
               <View style={styles.balanceView}>
-                <Text>Total spendings:</Text>
+                <Text>Összes elköltött loló:</Text>
                 <Text>{getTotalSpendings()}</Text>
               </View>
             </>
           )}
         </View>
       </LaCard>
-      <LaCard title="Items" actionIcon="arrow-forward">
-        <Text style={{ alignSelf: "center", margin: 25 }}>Seems like you don't have anything</Text>
-        <LaButton dense={true} onPress={() => navigation.navigate("Store")}>
-          Go shopping
+      <LaCard title="Birtokolt termékek" actionIcon="arrow-forward">
+        <Text style={{ alignSelf: "center", margin: 25 }}>Úgy néz ki nincs semmid</Text>
+        <LaButton dense={true} onPress={() => navigation.navigate("Áruház")}>
+          Irány az áruház
         </LaButton>
       </LaCard>
     </ScreenContainer>

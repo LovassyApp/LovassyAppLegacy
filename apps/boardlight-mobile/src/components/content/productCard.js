@@ -1,6 +1,7 @@
 import { Badge, Caption, Card, Chip, Text, Title, useTheme } from "react-native-paper";
 import { Image, ImageBackground, StyleSheet, View } from "react-native";
 
+import { Ionicons } from "@expo/vector-icons";
 import { LaButton } from "./customized/laButton";
 import { LaCard } from "./laCard";
 import React from "react";
@@ -78,7 +79,7 @@ export const ProductCard = (props) => {
           <Caption numberOfLines={2}>{props.product.description}</Caption>
         </View>
         <LaButton onPress={props.onPress} style={{ alignSelf: "center", margin: 10 }} dense={true}>
-          Get
+          <Ionicons name="cart" size={18} />
         </LaButton>
       </View>
     </Card>

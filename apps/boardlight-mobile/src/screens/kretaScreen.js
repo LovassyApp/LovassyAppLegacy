@@ -87,7 +87,7 @@ export const KretaScreen = () => {
 
   return (
     <ScreenContainer scrollable={true}>
-      <Headline>Kreta</Headline>
+      <Headline>Kréta</Headline>
       {/* <LaCard
         title={showSubjects ? "Subjects" : `${currentSubjectData.subject} - ${calculateAverage()}`}
         error={gradesData === null}
@@ -110,7 +110,7 @@ export const KretaScreen = () => {
         <View style={{ paddingTop: 5 }}>{showSubjects ? getSubjects() : getGrades()}</View>
       </LaCard> */}
       {showSubjects ? (
-        <LaCard title="Subjects" error={gradesData === null} retry={() => tryAgain()}>
+        <LaCard title="Tantárgyak" error={gradesData === null} retry={() => tryAgain()}>
           <View style={{ paddingTop: 5 }}>{getSubjects()}</View>
         </LaCard>
       ) : (

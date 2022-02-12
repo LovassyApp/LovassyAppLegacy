@@ -52,31 +52,15 @@ const ProviderStack = ({ children }) => {
                 icon: (props) => <Ionicons {...props} />,
               }}
               theme={theme}>
-              <WebsocketListeners>
-                {/* This is here because it needs the theme and I didn't want to make a new provider for it */}
-                {loading && <FullScreenLoading />}
-                {children}
-              </WebsocketListeners>
+              {/* This is here because it needs the theme and I didn't want to make a new provider for it */}
+              {loading && <FullScreenLoading />}
+              {children}
             </PaperProvider>
           </BlueboardSocketProvider>
         </AppBootstrapProvider>
       </BlueboardClientProvider>
     </>
   );
-};
-
-const WebsocketListeners = ({ children }) => {
-  const dispatch = useDispatch();
-
-  const updateCallback = (data) => {
-    const { products } = data;
-
-    dispatch(setStore(products));
-  };
-
-  useBlueboardPrivateChannel("Store", "ProductUpdated", updateCallback);
-
-  return children;
 };
 
 const App = () => {

@@ -67,15 +67,15 @@ export const GradeItem = (props) => {
             />
           </View>
           <View style={{ ...styles.dataContainer, paddingTop: 4 }}>
-            <Text>Subject:</Text>
+            <Text>Tantárgy:</Text>
             <Text>{props.data.subject}</Text>
           </View>
           <View style={styles.dataContainer}>
-            <Text>Teacher:</Text>
+            <Text>Tanár:</Text>
             <Text>{props.data.teacher}</Text>
           </View>
           <View style={styles.dataContainer}>
-            <Text>Date:</Text>
+            <Text>Dátum:</Text>
             <Text>
               {
                 // Budget inline formatting let's go
@@ -88,7 +88,7 @@ export const GradeItem = (props) => {
             </Text>
           </View>
           <View style={styles.dataContainer}>
-            <Text>Weight:</Text>
+            <Text>Súly:</Text>
             <Text>{props.data.weight}%</Text>
           </View>
         </View>
