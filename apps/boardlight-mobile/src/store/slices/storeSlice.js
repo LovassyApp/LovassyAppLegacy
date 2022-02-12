@@ -12,6 +12,6 @@ export const storeSlice = createSlice({
   },
 });
 
-export const { setLolo } = storeSlice.actions;
+export const { setStore } = storeSlice.actions;
 
 export default storeSlice.reducer;

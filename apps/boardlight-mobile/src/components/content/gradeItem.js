@@ -4,13 +4,10 @@ import React, { useCallback, useMemo, useRef } from "react";
 import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
 
 import BottomSheet from "../bottomSheet";
-import { lightTheme } from "../../utils/theme/themes";
-import { useSelector } from "react-redux";
 
 export const GradeItem = (props) => {
   const { grade } = props.data;
   const theme = useTheme();
-  const reduxTheme = useSelector((state) => state.settings.theme);
 
   const colors = {
     1: "#f44336",
@@ -47,7 +44,7 @@ export const GradeItem = (props) => {
     <>
       <BottomSheet
         backgroundColor={theme.colors.backdrop}
-        sheetBackgroundColor={reduxTheme === lightTheme ? theme.colors.surface : "#1e1e1e"}
+        sheetBackgroundColor={theme.dark ? "#1e1e1e" : theme.colors.surface}
         radius={theme.roundness}
         ref={bottomSheetRef}
         height={220}>
@@ -115,14 +112,14 @@ export const GradeItem = (props) => {
             ? {
                 padding: 0,
                 // Because of adaptive mode in the default dark theme of react native paper
-                backgroundColor: reduxTheme === lightTheme ? theme.colors.surface : "#1e1e1e",
+                backgroundColor: theme.dark ? "#1e1e1e" : theme.colors.surface,
                 borderRadius: theme.roundness,
                 height: 56,
               }
             : {
                 padding: 0,
                 // Because of adaptive mode in the default dark theme of react native paper
-                backgroundColor: reduxTheme === lightTheme ? theme.colors.surface : "#1e1e1e",
+                backgroundColor: theme.dark ? "#1e1e1e" : theme.colors.surface,
                 borderRadius: theme.roundness,
                 elevation: 1,
                 shadowRadius: 0.75,

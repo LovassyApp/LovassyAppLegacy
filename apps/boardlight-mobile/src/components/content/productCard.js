@@ -4,9 +4,11 @@ import { Image, ImageBackground, StyleSheet, View } from "react-native";
 import { LaButton } from "./customized/laButton";
 import { LaCard } from "./laCard";
 import React from "react";
+import { useSelector } from "react-redux";
 
 export const ProductCard = (props) => {
   const theme = useTheme();
+  const lolo = useSelector((state) => state.lolo.value);
 
   const styles = StyleSheet.create({
     spaced: {
@@ -37,7 +39,7 @@ export const ProductCard = (props) => {
   });
 
   return (
-    <Card>
+    <Card style={{ marginVertical: 5 }}>
       <ImageBackground
         style={styles.imgContainer}
         imageStyle={styles.img}
@@ -50,7 +52,7 @@ export const ProductCard = (props) => {
                   color: "#ffffff",
                 }}
                 style={{
-                  backgroundColor: theme.colors.primary,
+                  backgroundColor: lolo.balance > props.product.price ? "#2e7d32" : "#d32f2f",
                   marginBottom: 2,
                   marginRight: 10,
                 }}>
@@ -75,7 +77,7 @@ export const ProductCard = (props) => {
           <Title numberOfLines={1}>{props.product.name}</Title>
           <Caption numberOfLines={2}>{props.product.description}</Caption>
         </View>
-        <LaButton style={{ alignSelf: "center", margin: 10 }} dense={true}>
+        <LaButton onPress={props.onPress} style={{ alignSelf: "center", margin: 10 }} dense={true}>
           Get
         </LaButton>
       </View>

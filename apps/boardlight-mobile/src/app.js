@@ -1,4 +1,5 @@
 import { BLUEBOARD_SOKETI_HOST, BLUEBOARD_SOKETI_KEY, BLUEBOARD_URL } from "@env";
+import { BlueboardClientInit, useBlueboardPrivateChannel } from "blueboard-client-react";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import React, { useEffect } from "react";
 import { darkTheme, lightTheme } from "./utils/theme/themes";
@@ -6,13 +7,13 @@ import { setState, setTheme } from "./store/slices/settingsSlice";
 
 import AppBootstrapProvider from "./bootstrap/appBootstrapProvider";
 import { Appearance } from "react-native";
-import { BlueboardClientInit } from "blueboard-client-react";
 import { FullScreenLoading } from "./components/fullScreenLoading";
 import { NavigationDecider } from "./navigation/navigation";
 import { Provider as PaperProvider } from "react-native-paper";
 import { StatusBar } from "expo-status-bar";
 import { loadData } from "./utils/misc/storageUtils";
 import { registerRootComponent } from "expo";
+import { setStore } from "./store/slices/storeSlice";
 import store from "./store/store";
 
 const [BlueboardProvider, BlueboardSocketProvider, BlueboardClientProvider] = BlueboardClientInit(
@@ -29,15 +30,11 @@ const ProviderStack = ({ children }) => {
 
   useEffect(() => {
     (async () => {
-      try {
-        const savedSettings = await loadData("settings");
+      const savedSettings = await loadData("settings");
 
-        if (savedSettings !== null) {
-          dispatch(setState(savedSettings));
-        } else {
-          throw new Error("No saved settings");
-        }
-      } catch (err) {
+      if (savedSettings !== null) {
+        dispatch(setState(savedSettings));
+      } else {
         dispatch(setTheme(Appearance.getColorScheme() === "dark" ? darkTheme : lightTheme));
       }
     })();
@@ -45,20 +42,36 @@ const ProviderStack = ({ children }) => {
 
   return (
     <>
-      <StatusBar style={theme === lightTheme ? "dark" : "light"} />
+      <StatusBar style={theme.dark ? "light" : "dark"} />
       <BlueboardClientProvider token={token}>
         <AppBootstrapProvider>
           <BlueboardSocketProvider token={token}>
             <PaperProvider theme={theme}>
-              {/* This is here because it needs the theme and I didn't want to make a new provider for it */}
-              {loading && <FullScreenLoading />}
-              {children}
+              <WebsocketListeners>
+                {/* This is here because it needs the theme and I didn't want to make a new provider for it */}
+                {loading && <FullScreenLoading />}
+                {children}
+              </WebsocketListeners>
             </PaperProvider>
           </BlueboardSocketProvider>
         </AppBootstrapProvider>
       </BlueboardClientProvider>
     </>
   );
+};
+
+const WebsocketListeners = ({ children }) => {
+  const dispatch = useDispatch();
+
+  const updateCallback = (data) => {
+    const { products } = data;
+
+    dispatch(setStore(products));
+  };
+
+  useBlueboardPrivateChannel("Store", "ProductUpdated", updateCallback);
+
+  return children;
 };
 
 const App = () => {

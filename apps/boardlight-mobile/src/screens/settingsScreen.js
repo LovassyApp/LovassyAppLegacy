@@ -164,7 +164,7 @@ export const SettingsScreen = () => {
 
         <BottomSheet
           backgroundColor={theme.colors.backdrop}
-          sheetBackgroundColor={reduxTheme === lightTheme ? theme.colors.surface : "#1e1e1e"}
+          sheetBackgroundColor={theme.dark ? "#1e1e1e" : theme.colors.surface}
           radius={theme.roundness}
           ref={bottomSheetRef}
           height={130}>
