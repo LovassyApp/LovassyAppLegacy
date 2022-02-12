@@ -4,6 +4,7 @@ import { StyleSheet, View } from "react-native";
 import { BlueboardLoloReason } from "blueboard-client";
 import { LaButton } from "../components/content/customized/laButton";
 import { LaCard } from "../components/content/laCard";
+import { LoloCoin } from "../components/content/loloCoin";
 import React from "react";
 import { ScreenContainer } from "../components/screenContainer";
 import { fetchLolo } from "../utils/api/apiUtils";
@@ -16,10 +17,12 @@ export const HomeScreen = ({ navigation }) => {
 
   const lolo = useSelector((state) => state.lolo.value);
 
+  const [displayCoins, setDisplayCoins] = React.useState(false);
+
   const client = useBlueboardClient();
 
   const styles = StyleSheet.create({
-    balanceContainer: {
+    coinsContainer: {
       alignItems: "center",
     },
     balanceView: {
@@ -69,6 +72,10 @@ export const HomeScreen = ({ navigation }) => {
     return res;
   };
 
+  const getCoins = () => {
+    return lolo?.coins.map((coin) => <LoloCoin coin={coin} key={coin.id} minimal={true} />);
+  };
+
   const getTotalSpendings = () => {
     var res = 0;
 
@@ -82,37 +89,46 @@ export const HomeScreen = ({ navigation }) => {
   };
 
   return (
-    <ScreenContainer>
+    <ScreenContainer scrollable={true}>
       <Headline>Kezdőlap</Headline>
       <LaCard
-        title="Egyenleg"
-        actionIcon="arrow-forward"
+        title={displayCoins ? "Kérelmek és érmék" : "Egyenleg"}
+        actionIcon={displayCoins ? "arrow-back" : "arrow-forward"}
+        onPress={() => setDisplayCoins(!displayCoins)}
         error={lolo === null}
         retry={() => tryAgain()}>
-        <View style={styles.balanceContainer}>
-          <View style={styles.balanceView}>
-            <Subheading>Jelenlegi egyenleg:</Subheading>
-            <Subheading>{lolo?.balance}</Subheading>
-          </View>
+        {displayCoins ? (
+          <>
+            <Subheading style={{ marginVertical: 5 }}>Kérelmek</Subheading>
+            {/* TODO: finish this */}
+            <View style={{ height: 100, justifyContent: "center" }}>
+              <Text style={{ textAlign: "center" }}>Úgy néz ki nincsenek kérelmeid</Text>
+            </View>
+            <Subheading style={{ marginVertical: 5 }}>Érmék</Subheading>
+            {getCoins()}
+          </>
+        ) : (
+          <>
+            <View style={styles.balanceView}>
+              <Subheading>Jelenlegi egyenleg:</Subheading>
+              <Subheading>{lolo?.balance}</Subheading>
+            </View>
 
-          {lolo?.coins && Object.keys(lolo.coins).length !== 0 && (
-            <>
-              <Divider style={{ width: "100%", marginVertical: 5 }} />
-              <View style={styles.balanceView}>
-                <Text>Összes loló jegyekből:</Text>
-                <Text>{getCoinsFromGrades()}</Text>
-              </View>
-              <View style={styles.balanceView}>
-                <Text>Összes loló kérelmekből:</Text>
-                <Text>{getCoinsFromRequests()}</Text>
-              </View>
-              <View style={styles.balanceView}>
-                <Text>Összes elköltött loló:</Text>
-                <Text>{getTotalSpendings()}</Text>
-              </View>
-            </>
-          )}
-        </View>
+            <Divider style={{ width: "100%", marginVertical: 5 }} />
+            <View style={styles.balanceView}>
+              <Text>Összes loló jegyekből:</Text>
+              <Text>{getCoinsFromGrades()}</Text>
+            </View>
+            <View style={styles.balanceView}>
+              <Text>Összes loló kérelmekből:</Text>
+              <Text>{getCoinsFromRequests()}</Text>
+            </View>
+            <View style={styles.balanceView}>
+              <Text>Összes elköltött loló:</Text>
+              <Text>{getTotalSpendings()}</Text>
+            </View>
+          </>
+        )}
       </LaCard>
       <LaCard title="Birtokolt termékek" actionIcon="arrow-forward">
         <Text style={{ alignSelf: "center", margin: 25 }}>Úgy néz ki nincs semmid</Text>
