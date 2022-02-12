@@ -210,7 +210,7 @@ export const StoreScreen = () => {
             colors: {
               ...theme.colors,
               surface: theme.colors.text,
-              onSurface: theme.dark ? "#1e1e1e" : theme.colors.surface,
+              onSurface: theme.dark ? "#171717" : theme.colors.surface,
             },
           }}
           duration={snackBarTimeout}>
