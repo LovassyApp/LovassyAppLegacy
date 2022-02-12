@@ -20,7 +20,7 @@ export const ScreenContainer = (props) => {
   if (props.scrollable) {
     return (
       <SafeAreaView
-        edges={["top", "left", "right", "bottom"]}
+        edges={["top", "left", "right"]}
         style={{ backgroundColor: theme.colors.background }}>
         <View style={styles.container}>
           <ScrollView showsVerticalScrollIndicator={false}>{props.children}</ScrollView>
@@ -30,9 +30,11 @@ export const ScreenContainer = (props) => {
   }
 
   return (
-    <SafeAreaView style={{ backgroundColor: theme.colors.background }}>
-      <View style={styles.container} {...props}>
-        {props.children}
+    <SafeAreaView
+      edges={["top", "left", "right", "bottom"]}
+      style={{ backgroundColor: theme.colors.background }}>
+      <View style={styles.container}>
+        <ScrollView showsVerticalScrollIndicator={false}>{props.children}</ScrollView>
       </View>
     </SafeAreaView>
   );

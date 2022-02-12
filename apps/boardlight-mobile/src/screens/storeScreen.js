@@ -51,8 +51,13 @@ export const StoreScreen = () => {
         });
 
   const getProducts = () => {
-    return renderedProducts?.map((product) => (
-      <ProductCard key={product.id} product={product} onPress={() => openBuy(product)} />
+    return renderedProducts?.map((product, key) => (
+      <ProductCard
+        key={product.id}
+        last={key === (renderedProducts ?? []).length - 1}
+        product={product}
+        onPress={() => openBuy(product)}
+      />
     ));
   };
 

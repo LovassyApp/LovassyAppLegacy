@@ -1,5 +1,5 @@
 import { Badge, Caption, Card, Chip, Text, Title, useTheme } from "react-native-paper";
-import { Image, ImageBackground, StyleSheet, View } from "react-native";
+import { Image, ImageBackground, Platform, StyleSheet, View } from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
 import { LaButton } from "./customized/laButton";
@@ -10,6 +10,8 @@ import { useSelector } from "react-redux";
 export const ProductCard = (props) => {
   const theme = useTheme();
   const lolo = useSelector((state) => state.lolo.value);
+
+  const last = props.last ?? false;
 
   const styles = StyleSheet.create({
     spaced: {
@@ -40,7 +42,12 @@ export const ProductCard = (props) => {
   });
 
   return (
-    <Card style={{ marginVertical: 5 }}>
+    <Card
+      style={
+        last && Platform.OS === "ios"
+          ? { marginVertical: 5, marginBottom: 40 }
+          : { marginVertical: 5 }
+      }>
       <ImageBackground
         style={styles.imgContainer}
         imageStyle={styles.img}
