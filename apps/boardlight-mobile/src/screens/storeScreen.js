@@ -1,11 +1,14 @@
+/* eslint-disable indent */
 import {
   Button,
   Chip,
   Divider,
   Headline,
+  HelperText,
   Snackbar,
   Subheading,
   Text,
+  TextInput,
   Title,
   useTheme,
 } from "react-native-paper";
@@ -16,9 +19,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useStatefulEvent, useStatefulListener } from "../hooks/eventHooks";
 
 import BottomSheet from "../components/bottomSheet";
+import { Ionicons } from "@expo/vector-icons";
 import { LaButton } from "../components/content/customized/laButton";
+import { LaInput } from "../components/content/customized/laInput";
 import { ProductCard } from "../components/content/productCard";
 import { ScreenContainer } from "../components/screenContainer";
+import { matchSorter } from "match-sorter";
 import { setStore } from "../store/slices/storeSlice";
 
 export const StoreScreen = () => {
@@ -30,12 +36,21 @@ export const StoreScreen = () => {
   const [snackBarOpen, setSnackBarOpen] = useState(false);
   const [snackBarMessage, setSnackBarMessage] = useState("");
   const [snackBarTimeout, setSnackBarTimeout] = useState(null);
+  const [query, setQuery] = React.useState("");
 
   const theme = useTheme();
   const client = useBlueboardClient();
 
+  const renderedProducts =
+    query === ""
+      ? products
+      : matchSorter(products, query, {
+          keys: ["name", "description"],
+          threshold: matchSorter.rankings.CONTAINS,
+        });
+
   const getProducts = () => {
-    return products?.map((product) => (
+    return renderedProducts?.map((product) => (
       <ProductCard key={product.id} product={product} onPress={() => openBuy(product)} />
     ));
   };
@@ -94,6 +109,24 @@ export const StoreScreen = () => {
       <ScreenContainer scrollable={true}>
         <Headline>Store</Headline>
 
+        <LaInput
+          style={{ marginBottom: 5 }}
+          value={query}
+          onChangeText={(text) => setQuery(text)}
+          dense={true}
+          right={
+            <TextInput.Icon name="close" onPress={() => setQuery("")} forceTextInputFocus={false} />
+          }
+          error={renderedProducts.length === 0}
+          blurOnSubmit={true}
+          returnKeyType="search"
+          placeholder="Keresés"
+        />
+        {renderedProducts.length === 0 && (
+          <HelperText style={{ marginTop: -5 }} type="error">
+            No products found
+          </HelperText>
+        )}
         {getProducts()}
 
         <BottomSheet
@@ -103,7 +136,7 @@ export const StoreScreen = () => {
           ref={bottomSheetRef}
           height={460}>
           <View style={styles.sheetContainer}>
-            <Title style={{ alignSelf: "center", marginBottom: 10 }}>
+            <Title style={{ textAlign: "center", marginBottom: 10 }}>
               Buy - {currentProduct?.name}
             </Title>
             <View style={styles.inline}>

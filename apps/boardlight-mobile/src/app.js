@@ -8,6 +8,7 @@ import { setState, setTheme } from "./store/slices/settingsSlice";
 import AppBootstrapProvider from "./bootstrap/appBootstrapProvider";
 import { Appearance } from "react-native";
 import { FullScreenLoading } from "./components/fullScreenLoading";
+import { Ionicons } from "@expo/vector-icons";
 import { NavigationDecider } from "./navigation/navigation";
 import { Provider as PaperProvider } from "react-native-paper";
 import { StatusBar } from "expo-status-bar";
@@ -46,7 +47,11 @@ const ProviderStack = ({ children }) => {
       <BlueboardClientProvider token={token}>
         <AppBootstrapProvider>
           <BlueboardSocketProvider token={token}>
-            <PaperProvider theme={theme}>
+            <PaperProvider
+              settings={{
+                icon: (props) => <Ionicons {...props} />,
+              }}
+              theme={theme}>
               <WebsocketListeners>
                 {/* This is here because it needs the theme and I didn't want to make a new provider for it */}
                 {loading && <FullScreenLoading />}
