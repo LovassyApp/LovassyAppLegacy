@@ -82,7 +82,7 @@ export const HomeScreen = ({ navigation }) => {
     var res = 0;
 
     for (const coin of lolo.coins) {
-      if (coin.isSpent === 1) {
+      if (coin.isSpent) {
         res++;
       }
     }
