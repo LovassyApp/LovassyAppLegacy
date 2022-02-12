@@ -1,7 +1,7 @@
-import { ScrollView, StyleSheet, View } from "react-native";
+import { Platform, ScrollView, StyleSheet, View } from "react-native";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 
 import React from "react";
-import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTheme } from "react-native-paper";
 
 export const ScreenContainer = (props) => {
@@ -13,14 +13,14 @@ export const ScreenContainer = (props) => {
     container: {
       margin: 10,
       height: "100%",
-      marginBottom: insets.bottom - 25,
+      marginBottom: Platform.OS === "android" ? insets.bottom - 25 : null,
     },
   });
 
   if (props.scrollable) {
     return (
       <SafeAreaView
-        edges={["top", "left", "right"]}
+        edges={["top", "left", "right", "bottom"]}
         style={{ backgroundColor: theme.colors.background }}>
         <View style={styles.container}>
           <ScrollView showsVerticalScrollIndicator={false}>{props.children}</ScrollView>
