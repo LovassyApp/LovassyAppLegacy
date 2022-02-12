@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Rules\Base64Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Response;
 use Str;
 
@@ -22,6 +23,7 @@ class ProductController extends Controller
 
         // Good luck to anyone reading this.
         // K@rva validáció
+
         $data = $request->validate(
             [
                 'name' => 'required|max:255|unique:products|string',
@@ -35,12 +37,15 @@ class ProductController extends Controller
                 'inputs' => 'nullable|array',
                 // Jaj JSON valid kulcs regeksz
                 // Fáj az agyam
-                'inputs.*.name' => ['required', 'distinct', "regex:/[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/"],
+                'inputs.*.name' => ['required', 'distinct', "regex:/^[a-z][a-z0-9_]*$/i"],
                 'inputs.*.title' => 'required|distinct',
+                'inputs.*.type' => ['required', Rule::in(['textbox', 'boolean'])],
                 'image' => ['required', new Base64Image(10)],
             ],
             [
                 'inputs.*.*.distinct' => 'The title and name must be unique.',
+                'inputs.*.name.regex' => 'Allowed format: a...Z, 0...9, _',
+                'inputs.*.type' => 'Invalid type supplied. Avalible types: textbox, boolean',
             ]
         );
 
@@ -76,11 +81,13 @@ class ProductController extends Controller
                 // Fáj az agyam
                 'inputs.*.name' => ['required', 'distinct', "regex:/^[a-z][a-z0-9_]*$/i"],
                 'inputs.*.title' => 'required|distinct',
+                'inputs.*.type' => ['required', Rule::in(['textbox', 'boolean'])],
                 'image' => ['required', new Base64Image(10)],
             ],
             [
                 'inputs.*.*.distinct' => 'The title and name must be unique.',
                 'inputs.*.name.regex' => 'Allowed format: a...Z, 0...9, _',
+                'inputs.*.type' => 'Invalid type supplied. Avalible types: textbox, boolean',
             ]
         );
 

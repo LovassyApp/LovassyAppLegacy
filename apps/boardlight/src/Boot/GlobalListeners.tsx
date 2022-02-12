@@ -1,21 +1,69 @@
-import React, { useEffect } from 'react';
 import toast from 'react-hot-toast';
-import { useUser } from '../Hooks/ControlHooks';
-import { useBlueboardChannel /* useBlueboardPrivateChannel */ } from 'blueboard-client-react';
+import { useGroups, useUser } from '../Hooks/ControlHooks';
+import {
+    useBlueboardChannel /* useBlueboardPrivateChannel */,
+    useBlueboardPrivateChannel,
+} from 'blueboard-client-react';
+import useToken from '../Hooks/useToken';
+import { useDispatch } from 'react-redux';
+import { BlueboardUser, BlueboardUserGroup } from 'blueboard-client';
+import { AppDispatch } from '../State';
+import { setGroups, setUser } from '../State/controlReducer';
+
+const GroupListener = ({
+    groupID,
+    groups,
+    dispatch,
+}: {
+    groupID: number;
+    groups: Array<BlueboardUserGroup>;
+    dispatch: AppDispatch;
+}) => {
+    useBlueboardPrivateChannel('Groups.' + groupID, 'UserGroupUpdated', (data: any) => {
+        let groupsClone = [...groups];
+        const index = groupsClone.findIndex((x) => x.id === groupID);
+        groupsClone[index] = data.group;
+        dispatch(setGroups(groupsClone));
+        toast.success('Felhasználói jogosultságok frissítve!');
+    });
+    return <></>;
+};
+
+const AuthedListeners = ({ dispatch, user }: { dispatch: AppDispatch; user: BlueboardUser }) => {
+    useBlueboardPrivateChannel('Users.' + user.id, 'LoloAmountUpdated', (res: any) => {
+        let newUser = { ...user, balance: res.balance } as BlueboardUser;
+        dispatch(setUser(newUser));
+    });
+
+    return <></>;
+};
 
 const GlobalListeners = () => {
+    const groups = useGroups() ?? [];
+    const token = useToken();
+    const dispatch = useDispatch();
     const user = useUser();
-    useEffect(() => {
-        if (user !== undefined && Object.keys(user).length !== 0) {
-            //console.log(user);
-        }
-    }, [user]);
+
+    const isUser = token !== null;
 
     useBlueboardChannel('global', 'GlobalEvent', (data: any) => {
         toast(data.message);
     });
 
-    return <></>;
+    return (
+        <>
+            {isUser ? (
+                <>
+                    <AuthedListeners user={user} dispatch={dispatch} />
+                    {groups.map((el, key) => (
+                        <GroupListener dispatch={dispatch} groups={groups} key={key} groupID={el.id as number} />
+                    ))}
+                </>
+            ) : (
+                <></>
+            )}
+        </>
+    );
 };
 
 export default GlobalListeners;

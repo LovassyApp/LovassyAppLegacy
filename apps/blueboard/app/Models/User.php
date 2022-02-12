@@ -55,7 +55,7 @@ class User extends Authenticatable
      */
     public function receivesBroadcastNotificationsOn()
     {
-        return 'App.Models.User.' . $this->id;
+        return 'Users.' . $this->id;
     }
 
     public function grades(): HasMany
@@ -79,7 +79,7 @@ class User extends Authenticatable
     }
 
     protected $with = ['lolo'];
-    protected $appends = ['balance', 'groups'];
+    protected $appends = ['balance' /*'groups'*/];
 
     public function getBalanceAttribute()
     {
@@ -88,10 +88,10 @@ class User extends Authenticatable
             ->count();
     }
 
-    public function getGroupsAttribute()
+    /*public function getGroupsAttribute()
     {
         return $this->groups()
             ->get()
             ->pluck('id');
-    }
+    }*/
 }

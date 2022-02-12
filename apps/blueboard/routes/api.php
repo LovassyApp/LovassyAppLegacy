@@ -71,6 +71,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // Inventory
     Route::get('/inventory', 'InventoryController@index');
+    Route::post('/inventory', 'InventoryController@validateCode');
+    Route::patch('/inventory', 'InventoryController@useItem');
 });
 
 Route::get('/qrcodes/view/{image}', 'QRCodeController@show')

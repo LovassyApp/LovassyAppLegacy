@@ -20,7 +20,7 @@ class BlueboardAccountClient extends BlueboardBaseClient {
             throw new BlueboardControlException('Control fetching error.');
         });
 
-        const cObj = new BlueboardControl(res.user, res.session, res.permissions);
+        const cObj = new BlueboardControl(res.user, res.session, res.permissions, res.groups);
 
         this.state.control = cObj;
 

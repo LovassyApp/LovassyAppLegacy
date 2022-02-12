@@ -30,8 +30,6 @@ const ProductModalContent = ({
 }) => {
     const product: BlueboardProduct = useStatefulListener(eventDeclaration);
 
-    console.log(product);
-
     return (
         <>
             <Modal.Header style={{ border: 'none' }}>
@@ -55,8 +53,8 @@ const ProductModalContent = ({
                             Inputok:
                         </Col>
                         <Col>
-                            {product.inputs.map((el) => (
-                                <Badge pill className="me-1" color="primary">
+                            {product.inputs.map((el, key) => (
+                                <Badge key={key} pill className="me-1" color="primary">
                                     {el.title}
                                     {` (${el.type === 'boolean' ? 'Igen / nem' : 'Szöveg'})`}
                                 </Badge>

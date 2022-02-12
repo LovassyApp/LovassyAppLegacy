@@ -13,10 +13,17 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
-	return (int) $user->id === (int) $id;
+Broadcast::channel('Users.{id}', function ($user, $id) {
+    return (int) $user->id === (int) $id;
 });
 
 Broadcast::channel('Store', function ($user) {
-	return Auth::user() === $user;
+    return Auth::user() === $user;
+});
+
+Broadcast::channel('Groups.{id}', function ($user, $id) {
+    return $user
+        ->groups()
+        ->where('user_groups.id', (int) $id)
+        ->exists();
 });

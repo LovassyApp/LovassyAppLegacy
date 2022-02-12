@@ -8041,7 +8041,7 @@ jsonfile@^6.0.1:
   optionalDependencies:
     graceful-fs "^4.1.6"
 
-jsqr@^1.1.1, jsqr@^1.2.0:
+jsqr@^1.2.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/jsqr/-/jsqr-1.4.0.tgz#8efb8d0a7cc6863cb6d95116b9069123ce9eb2d1"
   integrity sha512-dxLob7q65Xg2DvstYkRpkYtmKm2sPJ9oFhrhmudT1dZvNFFTlroai3AWSpLey/w5vMcLBXRgOJsbXpdN9HzU/A==
@@ -10901,13 +10901,6 @@ q@^1.1.2:
   resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
   integrity sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=
 
-qrscan@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/qrscan/-/qrscan-1.0.6.tgz#cdf89d782b5f8d191250ec94f873369da04b3930"
-  integrity sha512-AiwkMYOC21STF2APx/z0Yv1sf8fIna5QjqtSLXSZi/8apNLjYBYoWoG5+HoUVTOdklQKfPchwm5dIsA4ZbgprQ==
-  dependencies:
-    jsqr "^1.1.1"
-
 qs@6.9.6:
   version "6.9.6"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.9.6.tgz#26ed3c8243a431b2924aca84cc90471f35d5a0ee"
@@ -11019,6 +11012,13 @@ react-app-polyfill@^2.0.0:
     raf "^3.4.1"
     regenerator-runtime "^0.13.7"
     whatwg-fetch "^3.4.1"
+
+react-code-scanner@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-code-scanner/-/react-code-scanner-1.0.1.tgz#ed2bad15a82e620b64483fd52b790bee5cb06bb8"
+  integrity sha512-EnQ/fQVDb7s1WN+msVjrwCKDeb1MVAXRiYz55umcv3jwlK0Jis7JVBNHkhOoVvKJ6NassCHW/yPYCDVOhpcJLQ==
+  dependencies:
+    zbar.wasm "^2.0.3"
 
 react-data-table-component@^7.4.5:
   version "7.4.6"
@@ -14421,6 +14421,11 @@ yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+
+zbar.wasm@^2.0.3:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/zbar.wasm/-/zbar.wasm-2.1.1.tgz#f39d201d263ce4d6e559fe8c024af294acd4cf4e"
+  integrity sha512-iXX2tMFRRt2R4+mbKBhNa3TrN0fd5CbzLceasGTBOofA7eF1VvwZeAHW3UkEMDU8w3rSvwx9N3cyosX55UJ+Xw==
 
 zwitch@^2.0.0:
   version "2.0.2"

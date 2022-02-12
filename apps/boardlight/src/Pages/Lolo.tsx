@@ -15,11 +15,12 @@ const Lolo = (): JSX.Element => {
     const [loading, setLoading] = React.useState(true);
     const [lolo, setLolo] = React.useState<BlueboardLoloData>({} as BlueboardLoloData);
 
-    React.useEffect(() => {
+    const bootstrap = React.useCallback(() => {
+        setLoading(true);
         client.lolo
             .get(true)
             .then((res) => {
-                console.log(res);
+                //console.log(res);
                 //console.log('fetch');
                 setLolo(res);
                 setLoading(false);
@@ -29,6 +30,8 @@ const Lolo = (): JSX.Element => {
             });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    React.useEffect(bootstrap, [bootstrap]);
 
     return (
         <AuthLayout>
@@ -69,7 +72,13 @@ const Lolo = (): JSX.Element => {
                                         </Col>
                                         <Col md="4" sm="0"></Col>
                                         <Col md="4" sm="12">
-                                            <Button rounded auto className="float-md-end mt-md-0 mt-2" color="gradient">
+                                            <Button
+                                                rounded
+                                                onClick={bootstrap}
+                                                auto
+                                                className="float-md-end mt-md-0 mt-2"
+                                                color="gradient"
+                                            >
                                                 Frissítés
                                             </Button>
                                         </Col>

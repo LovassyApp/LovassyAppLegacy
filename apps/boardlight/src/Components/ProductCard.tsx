@@ -60,26 +60,26 @@ const ItemFooter = ({
 }) => {
     return (
         <Row className="m-0 px-2 py-2 w-100">
-            <Col sm="2">
+            <Col sm="2" xl="3">
                 <Row>
                     <Button
-                        flat
-                        disabled={item.usedAt !== null}
+                        flat={item.usedAt === null}
+                        //disabled={item.usedAt !== null}
                         auto
                         onClick={() => {
                             buttonCallback(item.product, item);
                         }}
                         rounded
-                        color="#94f9f0"
+                        color={item.usedAt !== null ? 'error' : '#94f9f0'}
                     >
                         <Text size={12} weight="bold" transform="uppercase">
-                            Beváltás
+                            {item.usedAt !== null ? 'Megtekintés' : 'Beváltás'}
                         </Text>
                     </Button>
                 </Row>
             </Col>
             <Col className="float-end text-end">
-                {item.usedAt !== '' ? (
+                {item.usedAt === null ? (
                     <>
                         {item.product.codeActivated ? (
                             <Badge pill color="warning">
@@ -104,7 +104,7 @@ const ItemFooter = ({
                 ) : (
                     <div className="mt-1">
                         <Badge pill className="align-middle mt-1" color="danger">
-                            Felhasználva
+                            Felhasználva ({item.usedAt})
                         </Badge>
                     </div>
                 )}

@@ -1,6 +1,5 @@
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import * as React from 'react';
 import { Button, NextUIThemes } from '@nextui-org/react';
 
 const ReactSwal = withReactContent(Swal);
@@ -18,7 +17,7 @@ const deleteModal = async (modalText: string, title: string, theme: NextUIThemes
                     type="button"
                     role="button"
                     tabIndex={0}
-                    className="mx-1"
+                    className="mx-1 mt-4"
                     auto
                     flat
                     rounded
@@ -33,7 +32,7 @@ const deleteModal = async (modalText: string, title: string, theme: NextUIThemes
                     type="button"
                     role="button"
                     tabIndex={0}
-                    className="mx-1"
+                    className="mx-1 mt-4"
                     auto
                     rounded
                     color="error"

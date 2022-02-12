@@ -11,7 +11,7 @@ import { useUser } from '../Hooks/ControlHooks';
 const Home = () => {
     const user = useUser();
 
-    useBlueboardPrivateChannel('App.Models.User.' + user.id, 'TestEvent', (data: any) => {
+    useBlueboardPrivateChannel('Users.' + user.id, 'TestEvent', (data: any) => {
         toast(data.message);
     });
 

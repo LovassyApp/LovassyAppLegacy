@@ -29,6 +29,7 @@ import {
 import { useTheme } from '@nextui-org/react';
 import useLogout from '../Hooks/useLogout';
 import { RootState } from '../State';
+import Middleware from '../Helpers/Middleware';
 
 const TopNav = (): JSX.Element => {
     const history = useHistory();
@@ -61,18 +62,25 @@ const TopNav = (): JSX.Element => {
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="me-auto" navbar>
-                        <NavItem>
-                            <NavLink
-                                href="#"
-                                active={history.location.pathname === '/home'}
-                                onClick={() => {
-                                    history.push('/home');
-                                }}
-                            >
-                                <MdOutlineHome className="mb-1" />
-                                <span className="ml-4"> Home</span>
-                            </NavLink>
-                        </NavItem>
+                        <Middleware
+                            component={
+                                <NavItem>
+                                    <NavLink
+                                        href="#"
+                                        active={history.location.pathname === '/home'}
+                                        onClick={() => {
+                                            history.push('/home');
+                                        }}
+                                    >
+                                        <MdOutlineHome className="mb-1" />
+                                        <span className="ml-4"> Home</span>
+                                    </NavLink>
+                                </NavItem>
+                            }
+                            permission="General.home"
+                            displayError={false}
+                        />
+
                         <NavItem>
                             <NavLink
                                 href="#"

@@ -9,12 +9,12 @@ const useEvent = (channel: any, eventName: any, callback: any) => {
     useEffect(() => {
         if (typeof channel.listen === 'function') {
             channel.listen(eventName, callback);
-            console.log('DEBUG: Started listening for ' + eventName + '.');
+            console.log('DEBUG: Started listening for ' + eventName + ' on ' + channel.name + '.');
         }
         return () => {
             if (typeof channel.stopListening === 'function') {
                 channel.stopListening(eventName);
-                console.log('DEBUG: Stopped listening for ' + eventName + '.');
+                console.log('DEBUG: Stopped listening for ' + eventName + 'on ' + channel.name + '.');
             }
         };
     }, [channel]);

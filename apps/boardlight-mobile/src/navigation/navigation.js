@@ -59,7 +59,7 @@ const MainNavigation = () => {
     return (
       <Tab.Navigator
         initialRouteName="Settings"
-        screenOptions={{ safeAreaInsets: { top: 0 } }}
+        screenOptions={{ safeAreaInsets: { bottom: 100 } }}
         barStyle={{
           backgroundColor: theme.colors.background,
           elevation: 0,

@@ -3,7 +3,9 @@
 @import './loader.css';
 
 *:focus {
-    outline: none;
+    outline-color: transparent !important;
+    outline-style: none !important;
+    box-shadow: none !important;
 }
 
 .layoutBase {
@@ -158,6 +160,16 @@
         rgb(0, 112, 243) 70.46%
     ) !important;
     border-radius: calc(12px + 10rem) !important;
+}
+
+.swal2-backdrop-show {
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    transition: background 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.swal2-modal {
+    border-radius: 14px !important;
 }
 
 .dropdown-menu.show {

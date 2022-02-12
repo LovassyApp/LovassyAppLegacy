@@ -249,4 +249,9 @@ class PermissionHelper
         $this->cacheUser();
         return $this->isSuperAdmin;
     }
+
+    public function getUserGroups(): Collection
+    {
+        return $this->groups;
+    }
 }

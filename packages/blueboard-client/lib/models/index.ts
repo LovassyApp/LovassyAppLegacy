@@ -19,3 +19,5 @@ export { default as BlueboardKretaGrade } from './BlueboardKretaGrade';
 export { default as BlueboardProductInput } from './BlueboardProductInput';
 export { default as BlueboardQRCodePivot } from './BlueboardQRCodePivot';
 export { default as BlueboardInventoryItem } from './BlueboardInventoryItem';
+export { default as BlueboardCodeValidationResponse } from './BlueboardCodeValidationResponse';
+export { default as BlueboardItemUse } from './BlueboardItemUse';

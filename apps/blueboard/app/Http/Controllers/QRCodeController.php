@@ -24,13 +24,15 @@ class QRCodeController extends Controller
     public function create(Request $request)
     {
         $this->checkPermission('add');
-        $name = $request->validate([
+        $data = $request->validate([
             'name' => ['required', 'max:255', 'string', 'unique:q_r_codes'],
-        ])['name'];
+            'email' => ['required', 'string', 'max:255', 'email'],
+        ]);
         $code = new QRCode();
 
-        $code->name = $name;
+        $code->name = $data['name'];
         $code->secret = Str::random(20);
+        $code->email = $data['email'];
 
         $code->save();
 
@@ -47,11 +49,10 @@ class QRCodeController extends Controller
             ]
         );
 
-        $image = QRGen::errorCorrection('H')
-            ->encoding('UTF-8')
+        $image = QRGen::encoding('UTF-8')
             ->size(600)
             ->format('png')
-            ->generate($code->secret);
+            ->generate($payload);
 
         return Response::make($image, 200, [
             'Content-Type' => 'image/png',

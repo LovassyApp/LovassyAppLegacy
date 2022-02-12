@@ -1,8 +1,11 @@
 {
-    "name": "laravel/laravel",
+    "name": "lovassyapp/blueboard",
     "type": "project",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "description": "LovassyApp's Blueboard backend server. Powered by Laravel.",
+    "keywords": [
+        "lovassyapp",
+        "laravel"
+    ],
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",

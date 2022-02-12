@@ -6,11 +6,12 @@ const InputRenderer = ({
     inputs,
     callback,
     inputState,
+    errors,
 }: {
     inputs: BlueboardProductInput[];
     callback?: (input: string, value: string | boolean) => void;
-    inputState?: { [key: string]: string };
-    errors?: { [key: string]: string };
+    inputState?: { [key: string]: string | boolean };
+    errors?: { [key: string]: Array<string> };
 }) => {
     const onChange = (input: string, value: string | boolean) => {
         if (callback !== undefined) {
@@ -18,13 +19,29 @@ const InputRenderer = ({
         }
     };
 
+    const renderedInputs = inputs.sort((a, b) => {
+        return a.type === 'boolean' && b.type !== 'boolean' ? 1 : 0;
+    });
+
+    const getErrors = (inputName: string) => {
+        const err = errors ?? ({} as { [key: string]: Array<string> });
+
+        const error = err['inputs.' + inputName] ?? [];
+        let str = '';
+        error.forEach((el: string) => {
+            str = str + el + '\n';
+        });
+
+        return str;
+    };
+
     const state = inputState ?? {};
 
     return (
         <div>
             <div className="dropdown-divider" />
-            {inputs.map((value, key) => (
-                <Row key={key}>
+            {renderedInputs.map((value, key) => (
+                <Row className="mt-3" key={key}>
                     <Col>
                         {value.type === 'textbox' ? (
                             <div>
@@ -34,29 +51,35 @@ const InputRenderer = ({
                                     onChange={(e) => onChange(value.name, e.target.value)}
                                     underlined
                                     shadow={false}
-                                    className="mb-2 mt-1"
                                     labelLeft={value.title}
-                                    value={state[value.name]}
+                                    value={state[value.name] as string}
+                                    color={getErrors(value.name) === '' ? 'primary' : 'error'}
+                                    status={getErrors(value.name) === '' ? 'default' : 'error'}
+                                    helperColor={getErrors(value.name) === '' ? 'default' : 'error'}
+                                    helperText={getErrors(value.name)}
                                 />
                             </div>
                         ) : (
-                            <div className="mx-3">
-                                <Text
-                                    span
-                                    style={{
-                                        display: 'inline-block',
-                                        fontSize: '14px',
-                                        verticalAlign: 'middle',
-                                        color: 'rgb(153, 153, 153)',
-                                    }}
-                                >
-                                    {value.title}
-                                </Text>
-                                <Switch
-                                    onChange={(e) => onChange(value.name, e.target.checked)}
-                                    style={{ display: 'inline-block', verticalAlign: 'middle' }}
-                                    className="mx-2"
-                                />
+                            <div className="mt-2">
+                                <div className="mx-3">
+                                    <Text
+                                        span
+                                        style={{
+                                            display: 'inline-block',
+                                            fontSize: '14px',
+                                            verticalAlign: 'middle',
+                                            color: 'rgb(153, 153, 153)',
+                                        }}
+                                    >
+                                        {value.title}
+                                    </Text>
+                                    <Switch
+                                        onChange={(e) => onChange(value.name, e.target.checked)}
+                                        style={{ display: 'inline-block', verticalAlign: 'middle' }}
+                                        initialChecked={state[value.name] as boolean}
+                                        className="mx-2"
+                                    />
+                                </div>
                             </div>
                         )}
                     </Col>
