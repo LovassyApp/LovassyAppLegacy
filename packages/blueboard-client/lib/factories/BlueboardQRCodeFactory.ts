@@ -1,6 +1,6 @@
-import BlueboardQRCode from "../models/BlueboardQRCode";
-import BlueboardTimestamps from "../models/BlueboardTimestamps";
-import BlueboardQRCodePivot from "../models/BlueboardQRCodePivot";
+import BlueboardQRCode from '../models/BlueboardQRCode';
+import BlueboardTimestamps from '../models/BlueboardTimestamps';
+import BlueboardQRCodePivot from '../models/BlueboardQRCodePivot';
 
 class BlueboardQRCodeFactory {
     static getResponse(obj: any) {
@@ -21,6 +21,7 @@ class BlueboardQRCodeFactory {
             obj.secret,
             obj.name,
             obj.image,
+            obj.email,
             new BlueboardQRCodePivot(obj.pivot?.product_id, obj.pivot?.code_id)
         );
     }

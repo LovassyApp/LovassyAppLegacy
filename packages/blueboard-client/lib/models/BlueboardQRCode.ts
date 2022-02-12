@@ -1,5 +1,5 @@
-import BlueboardQRCodePivot from "./BlueboardQRCodePivot";
-import BlueboardTimestamps from "./BlueboardTimestamps";
+import BlueboardQRCodePivot from './BlueboardQRCodePivot';
+import BlueboardTimestamps from './BlueboardTimestamps';
 
 class BlueboardQRCode {
     constructor(
@@ -8,6 +8,7 @@ class BlueboardQRCode {
         public readonly secret: string,
         public readonly name: string,
         public readonly image: string,
+        public readonly email: string,
         public readonly pivot: BlueboardQRCodePivot
     ) {}
 }

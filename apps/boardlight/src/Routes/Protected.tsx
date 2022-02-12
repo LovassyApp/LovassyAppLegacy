@@ -10,6 +10,8 @@ import Products from '../Pages/Admin/Products';
 import EditProduct from '../Pages/Admin/EditProduct';
 import Store from '../Pages/Store';
 import Grades from '../Pages/Grades';
+import Lolo from '../Pages/Lolo';
+import Inventory from '../Pages/Inventory';
 
 export type ProtectedRoute = {
     path: string;
@@ -25,6 +27,8 @@ const protectedRoutes: ProtectedRoute[] = [
         exact: true,
     },
     { path: '/grades', component: <Grades />, exact: true },
+    { path: '/inventory', component: <Inventory />, exact: true },
+    { path: '/lolo', component: <Lolo />, exact: true },
     { path: '/store', component: <Store />, exact: true },
     { path: '/admin/users', component: <Users />, exact: true },
     { path: '/admin/users/edit/:id', component: <EditUser />, exact: false },

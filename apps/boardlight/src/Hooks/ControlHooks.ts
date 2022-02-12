@@ -1,4 +1,4 @@
-import { BlueboardControl, BlueboardUser } from 'blueboard-client';
+import { BlueboardControl, BlueboardUser, BlueboardUserGroup } from 'blueboard-client';
 import { useSelector } from 'react-redux';
 import { RootState } from '../State';
 
@@ -18,4 +18,10 @@ const useUser = (): BlueboardUser => {
     return control !== null ? control.user : ({} as BlueboardUser);
 };
 
-export { usePermissions, useControl, useUser };
+const useGroups = (): Array<BlueboardUserGroup> => {
+    const control = useControl();
+
+    return control !== null ? control.groups : [];
+};
+
+export { usePermissions, useControl, useUser, useGroups };

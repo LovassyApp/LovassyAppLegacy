@@ -11,3 +11,4 @@ export { default as BlueboardTokenRefresher } from './BlueboardTokenRefresher';
 export { default as BlueboardUsersClient } from './BlueboardUsersClient';
 export { default as BlueboardLoloClient } from './BlueboardLoloClient';
 export { default as BlueboardKretaClient } from './BlueboardKretaClient';
+export { default as BlueboardInventoryClient } from './BlueboardInventoryClient';

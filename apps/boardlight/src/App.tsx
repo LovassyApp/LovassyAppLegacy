@@ -30,8 +30,7 @@ const ToasterContainer = (): JSX.Element => {
                 position="top-center"
                 reverseOrder={true}
                 gutter={8}
-                containerClassName=""
-                containerStyle={{}}
+                containerStyle={{ zIndex: '2147483647' }}
                 toastOptions={{
                     // Define default options
                     className: '',

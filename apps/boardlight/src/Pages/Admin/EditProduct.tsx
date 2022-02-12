@@ -39,7 +39,7 @@ const EditProduct = () => {
     const [description, setDescription] = React.useState('Rövid sokatmondó leírás');
     const [files, setFiles] = React.useState<BoardlightFile[]>([]);
     const [markdown, setMarkdown] = React.useState('**Markdown a beváltáshoz / leíráshoz a shopban**<br>jej<br>kúl');
-    const [selectIsDisabled, setSelectDisabled] = React.useState(true);
+    const [codeIsDisabled, setCodeDisabled] = React.useState(true);
     const [price, setPrice] = React.useState(1);
     const [quantity, setQuantity] = React.useState(1);
     const [modalShow, setModalShow] = React.useState(false);
@@ -66,7 +66,7 @@ const EditProduct = () => {
             const image = await importImage(product.imageUrl);
             setInputs(product.inputs);
             setMarkdown(product.markdownContent);
-            setSelectDisabled(!Boolean(product.codeActivated));
+            setCodeDisabled(!Boolean(product.codeActivated));
             setName(product.name);
             setPrice(product.price);
             setQuantity(product.quantity);
@@ -98,7 +98,7 @@ const EditProduct = () => {
     const AddTextbox = () => {
         let obj = {
             name: 'semmi',
-            type: 'textbox',
+            type: 'textbox' as 'textbox',
             title: 'Cím',
         };
 
@@ -108,7 +108,7 @@ const EditProduct = () => {
     const addBoolean = () => {
         let obj = {
             name: 'semmi',
-            type: 'boolean',
+            type: 'boolean' as 'boolean',
             title: 'Cím',
         };
 
@@ -156,7 +156,7 @@ const EditProduct = () => {
             name: String(name),
             description: String(description),
             markdownContent: String(markdown),
-            codeActivated: Boolean(!selectIsDisabled),
+            codeActivated: Boolean(!codeIsDisabled),
             codes: selectedCodes.map((code) => code.value ?? code),
             price: Number(price),
             quantity: Number(quantity),
@@ -370,8 +370,8 @@ const EditProduct = () => {
                                             </Col>
                                             <Col xs="3">
                                                 <Switch
-                                                    checked={!selectIsDisabled}
-                                                    onChange={() => setSelectDisabled(!selectIsDisabled)}
+                                                    checked={!codeIsDisabled}
+                                                    onChange={() => setCodeDisabled(!codeIsDisabled)}
                                                 />
                                             </Col>
                                         </Row>
@@ -405,7 +405,7 @@ const EditProduct = () => {
                                                     },
                                                 };
                                             }}
-                                            isDisabled={selectIsDisabled}
+                                            isDisabled={codeIsDisabled}
                                             options={qrcodes}
                                             onChange={(e) => setSelectedCodes(e.map((e: any) => e.value))}
                                         />

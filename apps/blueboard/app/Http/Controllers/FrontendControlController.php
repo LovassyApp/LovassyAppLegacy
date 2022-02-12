@@ -27,6 +27,7 @@ class FrontendControlController extends Controller
             'user' => $user,
             'session' => $sessionData,
             'permissions' => $this->permissionHelper()->getAllPermissions(),
+            'groups' => $this->permissionHelper()->getUserGroups(),
             //'kretaDecrypted' => $crypt->getCreds(),
         ]);
     }

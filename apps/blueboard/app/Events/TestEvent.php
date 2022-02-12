@@ -39,6 +39,6 @@ class TestEvent implements ShouldBroadcast
 	 */
 	public function broadcastOn()
 	{
-		return new PrivateChannel('App.Models.User.' . $this->user->id);
+		return new PrivateChannel('Users.' . $this->user->id);
 	}
 }

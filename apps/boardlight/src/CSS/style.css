@@ -3,7 +3,9 @@
 @import './loader.css';
 
 *:focus {
-    outline: none;
+    outline-color: transparent !important;
+    outline-style: none !important;
+    box-shadow: none !important;
 }
 
 .layoutBase {
@@ -116,6 +118,17 @@
     background: rgb(230, 230, 230) !important;
 }
 
+.badge-primary {
+    color: whitesmoke;
+    background: linear-gradient(
+        111.19deg,
+        rgb(170, 255, 236) -63.59%,
+        rgb(255, 78, 205) -20.3%,
+        rgb(0, 112, 243) 70.46%
+    ) !important;
+    border: none;
+}
+
 .dropzone {
     flex: 1;
     display: flex;
@@ -147,6 +160,16 @@
         rgb(0, 112, 243) 70.46%
     ) !important;
     border-radius: calc(12px + 10rem) !important;
+}
+
+.swal2-backdrop-show {
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    transition: background 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.swal2-modal {
+    border-radius: 14px !important;
 }
 
 .dropdown-menu.show {

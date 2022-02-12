@@ -6,7 +6,7 @@
     ],
     "settings": {
         "git.ignoreLimitWarning": true,
-        "artisan.docker.command": "docker exec llgapp-app",
+        "artisan.docker.command": "docker exec blueboard",
         "artisan.docker.enabled": true,
         "LaravelAssist.pathControllers": ["${workspaceFolder}/packages/blueboard/app/Http/Controllers"]
     }

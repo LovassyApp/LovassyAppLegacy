@@ -14,70 +14,70 @@
 }*/
 
 .inputPage {
-	position: absolute;
-	height: 100%;
-	width: 65%;
+    position: absolute;
+    height: 100%;
+    width: 65%;
 }
 
 .asidePage {
-	position: absolute;
-	right: 0px;
-	top: 0px;
-	height: 100%;
-	width: 35%;
-	background: whitesmoke;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    height: 100%;
+    width: 35%;
+    background: whitesmoke;
 }
 
 .center {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100%;
-	padding: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 5%;
 }
 
 .inputCard {
-	width: 50%;
-	background: rgba(245, 245, 245, 0.25);
-	box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-	backdrop-filter: blur(8px);
-	-webkit-backdrop-filter: blur(4px);
-	border-radius: 14px;
-	border: 1px solid rgba(255, 255, 255, 0.18);
+    width: 50%;
+    background: rgba(245, 245, 245, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(4px);
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .logo {
-	border-radius: 14px;
-	width: 240px;
+    border-radius: 14px;
+    width: 240px;
 }
 
 .inputGroup {
-	border-radius: 30px !important;
+    border-radius: 30px !important;
 }
 
 @media only screen and (max-width: 768px) {
-	.asidePage {
-		display: none;
-	}
-	.inputCard {
-		width: 100%;
-	}
-	.inputPage {
-		width: 100%;
-	}
+    .asidePage {
+        display: none;
+    }
+    .inputCard {
+        width: 100%;
+    }
+    .inputPage {
+        width: 100%;
+    }
 }
 
 .adText {
-	color: rgb(63, 63, 63) !important;
+    color: rgb(63, 63, 63) !important;
 }
 
 .adText h2 {
-	background: linear-gradient(
-		111.19deg,
-		rgb(170, 255, 236) -63.59%,
-		rgb(255, 78, 205) -20.3%,
-		rgb(0, 112, 243) 70.46%
-	);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
+    background: linear-gradient(
+        111.19deg,
+        rgb(170, 255, 236) -63.59%,
+        rgb(255, 78, 205) -20.3%,
+        rgb(0, 112, 243) 70.46%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }

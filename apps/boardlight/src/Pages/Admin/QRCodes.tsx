@@ -5,7 +5,7 @@ import { Container, Grid, Card, Row, Text, Input, Button, NextUIThemes } from '@
 import TableLoader from '../../Components/TableLoader';
 import { MdAdd } from 'react-icons/md';
 import EmptyTable from '../../Components/EmptyTable';
-import { Popover, PopoverBody, Alert } from 'reactstrap';
+import { Popover, PopoverBody, Alert, UncontrolledTooltip } from 'reactstrap';
 import deleteModal from '../../Helpers/DeleteModal';
 import toast from 'react-hot-toast';
 import { useTheme } from '@nextui-org/react';
@@ -38,8 +38,9 @@ const QRCard = ({
                         objectFit="cover"
                         autoResize={false}
                         src={code.image}
-                        height={200}
-                        width={200}
+                        style={{ height: '200px', width: '200px' }}
+                        //height={200}
+                        //width={200}
                         alt="code"
                     />
                 </Card.Body>
@@ -57,7 +58,10 @@ const QRCard = ({
                                 maxWidth: '100px',
                             }}
                         >
-                            {code.name}
+                            <span id={`tooltip-${code.id}`}>{code.name}</span>
+                            <UncontrolledTooltip placement="bottom" target={`tooltip-${code.id}`}>
+                                Értesített E-mail: {code.email}
+                            </UncontrolledTooltip>
                         </Text>
                     </Row>
                     <Button
@@ -83,22 +87,24 @@ const QRCard = ({
 const AddCard = ({ bootstrap }: { bootstrap: () => void }) => {
     const [popover, setPopover] = React.useState(false);
     const [name, setName] = React.useState('');
+    const [email, setEmail] = React.useState('');
     const [errorShow, setErrorShow] = React.useState(false);
-    const [errors, setErrors] = React.useState<Array<string>>([]);
+    const [errors, setErrors] = React.useState<{ [key: string]: Array<string> }>({});
     const [savePending, setSavePending] = React.useState(false);
     const client = useBlueboardClient();
 
     const togglePopover = () => {
         setName('');
+        setEmail('');
         setErrorShow(false);
-        setErrors([]);
+        setErrors({});
         return setPopover(!popover);
     };
 
     const trySave = () => {
         setSavePending(true);
         client.qrcodes
-            .save(name)
+            .save(name, email)
             .then((res) => {
                 setSavePending(false);
                 bootstrap();
@@ -107,16 +113,24 @@ const AddCard = ({ bootstrap }: { bootstrap: () => void }) => {
             .catch((err) => {
                 setSavePending(false);
                 if (err.errors != null) {
-                    if (err.errors.name != null) {
-                        setErrors(err.errors.name);
-                        setErrorShow(true);
-                    }
+                    setErrors(err.errors);
                 } else {
-                    setErrors([err.message]);
+                    setErrors({ general: [err.message] });
                     setErrorShow(true);
                 }
             });
     };
+
+    const getErrors = (inputName: string) => {
+        const error = errors[inputName] ?? [];
+        let str = '';
+        error.forEach((el: string) => {
+            str = str + el + '\n';
+        });
+
+        return str;
+    };
+
     const theme = useTheme();
 
     return (
@@ -133,24 +147,38 @@ const AddCard = ({ bootstrap }: { bootstrap: () => void }) => {
                         clearable
                         bordered
                         underlined
-                        color={name === '' ? 'error' : 'primary'}
+                        color={getErrors('name') === '' ? 'primary' : 'error'}
+                        status={getErrors('name') === '' ? 'default' : 'error'}
+                        helperColor={getErrors('name') === '' ? 'default' : 'error'}
+                        helperText={getErrors('name')}
                         shadow={false}
                         onChange={(e) => setName(e.target.value)}
                         labelLeft="Név: "
                         initialValue={name}
                     />
+                    <Input
+                        fullWidth
+                        className="mt-2"
+                        clearable
+                        bordered
+                        underlined
+                        type="email"
+                        color={getErrors('email') === '' ? 'primary' : 'error'}
+                        status={getErrors('email') === '' ? 'default' : 'error'}
+                        helperColor={getErrors('email') === '' ? 'default' : 'error'}
+                        helperText={getErrors('email')}
+                        shadow={false}
+                        onChange={(e) => setEmail(e.target.value)}
+                        labelLeft="E-mail: "
+                        initialValue={email}
+                    />
                     <Alert className="mt-2" color="danger" isOpen={errorShow} toggle={() => setErrorShow(false)}>
-                        {errors.map((el) => (
-                            <span>
-                                {' '}
-                                {el} <br />{' '}
-                            </span>
-                        ))}
+                        {getErrors('general')}
                     </Alert>
                     <Center>
                         <Button
                             auto
-                            className="mt-2"
+                            className="mt-4"
                             loading={savePending}
                             loaderType="points"
                             color="gradient"
