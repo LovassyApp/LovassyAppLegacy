@@ -3,7 +3,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { KretaScreen } from "../screens/kretaScreen";
 import { LoginScreen } from "../screens/loginScreen";
 import { NavigationContainer } from "@react-navigation/native";
-import { Platform } from "react-native";
 import { ProductsScreen } from "../screens/admin/productsScreen";
 import { QrCodesScreen } from "../screens/admin/qrCodesScreen";
 import React from "react";
@@ -60,7 +59,7 @@ const MainNavigation = () => {
     return (
       <Tab.Navigator
         initialRouteName="Beállítások"
-        screenOptions={{ safeAreaInsets: { bottom: Platform.OS === "android" ? 100 : 0 } }}
+        screenOptions={{ safeAreaInsets: { top: 0 } }}
         barStyle={{
           backgroundColor: theme.colors.background,
           elevation: 0,
@@ -108,7 +107,6 @@ const MainNavigation = () => {
 
   return (
     <Tab.Navigator
-      screenOptions={{ safeAreaInsets: { bottom: Platform.OS === "android" ? 100 : 0 } }}
       barStyle={{
         backgroundColor: theme.colors.background,
         elevation: 0,
