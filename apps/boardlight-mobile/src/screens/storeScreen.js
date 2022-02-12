@@ -84,10 +84,10 @@ export const StoreScreen = () => {
     try {
       await client.store.buy(id);
       setSnackBarMessage("Vásárlás sikeres!");
-      setSnackBarTimeout(4000);
+      setSnackBarTimeout(3000);
     } catch (err) {
       setSnackBarMessage("Vásárlás sikertelen!");
-      setSnackBarTimeout(4000);
+      setSnackBarTimeout(3000);
     }
   };
 
@@ -205,7 +205,6 @@ export const StoreScreen = () => {
             setSnackBarOpen(false);
             setSnackBarTimeout(30000);
           }}
-          theme={theme}
           duration={snackBarTimeout}>
           {snackBarMessage}
         </Snackbar>

@@ -76,6 +76,5 @@ export const darkTheme = {
     ...DarkTheme.colors,
     primary: "#1976d2",
     accent: "#0d47a1",
-    onSurface: "#121212",
   },
 };
