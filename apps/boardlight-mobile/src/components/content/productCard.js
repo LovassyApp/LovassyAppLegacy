@@ -60,7 +60,7 @@ export const ProductCard = (props) => {
                   color: "#ffffff",
                 }}
                 style={{
-                  backgroundColor: lolo?.balance > props.product.price ? "#2e7d32" : "#d32f2f",
+                  backgroundColor: lolo?.balance >= props.product.price ? "#2e7d32" : "#d32f2f",
                   marginBottom: 2,
                   marginRight: 10,
                 }}>
