@@ -47,20 +47,38 @@ const ProviderStack = ({ children }) => {
       <BlueboardClientProvider token={token}>
         <AppBootstrapProvider>
           <BlueboardSocketProvider token={token}>
-            <PaperProvider
-              settings={{
-                icon: (props) => <Ionicons {...props} />,
-              }}
-              theme={theme}>
-              {/* This is here because it needs the theme and I didn't want to make a new provider for it */}
-              {loading && <FullScreenLoading />}
-              {children}
-            </PaperProvider>
+            <ListenerStack>
+              <PaperProvider
+                settings={{
+                  icon: (props) => <Ionicons {...props} />,
+                }}
+                theme={theme}>
+                {/* This is here because it needs the theme and I didn't want to make a new provider for it */}
+                {loading && <FullScreenLoading />}
+                {children}
+              </PaperProvider>
+            </ListenerStack>
           </BlueboardSocketProvider>
         </AppBootstrapProvider>
       </BlueboardClientProvider>
     </>
   );
+};
+
+const ListenerStack = ({ children }) => {
+  const dispatch = useDispatch();
+
+  const updateCallback = (data) => {
+    const { products } = data;
+
+    console.log("here1");
+
+    dispatch(setStore(products));
+  };
+
+  useBlueboardPrivateChannel("Store", "ProductUpdated", updateCallback);
+
+  return children;
 };
 
 const App = () => {

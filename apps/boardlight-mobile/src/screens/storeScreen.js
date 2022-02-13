@@ -11,11 +11,10 @@ import {
   Title,
   useTheme,
 } from "react-native-paper";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { fetchLolo, fetchStore } from "../utils/api/apiUtils";
 import { useBlueboardClient, useBlueboardPrivateChannel } from "blueboard-client-react";
-import { useDispatch, useSelector } from "react-redux";
 
 import BottomSheet from "../components/bottomSheet";
 import { LaButton } from "../components/content/customized/laButton";
@@ -23,13 +22,12 @@ import { LaInput } from "../components/content/customized/laInput";
 import { ProductCard } from "../components/content/productCard";
 import { ScreenContainer } from "../components/screenContainer";
 import { matchSorter } from "match-sorter";
-import { setStore } from "../store/slices/storeSlice";
 import { useLoading } from "../hooks/useLoading";
+import { useSelector } from "react-redux";
 
 export const StoreScreen = () => {
   const products = useSelector((state) => state.store.value);
   const lolo = useSelector((state) => state.lolo.value);
-  const dispatch = useDispatch();
 
   const bottomSheetRef = useRef();
   const [currentProduct, setCurrentProduct] = useState(null);
@@ -41,6 +39,13 @@ export const StoreScreen = () => {
   const theme = useTheme();
   const client = useBlueboardClient();
   const loading = useLoading();
+
+  // Weird solution I came up with to update the bottom sheet content in real time, since currentProduct is always gonna be 1 step behind in updateCallback
+  const currentProductRef = useRef();
+
+  useEffect(() => {
+    currentProductRef.current = currentProduct;
+  }, [currentProduct]);
 
   const renderedProducts =
     query === ""
@@ -62,14 +67,11 @@ export const StoreScreen = () => {
   };
 
   const updateCallback = (data) => {
-    const { products } = data;
     const { product } = data;
 
-    if (product.id === currentProduct?.id) {
+    if (product.id === currentProductRef.current?.id) {
       setCurrentProduct(product);
     }
-
-    dispatch(setStore(products));
   };
 
   useBlueboardPrivateChannel("Store", "ProductUpdated", updateCallback);
