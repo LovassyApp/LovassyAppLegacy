@@ -1,12 +1,12 @@
-import { Row, Col, Badge } from 'reactstrap';
-import { Card, Text, Button } from '@nextui-org/react';
-import { BlueboardInventoryItem, BlueboardProduct } from 'blueboard-client';
+import {Badge, Col, Row} from 'reactstrap';
+import {Button, Card, Text} from '@nextui-org/react';
+import {BlueboardInventoryItem, BlueboardProduct} from 'blueboard-client';
 
 const ProductCard = ({
-    product,
-    callback,
-    item,
-}: {
+                         product,
+                         callback,
+                         item,
+                     }: {
     product: BlueboardProduct;
     callback: (product: BlueboardProduct, item?: BlueboardInventoryItem) => void;
     item?: BlueboardInventoryItem;
@@ -32,17 +32,17 @@ const ProductCard = ({
                 </Col>
             </Card.Header>
             <Card.Body>
-                <Card.Image autoResize={false} src={product.imageUrl} height={300} alt="ez nemtom mi" />
+                <Card.Image autoResize={false} src={product.imageUrl} height={300} alt="ez nemtom mi"/>
             </Card.Body>
             <Card.Footer
                 blur
                 border
                 noPadding
                 borderColor="rgba(15, 17, 20, 0.4)"
-                style={{ position: 'absolute', zIndex: 1, bottom: 0 }}
+                style={{position: 'absolute', zIndex: 1, bottom: 0}}
             >
                 {item == null ? (
-                    <ProductFooter product={product} buttonCallback={callback} />
+                    <ProductFooter product={product} buttonCallback={callback}/>
                 ) : (
                     <ItemFooter item={item} buttonCallback={callback}></ItemFooter>
                 )}
@@ -52,16 +52,16 @@ const ProductCard = ({
 };
 
 const ItemFooter = ({
-    item,
-    buttonCallback,
-}: {
+                        item,
+                        buttonCallback,
+                    }: {
     item: BlueboardInventoryItem;
     buttonCallback: (product: BlueboardProduct, item: BlueboardInventoryItem) => void;
 }) => {
     return (
         <Row className="m-0 px-2 py-2 w-100">
-            <Col sm="2" xl="3">
-                <Row>
+            <Col sm="2" xl="3" className="align-self-center">
+                <Row className="align-self-center">
                     <Button
                         flat={item.usedAt === null}
                         //disabled={item.usedAt !== null}
@@ -78,7 +78,7 @@ const ItemFooter = ({
                     </Button>
                 </Row>
             </Col>
-            <Col className="float-end text-end">
+            <Col className="float-end text-end align-self-center">
                 {item.usedAt === null ? (
                     <>
                         {item.product.codeActivated ? (
@@ -103,7 +103,7 @@ const ItemFooter = ({
                     </>
                 ) : (
                     <div className="mt-1">
-                        <Badge pill className="align-middle mt-1" color="danger">
+                        <Badge pill color="danger">
                             Felhasználva ({item.usedAt})
                         </Badge>
                     </div>
@@ -114,9 +114,9 @@ const ItemFooter = ({
 };
 
 const ProductFooter = ({
-    product,
-    buttonCallback,
-}: {
+                           product,
+                           buttonCallback,
+                       }: {
     product: BlueboardProduct;
     buttonCallback: (product: BlueboardProduct) => void;
 }) => {
@@ -156,7 +156,7 @@ const ProductFooter = ({
                         Elfogyott
                     </Badge>
                 )}
-                <br />
+                <br/>
                 <Badge pill color="success">
                     {product.price} LoLó
                 </Badge>
