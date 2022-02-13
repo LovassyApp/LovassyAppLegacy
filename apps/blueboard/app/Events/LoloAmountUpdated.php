@@ -33,6 +33,7 @@ class LoloAmountUpdated implements ShouldBroadcast
     {
         return [
             'balance' => $this->newAmount,
+            'coins' => $this->user->lolo()->with('grades')->get(),
         ];
     }
 
