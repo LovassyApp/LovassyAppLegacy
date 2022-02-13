@@ -94,13 +94,6 @@ export const HomeScreen = ({ navigation }) => {
     return res;
   };
 
-  useEffect(() => {
-    if (coins !== null && coins.length - getTotalSpendings() !== user.balance) {
-      const newUser = { ...user, balance: coins.length - getTotalSpendings() };
-      dispatch(setUser(newUser));
-    }
-  }, []);
-
   return (
     <ScreenContainer scrollable={true}>
       <Headline>Kezdőlap</Headline>
