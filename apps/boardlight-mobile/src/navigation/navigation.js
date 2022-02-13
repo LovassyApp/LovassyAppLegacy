@@ -1,8 +1,9 @@
+import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
+
 import { HomeScreen } from "../screens/homeScreen";
 import { Ionicons } from "@expo/vector-icons";
 import { KretaScreen } from "../screens/kretaScreen";
 import { LoginScreen } from "../screens/loginScreen";
-import { NavigationContainer } from "@react-navigation/native";
 import { ProductsScreen } from "../screens/admin/productsScreen";
 import { QrCodesScreen } from "../screens/admin/qrCodesScreen";
 import React from "react";
@@ -16,6 +17,7 @@ import { createMaterialBottomTabNavigator } from "@react-navigation/material-bot
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useSelector } from "react-redux";
 import { useTheme } from "react-native-paper";
+import { useUser } from "../hooks/controlHooks";
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -24,6 +26,7 @@ const MainNavigation = () => {
   const theme = useTheme();
 
   const admin = useSelector((state) => state.settings.admin);
+  const user = useUser();
 
   //* For testing the scanner
   // return (
@@ -116,6 +119,7 @@ const MainNavigation = () => {
       <Tab.Screen
         name="Kezdőlap"
         options={{
+          tabBarBadge: `$${user.balance}`,
           tabBarIcon: ({ color }) => <Ionicons name="home" size={24} color={color} />,
         }}
         component={HomeScreen}

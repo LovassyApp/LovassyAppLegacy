@@ -7,7 +7,7 @@ import BlueboardTimestamps from "../models/BlueboardTimestamps";
 class BlueboardLoloResponseFactory {
     static getResponse(obj: any) {
         const balance = obj.balance;
-        const coins = this.getCoins(obj);
+        const coins = this.getCoins(obj.coins);
 
         return new BlueboardLoloResponse(balance, coins);
     }
@@ -15,7 +15,7 @@ class BlueboardLoloResponseFactory {
     static getCoins(obj: any): Array<BlueboardLoloCoin> {
         const coins: Array<BlueboardLoloCoin> = [];
 
-        for (const coin of obj.coins) {
+        for (const coin of obj) {
             const id = coin.id;
             const timestamps = new BlueboardTimestamps(
                 coin.created_at,
