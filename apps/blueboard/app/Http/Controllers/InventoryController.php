@@ -165,8 +165,8 @@ class InventoryController extends Controller
             $item->save();
         }
 
-        $job = new ItemUseNotifier($item, $code);
-        $job->dispatch($item, $code);
+        $job = new ItemUseNotifier($item, $user, $code);
+        $job->dispatch($item, $user, $code);
 
         return ResponseMaker::generate($item, 200, 'Item used successfully!');
     }

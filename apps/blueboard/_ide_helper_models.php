@@ -70,6 +70,7 @@ namespace App\Models{
  * @property int $history_id
  * @property int $user_id
  * @property string|null $used_at
+ * @property-read \App\Models\ItemUse|null $itemUse
  * @property-read \App\Models\Product|null $product
  * @method static \Illuminate\Database\Eloquent\Builder|InventoryItem newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|InventoryItem newQuery()
@@ -83,6 +84,29 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|InventoryItem whereUserId($value)
  */
 	class InventoryItem extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\ItemUse
+ *
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property mixed $values
+ * @property int $product_id
+ * @property int $item_id
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemUse newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemUse newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemUse query()
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemUse whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemUse whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemUse whereItemId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemUse whereProductId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemUse whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ItemUse whereValues($value)
+ */
+	class ItemUse extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -220,6 +244,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string $secret
  * @property string $name
+ * @property string $email
  * @property-read mixed $image
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Product[] $products
  * @property-read int|null $products_count
@@ -227,6 +252,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|QRCode newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|QRCode query()
  * @method static \Illuminate\Database\Eloquent\Builder|QRCode whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|QRCode whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|QRCode whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|QRCode whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|QRCode whereSecret($value)
@@ -294,9 +320,9 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read mixed $balance
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserGroup[] $groups
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Grade[] $grades
  * @property-read int|null $grades_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserGroup[] $groups
  * @property-read int|null $groups_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\InventoryItem[] $items
  * @property-read int|null $items_count
