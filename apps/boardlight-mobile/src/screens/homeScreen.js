@@ -1,5 +1,7 @@
 import { Divider, Headline, Subheading, Text, Title, useTheme } from "react-native-paper";
+import React, { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 
 import { BlueboardLoloReason } from "blueboard-client";
 import BottomSheet from "../components/bottomSheet";
@@ -7,21 +9,23 @@ import { GradeItem } from "../components/content/gradeItem";
 import { LaButton } from "../components/content/customized/laButton";
 import { LaCard } from "../components/content/laCard";
 import { LoloCoin } from "../components/content/loloCoin";
-import React from "react";
 import { ScreenContainer } from "../components/screenContainer";
-import { fetchLolo } from "../utils/api/apiUtils";
+import { fetchCoins } from "../utils/api/apiUtils";
+import { setUser } from "../store/slices/controlSlice";
 import { useBlueboardClient } from "blueboard-client-react";
 import { useLoading } from "../hooks/useLoading";
-import { useSelector } from "react-redux";
+import { useUser } from "../hooks/controlHooks";
 
 export const HomeScreen = ({ navigation }) => {
   const loading = useLoading();
 
-  const lolo = useSelector((state) => state.lolo.value);
+  const dispatch = useDispatch();
+  const coins = useSelector((state) => state.coins.value);
 
   const [displayCoins, setDisplayCoins] = React.useState(false);
 
   const client = useBlueboardClient();
+  const user = useUser();
 
   const styles = StyleSheet.create({
     coinsContainer: {
@@ -39,7 +43,7 @@ export const HomeScreen = ({ navigation }) => {
     loading(true);
 
     try {
-      await fetchLolo(client);
+      await fetchCoins(client);
     } catch (err) {
       console.log(err);
     }
@@ -50,7 +54,7 @@ export const HomeScreen = ({ navigation }) => {
   const getCoinsFromGrades = () => {
     var res = 0;
 
-    for (const coin of lolo.coins) {
+    for (const coin of coins) {
       if (
         coin.reason === BlueboardLoloReason.FromFive ||
         coin.reason === BlueboardLoloReason.FromFour
@@ -65,7 +69,7 @@ export const HomeScreen = ({ navigation }) => {
   const getCoinsFromRequests = () => {
     var res = 0;
 
-    for (const coin of lolo.coins) {
+    for (const coin of coins) {
       if (coin.reason === BlueboardLoloReason.FromRequest) {
         res++;
       }
@@ -75,13 +79,13 @@ export const HomeScreen = ({ navigation }) => {
   };
 
   const getCoins = () => {
-    return lolo?.coins.map((coin) => <LoloCoin data={coin} key={coin.id} minimal={true} />);
+    return coins?.map((coin) => <LoloCoin data={coin} key={coin.id} minimal={true} />);
   };
 
   const getTotalSpendings = () => {
     var res = 0;
 
-    for (const coin of lolo.coins) {
+    for (const coin of coins) {
       if (coin.isSpent) {
         res++;
       }
@@ -90,6 +94,13 @@ export const HomeScreen = ({ navigation }) => {
     return res;
   };
 
+  useEffect(() => {
+    if (coins !== null && coins.length - getTotalSpendings() !== user.balance) {
+      const newUser = { ...user, balance: coins.length - getTotalSpendings() };
+      dispatch(setUser(newUser));
+    }
+  }, []);
+
   return (
     <ScreenContainer scrollable={true}>
       <Headline>Kezdőlap</Headline>
@@ -97,7 +108,7 @@ export const HomeScreen = ({ navigation }) => {
         title={displayCoins ? "Kérelmek és érmék" : "Egyenleg"}
         actionIcon={displayCoins ? "arrow-back" : "arrow-forward"}
         onPress={() => setDisplayCoins(!displayCoins)}
-        error={lolo === null}
+        error={coins === null}
         retry={() => tryAgain()}>
         {displayCoins ? (
           <>
@@ -113,7 +124,7 @@ export const HomeScreen = ({ navigation }) => {
           <>
             <View style={styles.balanceView}>
               <Subheading>Jelenlegi egyenleg:</Subheading>
-              <Subheading>{lolo?.balance}</Subheading>
+              <Subheading>{user.balance}</Subheading>
             </View>
 
             <Divider style={{ width: "100%", marginVertical: 5 }} />

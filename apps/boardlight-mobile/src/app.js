@@ -7,6 +7,7 @@ import { setState, setTheme } from "./store/slices/settingsSlice";
 
 import AppBootstrapProvider from "./bootstrap/appBootstrapProvider";
 import { Appearance } from "react-native";
+import { BlueboardLoloResponseFactory } from "blueboard-client";
 import { FullScreenLoading } from "./components/fullScreenLoading";
 import { Ionicons } from "@expo/vector-icons";
 import { NavigationDecider } from "./navigation/navigation";
@@ -14,8 +15,11 @@ import { Provider as PaperProvider } from "react-native-paper";
 import { StatusBar } from "expo-status-bar";
 import { loadData } from "./utils/misc/storageUtils";
 import { registerRootComponent } from "expo";
+import { setCoins } from "./store/slices/coinsSlice";
 import { setStore } from "./store/slices/storeSlice";
+import { setUser } from "./store/slices/controlSlice";
 import store from "./store/store";
+import { useUser } from "./hooks/controlHooks";
 
 const [BlueboardProvider, BlueboardSocketProvider, BlueboardClientProvider] = BlueboardClientInit(
   BLUEBOARD_URL,
@@ -47,20 +51,41 @@ const ProviderStack = ({ children }) => {
       <BlueboardClientProvider token={token}>
         <AppBootstrapProvider>
           <BlueboardSocketProvider token={token}>
-            <PaperProvider
-              settings={{
-                icon: (props) => <Ionicons {...props} />,
-              }}
-              theme={theme}>
-              {/* This is here because it needs the theme and I didn't want to make a new provider for it */}
-              {loading && <FullScreenLoading />}
-              {children}
-            </PaperProvider>
+            <ListenerStack>
+              <PaperProvider
+                settings={{
+                  icon: (props) => <Ionicons {...props} />,
+                }}
+                theme={theme}>
+                {/* This is here because it needs the theme and I didn't want to make a new provider for it */}
+                {loading && <FullScreenLoading />}
+                {children}
+              </PaperProvider>
+            </ListenerStack>
           </BlueboardSocketProvider>
         </AppBootstrapProvider>
       </BlueboardClientProvider>
     </>
   );
+};
+
+const ListenerStack = ({ children }) => {
+  const dispatch = useDispatch();
+  const user = useUser();
+
+  useBlueboardPrivateChannel("Store", "ProductUpdated", (data) => {
+    const { products } = data;
+
+    dispatch(setStore(products));
+  });
+
+  useBlueboardPrivateChannel(`Users.${user.id}`, "LoloAmountUpdated", (data) => {
+    const newUser = { ...user, balance: data.balance };
+    dispatch(setCoins(BlueboardLoloResponseFactory.getCoins(data.coins)));
+    dispatch(setUser(newUser));
+  });
+
+  return children;
 };
 
 const App = () => {

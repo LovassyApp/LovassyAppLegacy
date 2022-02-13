@@ -1,15 +1,5 @@
 {
     "eslint.workingDirectories": ["./apps/boardlight-mobile"],
-    "files.exclude": {
-        "apps/boardlight-mobile/node_modules": true,
-        "apps/boardlight/node_modules": true,
-        ".idea": true,
-        "node_modules": true,
-        "packages/blueboard-client/node_modules": true,
-        "packages/blueboard-client-react/node_modules": true
-        // IntelliSense-nek kell. NE.
-        //"apps/blueboard/vendor": true
-    },
     "files.watcherExclude": {
         "**/.git/objects/**": true,
         "**/.git/subtree-cache/**": true,
