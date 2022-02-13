@@ -6,10 +6,11 @@ import { LaButton } from "./customized/laButton";
 import { LaCard } from "./laCard";
 import React from "react";
 import { useSelector } from "react-redux";
+import { useUser } from "../../hooks/controlHooks";
 
 export const ProductCard = (props) => {
   const theme = useTheme();
-  const lolo = useSelector((state) => state.lolo.value);
+  const user = useUser();
 
   const last = props.last ?? false;
 
@@ -60,7 +61,7 @@ export const ProductCard = (props) => {
                   color: "#ffffff",
                 }}
                 style={{
-                  backgroundColor: lolo?.balance >= props.product.price ? "#2e7d32" : "#d32f2f",
+                  backgroundColor: user.balance >= props.product.price ? "#2e7d32" : "#d32f2f",
                   marginBottom: 2,
                   marginRight: 10,
                 }}>

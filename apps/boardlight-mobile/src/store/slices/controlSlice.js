@@ -12,9 +12,30 @@ export const controlSlice = createSlice({
     removeControl: (state) => {
       state.value = null;
     },
+    setGroups: (state, action) => {
+      const newPermissions = [
+        ...new Set(action.payload.map((element) => element.permissions).flat()),
+      ];
+
+      const newControl = {
+        ...state.value,
+        groups: action.payload,
+        permissions: newPermissions,
+      };
+
+      state.value = newControl;
+    },
+    setUser: (state, action) => {
+      const newControl = {
+        ...state.value,
+        user: action.payload,
+      };
+
+      state.value = newControl;
+    },
   },
 });
 
-export const { setControl, removeControl } = controlSlice.actions;
+export const { setControl, removeControl, setGroups, setUser } = controlSlice.actions;
 
 export default controlSlice.reducer;

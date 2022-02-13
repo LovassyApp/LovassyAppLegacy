@@ -1,17 +1,26 @@
-import BlueboardKretaGrade from '../models/BlueboardKretaGrade';
-import BlueboardLoloCoin from '../models/BlueboardLoloCoin';
-import BlueboardLoloReason from '../models/BlueboardLoloReason';
-import BlueboardLoloResponse from '../models/BlueboardLoloResponse';
-import BlueboardTimestamps from '../models/BlueboardTimestamps';
+import BlueboardKretaGrade from "../models/BlueboardKretaGrade";
+import BlueboardLoloCoin from "../models/BlueboardLoloCoin";
+import BlueboardLoloReason from "../models/BlueboardLoloReason";
+import BlueboardLoloResponse from "../models/BlueboardLoloResponse";
+import BlueboardTimestamps from "../models/BlueboardTimestamps";
 
 class BlueboardLoloResponseFactory {
     static getResponse(obj: any) {
         const balance = obj.balance;
+        const coins = this.getCoins(obj);
+
+        return new BlueboardLoloResponse(balance, coins);
+    }
+
+    static getCoins(obj: any): Array<BlueboardLoloCoin> {
         const coins: Array<BlueboardLoloCoin> = [];
 
         for (const coin of obj.coins) {
             const id = coin.id;
-            const timestamps = new BlueboardTimestamps(coin.created_at, coin.updated_at);
+            const timestamps = new BlueboardTimestamps(
+                coin.created_at,
+                coin.updated_at
+            );
             const userId = coin.user_id;
             const historyId = coin.history_id;
             const isSpent = Boolean(coin.isSpent);
@@ -19,10 +28,10 @@ class BlueboardLoloResponseFactory {
             const reasonText = coin.reason.message;
 
             switch (coin.reason.message) {
-                case 'Ötösökből automatikusan generálva.':
+                case "Ötösökből automatikusan generálva.":
                     reason = BlueboardLoloReason.FromFive;
                     break;
-                case 'Négyesekből automatikusan generálva.':
+                case "Négyesekből automatikusan generálva.":
                     reason = BlueboardLoloReason.FromFour;
                     break;
                 default:
@@ -36,7 +45,10 @@ class BlueboardLoloResponseFactory {
                 grades.push(
                     new BlueboardKretaGrade(
                         grade.id,
-                        new BlueboardTimestamps(grade.created_at, grade.updated_at),
+                        new BlueboardTimestamps(
+                            grade.created_at,
+                            grade.updated_at
+                        ),
                         grade.user_id,
                         grade.lolo_id,
                         grade.uid,
@@ -57,10 +69,21 @@ class BlueboardLoloResponseFactory {
                 );
             }
 
-            coins.push(new BlueboardLoloCoin(id, timestamps, userId, historyId, isSpent, reason, grades, reasonText));
+            coins.push(
+                new BlueboardLoloCoin(
+                    id,
+                    timestamps,
+                    userId,
+                    historyId,
+                    isSpent,
+                    reason,
+                    grades,
+                    reasonText
+                )
+            );
         }
 
-        return new BlueboardLoloResponse(balance, coins);
+        return coins;
     }
 }
 

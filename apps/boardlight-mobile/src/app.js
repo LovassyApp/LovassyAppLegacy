@@ -7,6 +7,7 @@ import { setState, setTheme } from "./store/slices/settingsSlice";
 
 import AppBootstrapProvider from "./bootstrap/appBootstrapProvider";
 import { Appearance } from "react-native";
+import { BlueboardLoloResponseFactory } from "blueboard-client";
 import { FullScreenLoading } from "./components/fullScreenLoading";
 import { Ionicons } from "@expo/vector-icons";
 import { NavigationDecider } from "./navigation/navigation";
@@ -14,8 +15,11 @@ import { Provider as PaperProvider } from "react-native-paper";
 import { StatusBar } from "expo-status-bar";
 import { loadData } from "./utils/misc/storageUtils";
 import { registerRootComponent } from "expo";
+import { setCoins } from "./store/slices/coinsSlice";
 import { setStore } from "./store/slices/storeSlice";
+import { setUser } from "./store/slices/controlSlice";
 import store from "./store/store";
+import { useUser } from "./hooks/controlHooks";
 
 const [BlueboardProvider, BlueboardSocketProvider, BlueboardClientProvider] = BlueboardClientInit(
   BLUEBOARD_URL,
@@ -67,16 +71,19 @@ const ProviderStack = ({ children }) => {
 
 const ListenerStack = ({ children }) => {
   const dispatch = useDispatch();
+  const user = useUser();
 
-  const updateCallback = (data) => {
+  useBlueboardPrivateChannel("Store", "ProductUpdated", (data) => {
     const { products } = data;
 
-    console.log("here1");
-
     dispatch(setStore(products));
-  };
+  });
 
-  useBlueboardPrivateChannel("Store", "ProductUpdated", updateCallback);
+  useBlueboardPrivateChannel(`Users.${user.id}`, "LoloAmountUpdated", (data) => {
+    const newUser = { ...user, balance: data.balance };
+    dispatch(setCoins(BlueboardLoloResponseFactory.getCoins(data.coins)));
+    dispatch(setUser(newUser));
+  });
 
   return children;
 };
