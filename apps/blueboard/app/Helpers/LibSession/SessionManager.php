@@ -9,13 +9,15 @@ use Exception;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\LibSession\Session;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\DB;
 use App\Helpers\LibKreta\KretaEncrypter;
 use App\Models\PersonalAccessToken;
+use App\Models\User;
 
 /**
  * Session kezelő helper
+ *
  * Felkészülni: Kurva hosszú
+ *
  * De komolyan
  */
 class SessionManager
@@ -90,7 +92,7 @@ class SessionManager
     private function startSession(): string
     {
         $name = Str::random(6);
-        $user = Auth::user();
+        $user = self::user();
         $tokenObj = $user->createToken($name);
         $this->token = $tokenObj->plainTextToken;
         $expiry = strtotime('+30 minutes', strtotime($tokenObj->accessToken->created_at));
@@ -204,5 +206,10 @@ class SessionManager
         }
 
         return $sesman->encrypter;
+    }
+
+    public static function user(): User|null
+    {
+        return Auth::user();
     }
 }

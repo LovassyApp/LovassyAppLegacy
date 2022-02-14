@@ -78,6 +78,11 @@ class User extends Authenticatable
         return $this->hasMany(InventoryItem::class);
     }
 
+    public function requests()
+    {
+        return $this->hasMany(LoloRequest::class);
+    }
+
     protected $with = ['lolo'];
     protected $appends = ['balance' /*'groups'*/];
 

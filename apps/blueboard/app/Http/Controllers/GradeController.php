@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Helpers\LibKreta\Grades\KretaGradeCategory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Helpers\LibLolo\LoloHelper;
+use App\Helpers\LibSession\SessionManager;
 use App\Helpers\ResponseMaker;
 
 class GradeController extends Controller
@@ -17,7 +17,7 @@ class GradeController extends Controller
             LoloHelper::updateGrades();
         }
 
-        $allGrades = Auth::user()
+        $allGrades = SessionManager::user()
             ->grades()
             ->where('evaluationType', KretaGradeCategory::interim)
             ->orderBy('date', 'desc')

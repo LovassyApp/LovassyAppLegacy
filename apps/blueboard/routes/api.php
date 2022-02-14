@@ -73,6 +73,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/inventory', 'InventoryController@index');
     Route::post('/inventory', 'InventoryController@validateCode');
     Route::patch('/inventory', 'InventoryController@useItem');
+
+    // Requests
+    Route::get('/requests', 'LoloRequestController@index');
+    Route::put('/requests', 'LoloRequestController@create');
 });
 
 Route::get('/qrcodes/view/{image}', 'QRCodeController@show')

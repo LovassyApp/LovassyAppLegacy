@@ -6,11 +6,10 @@ use App\Exceptions\APIException;
 use App\Exceptions\InvalidCodeException;
 use App\Exceptions\ItemAlreadyUsedException;
 use App\Exceptions\NotYourItemException;
+use App\Helpers\LibSession\SessionManager;
 use App\Helpers\ResponseMaker;
 use App\Jobs\ItemUseNotifier;
-use App\Models\ItemUse;
 use App\Models\QRCode;
-use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -21,7 +20,7 @@ class InventoryController extends Controller
 
     public function index()
     {
-        $user = Auth::user();
+        $user = SessionManager::user();
         $items = $user
             ->items()
             ->with(['product'])
@@ -51,7 +50,7 @@ class InventoryController extends Controller
 
     public function validateCode(Request $request)
     {
-        $user = Auth::user();
+        $user = SessionManager::user();
 
         $code = $this->getQR($request);
 
@@ -90,7 +89,7 @@ class InventoryController extends Controller
         )['itemID'];
 
         // Current session's user
-        $user = Auth::user();
+        $user = SessionManager::user();
 
         // Get the item and check if it's one of the user's items
         try {

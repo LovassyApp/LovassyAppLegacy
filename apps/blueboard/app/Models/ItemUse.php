@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ItemUse extends Model
 {
+    use \Spiritix\LadaCache\Database\LadaCacheTrait;
     use HasFactory;
 
     protected $casts = [
