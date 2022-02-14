@@ -12,7 +12,7 @@ import { useBlueboardClient } from "blueboard-client-react";
 import { useLoading } from "../../hooks/useLoading";
 import { useSelector } from "react-redux";
 
-export const InventoryScreen = () => {
+export const InventoryScreen = ({ navigation }) => {
   const items = useSelector((state) => state.inventory.value);
 
   const [query, setQuery] = React.useState("");
@@ -22,7 +22,12 @@ export const InventoryScreen = () => {
 
   const getItems = () => {
     return renderedItems?.map((item, key) => (
-      <InventoryItem last={key === (renderedItems ?? []).length - 1} data={item} key={item.id} />
+      <InventoryItem
+        last={key === (renderedItems ?? []).length - 1}
+        data={item}
+        key={item.id}
+        onPress={() => navigation.navigate("Megerősítés", item)}
+      />
     ));
   };
 
