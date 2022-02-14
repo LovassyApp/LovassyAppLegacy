@@ -1,6 +1,11 @@
 import { Divider, Headline, Subheading, Text, Title, useTheme } from "react-native-paper";
 import React, { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
+import {
+  getCoinsFromGrades,
+  getCoinsFromRequests,
+  getTotalSpendings,
+} from "../utils/misc/loloUtils";
 import { useDispatch, useSelector } from "react-redux";
 
 import { BlueboardLoloReason } from "blueboard-client";
@@ -51,47 +56,8 @@ export const HomeScreen = ({ navigation }) => {
     loading(false);
   };
 
-  const getCoinsFromGrades = () => {
-    var res = 0;
-
-    for (const coin of coins) {
-      if (
-        coin.reason === BlueboardLoloReason.FromFive ||
-        coin.reason === BlueboardLoloReason.FromFour
-      ) {
-        res++;
-      }
-    }
-
-    return res;
-  };
-
-  const getCoinsFromRequests = () => {
-    var res = 0;
-
-    for (const coin of coins) {
-      if (coin.reason === BlueboardLoloReason.FromRequest) {
-        res++;
-      }
-    }
-
-    return res;
-  };
-
   const getCoins = () => {
     return coins?.map((coin) => <LoloCoin data={coin} key={coin.id} minimal={true} />);
-  };
-
-  const getTotalSpendings = () => {
-    var res = 0;
-
-    for (const coin of coins) {
-      if (coin.isSpent) {
-        res++;
-      }
-    }
-
-    return res;
   };
 
   return (
@@ -123,15 +89,15 @@ export const HomeScreen = ({ navigation }) => {
             <Divider style={{ width: "100%", marginVertical: 5 }} />
             <View style={styles.balanceView}>
               <Text>Összes loló jegyekből:</Text>
-              <Text>{getCoinsFromGrades()}</Text>
+              <Text>{getCoinsFromGrades(coins)}</Text>
             </View>
             <View style={styles.balanceView}>
               <Text>Összes loló kérelmekből:</Text>
-              <Text>{getCoinsFromRequests()}</Text>
+              <Text>{getCoinsFromRequests(coins)}</Text>
             </View>
             <View style={styles.balanceView}>
               <Text>Összes elköltött loló:</Text>
-              <Text>{getTotalSpendings()}</Text>
+              <Text>{getTotalSpendings(coins)}</Text>
             </View>
           </>
         )}
