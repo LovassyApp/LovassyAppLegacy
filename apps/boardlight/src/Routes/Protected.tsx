@@ -12,6 +12,7 @@ import Store from '../Pages/Store';
 import Grades from '../Pages/Grades';
 import Lolo from '../Pages/Lolo';
 import Inventory from '../Pages/Inventory';
+import Requests from '../Pages/Admin/Requests';
 
 export type ProtectedRoute = {
     path: string;
@@ -32,6 +33,7 @@ const protectedRoutes: ProtectedRoute[] = [
     { path: '/store', component: <Store />, exact: true },
     { path: '/admin/users', component: <Users />, exact: true },
     { path: '/admin/users/edit/:id', component: <EditUser />, exact: false },
+    { path: '/admin/requests', component: <Requests />, exact: true },
     { path: '/admin/permissions', component: <Permissions />, exact: true },
     { path: '/admin/permissions/edit/:id', component: <EditGroup />, exact: false },
     { path: '/admin/qrcodes', component: <QRCodes />, exact: true },

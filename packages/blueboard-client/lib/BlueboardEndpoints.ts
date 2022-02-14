@@ -16,6 +16,10 @@ class BlueboardEndpoints {
     public readonly store: string = '';
     public readonly ping: string = '';
     public readonly inventory: string = '';
+    public readonly requests: {
+        base: string;
+        all: string;
+    };
 
     constructor(baseUrl: string) {
         this.base = baseUrl + this.apiBase;
@@ -49,6 +53,7 @@ class BlueboardEndpoints {
         this.lolo = this.base + '/lolo';
         this.store = this.base + '/store';
         this.inventory = this.base + '/inventory';
+        this.requests = { base: this.base + '/lolo/requests', all: this.base + '/lolo/requests/all' };
 
         this.ping = this.base + '/status';
     }

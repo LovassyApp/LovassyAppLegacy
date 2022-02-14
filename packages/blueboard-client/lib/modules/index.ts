@@ -12,3 +12,4 @@ export { default as BlueboardUsersClient } from './BlueboardUsersClient';
 export { default as BlueboardLoloClient } from './BlueboardLoloClient';
 export { default as BlueboardKretaClient } from './BlueboardKretaClient';
 export { default as BlueboardInventoryClient } from './BlueboardInventoryClient';
+export { default as BlueboardRequestsClient } from './BlueboardRequestsClient';

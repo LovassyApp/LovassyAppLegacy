@@ -5,3 +5,4 @@ export { default as BlueboardQRCodeFactory } from './BlueboardQRCodeFactory';
 export { default as BlueboardLoginResponseFactory } from './BlueboardLoginResponseFactory';
 export { default as BlueboardUserFactory } from './BlueboardUserFactory';
 export { default as BlueboardInventoryFactory } from './BlueboardInventoryFactory';
+export { default as BlueboardLoloRequestFactory } from './BlueboardLoloRequestFactory';

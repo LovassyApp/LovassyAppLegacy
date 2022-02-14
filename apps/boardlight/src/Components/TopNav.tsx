@@ -15,11 +15,12 @@ import * as React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-    MdSecurity,
+    MdOutlineSecurity,
     MdOutlineStore,
     MdOutlineGrade,
     MdOutlineProductionQuantityLimits,
-    MdOutlineSettings,
+    //MdOutlineSettings,
+    MdOutlineRequestPage,
     MdOutlinePeopleAlt,
     MdOutlineHome,
     MdOutlineAttachMoney,
@@ -147,6 +148,18 @@ const TopNav = (): JSX.Element => {
                         <NavItem>
                             <NavLink
                                 href="#"
+                                active={history.location.pathname === '/admin/requests'}
+                                onClick={() => {
+                                    history.push('/admin/requests');
+                                }}
+                            >
+                                <MdOutlineRequestPage className="mb-1" />
+                                <span className="ml-4"> Kérvények</span>
+                            </NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink
+                                href="#"
                                 active={history.location.pathname === '/admin/qrcodes'}
                                 onClick={() => {
                                     history.push('/admin/qrcodes');
@@ -176,11 +189,11 @@ const TopNav = (): JSX.Element => {
                                     history.push('/admin/permissions');
                                 }}
                             >
-                                <MdSecurity className="mb-1" />
+                                <MdOutlineSecurity className="mb-1" />
                                 <span className="ml-4"> Jogosultságok</span>
                             </NavLink>
                         </NavItem>
-                        <NavItem>
+                        {/*<NavItem>
                             <NavLink
                                 href="#"
                                 active={history.location.pathname === '/admin/settings'}
@@ -191,7 +204,7 @@ const TopNav = (): JSX.Element => {
                                 <MdOutlineSettings className="mb-1" />
                                 <span className="ml-4"> Rendszerbeállítások</span>
                             </NavLink>
-                        </NavItem>
+                            </NavItem>*/}
                     </Nav>
                     <Nav navbar>
                         <UncontrolledDropdown inNavbar>

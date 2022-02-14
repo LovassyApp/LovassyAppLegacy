@@ -1,5 +1,5 @@
-import BlueboardUser from "../models/BlueboardUser";
-import BlueboardTimestamps from "../models/BlueboardTimestamps";
+import BlueboardUser from '../models/BlueboardUser';
+import BlueboardTimestamps from '../models/BlueboardTimestamps';
 
 class BlueboardUserFactory {
     static getUser(obj: any) {
@@ -7,9 +7,9 @@ class BlueboardUserFactory {
             obj.id,
             obj.name,
             obj.email,
+            obj.groups,
             new BlueboardTimestamps(obj.created_at, obj.updated_at),
-            obj.balance,
-            obj.groups
+            obj.balance
         );
     }
 }

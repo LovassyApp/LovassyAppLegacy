@@ -12,12 +12,12 @@ class LoloRequestController extends Controller
 {
     public function index(): JsonResponse
     {
-        $requests = LoloRequest::all();
+        $requests = LoloRequest::with('user')->get();
 
         return ResponseMaker::generate($requests);
     }
 
-    public function userRequests(): JsonResponse
+    public function show(): JsonResponse
     {
         $requests = SessionManager::user()
             ->requests()

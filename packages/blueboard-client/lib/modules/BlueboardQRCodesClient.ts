@@ -14,7 +14,7 @@ class BlueboardQRCodesClient extends BlueboardBaseClient {
     public save = async (name: string, email: string) => {
         const url = this.endpoints.admin.qrcodes;
 
-        const res = (await this.stdPostRequest(url, {
+        const res = (await this.stdPutRequest(url, {
             name: name,
             email: email,
         })) as BlueboardResponse;

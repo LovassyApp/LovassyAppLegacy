@@ -29,6 +29,7 @@ Route::post('/register', 'AuthController@register');
 
 // Csak session-nel
 Route::middleware(['auth:sanctum'])->group(function () {
+    // Socket auth
     Route::get('/broadcasting/auth', [BroadcastController::class, 'authenticate']);
     Route::post('/broadcasting/auth', [BroadcastController::class, 'authenticate']);
 
@@ -42,7 +43,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Permissions / User groupok
     Route::get('/permissions/groups', 'PermissionController@index');
     Route::get('/permissions/list', 'PermissionController@getPermissions');
-    Route::post('/permissions/groups', 'PermissionController@save');
+    Route::put('/permissions/groups', 'PermissionController@save');
     Route::patch('/permissions/groups', 'PermissionController@update');
     Route::delete('/permissions/groups', 'PermissionController@delete');
     Route::get('/permissions/groups/{id}', 'PermissionController@getGroup');
@@ -55,7 +56,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // QRCodes
     Route::get('/qrcodes', 'QRCodeController@index');
-    Route::post('/qrcodes', 'QRCodeController@create');
+    Route::put('/qrcodes', 'QRCodeController@create');
     Route::delete('/qrcodes', 'QRCodeController@delete');
 
     // Products
@@ -75,8 +76,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::patch('/inventory', 'InventoryController@useItem');
 
     // Requests
-    Route::get('/requests', 'LoloRequestController@index');
-    Route::put('/requests', 'LoloRequestController@create');
+    Route::get('/lolo/requests', 'LoloRequestController@show');
+    Route::put('/lolo/requests', 'LoloRequestController@create');
+    Route::get('/lolo/requests/all', 'LoloRequestController@index');
+    Route::patch('/lolo/requests/all', 'LoloRequestController@update');
 });
 
 Route::get('/qrcodes/view/{image}', 'QRCodeController@show')

@@ -21,3 +21,5 @@ export { default as BlueboardQRCodePivot } from './BlueboardQRCodePivot';
 export { default as BlueboardInventoryItem } from './BlueboardInventoryItem';
 export { default as BlueboardCodeValidationResponse } from './BlueboardCodeValidationResponse';
 export { default as BlueboardItemUse } from './BlueboardItemUse';
+export { default as BlueboardLoloRequest } from './BlueboardLoloRequest';
+export { default as BlueboardLoloRequestAction } from './BlueboardLoloRequestAction';
