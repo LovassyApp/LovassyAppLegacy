@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\InventoryItemCreated;
 use App\Exceptions\InsufficientFundsException;
 use App\Exceptions\ProductOutOfStockException;
 use App\Helpers\ResponseMaker;
@@ -29,7 +30,9 @@ class StoreController extends Controller
         ])['productId'];
         $product = Product::findOrFail($id);
 
-        $userId = Auth::user()->id;
+        $user = Auth::user();
+        $userId = $user->id;
+
         $loloObj = LoloHelper::getLolo();
 
         if ($product->price > $loloObj->balance) {
@@ -62,6 +65,8 @@ class StoreController extends Controller
 
         $history->item_id = $item->id;
         $history->save();
+
+        InventoryItemCreated::dispatch($user, $item->id);
 
         return ResponseMaker::generate([], 200, 'Item purchased successfully!');
     }

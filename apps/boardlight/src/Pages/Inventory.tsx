@@ -253,6 +253,7 @@ const Inventory = () => {
     });
 
     const [items, setItems] = React.useState<BlueboardInventoryItem[]>([] as BlueboardInventoryItem[]);
+    const itemsRef = React.useRef<BlueboardInventoryItem[]>([] as BlueboardInventoryItem[]);
     const [loading, setLoading] = React.useState<boolean>(true);
     const [query, setQuery] = React.useState<string>('');
     const [visible, setVisible] = React.useState<boolean>(false);
@@ -268,6 +269,7 @@ const Inventory = () => {
             .items()
             .then((res) => {
                 setItems(res);
+                itemsRef.current = res;
                 setLoading(false);
             })
             .catch((err) => toast.error(err.message));
@@ -278,8 +280,11 @@ const Inventory = () => {
         (data: any) => {
             const newItem = BlueboardInventoryFactory.getItem(data.item);
 
-            let itemsClone = [...items];
+            let itemsClone = [...itemsRef.current];
+
             const index = itemsClone.findIndex((x) => x.id === data.item.id);
+
+            console.log(index === -1);
 
             if (index === -1) {
                 itemsClone.push(newItem);
@@ -287,15 +292,18 @@ const Inventory = () => {
                 itemsClone[index] = newItem;
             }
 
-            setItems(itemsClone);
+            itemsRef.current = itemsClone;
+
+            setItems(itemsRef.current);
         },
-        [items]
+        [itemsRef]
     );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     React.useEffect(bootstrap, []);
 
     useBlueboardPrivateChannel('Users.' + user.id, 'InventoryItemUsed', itemChange);
+    useBlueboardPrivateChannel('Users.' + user.id, 'InventoryItemCreated', itemChange);
 
     const renderedItems =
         query === '' ? items : matchSorter(items, query, { keys: ['product.name', 'product.description'] });
