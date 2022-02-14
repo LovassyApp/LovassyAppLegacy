@@ -7,7 +7,7 @@ import AuthLayout from '../Layouts/Auth';
 import toast from 'react-hot-toast';
 import { useBlueboardClient, useBlueboardPrivateChannel } from 'blueboard-client-react';
 import { useUser } from '../Hooks/ControlHooks';
-import { BlueboardClient, BlueboardInventoryItem, BlueboardProduct } from 'blueboard-client';
+import { BlueboardClient, BlueboardInventoryFactory, BlueboardInventoryItem, BlueboardProduct } from 'blueboard-client';
 import Center from '../Components/Center';
 import TableLoader from '../Components/TableLoader';
 import ProductCard from '../Components/ProductCard';
@@ -274,8 +274,28 @@ const Inventory = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    const itemChange = React.useCallback(
+        (data: any) => {
+            const newItem = BlueboardInventoryFactory.getItem(data.item);
+
+            let itemsClone = [...items];
+            const index = itemsClone.findIndex((x) => x.id === data.item.id);
+
+            if (index === -1) {
+                itemsClone.push(newItem);
+            } else {
+                itemsClone[index] = newItem;
+            }
+
+            setItems(itemsClone);
+        },
+        [items]
+    );
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
     React.useEffect(bootstrap, []);
+
+    useBlueboardPrivateChannel('Users.' + user.id, 'InventoryItemUsed', itemChange);
 
     const renderedItems =
         query === '' ? items : matchSorter(items, query, { keys: ['product.name', 'product.description'] });

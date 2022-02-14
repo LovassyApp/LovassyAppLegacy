@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\InventoryItemUsed;
 use App\Exceptions\APIException;
 use App\Exceptions\InvalidCodeException;
 use App\Exceptions\ItemAlreadyUsedException;
@@ -163,6 +164,8 @@ class InventoryController extends Controller
             ]);
             $item->save();
         }
+
+        InventoryItemUsed::dispatch($user, $item);
 
         $job = new ItemUseNotifier($item, $user, $code);
         $job->dispatch($item, $user, $code);

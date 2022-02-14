@@ -22,7 +22,13 @@ const GroupListener = ({
     useBlueboardPrivateChannel('Groups.' + groupID, 'UserGroupUpdated', (data: any) => {
         let groupsClone = [...groups];
         const index = groupsClone.findIndex((x) => x.id === groupID);
-        groupsClone[index] = data.group;
+
+        if (index === -1) {
+            groupsClone.push(data.group);
+        } else {
+            groupsClone[index] = data.group;
+        }
+
         dispatch(setGroups(groupsClone));
         toast.success('Felhasználói jogosultságok frissítve!');
     });
