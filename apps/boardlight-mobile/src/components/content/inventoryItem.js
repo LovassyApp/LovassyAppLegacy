@@ -1,7 +1,7 @@
 /* eslint-disable newline-per-chained-call */
 /* eslint-disable indent */
 import { Chip, Headline, IconButton, List, Text, useTheme } from "react-native-paper";
-import { Image, View } from "react-native";
+import { Image, Platform, View } from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
@@ -24,6 +24,8 @@ export const InventoryItem = (props) => {
               borderRadius: theme.roundness,
               height: 106,
               flexDirection: "row",
+              marginVertical: 5,
+              marginBottom: props.last && Platform.OS === "ios" ? 40 : 5,
             }
           : {
               padding: 0,
@@ -39,6 +41,8 @@ export const InventoryItem = (props) => {
               },
               height: 106,
               flexDirection: "row",
+              marginVertical: 5,
+              marginBottom: props.last && Platform.OS === "ios" ? 40 : 5,
             }
       }>
       <Image
