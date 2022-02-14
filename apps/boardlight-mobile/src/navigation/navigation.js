@@ -1,6 +1,7 @@
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 
 import { HomeScreen } from "../screens/homeScreen";
+import { InventoryScreen } from "../screens/activation/inventoryScreen";
 import { Ionicons } from "@expo/vector-icons";
 import { KretaScreen } from "../screens/kretaScreen";
 import { LoginScreen } from "../screens/loginScreen";
@@ -9,7 +10,8 @@ import { QrCodesScreen } from "../screens/admin/qrCodesScreen";
 import React from "react";
 import { RegisterScreen } from "../screens/registerScreen";
 import { RequestsScreen } from "../screens/admin/requestsScreen";
-import { ScanScreen } from "../screens/scanScreen";
+import { ResultScreen } from "../screens/activation/resultScreen";
+import { ScanScreen } from "../screens/activation/scanScreen";
 import { SettingsScreen } from "../screens/settingsScreen";
 import { StoreScreen } from "../screens/storeScreen";
 import { UsersScreen } from "../screens/admin/usersScreen";
@@ -132,11 +134,11 @@ const MainNavigation = () => {
         component={KretaScreen}
       />
       <Tab.Screen
-        name="Beolvasás"
+        name="Kincstár"
         options={{
-          tabBarIcon: ({ color }) => <Ionicons name="qr-code" size={24} color={color} />,
+          tabBarIcon: ({ color }) => <Ionicons name="file-tray-full" size={24} color={color} />,
         }}
-        component={ScanScreen}
+        component={ActivationNavigation}
       />
       <Tab.Screen
         name="Áruház"
@@ -164,6 +166,19 @@ const LoginNavigation = () => {
       }}>
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
+    </Stack.Navigator>
+  );
+};
+
+const ActivationNavigation = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Stack.Screen name="Tovább" component={InventoryScreen} />
+      <Stack.Screen name="Beolvasás" component={ScanScreen} />
+      <Stack.Screen name="Eredmény" component={ResultScreen} />
     </Stack.Navigator>
   );
 };

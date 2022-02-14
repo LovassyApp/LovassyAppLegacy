@@ -6,8 +6,8 @@ import { BarCodeScanner } from "expo-barcode-scanner";
 import BarcodeMask from "react-native-barcode-mask";
 import { Camera } from "expo-camera";
 import { Ionicons } from "@expo/vector-icons";
-import { LaButton } from "../components/content/customized/laButton";
-import { ScreenContainer } from "../components/screenContainer";
+import { LaButton } from "../../components/content/customized/laButton";
+import { ScreenContainer } from "../../components/screenContainer";
 import { useIsFocused } from "@react-navigation/core";
 
 // TODO: Finish this once theres a backend for it - Possibly with an other screen for confirmation

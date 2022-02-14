@@ -12,13 +12,13 @@
             "${workspaceFolder}/packages/blueboard/app/Http/Controllers"
         ],
         "files.exclude": {
-            "apps/blueboard/node_modules": false,
-            "node_modules": false,
-            "packages/blueboard-client/node_modules": false,
-            "packages/blueboard-client-react/node_modules": false,
-            "apps/boardlight/node_modules": false,
-            "apps/boardlight-mobile/node_modules": false
+            "apps/blueboard/node_modules": true,
+            "node_modules": true,
+            "packages/blueboard-client/node_modules": true,
+            "packages/blueboard-client-react/node_modules": true,
+            "apps/boardlight/node_modules": true,
+            "apps/boardlight-mobile/node_modules": true
         },
-        "workspace.isHidden": false
+        "workspace.isHidden": true
     }
 }
