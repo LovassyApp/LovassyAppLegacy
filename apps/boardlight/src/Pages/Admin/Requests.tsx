@@ -2,24 +2,30 @@ import React from 'react';
 import AuthLayout from '../../Layouts/Auth';
 import HeaderCard from '../../Components/HeaderCard';
 import DataTable from 'react-data-table-component';
-import { Container, Col, Row, Card, CardBody, Badge } from 'reactstrap';
+import { Container, Col, Row, Card, CardBody, Badge, Modal } from 'reactstrap';
 import { Button, useTheme } from '@nextui-org/react';
 import TableLoader from '../../Components/TableLoader';
-import { useHistory } from 'react-router';
 import toast from 'react-hot-toast';
 import EmptyTable from '../../Components/EmptyTable';
-import deleteModal from '../../Helpers/DeleteModal';
 import { useBlueboardClient } from 'blueboard-client-react';
-import { BlueboardLoloRequest, BlueboardUser, BlueboardUserGroup } from 'blueboard-client';
-import { useUser } from '../../Hooks/ControlHooks';
+import { BlueboardClient, BlueboardLoloRequest } from 'blueboard-client';
+import { eventDeclaration } from '../../Hooks/EventHooks';
+
+const RequestModalContent = ({
+    client,
+    callback,
+    request,
+}: {
+    client: BlueboardClient;
+    callback: () => void;
+    request: eventDeclaration;
+}) => {};
+
 const Requests = () => {
     const [requests, setRequests] = React.useState<BlueboardLoloRequest[]>([]);
     const [loading, setLoading] = React.useState(true);
-    const history = useHistory();
     const theme = useTheme();
     const client = useBlueboardClient();
-
-    const user = useUser();
 
     const bootstrap = async () => {
         setLoading(true);
@@ -36,29 +42,6 @@ const Requests = () => {
         bootstrap();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-    const deleteRow = async (row: BlueboardUser) => {
-        const res = await deleteModal(
-            'Biztos, hogy törölni szeretnéd ezt a felhasználót?',
-            'Törlés - ' + row.name,
-            theme
-        );
-
-        if (res.isConfirmed) {
-            toast.promise(
-                client.users.delete(row.id as number).then(() => bootstrap()),
-                {
-                    loading: 'Törlés...',
-                    success: 'Sikeresen törölve!',
-                    error: 'Hiba történt!',
-                }
-            );
-        }
-    };
-
-    const editEl = async (el: BlueboardLoloRequest) => {
-        console.log(el);
-    };
 
     const columns = [
         {
@@ -79,6 +62,31 @@ const Requests = () => {
                 const unix = Date.parse(row.timestamps.createdAt);
                 const date = new Date(unix);
                 return date.toLocaleString();
+            },
+        },
+        {
+            name: '',
+            cell: (row: BlueboardLoloRequest) => {
+                if (row.acceptedAt !== null) {
+                    return (
+                        <Badge color="success" pill>
+                            Elfogadva ({row.acceptedAt})
+                        </Badge>
+                    );
+                }
+                if (row.deniedAt !== null) {
+                    return (
+                        <Badge color="danger" pill>
+                            Elutasítva ({row.deniedAt})
+                        </Badge>
+                    );
+                }
+
+                return (
+                    <Button auto color="gradient">
+                        Megtekintés
+                    </Button>
+                );
             },
         },
     ];
