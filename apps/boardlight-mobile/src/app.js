@@ -4,6 +4,7 @@ import { Provider, useDispatch, useSelector } from "react-redux";
 import React, { useEffect } from "react";
 import { darkTheme, lightTheme } from "./utils/theme/themes";
 import { setState, setTheme } from "./store/slices/settingsSlice";
+import { setUser, setUserBalance } from "./store/slices/controlSlice";
 
 import AppBootstrapProvider from "./bootstrap/appBootstrapProvider";
 import { Appearance } from "react-native";
@@ -17,7 +18,6 @@ import { loadData } from "./utils/misc/storageUtils";
 import { registerRootComponent } from "expo";
 import { setCoins } from "./store/slices/coinsSlice";
 import { setStore } from "./store/slices/storeSlice";
-import { setUser } from "./store/slices/controlSlice";
 import store from "./store/store";
 import { useUser } from "./hooks/controlHooks";
 
@@ -80,9 +80,8 @@ const ListenerStack = ({ children }) => {
   });
 
   useBlueboardPrivateChannel(`Users.${user.id}`, "LoloAmountUpdated", (data) => {
-    const newUser = { ...user, balance: data.balance };
     dispatch(setCoins(BlueboardLoloResponseFactory.getCoins(data.coins)));
-    dispatch(setUser(newUser));
+    dispatch(setUserBalance(data.balance));
   });
 
   return children;

@@ -33,9 +33,20 @@ export const controlSlice = createSlice({
 
       state.value = newControl;
     },
+    setUserBalance: (state, action) => {
+      const newControl = {
+        ...state.value,
+        user: {
+          ...state.value.user,
+          balance: action.payload,
+        },
+      };
+      state.value = newControl;
+    },
   },
 });
 
-export const { setControl, removeControl, setGroups, setUser } = controlSlice.actions;
+export const { setControl, removeControl, setGroups, setUser, setUserBalance } =
+  controlSlice.actions;
 
 export default controlSlice.reducer;

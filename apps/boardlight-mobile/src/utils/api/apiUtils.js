@@ -2,7 +2,6 @@ import store from "../../store/store";
 
 export const fetchCoins = async (client, refresh = true, token = null) => {
   const { dispatch } = store;
-  const { user } = store.getState().control.value;
 
   try {
     const res = await client.lolo.get(refresh, token);
@@ -12,10 +11,9 @@ export const fetchCoins = async (client, refresh = true, token = null) => {
       payload: res.coins,
     });
 
-    const newUser = { ...user, balance: res.balance };
     dispatch({
-      type: "control/setUser",
-      payload: newUser,
+      type: "control/setUserBalance",
+      payload: res.balance,
     });
   } catch (err) {
     console.log(err);
