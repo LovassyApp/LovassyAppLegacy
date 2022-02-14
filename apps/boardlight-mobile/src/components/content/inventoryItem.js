@@ -11,8 +11,6 @@ export const InventoryItem = (props) => {
   const theme = useTheme();
   const { product } = props.data;
 
-  console.log(props.data);
-
   return (
     <View
       style={

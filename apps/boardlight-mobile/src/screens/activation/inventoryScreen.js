@@ -1,17 +1,24 @@
 /* eslint-disable indent */
-import { Headline, HelperText, TextInput } from "react-native-paper";
+import { Button, Headline, HelperText, Text, TextInput } from "react-native-paper";
 
 import { InventoryItem } from "../../components/content/inventoryItem";
 import { LaInput } from "../../components/content/customized/laInput";
 import React from "react";
 import { ScreenContainer } from "../../components/screenContainer";
+import { View } from "react-native";
+import { fetchInventory } from "../../utils/api/apiUtils";
 import { matchSorter } from "match-sorter";
+import { useBlueboardClient } from "blueboard-client-react";
+import { useLoading } from "../../hooks/useLoading";
 import { useSelector } from "react-redux";
 
 export const InventoryScreen = () => {
   const items = useSelector((state) => state.inventory.value);
 
   const [query, setQuery] = React.useState("");
+
+  const client = useBlueboardClient();
+  const loading = useLoading();
 
   const getItems = () => {
     return renderedItems?.map((item, key) => (
@@ -26,6 +33,30 @@ export const InventoryScreen = () => {
           keys: ["product.name", "product.description"],
           threshold: matchSorter.rankings.CONTAINS,
         });
+
+  const tryAgain = async () => {
+    loading(true);
+
+    try {
+      await fetchInventory(client);
+    } catch (err) {
+      console.log(err);
+    }
+
+    loading(false);
+  };
+
+  if (!items) {
+    return (
+      <ScreenContainer>
+        <Headline>Áruház</Headline>
+        <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+          <Text>Az adatok lekérése sikertelen</Text>
+          <Button onPress={() => tryAgain()}>Próbáld újra</Button>
+        </View>
+      </ScreenContainer>
+    );
+  }
 
   return (
     <ScreenContainer scrollable={true}>

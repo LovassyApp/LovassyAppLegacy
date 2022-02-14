@@ -113,6 +113,7 @@ const MainNavigation = () => {
 
   return (
     <Tab.Navigator
+      initialRouteName="Kezdőlap"
       barStyle={{
         backgroundColor: theme.colors.background,
         elevation: 0,
@@ -162,6 +163,7 @@ const MainNavigation = () => {
 const LoginNavigation = () => {
   return (
     <Stack.Navigator
+      initialRouteName="Login"
       screenOptions={{
         headerShown: false,
       }}>
@@ -174,6 +176,7 @@ const LoginNavigation = () => {
 const ActivationNavigation = () => {
   return (
     <Stack.Navigator
+      initialRouteName="Kezdőlap"
       screenOptions={{
         headerShown: false,
       }}>
