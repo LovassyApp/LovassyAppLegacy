@@ -3,6 +3,7 @@ import { saveData, secureSaveData } from "../utils/misc/storageUtils";
 import coinsReducer from "./slices/coinsSlice";
 import { configureStore } from "@reduxjs/toolkit";
 import controlReducer from "./slices/controlSlice";
+import inventoryReducer from "./slices/inventorySlice";
 import kretaReducer from "./slices/kretaSlice";
 import loadingReducer from "./slices/loadingSlice";
 import refreshTokenReducer from "./slices/refreshTokenSlice";
@@ -20,6 +21,7 @@ const store = configureStore({
     kreta: kretaReducer,
     loading: loadingReducer,
     store: storeReducer,
+    inventory: inventoryReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

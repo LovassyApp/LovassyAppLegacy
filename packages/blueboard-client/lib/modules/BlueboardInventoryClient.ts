@@ -1,12 +1,24 @@
-import { BlueboardCodeValidationResponse } from '..';
-import BlueboardBaseClient from '../BlueboardBaseClient';
-import BlueboardInventoryFactory from '../factories/BlueboardInventoryFactory';
+import BlueboardBaseClient from "../BlueboardBaseClient";
+import { BlueboardCodeValidationResponse } from "..";
+import BlueboardInventoryFactory from "../factories/BlueboardInventoryFactory";
 
 class BlueboardInventoryClient extends BlueboardBaseClient {
-    public items = async () => {
+    public items = async (forcedToken?: string) => {
         const url = this.endpoints.inventory;
 
-        const res = BlueboardInventoryFactory.getResponse(await this.stdGetRequest(url));
+        const res = BlueboardInventoryFactory.getResponse(
+            forcedToken
+                ? this.stdGetRequest(
+                      url,
+                      {},
+                      {},
+                      {
+                          Authorization: "Bearer " + forcedToken,
+                          Accept: "application/json",
+                      }
+                  )
+                : await this.stdGetRequest(url)
+        );
 
         return res;
     };
@@ -28,13 +40,17 @@ class BlueboardInventoryClient extends BlueboardBaseClient {
 
     public useItem = async (
         itemID: number,
-        codeData: string = '',
+        codeData: string = "",
         inputs: { [key: string]: string | boolean } = {}
     ) => {
         const url = this.endpoints.inventory;
 
         const res = BlueboardInventoryFactory.getItem(
-            await this.stdPatchRequest(url, { code: codeData ?? '', itemID: itemID, inputs: inputs })
+            await this.stdPatchRequest(url, {
+                code: codeData ?? "",
+                itemID: itemID,
+                inputs: inputs,
+            })
         );
 
         return res;

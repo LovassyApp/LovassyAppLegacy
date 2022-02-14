@@ -15,7 +15,7 @@ import { LaButton } from "../components/content/customized/laButton";
 import { LaCard } from "../components/content/laCard";
 import { LoloCoin } from "../components/content/loloCoin";
 import { ScreenContainer } from "../components/screenContainer";
-import { fetchCoins } from "../utils/api/apiUtils";
+import { fetchLolo } from "../utils/api/apiUtils";
 import { setUser } from "../store/slices/controlSlice";
 import { useBlueboardClient } from "blueboard-client-react";
 import { useLoading } from "../hooks/useLoading";
@@ -48,7 +48,7 @@ export const HomeScreen = ({ navigation }) => {
     loading(true);
 
     try {
-      await fetchCoins(client);
+      await fetchLolo(client);
     } catch (err) {
       console.log(err);
     }
@@ -64,21 +64,13 @@ export const HomeScreen = ({ navigation }) => {
     <ScreenContainer scrollable={true}>
       <Headline>Kezdőlap</Headline>
       <LaCard
-        title={displayCoins ? "Kérelmek és érmék" : "Egyenleg"}
+        title={displayCoins ? "Érmék" : "Egyenleg"}
         actionIcon={displayCoins ? "arrow-back" : "arrow-forward"}
         onPress={() => setDisplayCoins(!displayCoins)}
         error={coins === null}
         retry={() => tryAgain()}>
         {displayCoins ? (
-          <>
-            <Subheading style={{ marginVertical: 5 }}>Kérelmek</Subheading>
-            {/* TODO: finish this */}
-            <View style={{ height: 100, justifyContent: "center" }}>
-              <Text style={{ textAlign: "center" }}>Úgy néz ki nincsenek kérelmeid</Text>
-            </View>
-            <Subheading style={{ marginVertical: 5 }}>Érmék</Subheading>
-            {getCoins()}
-          </>
+          <>{getCoins()}</>
         ) : (
           <>
             <View style={styles.balanceView}>
@@ -102,10 +94,10 @@ export const HomeScreen = ({ navigation }) => {
           </>
         )}
       </LaCard>
-      <LaCard title="Birtokolt termékek" actionIcon="arrow-forward">
-        <Text style={{ alignSelf: "center", margin: 25 }}>Úgy néz ki nincs semmid</Text>
-        <LaButton dense={true} onPress={() => navigation.navigate("Áruház")}>
-          Irány az áruház
+      <LaCard title="Kérelmek">
+        <Text style={{ alignSelf: "center", margin: 25 }}>Úgy néz ki nincsenek kérelmeid</Text>
+        <LaButton dense={true} onPress={() => {}}>
+          Kérelem létrehozása
         </LaButton>
       </LaCard>
     </ScreenContainer>

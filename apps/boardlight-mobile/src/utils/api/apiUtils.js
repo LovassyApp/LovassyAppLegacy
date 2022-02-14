@@ -1,7 +1,9 @@
 import store from "../../store/store";
 
-export const fetchCoins = async (client, refresh = true, token = null) => {
+export const fetchLolo = async (client, refresh = true, token = null) => {
   const { dispatch } = store;
+
+  console.log("DEBUG: Fetching lolo...");
 
   try {
     const res = await client.lolo.get(refresh, token);
@@ -23,6 +25,8 @@ export const fetchCoins = async (client, refresh = true, token = null) => {
 export const fetchGrades = async (client, refresh = true, token = null) => {
   const { dispatch } = store;
 
+  console.log("DEBUG: Fetching grades...");
+
   try {
     const res = await client.kreta.grades(refresh, token);
 
@@ -38,11 +42,30 @@ export const fetchGrades = async (client, refresh = true, token = null) => {
 export const fetchStore = async (client, token = null) => {
   const { dispatch } = store;
 
+  console.log("DEBUG: Fetching store...");
+
   try {
     const res = await client.store.all(token);
 
     dispatch({
       type: "store/setStore",
+      payload: res,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const fetchInventory = async (client, token = null) => {
+  const { dispatch } = store;
+
+  console.log("DEBUG: Fetching inventory...");
+
+  try {
+    const res = await client.inventory.items(token);
+
+    dispatch({
+      type: "inventory/setInventory",
       payload: res,
     });
   } catch (err) {

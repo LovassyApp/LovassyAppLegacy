@@ -1,5 +1,6 @@
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 
+import { ConfirmScreen } from "../screens/activation/confirmScreen";
 import { HomeScreen } from "../screens/homeScreen";
 import { InventoryScreen } from "../screens/activation/inventoryScreen";
 import { Ionicons } from "@expo/vector-icons";
@@ -176,7 +177,8 @@ const ActivationNavigation = () => {
       screenOptions={{
         headerShown: false,
       }}>
-      <Stack.Screen name="Tovább" component={InventoryScreen} />
+      <Stack.Screen name="Kezdőlap" component={InventoryScreen} />
+      <Stack.Screen name="Megerősítés" component={ConfirmScreen} />
       <Stack.Screen name="Beolvasás" component={ScanScreen} />
       <Stack.Screen name="Eredmény" component={ResultScreen} />
     </Stack.Navigator>

@@ -13,7 +13,7 @@ import {
 } from "react-native-paper";
 import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { fetchCoins, fetchStore } from "../utils/api/apiUtils";
+import { fetchLolo, fetchStore } from "../utils/api/apiUtils";
 import { useBlueboardClient, useBlueboardPrivateChannel } from "blueboard-client-react";
 
 import BottomSheet from "../components/bottomSheet";
@@ -120,7 +120,7 @@ export const StoreScreen = () => {
     loading(true);
 
     try {
-      await fetchCoins(client);
+      await fetchLolo(client);
       await fetchStore(client);
     } catch (err) {
       console.log(err);
