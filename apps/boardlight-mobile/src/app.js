@@ -1,14 +1,15 @@
 import { BLUEBOARD_SOKETI_HOST, BLUEBOARD_SOKETI_KEY, BLUEBOARD_URL } from "@env";
 import { BlueboardClientInit, useBlueboardPrivateChannel } from "blueboard-client-react";
+import { BlueboardInventoryFactory, BlueboardLoloResponseFactory } from "blueboard-client";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import React, { useEffect } from "react";
+import { addItem, updateItem } from "./store/slices/inventorySlice";
 import { darkTheme, lightTheme } from "./utils/theme/themes";
 import { setState, setTheme } from "./store/slices/settingsSlice";
 import { setUser, setUserBalance } from "./store/slices/controlSlice";
 
 import AppBootstrapProvider from "./bootstrap/appBootstrapProvider";
 import { Appearance } from "react-native";
-import { BlueboardLoloResponseFactory } from "blueboard-client";
 import { FullScreenLoading } from "./components/fullScreenLoading";
 import { Ionicons } from "@expo/vector-icons";
 import { NavigationDecider } from "./navigation/navigation";
@@ -82,6 +83,14 @@ const ListenerStack = ({ children }) => {
   useBlueboardPrivateChannel(`Users.${user.id}`, "LoloAmountUpdated", (data) => {
     dispatch(setCoins(BlueboardLoloResponseFactory.getCoins(data.coins)));
     dispatch(setUserBalance(data.balance));
+  });
+
+  useBlueboardPrivateChannel(`Users.${user.id}`, "InventoryItemCreated", (data) => {
+    dispatch(addItem(BlueboardInventoryFactory.getItem(data.item)));
+  });
+
+  useBlueboardPrivateChannel(`Users.${user.id}`, "InventoryItemUsed", (data) => {
+    dispatch(updateItem(BlueboardInventoryFactory.getItem(data.item)));
   });
 
   return children;
