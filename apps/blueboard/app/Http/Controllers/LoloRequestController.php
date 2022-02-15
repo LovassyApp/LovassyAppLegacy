@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\LoloAmountUpdated;
 use App\Exceptions\APIException;
 use App\Exceptions\RequestOverruleException;
 use App\Helpers\LibLolo\LoloGenerator;
@@ -57,7 +58,9 @@ class LoloRequestController extends Controller
             ['loloAmount.required_if' => 'The amount is required when accepting a request.']
         );
 
-        $loloRequest = LoloRequest::findOrFail($data['id']);
+        $loloRequest = LoloRequest::with('user')
+            ->where('id', $data['id'])
+            ->first();
 
         if ($loloRequest->accepted_at !== null || $loloRequest->denied_at !== null) {
             throw new RequestOverruleException();
@@ -72,6 +75,10 @@ class LoloRequestController extends Controller
                 $loloRequest->accepted_at = Carbon::now();
                 $loloRequest->save();
                 LoloGenerator::saveRequest($data['loloAmount'], $loloRequest);
+                LoloAmountUpdated::dispatch(
+                    $loloRequest->user,
+                    $loloRequest->user->balance + (int) $data['loloAmount']
+                );
                 break;
 
             default:
