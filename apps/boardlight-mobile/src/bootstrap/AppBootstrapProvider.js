@@ -12,6 +12,7 @@ import { removeToken, setToken } from "../store/slices/tokenSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 import AppLoading from "expo-app-loading";
+import { CourierPrime_400Regular } from "@expo-google-fonts/courier-prime";
 import { eagerLoad } from "../utils/api/eagerLoad";
 import { secureLoadData } from "../utils/misc/storageUtils";
 import { useBlueboardClient } from "blueboard-client-react";
@@ -32,6 +33,7 @@ const AppBootstrapProvider = ({ children }) => {
     Poppins_500Medium,
     Poppins_300Light,
     Poppins_100Thin,
+    CourierPrime_400Regular,
   });
 
   const fetchControl = async (token, refreshToken) => {
