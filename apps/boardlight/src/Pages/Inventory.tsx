@@ -30,8 +30,8 @@ const ItemModalContent = ({
     callback,
     client,
 }: {
-    productEventDeclaration: eventDeclaration;
-    itemEventDeclaration: eventDeclaration;
+    productEventDeclaration: eventDeclaration<BlueboardProduct>;
+    itemEventDeclaration: eventDeclaration<BlueboardInventoryItem>;
     closeHandler: any;
     callback: any;
     client: BlueboardClient;
@@ -85,16 +85,8 @@ const ItemModalContent = ({
                     }
                 });
         },
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [qrContent, inputState]
+        [qrContent, inputState, client, callback, closeHandler]
     );
-
-    const startScan = React.useCallback(() => {
-        clearScan();
-        setScan(true);
-        setButtonLoading(true);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     const clearScan = React.useCallback(() => {
         setScan(false);
@@ -104,29 +96,37 @@ const ItemModalContent = ({
         setCodeName('');
     }, []);
 
-    const handleScan = React.useCallback((data) => {
-        (async () => {
-            if (data !== null) {
-                clearScan();
-                setButtonLoading(true);
-                try {
-                    const codeData = await client.inventory.verifyCode(data);
-                    const foundItem: any = codeData.usableItems.find((x) => x.id === item.id);
-                    if (foundItem === undefined) {
-                        throw new Error();
-                    }
-                    setQRContent(data);
-                    setCodeName(codeData.codeName);
-                    setCodeValidated(true);
-                    setButtonLoading(false);
-                } catch (e) {
-                    toast.error('A beolvasott kód nem használható a termék beváltására.');
+    const startScan = React.useCallback(() => {
+        clearScan();
+        setScan(true);
+        setButtonLoading(true);
+    }, [clearScan]);
+
+    const handleScan = React.useCallback(
+        (data) => {
+            (async () => {
+                if (data !== null) {
                     clearScan();
+                    setButtonLoading(true);
+                    try {
+                        const codeData = await client.inventory.verifyCode(data);
+                        const foundItem: any = codeData.usableItems.find((x) => x.id === item.id);
+                        if (foundItem === undefined) {
+                            throw new Error();
+                        }
+                        setQRContent(data);
+                        setCodeName(codeData.codeName);
+                        setCodeValidated(true);
+                        setButtonLoading(false);
+                    } catch (e) {
+                        toast.error('A beolvasott kód nem használható a termék beváltására.');
+                        clearScan();
+                    }
                 }
-            }
-        })();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+            })();
+        },
+        [client, item, clearScan]
+    );
 
     const handleError = React.useCallback((error) => {
         toast.error(error.message);
@@ -229,6 +229,7 @@ const ItemModalContent = ({
                     auto
                     rounded
                     color="success"
+                    flat
                     disabled={product.codeActivated && codeValidated === false}
                     onClick={() => {
                         sendCallback(product, item);
@@ -259,9 +260,15 @@ const Inventory = () => {
     const [visible, setVisible] = React.useState<boolean>(false);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [productRef, setProduct, productEventDeclaration] = useStatefulEvent(0, 'inventoryProductEvent');
+    const [productRef, setProduct, productEventDeclaration] = useStatefulEvent<BlueboardProduct>(
+        {} as BlueboardProduct,
+        'inventoryProductEvent'
+    );
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [itemRef, setItem, itemEventDeclaration] = useStatefulEvent(0, 'inventoryItemEvent');
+    const [itemRef, setItem, itemEventDeclaration] = useStatefulEvent<BlueboardInventoryItem>(
+        {} as BlueboardInventoryItem,
+        'inventoryItemEvent'
+    );
 
     const bootstrap = React.useCallback(() => {
         setLoading(true);
@@ -273,8 +280,7 @@ const Inventory = () => {
                 setLoading(false);
             })
             .catch((err) => toast.error(err.message));
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [client]);
 
     const itemChange = React.useCallback(
         (data: any) => {
@@ -318,14 +324,15 @@ const Inventory = () => {
                 setVisible(true);
             }
         },
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [theme]
+        [theme, setItem, setProduct]
     );
 
-    const itemCallback = React.useCallback((product: BlueboardProduct, item: BlueboardInventoryItem) => {
-        itemUsedModalFresh(item, theme);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    const itemCallback = React.useCallback(
+        (product: BlueboardProduct, item: BlueboardInventoryItem) => {
+            itemUsedModalFresh(item, theme);
+        },
+        [theme]
+    );
 
     const closeHandler = React.useCallback(() => {
         setVisible(false);
@@ -333,9 +340,7 @@ const Inventory = () => {
             setProduct(defaultProduct);
             setItem(defaultItem);
         }, 200);
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [setItem, setProduct]);
 
     return (
         <AuthLayout>

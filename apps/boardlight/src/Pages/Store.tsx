@@ -23,7 +23,7 @@ const ProductModalContent = ({
     closeHandler,
     buyCallback,
 }: {
-    eventDeclaration: eventDeclaration;
+    eventDeclaration: eventDeclaration<BlueboardProduct>;
     user: BlueboardUser;
     closeHandler: any;
     buyCallback: (id: number) => void;
@@ -146,6 +146,7 @@ const ProductModalContent = ({
                     auto
                     rounded
                     color="success"
+                    flat
                     disabled={product.price > (user.balance ?? 0) || product.quantity < 1}
                     onClick={() => {
                         buyCallback(product.id as number);
@@ -166,7 +167,10 @@ const Store = () => {
     const [products, setProducts] = React.useState<BlueboardProduct[]>([]);
     const [visible, setVisible] = React.useState(false);
 
-    const [productRef, setProduct, eventDeclaration] = useStatefulEvent(0, 'storeEventCustom');
+    const [productRef, setProduct, eventDeclaration] = useStatefulEvent<BlueboardProduct>(
+        {} as BlueboardProduct,
+        'storeEventCustom'
+    );
 
     const openBuy = (product: BlueboardProduct) => {
         setProduct(product);

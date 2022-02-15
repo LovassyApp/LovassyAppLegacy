@@ -2,32 +2,163 @@ import React from 'react';
 import AuthLayout from '../../Layouts/Auth';
 import HeaderCard from '../../Components/HeaderCard';
 import DataTable from 'react-data-table-component';
-import { Container, Col, Row, Card, CardBody, Badge, Modal } from 'reactstrap';
-import { Button, useTheme } from '@nextui-org/react';
+import { Container, Col, Row, Card, CardBody, Badge, ButtonGroup, Button as RSButton } from 'reactstrap';
+import { Button, useTheme, Modal, Text, Input } from '@nextui-org/react';
 import TableLoader from '../../Components/TableLoader';
 import toast from 'react-hot-toast';
 import EmptyTable from '../../Components/EmptyTable';
 import { useBlueboardClient } from 'blueboard-client-react';
-import { BlueboardClient, BlueboardLoloRequest } from 'blueboard-client';
-import { eventDeclaration } from '../../Hooks/EventHooks';
+import { BlueboardClient, BlueboardLoloRequest, BlueboardLoloRequestAction } from 'blueboard-client';
+import { eventDeclaration, useStatefulEvent, useStatefulListener } from '../../Hooks/EventHooks';
+import { FormElement } from '@nextui-org/react/esm/input/input-props';
 
 const RequestModalContent = ({
     client,
     callback,
+    closeHandler,
     request,
 }: {
     client: BlueboardClient;
     callback: () => void;
-    request: eventDeclaration;
-}) => {};
+    closeHandler: () => void;
+    request: eventDeclaration<BlueboardLoloRequest>;
+}) => {
+    const requestState = useStatefulListener(request);
+
+    const [loloCount, setLoloCount] = React.useState(1);
+    const [verdict, setVerdict] = React.useState<BlueboardLoloRequestAction>(0);
+
+    const [errors, setErrors] = React.useState<{ [key: string]: Array<string> }>({});
+    const [savePending, setSavePending] = React.useState(false);
+
+    const getErrors = (inputName: string) => {
+        const err = errors ?? ({} as { [key: string]: Array<string> });
+
+        const error = err[inputName] ?? [];
+        let str = '';
+        error.forEach((el: string) => {
+            str = str + el + '\n';
+        });
+
+        return str;
+    };
+
+    const send = React.useCallback(() => {
+        setSavePending(true);
+        setErrors({});
+        client.lolo_request
+            .update(requestState.id, verdict, loloCount)
+            .then((res) => {
+                toast.success('Kérvény sikeresen frissítve!');
+                setSavePending(false);
+                closeHandler();
+                callback();
+            })
+            .catch((err) => {
+                setSavePending(false);
+                if (err.errors != null) {
+                    setErrors(err.errors);
+                } else {
+                    toast.error(err.message);
+                }
+            });
+    }, [loloCount, verdict, requestState, client, callback, closeHandler]);
+
+    return (
+        <>
+            <Modal.Header style={{ border: 'none' }}>
+                <Text id="modal-title" size={18}>
+                    Kérvény - {requestState.title}
+                </Text>
+            </Modal.Header>
+            <Modal.Body>
+                <Row>
+                    <Col xs="4" md="2">
+                        Törzsszöveg:
+                    </Col>
+                    <Col>
+                        <Text p> {requestState.body} </Text>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col md="6">
+                        <ButtonGroup>
+                            <RSButton
+                                disabled={savePending}
+                                active={verdict === BlueboardLoloRequestAction.accept}
+                                color={verdict === BlueboardLoloRequestAction.accept ? 'success' : 'secondary'}
+                                onClick={() => setVerdict(BlueboardLoloRequestAction.accept)}
+                            >
+                                Jóváhagyás
+                            </RSButton>
+                            <RSButton
+                                disabled={savePending}
+                                active={verdict === BlueboardLoloRequestAction.deny}
+                                color={verdict === BlueboardLoloRequestAction.deny ? 'danger' : 'secondary'}
+                                onClick={() => setVerdict(BlueboardLoloRequestAction.deny)}
+                            >
+                                Elutasítás
+                            </RSButton>
+                        </ButtonGroup>
+                    </Col>
+                </Row>
+                {verdict === BlueboardLoloRequestAction.accept ? (
+                    <>
+                        <Row>
+                            <Col xs="4" md="2">
+                                Jóváhagyott összeg:
+                            </Col>
+                            <Col>
+                                <Input
+                                    fullWidth
+                                    bordered
+                                    underlined
+                                    disabled={savePending}
+                                    type="number"
+                                    min="1"
+                                    shadow={false}
+                                    onChange={(e: React.ChangeEvent<FormElement>) =>
+                                        setLoloCount(Number(e.target.value))
+                                    }
+                                    labelRight="LoLó"
+                                    initialValue={String(loloCount)}
+                                    color={getErrors('loloAmount') === '' ? 'primary' : 'error'}
+                                    status={getErrors('loloAmount') === '' ? 'default' : 'error'}
+                                    helperColor={getErrors('loloAmount') === '' ? 'default' : 'error'}
+                                    helperText={getErrors('loloAmount')}
+                                />
+                            </Col>
+                        </Row>
+                    </>
+                ) : (
+                    <></>
+                )}
+            </Modal.Body>
+            <Modal.Footer style={{ overflow: 'visible', border: 'none' }}>
+                <Button auto rounded flat color="error" onClick={closeHandler}>
+                    Mégsem
+                </Button>
+                <Button auto rounded color="success" flat onClick={send} loading={savePending} loaderType="points">
+                    Küldés
+                </Button>
+            </Modal.Footer>
+        </>
+    );
+};
 
 const Requests = () => {
     const [requests, setRequests] = React.useState<BlueboardLoloRequest[]>([]);
     const [loading, setLoading] = React.useState(true);
+    const [show, setShow] = React.useState(false);
+
+    const closeHandler = React.useCallback(() => {
+        setShow(false);
+    }, []);
+
     const theme = useTheme();
     const client = useBlueboardClient();
 
-    const bootstrap = async () => {
+    const bootstrap = React.useCallback(() => {
         setLoading(true);
         client.lolo_request
             .all()
@@ -36,12 +167,15 @@ const Requests = () => {
                 setLoading(false);
             })
             .catch((err) => toast.error(err.message));
-    };
+    }, [client]);
 
-    React.useEffect(() => {
-        bootstrap();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    // eslint-disable-next-line
+    const [requestRef, setRequest, eventDecl] = useStatefulEvent<BlueboardLoloRequest>(
+        {} as BlueboardLoloRequest,
+        'loloRequestEvent'
+    );
+
+    React.useEffect(bootstrap, [bootstrap]);
 
     const columns = [
         {
@@ -83,7 +217,14 @@ const Requests = () => {
                 }
 
                 return (
-                    <Button auto color="gradient">
+                    <Button
+                        auto
+                        onClick={() => {
+                            setRequest(row);
+                            setShow(true);
+                        }}
+                        color="gradient"
+                    >
                         Megtekintés
                     </Button>
                 );
@@ -93,6 +234,22 @@ const Requests = () => {
 
     return (
         <AuthLayout>
+            <Modal
+                closeButton
+                blur
+                aria-labelledby="modal-title"
+                open={show}
+                onClose={closeHandler}
+                preventClose
+                width="650px"
+            >
+                <RequestModalContent
+                    closeHandler={closeHandler}
+                    request={eventDecl}
+                    client={client}
+                    callback={bootstrap}
+                />
+            </Modal>
             <HeaderCard title="LoLó kérvények" />
             <Container fluid style={{ width: '95%' }}>
                 <Row className="ml-2 mr-2">

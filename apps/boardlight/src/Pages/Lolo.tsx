@@ -9,7 +9,7 @@ import TableLoader from '../Components/TableLoader';
 import { Col, Container, Row, Badge } from 'reactstrap';
 import Center from '../Components/Center';
 import toast from 'react-hot-toast';
-import { BlueboardClient, BlueboardLoloData } from 'blueboard-client';
+import { BlueboardClient, BlueboardLoloData, BlueboardLoloReason } from 'blueboard-client';
 
 const RequestModalContent = ({ closeHandler, client }: { closeHandler: () => void; client: BlueboardClient }) => {
     const [body, setBody] = React.useState('');
@@ -46,7 +46,7 @@ const RequestModalContent = ({ closeHandler, client }: { closeHandler: () => voi
                     toast.error(err.message);
                 }
             });
-    }, [body, title]);
+    }, [body, title, client, closeHandler]);
 
     return (
         <>
@@ -100,7 +100,7 @@ const RequestModalContent = ({ closeHandler, client }: { closeHandler: () => voi
                 <Button auto rounded flat color="error" onClick={closeHandler}>
                     Mégsem
                 </Button>
-                <Button auto rounded color="success" loading={savePending} onClick={submit} loaderType="points">
+                <Button auto rounded color="success" flat loading={savePending} onClick={submit} loaderType="points">
                     Beküldés
                 </Button>
             </Modal.Footer>
@@ -128,8 +128,7 @@ const Lolo = (): JSX.Element => {
             .catch((err) => {
                 toast.error('ERROR! - ' + err.message);
             });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [client]);
 
     const closeHandler = React.useCallback(() => {
         setShow(false);
@@ -231,6 +230,11 @@ const Lolo = (): JSX.Element => {
                                                             {grade.name} ({grade.type}) - {grade.teacher}
                                                         </Badge>
                                                     ))}
+                                                    {coin.reason === BlueboardLoloReason.FromRequest ? (
+                                                        <p> {coin.reasonBody} </p>
+                                                    ) : (
+                                                        <></>
+                                                    )}
                                                     <Card.Footer></Card.Footer>
                                                 </Card>
                                             </Grid>

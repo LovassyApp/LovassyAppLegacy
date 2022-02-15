@@ -11,7 +11,8 @@ class BlueboardLoloCoin {
         public readonly isSpent: boolean,
         public readonly reason: BlueboardLoloReason,
         public readonly grades: Array<BlueboardKretaGrade>,
-        public readonly reasonText: string
+        public readonly reasonText: string,
+        public readonly reasonBody?: string
     ) {}
 }
 

@@ -6,37 +6,37 @@
 */
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
 
-export type eventDeclaration = {
+export type eventDeclaration<ValueType> = {
     eventName: string;
-    currentValue: any;
+    currentValue: ValueType;
 };
 
-const useStatefulEvent = (
-    initialValue: any,
-    eventName: any
-): [MutableRefObject<any>, (value: any) => void, eventDeclaration] => {
-    const ref = useRef(initialValue);
+const useStatefulEvent = <Type>(
+    initialValue: Type,
+    eventName: string
+): [MutableRefObject<Type>, (value: Type) => void, eventDeclaration<Type>] => {
+    const ref = useRef<Type>(initialValue);
     const update = (value: any) => {
         ref.current = value;
         const event = new CustomEvent(eventName, { detail: value });
         document.dispatchEvent(event);
     };
 
-    const decl: eventDeclaration = { eventName: eventName, currentValue: ref.current };
+    const decl: eventDeclaration<typeof initialValue> = { eventName: eventName, currentValue: ref.current };
 
     return [ref, update, decl];
 };
 
-const useStatefulListener = (eventDeclaration: eventDeclaration): any => {
-    const [state, setState] = useState(eventDeclaration.currentValue);
+const useStatefulListener = <Type>(decl: eventDeclaration<Type>): Type => {
+    const [state, setState] = useState<Type>(decl.currentValue);
     const callback = (event: any) => {
         setState(event.detail);
     };
     useEffect(() => {
-        document.addEventListener(eventDeclaration.eventName, callback);
+        document.addEventListener(decl.eventName, callback);
 
         return () => {
-            document.removeEventListener(eventDeclaration.eventName, callback);
+            document.removeEventListener(decl.eventName, callback);
         };
     });
 

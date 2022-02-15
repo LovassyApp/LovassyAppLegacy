@@ -6,6 +6,7 @@ use App\Exceptions\LibLolo\GenerationInProgressException;
 use App\Helpers\LibKreta\Grades\KretaGradeCategory;
 use App\Models\User;
 use App\Models\Lolo;
+use App\Models\LoloRequest;
 use Illuminate\Cache\Lock;
 use Illuminate\Contracts\Cache\LockTimeoutException;
 use Illuminate\Database\Eloquent\Collection;
@@ -20,6 +21,7 @@ class LoloGenerator
     private int $fourLimit = 5;
     private string $messageFive = 'Ötösökből automatikusan generálva.';
     private string $messageFour = 'Négyesekből automatikusan generálva.';
+    private static string $messageRequest = 'LoLó kérvényből jóváírva.';
 
     private Lock $lock;
     private string $lockPre = 'lologen-';
@@ -112,5 +114,24 @@ class LoloGenerator
     public function __destruct()
     {
         $this->lock->release();
+    }
+
+    public static function saveRequest(int $amount, LoloRequest $request)
+    {
+        $attributes = [
+            'user_id' => $request->user->id,
+            'isSpent' => false,
+            'reason' => [
+                'type' => 'request',
+                'message' => self::$messageRequest,
+                'body' => "Kérvény: $request->title",
+            ],
+        ];
+
+        for ($i = 0; $i < $amount; $i++) {
+            $newCoin = new Lolo();
+            $newCoin->fill($attributes);
+            $newCoin->save();
+        }
     }
 }

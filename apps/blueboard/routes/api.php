@@ -78,6 +78,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Requests
     Route::get('/lolo/requests', 'LoloRequestController@show');
     Route::put('/lolo/requests', 'LoloRequestController@create');
+
     Route::get('/lolo/requests/all', 'LoloRequestController@index');
     Route::patch('/lolo/requests/all', 'LoloRequestController@update');
 });

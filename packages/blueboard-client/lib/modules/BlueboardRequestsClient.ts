@@ -50,7 +50,20 @@ class BlueboardRequestsClient extends BlueboardBaseClient {
         return res;
     };
 
-    public update = async (id: number, reason: string, message: string, action: BlueboardLoloRequestAction) => {};
+    public update = async (id: number, verdict: BlueboardLoloRequestAction, amount?: number) => {
+        console.log(amount);
+        const data = {
+            id: id,
+            verdict: verdict,
+            loloAmount: amount ?? undefined,
+        };
+
+        const url = this.endpoints.requests.all;
+
+        const res = BlueboardLoloRequestFactory.getItem(await this.stdPatchRequest(url, data));
+
+        return res;
+    };
 }
 
 export default BlueboardRequestsClient;

@@ -18,7 +18,6 @@ const CheckBlueboard = ({ children }: { children: React.ReactNode }): JSX.Elemen
             setError(false);
             setLoading(false);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const intervalCallback = useCallback(() => {
@@ -30,8 +29,7 @@ const CheckBlueboard = ({ children }: { children: React.ReactNode }): JSX.Elemen
 
             readyCallback(res);
         })();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [client, readyCallback]);
 
     React.useEffect(() => {
         client.account
