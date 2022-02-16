@@ -2,7 +2,9 @@ import {
   Poppins_100Thin,
   Poppins_300Light,
   Poppins_400Regular,
+  Poppins_400Regular_Italic,
   Poppins_500Medium,
+  Poppins_700Bold,
   useFonts,
 } from "@expo-google-fonts/poppins";
 import React, { useEffect, useState } from "react";
@@ -33,6 +35,8 @@ const AppBootstrapProvider = ({ children }) => {
     Poppins_500Medium,
     Poppins_300Light,
     Poppins_100Thin,
+    Poppins_400Regular_Italic,
+    Poppins_700Bold,
     CourierPrime_400Regular,
   });
 

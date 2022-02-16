@@ -25,6 +25,13 @@ export const ConfirmScreen = ({ navigation, route }) => {
   const markdownStyle = {
     body: {
       color: theme.colors.text,
+      fontFamily: "Poppins_400Regular",
+    },
+    strong: {
+      fontFamily: "Poppins_700Bold",
+    },
+    em: {
+      fontFamily: "Poppins_400Regular_Italic",
     },
     code_inline: {
       backgroundColor: theme.colors.background,
