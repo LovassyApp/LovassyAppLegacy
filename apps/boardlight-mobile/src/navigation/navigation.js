@@ -176,23 +176,27 @@ const LoginNavigation = () => {
 };
 
 const ActivationNavigation = () => {
+  const theme = useTheme();
+
+  // View to avoid white flashes with nested navigator
   return (
-    <Stack.Navigator
-      initialRouteName="Kezdőlap"
-      screenOptions={{
-        headerShown: false,
-      }}>
-      <Stack.Screen name="Kezdőlap" component={InventoryScreen} />
-      <Stack.Screen name="Megerősítés" component={ConfirmScreen} />
-      <Stack.Screen name="Beolvasás" component={ScanScreen} />
-      <Stack.Screen name="Eredmény" component={ResultScreen} />
-    </Stack.Navigator>
+    <View style={{ backgroundColor: theme.colors.background, flex: 1 }}>
+      <Stack.Navigator
+        initialRouteName="Kezdőlap"
+        screenOptions={{
+          headerShown: false,
+        }}>
+        <Stack.Screen name="Kezdőlap" component={InventoryScreen} />
+        <Stack.Screen name="Megerősítés" component={ConfirmScreen} />
+        <Stack.Screen name="Beolvasás" component={ScanScreen} />
+        <Stack.Screen name="Eredmény" component={ResultScreen} />
+      </Stack.Navigator>
+    </View>
   );
 };
 
 export const NavigationDecider = () => {
   const token = useSelector((state) => state.token.value);
-  const theme = useTheme();
   //* For testing the scanner
   // return (
   //   <NavigationContainer>
@@ -200,10 +204,7 @@ export const NavigationDecider = () => {
   //   </NavigationContainer>
   // );
 
-  // View to avoid white flashes with nested navigator
   return (
-    <View style={{ backgroundColor: theme.colors.background, flex: 1 }}>
-      <NavigationContainer>{token ? <MainNavigation /> : <LoginNavigation />}</NavigationContainer>
-    </View>
+    <NavigationContainer>{token ? <MainNavigation /> : <LoginNavigation />}</NavigationContainer>
   );
 };
