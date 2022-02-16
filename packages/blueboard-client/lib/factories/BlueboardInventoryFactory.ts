@@ -39,11 +39,19 @@ class BlueboardInventoryFactory {
     static getResponse(obj: any) {
         let items: Array<BlueboardInventoryItem> = [];
 
-        for (const item of obj) {
-            items.push(this.getItem(item));
+        if (obj == null) {
+            return [];
         }
 
-        return items;
+        if (typeof obj[Symbol.iterator] === "function") {
+            for (const item of obj) {
+                items.push(this.getItem(item));
+            }
+
+            return items;
+        }
+
+        return [];
     }
 }
 
