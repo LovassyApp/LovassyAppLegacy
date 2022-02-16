@@ -46,7 +46,7 @@ export const LoloCoin = (props) => {
           props.data.reason === BlueboardLoloReason.FromFive
             ? "Ötösökből generálva"
             : props.data.reason === BlueboardLoloReason.FromFour
-            ? "Négyesökből generálva"
+            ? "Négyesekből generálva"
             : "Kérelemből"
         }
         description={props.data.isSpent ? "Elköltve" : "Elérhető"}
@@ -59,7 +59,9 @@ export const LoloCoin = (props) => {
             style={{ backgroundColor: "transparent", margin: 8 }}
           />
         )}
-        onPress={() => bottomSheetRef.current.show()}
+        onPress={() =>
+          props.data.reason !== BlueboardLoloReason.FromRequest && bottomSheetRef.current.show()
+        }
         style={
           props.minimal
             ? {
