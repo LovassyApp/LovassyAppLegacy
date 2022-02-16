@@ -106,10 +106,15 @@ const AppBootstrapProvider = ({ children }) => {
   useEffect(() => {
     (async () => {
       if (canContinue) {
-        if (stateToken !== null && !isReady) {
-          await eagerLoad(client);
-          setIsReady(true);
-        } else {
+        try {
+          if (stateToken !== null && !isReady) {
+            await eagerLoad(client);
+            setIsReady(true);
+          } else {
+            setIsReady(true);
+          }
+        } catch (err) {
+          console.log(err);
           setIsReady(true);
         }
       }

@@ -16,8 +16,10 @@ import { ScanScreen } from "../screens/activation/scanScreen";
 import { SettingsScreen } from "../screens/settingsScreen";
 import { StoreScreen } from "../screens/storeScreen";
 import { UsersScreen } from "../screens/admin/usersScreen";
+import { View } from "react-native";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { styled } from "styled-components";
 import { useSelector } from "react-redux";
 import { useTheme } from "react-native-paper";
 import { useUser } from "../hooks/controlHooks";
@@ -190,7 +192,7 @@ const ActivationNavigation = () => {
 
 export const NavigationDecider = () => {
   const token = useSelector((state) => state.token.value);
-
+  const theme = useTheme();
   //* For testing the scanner
   // return (
   //   <NavigationContainer>
@@ -198,7 +200,10 @@ export const NavigationDecider = () => {
   //   </NavigationContainer>
   // );
 
+  // View to avoid white flashes with nested navigator
   return (
-    <NavigationContainer>{token ? <MainNavigation /> : <LoginNavigation />}</NavigationContainer>
+    <View style={{ backgroundColor: theme.colors.background, flex: 1 }}>
+      <NavigationContainer>{token ? <MainNavigation /> : <LoginNavigation />}</NavigationContainer>
+    </View>
   );
 };
