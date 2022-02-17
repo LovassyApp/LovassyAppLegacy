@@ -23,10 +23,9 @@ export const InputRenderer = (props) => {
       switch (input.type) {
         case "textbox":
           return (
-            <>
+            <View key={input.name}>
               <LaInput
                 style={{ marginVertical: 5 }}
-                key={input.name}
                 label={input.title}
                 value={state[input.name]}
                 onChangeText={(text) => {
@@ -41,11 +40,12 @@ export const InputRenderer = (props) => {
                   {getError(input.name)}
                 </HelperText>
               )}
-            </>
+            </View>
           );
         default:
           return (
             <View
+              key={input.name}
               style={{
                 flexDirection: "row",
                 justifyContent: "space-between",
@@ -55,7 +55,6 @@ export const InputRenderer = (props) => {
               }}>
               <Subheading>{input.title}</Subheading>
               <Switch
-                key={input.name}
                 value={state[input.name]}
                 onValueChange={(value) => {
                   props.onChange(input.name, value);
