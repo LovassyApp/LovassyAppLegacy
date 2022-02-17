@@ -1,7 +1,8 @@
-import { Divider, Headline, Text, useTheme } from "react-native-paper";
+import { Divider, Headline, Subheading, Text, useTheme } from "react-native-paper";
 import { StyleSheet, View } from "react-native";
 
 import { InputRenderer } from "../../components/inputRenderer";
+import { Ionicons } from "@expo/vector-icons";
 import { LaButton } from "../../components/content/customized/laButton";
 import { LaCard } from "../../components/content/laCard";
 import Markdown from "react-native-markdown-display";
@@ -91,22 +92,37 @@ export const ConfirmScreen = ({ navigation, route }) => {
       <Headline>{item.product.name}</Headline>
       <View style={styles.container}>
         <View style={{ marginVertical: 5 }}>
-          <LaCard title="Leirás">
+          <LaCard title="Leírás">
             <Divider style={{ width: "100%", marginVertical: 5 }} />
             <Markdown style={markdownStyle}>{item.product.markdownContent}</Markdown>
           </LaCard>
-          <LaCard title="Inputok">
+          {item.product.inputs.length !== 0 && (
+            <LaCard title="Inputok">
+              <Divider style={{ width: "100%", marginVertical: 5 }} />
+              <InputRenderer
+                inputs={item.product.inputs}
+                onChange={(input, value) => {
+                  const newState = { ...inputState };
+                  newState[input] = value;
+                  setInputState(newState);
+                }}
+                errors={errors}
+                inputState={inputState}
+              />
+            </LaCard>
+          )}
+          <LaCard title="Beváltás">
             <Divider style={{ width: "100%", marginVertical: 5 }} />
-            <InputRenderer
-              inputs={item.product.inputs}
-              onChange={(input, value) => {
-                const newState = { ...inputState };
-                newState[input] = value;
-                setInputState(newState);
-              }}
-              errors={errors}
-              inputState={inputState}
-            />
+            <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+              <Subheading>
+                {item.product.codeActivated ? "Kóddal aktiválható" : "Magában aktiválható"}
+              </Subheading>
+              <Ionicons
+                name={item.product.codeActivated ? "qr-code" : "checkmark-circle"}
+                size={24}
+                color={theme.colors.text}
+              />
+            </View>
           </LaCard>
         </View>
         <View style={styles.buttonContainer}>
