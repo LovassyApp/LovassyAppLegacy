@@ -1,6 +1,7 @@
 import { Divider, Headline, Text, useTheme } from "react-native-paper";
 import { StyleSheet, View } from "react-native";
 
+import { InputRenderer } from "../../components/inputRenderer";
 import { LaButton } from "../../components/content/customized/laButton";
 import { LaCard } from "../../components/content/laCard";
 import Markdown from "react-native-markdown-display";
@@ -10,6 +11,27 @@ import { ScreenContainer } from "../../components/screenContainer";
 export const ConfirmScreen = ({ navigation, route }) => {
   const item = route.params;
   const theme = useTheme();
+
+  const getInitialInputState = React.useCallback(() => {
+    const obj = {};
+
+    const inputs = item.product.inputs ?? [];
+
+    inputs.forEach((el) => {
+      if (el.type === "textbox") {
+        obj[el.name] = "";
+      }
+
+      if (el.type === "boolean") {
+        obj[el.name] = false;
+      }
+    });
+
+    return obj;
+  }, [item]);
+
+  const [inputState, setInputState] = React.useState(getInitialInputState());
+  const [errors, setErrors] = React.useState({});
 
   const styles = StyleSheet.create({
     container: {
@@ -45,6 +67,25 @@ export const ConfirmScreen = ({ navigation, route }) => {
     },
   };
 
+  const confirm = () => {
+    setErrors({});
+    validateInputs();
+  };
+
+  const validateInputs = () => {
+    const obj = {};
+
+    const inputs = item.product.inputs ?? [];
+
+    inputs.forEach((el) => {
+      if (el.type === "textbox" && inputState[el.name] === "") {
+        obj[el.name] = `A ${el.title} mező kitöltése kötelező`;
+      }
+    });
+
+    setErrors(obj);
+  };
+
   return (
     <ScreenContainer>
       <Headline>{item.product.name}</Headline>
@@ -54,6 +95,19 @@ export const ConfirmScreen = ({ navigation, route }) => {
             <Divider style={{ width: "100%", marginVertical: 5 }} />
             <Markdown style={markdownStyle}>{item.product.markdownContent}</Markdown>
           </LaCard>
+          <LaCard title="Inputok">
+            <Divider style={{ width: "100%", marginVertical: 5 }} />
+            <InputRenderer
+              inputs={item.product.inputs}
+              onChange={(input, value) => {
+                const newState = { ...inputState };
+                newState[input] = value;
+                setInputState(newState);
+              }}
+              errors={errors}
+              inputState={inputState}
+            />
+          </LaCard>
         </View>
         <View style={styles.buttonContainer}>
           <LaButton
@@ -62,7 +116,11 @@ export const ConfirmScreen = ({ navigation, route }) => {
             onPress={() => navigation.navigate("Kezdőlap")}>
             Vissza
           </LaButton>
-          <LaButton dense={true} customStyle={{ margin: 10 }} disabled={item.usedAt}>
+          <LaButton
+            dense={true}
+            customStyle={{ margin: 10 }}
+            disabled={item.usedAt}
+            onPress={() => confirm()}>
             Beváltás
           </LaButton>
         </View>
