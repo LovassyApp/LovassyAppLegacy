@@ -47,7 +47,7 @@ export const LoloCoin = (props) => {
             ? "Ötösökből generálva"
             : props.data.reason === BlueboardLoloReason.FromFour
             ? "Négyesekből generálva"
-            : "Kérelemből"
+            : `Kérelemből (${props.data.reasonBody.substring(9)})`
         }
         description={props.data.isSpent ? "Elköltve" : "Elérhető"}
         left={(props) => (
