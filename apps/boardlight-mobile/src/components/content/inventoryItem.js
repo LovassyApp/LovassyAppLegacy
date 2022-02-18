@@ -66,6 +66,9 @@ export const InventoryItem = (props) => {
             {product.description}
           </Text>
           <Chip
+            textStyle={{
+              color: "#ffffff",
+            }}
             style={{
               backgroundColor: props.data.usedAt ? "#d32f2f" : "#2e7d32",
               marginTop: 5,
