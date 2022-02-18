@@ -65,9 +65,60 @@ const MainNavigation = () => {
 
   if (admin) {
     return (
+      <View style={{ backgroundColor: theme.colors.background, flex: 1 }}>
+        <Tab.Navigator
+          initialRouteName="Beállítások"
+          screenOptions={{ safeAreaInsets: { top: 0 } }}
+          barStyle={{
+            backgroundColor: theme.colors.background,
+            elevation: 0,
+            // marginTop: -34, //TODO: Fix this, this is pretty ugly
+          }}
+          activeColor={theme.colors.primary}>
+          <Tab.Screen
+            name="Felhasználók"
+            options={{
+              tabBarIcon: ({ color }) => <Ionicons name="people" size={24} color={color} />,
+            }}
+            component={UsersScreen}
+          />
+          <Tab.Screen
+            name="Kérelmek"
+            options={{
+              tabBarIcon: ({ color }) => <Ionicons name="mail" size={24} color={color} />,
+            }}
+            component={RequestsScreen}
+          />
+          <Tab.Screen
+            name="Termékek"
+            options={{
+              tabBarIcon: ({ color }) => <Ionicons name="pricetags" size={24} color={color} />,
+            }}
+            component={ProductsScreen}
+          />
+          <Tab.Screen
+            name="QR Kódok"
+            options={{
+              tabBarIcon: ({ color }) => <Ionicons name="layers" size={24} color={color} />,
+            }}
+            component={QrCodesScreen}
+          />
+          <Tab.Screen
+            name="Beállítások"
+            options={{
+              tabBarIcon: ({ color }) => <Ionicons name="settings" size={24} color={color} />,
+            }}
+            component={SettingsScreen}
+          />
+        </Tab.Navigator>
+      </View>
+    );
+  }
+
+  return (
+    <View style={{ backgroundColor: theme.colors.background, flex: 1 }}>
       <Tab.Navigator
-        initialRouteName="Beállítások"
-        screenOptions={{ safeAreaInsets: { top: 0 } }}
+        initialRouteName="Kezdőlap"
         barStyle={{
           backgroundColor: theme.colors.background,
           elevation: 0,
@@ -75,32 +126,33 @@ const MainNavigation = () => {
         }}
         activeColor={theme.colors.primary}>
         <Tab.Screen
-          name="Felhasználók"
+          name="Kezdőlap"
           options={{
-            tabBarIcon: ({ color }) => <Ionicons name="people" size={24} color={color} />,
+            tabBarBadge: `$${user.balance}`,
+            tabBarIcon: ({ color }) => <Ionicons name="home" size={24} color={color} />,
           }}
-          component={UsersScreen}
+          component={HomeScreen}
         />
         <Tab.Screen
-          name="Kérelmek"
+          name="Kréta"
           options={{
-            tabBarIcon: ({ color }) => <Ionicons name="mail" size={24} color={color} />,
+            tabBarIcon: ({ color }) => <Ionicons name="school" size={24} color={color} />,
           }}
-          component={RequestsScreen}
+          component={KretaScreen}
         />
         <Tab.Screen
-          name="Termékek"
+          name="Kincstár"
           options={{
-            tabBarIcon: ({ color }) => <Ionicons name="pricetags" size={24} color={color} />,
+            tabBarIcon: ({ color }) => <Ionicons name="file-tray-full" size={24} color={color} />,
           }}
-          component={ProductsScreen}
+          component={ActivationNavigation}
         />
         <Tab.Screen
-          name="QR Kódok"
+          name="Áruház"
           options={{
-            tabBarIcon: ({ color }) => <Ionicons name="layers" size={24} color={color} />,
+            tabBarIcon: ({ color }) => <Ionicons name="cart" size={24} color={color} />,
           }}
-          component={QrCodesScreen}
+          component={StoreScreen}
         />
         <Tab.Screen
           name="Beállítások"
@@ -110,55 +162,7 @@ const MainNavigation = () => {
           component={SettingsScreen}
         />
       </Tab.Navigator>
-    );
-  }
-
-  return (
-    <Tab.Navigator
-      initialRouteName="Kezdőlap"
-      barStyle={{
-        backgroundColor: theme.colors.background,
-        elevation: 0,
-        // marginTop: -34, //TODO: Fix this, this is pretty ugly
-      }}
-      activeColor={theme.colors.primary}>
-      <Tab.Screen
-        name="Kezdőlap"
-        options={{
-          tabBarBadge: `$${user.balance}`,
-          tabBarIcon: ({ color }) => <Ionicons name="home" size={24} color={color} />,
-        }}
-        component={HomeScreen}
-      />
-      <Tab.Screen
-        name="Kréta"
-        options={{
-          tabBarIcon: ({ color }) => <Ionicons name="school" size={24} color={color} />,
-        }}
-        component={KretaScreen}
-      />
-      <Tab.Screen
-        name="Kincstár"
-        options={{
-          tabBarIcon: ({ color }) => <Ionicons name="file-tray-full" size={24} color={color} />,
-        }}
-        component={ActivationNavigation}
-      />
-      <Tab.Screen
-        name="Áruház"
-        options={{
-          tabBarIcon: ({ color }) => <Ionicons name="cart" size={24} color={color} />,
-        }}
-        component={StoreScreen}
-      />
-      <Tab.Screen
-        name="Beállítások"
-        options={{
-          tabBarIcon: ({ color }) => <Ionicons name="settings" size={24} color={color} />,
-        }}
-        component={SettingsScreen}
-      />
-    </Tab.Navigator>
+    </View>
   );
 };
 
@@ -178,7 +182,6 @@ const LoginNavigation = () => {
 const ActivationNavigation = () => {
   const theme = useTheme();
 
-  // View to avoid white flashes with nested navigator
   return (
     <View style={{ backgroundColor: theme.colors.background, flex: 1 }}>
       <Stack.Navigator
