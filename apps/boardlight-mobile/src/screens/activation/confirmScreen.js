@@ -87,6 +87,26 @@ export const ConfirmScreen = ({ navigation, route }) => {
     setErrors(obj);
   };
 
+  if (item.usedAt) {
+    return (
+      <ScreenContainer>
+        <Headline>{item.product.name}</Headline>
+        <View style={{ justifyContent: "center", flex: 1 }}>
+          <Text style={{ textAlign: "center" }}>Termék azonosító: {item.id}</Text>
+          <Text style={{ textAlign: "center" }}>
+            Ezt a termáket már beváltottad ekkor: {item.usedAt}
+          </Text>
+        </View>
+        <LaButton
+          dense={true}
+          customStyle={{ margin: 10 }}
+          onPress={() => navigation.navigate("Kezdőlap")}>
+          Vissza
+        </LaButton>
+      </ScreenContainer>
+    );
+  }
+
   return (
     <ScreenContainer>
       <Headline>{item.product.name}</Headline>
@@ -113,13 +133,18 @@ export const ConfirmScreen = ({ navigation, route }) => {
           )}
           <LaCard title="Beváltás">
             <Divider style={{ width: "100%", marginVertical: 5 }} />
-            <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}>
               <Subheading>
                 {item.product.codeActivated ? "Kóddal aktiválható" : "Magában aktiválható"}
               </Subheading>
               <Ionicons
                 name={item.product.codeActivated ? "qr-code" : "checkmark-circle"}
-                size={24}
+                size={22}
                 color={theme.colors.text}
               />
             </View>
@@ -132,11 +157,7 @@ export const ConfirmScreen = ({ navigation, route }) => {
             onPress={() => navigation.navigate("Kezdőlap")}>
             Vissza
           </LaButton>
-          <LaButton
-            dense={true}
-            customStyle={{ margin: 10 }}
-            disabled={item.usedAt}
-            onPress={() => confirm()}>
+          <LaButton dense={true} customStyle={{ margin: 10 }} onPress={() => confirm()}>
             Beváltás
           </LaButton>
         </View>
