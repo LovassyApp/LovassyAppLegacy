@@ -1,4 +1,4 @@
-import { HelperText, Subheading, Switch, Text } from "react-native-paper";
+import { HelperText, Subheading, Switch, useTheme } from "react-native-paper";
 
 import { LaInput } from "./content/customized/laInput";
 /* eslint-disable indent */
@@ -6,6 +6,8 @@ import React from "react";
 import { View } from "react-native";
 
 export const InputRenderer = (props) => {
+  const theme = useTheme();
+
   const renderedInputs = props.inputs.sort((a, b) => {
     return a.type === "boolean" && b.type !== "boolean" ? 1 : 0;
   });
@@ -55,6 +57,7 @@ export const InputRenderer = (props) => {
               }}>
               <Subheading>{input.title}</Subheading>
               <Switch
+                color={theme.colors.primary}
                 value={state[input.name]}
                 onValueChange={(value) => {
                   props.onChange(input.name, value);
