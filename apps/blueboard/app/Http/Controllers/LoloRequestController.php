@@ -77,7 +77,7 @@ class LoloRequestController extends Controller
                 LoloGenerator::saveRequest($data['loloAmount'], $loloRequest);
                 LoloAmountUpdated::dispatch(
                     $loloRequest->user,
-                    $loloRequest->user->balance + (int) $data['loloAmount']
+                    $loloRequest->user->balance
                 );
                 break;
 
