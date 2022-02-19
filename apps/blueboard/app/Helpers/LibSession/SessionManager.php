@@ -34,6 +34,14 @@ class SessionManager
      * @var KretaEncrypter|null
      */
     private KretaEncrypter|null $encrypter = null;
+    /**
+     * @var string|null
+     */
+    private string|null $key = null;
+    /**
+     * @var string|null
+     */
+    private string|null $userHash = null;
 
     /**
      * @return string|null
@@ -71,6 +79,8 @@ class SessionManager
         $this->token = $this->getAuthToken();
         if ($this->token != null) {
             $this->init();
+            $this->cacheKey();
+            $this->cacheHash();
             $this->loadKretaCredHelper();
         }
     }
@@ -81,8 +91,7 @@ class SessionManager
      */
     private function loadKretaCredHelper()
     {
-        $key = $this->getSessionKey();
-        $this->encrypter = new KretaEncrypter($key);
+        $this->encrypter = new KretaEncrypter($this->key);
     }
 
     /**
@@ -127,7 +136,7 @@ class SessionManager
      * @throws Exception
      * Jelszót kiszedi a sessionből, ebből lesz a kulcs, ami oldja a krétás adatokat
      */
-    private function getSessionKey(): string
+    private function cacheKey(): void
     {
         if ($this->session == null) {
             throw new Exception('Session not set.');
@@ -139,7 +148,13 @@ class SessionManager
             throw new Exception('Session key not set.');
         }
 
-        return Crypter::getUserKey($password, $this->token, $this->session->salt, $this->session->userSalt);
+        $this->key = Crypter::getUserKey($password, $this->token, $this->session->salt, $this->session->userSalt);
+    }
+
+    private function cacheHash(): void
+    {
+        $id = Auth::user()->id;
+        $this->userHash = hash('sha512', "$this->key.$id");
     }
 
     // Innentől Statikus accessorok, Singleton-t használnak
@@ -180,7 +195,28 @@ class SessionManager
     {
         $sesman = app(SessionManager::class);
 
-        return $sesman->getSessionKey();
+        return $sesman->key;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getUserHash(): string
+    {
+        $sesman = app(SessionManager::class);
+
+        return $sesman->userHash;
+    }
+
+    /**
+     * @param int $id
+     * @return string
+     */
+    public static function makeHashedID(int $id): string
+    {
+        $sesman = app(SessionManager::class);
+
+        return hash('sha512', "$sesman->key.$id");
     }
 
     /**

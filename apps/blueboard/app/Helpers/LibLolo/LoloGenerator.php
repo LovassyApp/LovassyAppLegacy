@@ -60,7 +60,7 @@ class LoloGenerator
 
         try {
             foreach ($grades as $grade) {
-                $grade->lolo_id = $lolo->id;
+                $grade->lolo_id = $lolo->hash;
                 $grade->save();
             }
         } catch (\Exception $e) {

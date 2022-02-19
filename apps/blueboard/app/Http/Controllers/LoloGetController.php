@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\LoloAmountUpdated;
 use Illuminate\Http\Request;
 use App\Helpers\LibLolo\LoloGenerator;
 use App\Helpers\LibLolo\LoloHelper;
@@ -19,6 +20,9 @@ class LoloGetController extends Controller
         $gen = new LoloGenerator(SessionManager::user());
         $gen->generate();
 
-        return ResponseMaker::generate(LoloHelper::getLolo());
+        $helper = LoloHelper::getLolo();
+        LoloAmountUpdated::dispatch($helper->user, $helper->balance);
+
+        return ResponseMaker::generate($helper);
     }
 }

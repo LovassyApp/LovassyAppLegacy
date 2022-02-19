@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Disabling cache
@@ -50,7 +49,6 @@ return [
     */
     'consider-rows' => true,
 
-
     /*
     |--------------------------------------------------------------------------
     | Include tables
@@ -83,6 +81,6 @@ return [
     | will not be cached.
     |
     */
-    'exclude-tables' => [],
-
+    // Uses upserts internally. Doesn't correctly flush lada.
+    'exclude-tables' => ['grades'],
 ];
