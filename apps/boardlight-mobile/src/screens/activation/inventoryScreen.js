@@ -26,11 +26,7 @@ export const InventoryScreen = ({ navigation }) => {
               return 1;
             }
 
-            if (a.usedAt && b.usedAt) {
-              return 0;
-            }
-
-            return -1;
+            return a.usedAt && b.usedAt ? 0 : -1;
           })
         : matchSorter(items, query, {
             keys: ["product.name", "product.description"],
@@ -40,11 +36,7 @@ export const InventoryScreen = ({ navigation }) => {
               return 1;
             }
 
-            if (a.usedAt && b.usedAt) {
-              return 0;
-            }
-
-            return -1;
+            return a.usedAt && b.usedAt ? 0 : -1;
           }),
     );
   }, [query, items]);

@@ -31,6 +31,7 @@ export const StoreScreen = () => {
   const user = useUser();
 
   const bottomSheetRef = useRef();
+  const [renderedProducts, setRenderedProducts] = useState(products);
   const [currentProduct, setCurrentProduct] = useState(null);
   const [snackBarOpen, setSnackBarOpen] = useState(false);
   const [snackBarMessage, setSnackBarMessage] = useState("");
@@ -48,13 +49,16 @@ export const StoreScreen = () => {
     currentProductRef.current = currentProduct;
   }, [currentProduct]);
 
-  const renderedProducts =
-    query === ""
-      ? products
-      : matchSorter(products, query, {
-          keys: ["name", "description"],
-          threshold: matchSorter.rankings.CONTAINS,
-        });
+  useEffect(() => {
+    setRenderedProducts(
+      query === ""
+        ? products
+        : matchSorter(products, query, {
+            keys: ["name", "description"],
+            threshold: matchSorter.rankings.CONTAINS,
+          }),
+    );
+  }, [query, products]);
 
   const getProducts = () => {
     return renderedProducts?.map((product, key) => (
