@@ -18,13 +18,13 @@ export const ConfirmScreen = ({ navigation, route }) => {
 
     const inputs = item.product.inputs ?? [];
 
-    inputs.forEach((el) => {
-      if (el.type === "textbox") {
-        obj[el.name] = "";
+    inputs.forEach((element) => {
+      if (element.type === "textbox") {
+        obj[element.name] = "";
       }
 
-      if (el.type === "boolean") {
-        obj[el.name] = false;
+      if (element.type === "boolean") {
+        obj[element.name] = false;
       }
     });
 

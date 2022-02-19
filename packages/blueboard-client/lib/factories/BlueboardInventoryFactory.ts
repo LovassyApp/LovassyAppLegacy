@@ -1,10 +1,8 @@
-import {
-    BlueboardInventoryItem,
-    BlueboardItemUse,
-    BlueboardTimestamps,
-} from "../models";
-
 import BlueboardProductFactory from "./BlueboardProductFactory";
+import { checkIterable } from "../BlueboardClientUtils";
+import BlueboardTimestamps from "../models/BlueboardTimestamps";
+import BlueboardItemUse from "../models/BlueboardItemUse";
+import BlueboardInventoryItem from "../models/BlueboardInventoryItem";
 
 class BlueboardInventoryFactory {
     static getItem(obj: any) {
@@ -39,19 +37,13 @@ class BlueboardInventoryFactory {
     static getResponse(obj: any) {
         let items: Array<BlueboardInventoryItem> = [];
 
-        if (obj == null) {
-            return [];
-        }
-
-        if (typeof obj[Symbol.iterator] === "function") {
+        if (checkIterable(obj)) {
             for (const item of obj) {
                 items.push(this.getItem(item));
             }
-
-            return items;
         }
 
-        return [];
+        return items;
     }
 }
 

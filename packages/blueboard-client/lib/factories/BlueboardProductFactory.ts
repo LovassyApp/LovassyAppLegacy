@@ -3,12 +3,13 @@ import BlueboardTimestamps from "../models/BlueboardTimestamps";
 import BlueboardProductInput from "../models/BlueboardProductInput";
 import BlueboardQRCode from "../models/BlueboardQRCode";
 import BlueboardQRCodeFactory from "./BlueboardQRCodeFactory";
+import { checkIterable } from "../BlueboardClientUtils";
 
 class BlueboardProductFactory {
     static getResponse(obj: any) {
         const data: Array<BlueboardProduct> = [];
 
-        if (Array.isArray(obj)) {
+        if (checkIterable(obj)) {
             for (const product of obj) {
                 data.push(BlueboardProductFactory.getProduct(product));
             }

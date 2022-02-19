@@ -1,14 +1,17 @@
-import BlueboardQRCode from '../models/BlueboardQRCode';
-import BlueboardTimestamps from '../models/BlueboardTimestamps';
-import BlueboardQRCodePivot from '../models/BlueboardQRCodePivot';
+import BlueboardQRCode from "../models/BlueboardQRCode";
+import BlueboardTimestamps from "../models/BlueboardTimestamps";
+import BlueboardQRCodePivot from "../models/BlueboardQRCodePivot";
+import { checkIterable } from "../BlueboardClientUtils";
 
 class BlueboardQRCodeFactory {
     static getResponse(obj: any) {
         const data: Array<BlueboardQRCode> = [];
 
-        //Note: this may breakk once there's an option to only get a single code
-        for (const code of obj) {
-            data.push(BlueboardQRCodeFactory.getQRCode(code));
+        //Note: this may break once there's an option to only get a single code
+        if (checkIterable(obj)) {
+            for (const code of obj) {
+                data.push(BlueboardQRCodeFactory.getQRCode(code));
+            }
         }
 
         return data;

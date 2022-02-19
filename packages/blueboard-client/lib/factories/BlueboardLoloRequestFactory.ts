@@ -1,9 +1,10 @@
-import { BlueboardUserFactory } from '.';
-import { BlueboardLoloRequest, BlueboardTimestamps } from '../models';
+import { BlueboardUserFactory } from ".";
+import { BlueboardLoloRequest, BlueboardTimestamps } from "../models";
+import { checkIterable } from "../BlueboardClientUtils";
 
 class BlueboardLoloRequestFactory {
     static getItem(obj: any) {
-        const user = obj.user !== undefined ? BlueboardUserFactory.getUser(obj.user) : undefined;
+        const user = obj.user ? BlueboardUserFactory.getUser(obj.user) : null;
 
         return new BlueboardLoloRequest(
             obj.id,
@@ -16,13 +17,14 @@ class BlueboardLoloRequestFactory {
         );
     }
 
-    static getResponse(arr: Array<any>) {
+    static getResponse(obj: any) {
         let items: Array<BlueboardLoloRequest> = [];
 
-        arr.forEach((element) => {
-            const item = this.getItem(element);
-            items.push(item);
-        });
+        if (checkIterable(obj)) {
+            for (const element of obj) {
+                items.push(this.getItem(element));
+            }
+        }
 
         return items;
     }

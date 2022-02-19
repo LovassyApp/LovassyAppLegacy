@@ -79,7 +79,7 @@ export const HomeScreen = () => {
               <Text>{getCoinsFromGrades(coins)}</Text>
             </View>
             <View style={styles.balanceView}>
-              <Text>Összes loló kérelmekből:</Text>
+              <Text>Összes loló kérvényekből:</Text>
               <Text>{getCoinsFromRequests(coins)}</Text>
             </View>
             <View style={styles.balanceView}>
