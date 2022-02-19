@@ -16,8 +16,8 @@ class CreateGradesTable extends Migration
         Schema::create('grades', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->bigInteger('user_id');
-            $table->bigInteger('lolo_id')->nullable();
+            $table->string('user_id');
+            $table->string('lolo_id')->nullable();
             $table->string('uid')->unique();
             $table->string('bounds');
             $table->string('subject');

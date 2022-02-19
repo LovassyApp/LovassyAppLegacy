@@ -11,6 +11,15 @@ class Grade extends Model
     use \Spiritix\LadaCache\Database\LadaCacheTrait;
     use HasFactory;
 
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array
+     */
+    protected $hidden = ['user_id', 'lolo_id'];
+
+    protected $guarded = [];
+
     protected static function boot()
     {
         parent::boot();

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\LibSession\SessionManager;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -27,7 +28,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $hidden = ['password', 'remember_token'];
+    protected $hidden = ['password', 'remember_token', 'hash'];
 
     /**
      * The attributes that should be cast.
@@ -60,7 +61,7 @@ class User extends Authenticatable
 
     public function grades(): HasMany
     {
-        return $this->hasMany(Grade::class, 'user_id', 'id');
+        return $this->hasMany(Grade::class, 'user_id', 'hash');
     }
 
     public function lolo(): HasMany
@@ -84,13 +85,22 @@ class User extends Authenticatable
     }
 
     protected $with = ['lolo'];
-    protected $appends = ['balance' /*'groups'*/];
+    protected $appends = ['balance', 'hash' /*'groups'*/];
 
     public function getBalanceAttribute()
     {
         return $this->lolo()
             ->where('isSpent', 0)
             ->count();
+    }
+
+    public function getHashAttribute()
+    {
+        if ($this->id === SessionManager::user()->id) {
+            return SessionManager::getUserHash();
+        } else {
+            return '';
+        }
     }
 
     /*public function getGroupsAttribute()

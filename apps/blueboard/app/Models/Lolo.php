@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasHashedID;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,12 +14,16 @@ class Lolo extends Model
 {
     use \Spiritix\LadaCache\Database\LadaCacheTrait;
     use HasFactory;
+    use HasHashedID;
 
-    protected $guarded = '';
+    protected $guarded = [];
+
+    protected $appends = ['hash'];
+    protected $hidden = ['hash'];
 
     public function grades(): HasMany
     {
-        return $this->hasMany(Grade::class, 'lolo_id', 'id');
+        return $this->hasMany(Grade::class, 'lolo_id', 'hash');
     }
 
     public function user(): HasOne

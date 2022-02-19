@@ -20,7 +20,7 @@ class LoloHelper
 
     public static function updateGrades()
     {
-        $userID = Auth::user()->id;
+        $userID = Auth::user()->hash;
 
         $creds = SessionManager::getKretaEncrypter()->getCreds();
         $grades = new Evaluations($creds->token);
