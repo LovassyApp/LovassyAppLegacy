@@ -1,4 +1,4 @@
-import { Headline, Text, useTheme } from "react-native-paper";
+import { Headline, Snackbar, Text, useTheme } from "react-native-paper";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 
@@ -9,17 +9,23 @@ import { Ionicons } from "@expo/vector-icons";
 import { LaButton } from "../../components/content/customized/laButton";
 import { ScreenContainer } from "../../components/screenContainer";
 import { useIsFocused } from "@react-navigation/core";
+import { useBlueboardClient } from "blueboard-client-react";
 
 // TODO: Finish this once theres a backend for it - Possibly with an other screen for confirmation
-export const ScanScreen = () => {
+export const ScanScreen = ({ navigation, route }) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [backCamera, setBackCamera] = useState(true);
-  // eslint-disable-next-line no-unused-vars
   const [scanned, setScanned] = useState(false);
+  const [snackBarOpen, setSnackBarOpen] = useState(false);
+  const [snackBarMessage, setSnackBarMessage] = useState("");
+  const [snackBarTimeout, setSnackBarTimeout] = useState(30000);
 
   const isFocused = useIsFocused();
 
+  const client = useBlueboardClient();
   const theme = useTheme();
+
+  const { item, inputState } = route.params;
 
   useEffect(() => {
     (async () => {
@@ -54,8 +60,23 @@ export const ScanScreen = () => {
     setBackCamera(!backCamera);
   };
 
-  const qrCodeScanned = (data) => {
-    console.log(data);
+  useEffect(() => {
+    setScanned(false);
+  }, []);
+
+  const qrCodeScanned = async (data) => {
+    setScanned(true);
+
+    setSnackBarOpen(true);
+    setSnackBarMessage("Beváltás folyamatban...");
+    try {
+      await client.inventory.useItem(item.id, data, inputState);
+      navigation.navigate("Siker", item);
+    } catch (err) {
+      setScanned(false);
+      setSnackBarMessage("Beváltás sikertelen!");
+      setSnackBarTimeout(3000);
+    }
   };
 
   if (hasPermission === null) {
@@ -78,33 +99,63 @@ export const ScanScreen = () => {
   }
 
   return (
-    <ScreenContainer>
-      <Headline>Beolvasás</Headline>
-      <View style={styles.container}>
-        <Text style={{ alignSelf: "center", margin: 10 }}>
-          Kérlek olvasd be az aktiváló QR kódot
-        </Text>
-        <View style={styles.scanContainer}>
-          {isFocused && (
-            <Camera
-              style={styles.scanner}
-              type={backCamera ? Camera.Constants.Type.back : Camera.Constants.Type.front}
-              barCodeScannerSettings={{
-                barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr],
+    <>
+      <ScreenContainer>
+        <Headline>Beolvasás</Headline>
+        <View style={styles.container}>
+          <Text style={{ alignSelf: "center", margin: 10 }}>
+            Kérlek olvasd be az aktiváló QR kódot
+          </Text>
+          <View style={styles.scanContainer}>
+            {isFocused && (
+              <Camera
+                style={styles.scanner}
+                type={backCamera ? Camera.Constants.Type.back : Camera.Constants.Type.front}
+                barCodeScannerSettings={{
+                  barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr],
+                }}
+                onBarCodeScanned={scanned ? null : (res) => qrCodeScanned(res.data)}>
+                <BarcodeMask outerMaskOpacity={0} animatedLineHeight={4} height={280} />
+              </Camera>
+            )}
+          </View>
+          <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+            <LaButton
+              onPress={() => {
+                navigation.navigate("Megerősítés", item);
               }}
-              onBarCodeScanned={scanned ? null : (res) => qrCodeScanned(res.data)}>
-              <BarcodeMask outerMaskOpacity={0} animatedLineHeight={4} height={280} />
-            </Camera>
-          )}
+              customStyle={styles.button}>
+              <Ionicons name="arrow-back" size={30} color="#fff" />
+            </LaButton>
+            <LaButton
+              onPress={() => {
+                toggleBackCamera();
+              }}
+              customStyle={styles.button}>
+              <Ionicons name="camera-reverse" size={30} color="#fff" />
+            </LaButton>
+          </View>
         </View>
-        <LaButton
-          onPress={() => {
-            toggleBackCamera();
+      </ScreenContainer>
+      {snackBarOpen && (
+        <Snackbar
+          visible={snackBarOpen}
+          onDismiss={() => {
+            setSnackBarOpen(false);
+            setSnackBarTimeout(30000);
           }}
-          customStyle={styles.button}>
-          <Ionicons name="camera-reverse" size={30} color="#fff" />
-        </LaButton>
-      </View>
-    </ScreenContainer>
+          theme={{
+            ...theme,
+            colors: {
+              ...theme.colors,
+              surface: theme.colors.text,
+              onSurface: theme.dark ? "#171717" : theme.colors.surface,
+            },
+          }}
+          duration={snackBarTimeout}>
+          {snackBarMessage}
+        </Snackbar>
+      )}
+    </>
   );
 };

@@ -35,6 +35,7 @@ export const InputRenderer = (props) => {
                 }}
                 error={getError(input.name) !== ""}
                 dense={true}
+                blurOnSubmit={true}
                 maxLength={255}
               />
               {getError(input.name) !== "" && (

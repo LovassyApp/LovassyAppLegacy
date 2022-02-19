@@ -11,7 +11,7 @@ import { QrCodesScreen } from "../screens/admin/qrCodesScreen";
 import React from "react";
 import { RegisterScreen } from "../screens/registerScreen";
 import { RequestsScreen } from "../screens/admin/requestsScreen";
-import { ResultScreen } from "../screens/activation/resultScreen";
+import { SuccessScreen } from "../screens/activation/successScreen";
 import { ScanScreen } from "../screens/activation/scanScreen";
 import { SettingsScreen } from "../screens/settingsScreen";
 import { StoreScreen } from "../screens/storeScreen";
@@ -192,7 +192,7 @@ const ActivationNavigation = () => {
         <Stack.Screen name="Kezdőlap" component={InventoryScreen} />
         <Stack.Screen name="Megerősítés" component={ConfirmScreen} />
         <Stack.Screen name="Beolvasás" component={ScanScreen} />
-        <Stack.Screen name="Eredmény" component={ResultScreen} />
+        <Stack.Screen name="Siker" component={SuccessScreen} />
       </Stack.Navigator>
     </View>
   );

@@ -1,4 +1,4 @@
-import { Divider, Headline, Subheading, Text, useTheme } from "react-native-paper";
+import { Divider, Headline, Snackbar, Subheading, Text, useTheme } from "react-native-paper";
 import { StyleSheet, View } from "react-native";
 
 import { InputRenderer } from "../../components/inputRenderer";
@@ -6,12 +6,15 @@ import { Ionicons } from "@expo/vector-icons";
 import { LaButton } from "../../components/content/customized/laButton";
 import { LaCard } from "../../components/content/laCard";
 import Markdown from "react-native-markdown-display";
-import React from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { ScreenContainer } from "../../components/screenContainer";
+import { useBlueboardClient } from "blueboard-client-react";
 
 export const ConfirmScreen = ({ navigation, route }) => {
   const item = route.params;
+
   const theme = useTheme();
+  const client = useBlueboardClient();
 
   const getInitialInputState = React.useCallback(() => {
     const obj = {};
@@ -31,8 +34,12 @@ export const ConfirmScreen = ({ navigation, route }) => {
     return obj;
   }, [item]);
 
-  const [inputState, setInputState] = React.useState(getInitialInputState());
-  const [errors, setErrors] = React.useState({});
+  const [inputState, setInputState] = useState(getInitialInputState());
+  const [errors, setErrors] = useState({});
+  const errorRef = useRef(errors);
+  const [snackBarOpen, setSnackBarOpen] = useState(false);
+  const [snackBarMessage, setSnackBarMessage] = useState("");
+  const [snackBarTimeout, setSnackBarTimeout] = useState(30000);
 
   const styles = StyleSheet.create({
     container: {
@@ -68,9 +75,27 @@ export const ConfirmScreen = ({ navigation, route }) => {
     },
   };
 
-  const confirm = () => {
+  const confirm = async () => {
     setErrors({});
+    errorRef.current = {};
+
     validateInputs();
+
+    if (Object.keys(errorRef.current).length === 0) {
+      if (item.product.codeActivated) {
+        navigation.navigate("Beolvasás", { item, inputState });
+      } else {
+        setSnackBarOpen(true);
+        setSnackBarMessage("Beváltás folyamatban...");
+        try {
+          await client.inventory.useItem(item.id, "", inputState);
+          navigation.navigate("Siker", item);
+        } catch (err) {
+          setSnackBarMessage("Beváltás sikertelen!");
+          setSnackBarTimeout(3000);
+        }
+      }
+    }
   };
 
   const validateInputs = () => {
@@ -78,12 +103,13 @@ export const ConfirmScreen = ({ navigation, route }) => {
 
     const inputs = item.product.inputs ?? [];
 
-    inputs.forEach((el) => {
-      if (el.type === "textbox" && inputState[el.name] === "") {
-        obj[el.name] = `A ${el.title} mező kitöltése kötelező`;
+    for (const element of inputs) {
+      if (element.type === "textbox" && inputState[element.name] === "") {
+        obj[element.name] = `A ${element.title} mező kitöltése kötelező`;
       }
-    });
+    }
 
+    errorRef.current = obj;
     setErrors(obj);
   };
 
@@ -108,60 +134,81 @@ export const ConfirmScreen = ({ navigation, route }) => {
   }
 
   return (
-    <ScreenContainer>
-      <Headline>{item.product.name}</Headline>
-      <View style={styles.container}>
-        <View style={{ marginVertical: 5 }}>
-          <LaCard title="Leírás">
-            <Divider style={{ width: "100%", marginVertical: 5 }} />
-            <Markdown style={markdownStyle}>{item.product.markdownContent}</Markdown>
-          </LaCard>
-          {item.product.inputs.length !== 0 && (
-            <LaCard title="Inputok">
+    <>
+      <ScreenContainer>
+        <Headline>{item.product.name}</Headline>
+        <View style={styles.container}>
+          <View style={{ marginVertical: 5 }}>
+            <LaCard title="Leírás">
               <Divider style={{ width: "100%", marginVertical: 5 }} />
-              <InputRenderer
-                inputs={item.product.inputs}
-                onChange={(input, value) => {
-                  const newState = { ...inputState };
-                  newState[input] = value;
-                  setInputState(newState);
-                }}
-                errors={errors}
-                inputState={inputState}
-              />
+              <Markdown style={markdownStyle}>{item.product.markdownContent}</Markdown>
             </LaCard>
-          )}
-          <LaCard title="Beváltás">
-            <Divider style={{ width: "100%", marginVertical: 5 }} />
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}>
-              <Subheading>
-                {item.product.codeActivated ? "Kóddal aktiválható" : "Magában aktiválható"}
-              </Subheading>
-              <Ionicons
-                name={item.product.codeActivated ? "qr-code" : "checkmark-circle"}
-                size={22}
-                color={theme.colors.text}
-              />
-            </View>
-          </LaCard>
+            {item.product.inputs.length !== 0 && (
+              <LaCard title="Inputok">
+                <Divider style={{ width: "100%", marginVertical: 5 }} />
+                <InputRenderer
+                  inputs={item.product.inputs}
+                  onChange={(input, value) => {
+                    const newState = { ...inputState };
+                    newState[input] = value;
+                    setInputState(newState);
+                  }}
+                  errors={errors}
+                  inputState={inputState}
+                />
+              </LaCard>
+            )}
+            <LaCard title="Beváltás">
+              <Divider style={{ width: "100%", marginVertical: 5 }} />
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}>
+                <Subheading>
+                  {item.product.codeActivated ? "Kóddal aktiválható" : "Magában aktiválható"}
+                </Subheading>
+                <Ionicons
+                  name={item.product.codeActivated ? "qr-code" : "checkmark-circle"}
+                  size={22}
+                  color={theme.colors.text}
+                />
+              </View>
+            </LaCard>
+          </View>
+          <View style={styles.buttonContainer}>
+            <LaButton
+              dense={true}
+              customStyle={{ margin: 10 }}
+              onPress={() => navigation.navigate("Kezdőlap")}>
+              Vissza
+            </LaButton>
+            <LaButton dense={true} customStyle={{ margin: 10 }} onPress={() => confirm()}>
+              Beváltás
+            </LaButton>
+          </View>
         </View>
-        <View style={styles.buttonContainer}>
-          <LaButton
-            dense={true}
-            customStyle={{ margin: 10 }}
-            onPress={() => navigation.navigate("Kezdőlap")}>
-            Vissza
-          </LaButton>
-          <LaButton dense={true} customStyle={{ margin: 10 }} onPress={() => confirm()}>
-            Beváltás
-          </LaButton>
-        </View>
-      </View>
-    </ScreenContainer>
+      </ScreenContainer>
+      {snackBarOpen && (
+        <Snackbar
+          visible={snackBarOpen}
+          onDismiss={() => {
+            setSnackBarOpen(false);
+            setSnackBarTimeout(30000);
+          }}
+          theme={{
+            ...theme,
+            colors: {
+              ...theme.colors,
+              surface: theme.colors.text,
+              onSurface: theme.dark ? "#171717" : theme.colors.surface,
+            },
+          }}
+          duration={snackBarTimeout}>
+          {snackBarMessage}
+        </Snackbar>
+      )}
+    </>
   );
 };
