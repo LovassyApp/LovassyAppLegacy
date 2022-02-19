@@ -3,7 +3,7 @@ import { Button, Headline, HelperText, Text, TextInput } from "react-native-pape
 
 import { InventoryItem } from "../../components/content/inventoryItem";
 import { LaInput } from "../../components/content/customized/laInput";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ScreenContainer } from "../../components/screenContainer";
 import { View } from "react-native";
 import { fetchInventory } from "../../utils/api/apiUtils";
@@ -15,7 +15,39 @@ import { useSelector } from "react-redux";
 export const InventoryScreen = ({ navigation }) => {
   const items = useSelector((state) => state.inventory.value);
 
-  const [query, setQuery] = React.useState("");
+  const [query, setQuery] = useState("");
+  const [renderedItems, setRenderedItems] = useState(items);
+
+  useEffect(() => {
+    setRenderedItems(
+      query === ""
+        ? [].concat(items).sort((a, b) => {
+            if (a.usedAt && !b.usedAt) {
+              return 1;
+            }
+
+            if (a.usedAt && b.usedAt) {
+              return 0;
+            }
+
+            return -1;
+          })
+        : matchSorter(items, query, {
+            keys: ["product.name", "product.description"],
+            threshold: matchSorter.rankings.CONTAINS,
+          }).sort((a, b) => {
+            if (a.usedAt && !b.usedAt) {
+              return 1;
+            }
+
+            if (a.usedAt && b.usedAt) {
+              return 0;
+            }
+
+            return -1;
+          }),
+    );
+  }, [query, items]);
 
   const client = useBlueboardClient();
   const loading = useLoading();
@@ -30,14 +62,6 @@ export const InventoryScreen = ({ navigation }) => {
       />
     ));
   };
-
-  const renderedItems =
-    query === ""
-      ? items
-      : matchSorter(items, query, {
-          keys: ["product.name", "product.description"],
-          threshold: matchSorter.rankings.CONTAINS,
-        });
 
   const tryAgain = async () => {
     loading(true);
