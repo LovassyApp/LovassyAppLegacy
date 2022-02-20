@@ -12,6 +12,7 @@ import deleteModal from '../../Helpers/DeleteModal';
 import { useBlueboardClient } from 'blueboard-client-react';
 import { BlueboardUser, BlueboardUserGroup } from 'blueboard-client';
 import { useUser } from '../../Hooks/ControlHooks';
+import Middleware from '../../Helpers/Middleware';
 const Users = () => {
     const [users, setUsers] = React.useState<BlueboardUser[]>([]);
     const [loading, setLoading] = React.useState(true);
@@ -99,19 +100,32 @@ const Users = () => {
             cell: (el: BlueboardUser) => {
                 return (
                     <>
-                        <Button className="mx-1" auto rounded color="primary" onClick={() => editEl(el)}>
-                            Szerkesztés
-                        </Button>
-                        <Button
-                            className="mx-1"
-                            auto
-                            rounded
-                            color="error"
-                            disabled={user.id === el.id}
-                            onClick={() => deleteRow(el)}
-                        >
-                            Törlés
-                        </Button>
+                        <Middleware
+                            permission="Users.update"
+                            displayError={false}
+                            component={
+                                <Button className="mx-1" auto rounded color="primary" onClick={() => editEl(el)}>
+                                    Szerkesztés
+                                </Button>
+                            }
+                        />
+
+                        <Middleware
+                            permission="Users.delete"
+                            displayError={false}
+                            component={
+                                <Button
+                                    className="mx-1"
+                                    auto
+                                    rounded
+                                    color="error"
+                                    disabled={user.id === el.id}
+                                    onClick={() => deleteRow(el)}
+                                >
+                                    Törlés
+                                </Button>
+                            }
+                        />
                     </>
                 );
             },

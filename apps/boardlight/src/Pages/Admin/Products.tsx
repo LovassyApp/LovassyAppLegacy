@@ -15,6 +15,7 @@ import InputRenderer from '../../Components/InputRenderer';
 import { useBlueboardClient } from 'blueboard-client-react';
 import { BlueboardProduct } from 'blueboard-client';
 import Center from '../../Components/Center';
+import Middleware from '../../Helpers/Middleware';
 const Expand = ({ data }: { data: BlueboardProduct }): JSX.Element => {
     return (
         <div className="my-2 mx-2">
@@ -137,12 +138,30 @@ const Products = (): JSX.Element => {
             cell: (el: BlueboardProduct) => {
                 return (
                     <>
-                        <Button className="mx-1" auto rounded color="primary" onClick={() => editEl(el.id as number)}>
-                            Szerkesztés
-                        </Button>
-                        <Button className="mx-1" auto rounded color="error" onClick={() => deleteRow(el)}>
-                            Törlés
-                        </Button>
+                        <Middleware
+                            permission="Products.update"
+                            displayError={false}
+                            component={
+                                <Button
+                                    className="mx-1"
+                                    auto
+                                    rounded
+                                    color="primary"
+                                    onClick={() => editEl(el.id as number)}
+                                >
+                                    Szerkesztés
+                                </Button>
+                            }
+                        />
+                        <Middleware
+                            permission="Products.delete"
+                            displayError={false}
+                            component={
+                                <Button className="mx-1" auto rounded color="error" onClick={() => deleteRow(el)}>
+                                    Törlés
+                                </Button>
+                            }
+                        />
                     </>
                 );
             },
@@ -181,10 +200,20 @@ const Products = (): JSX.Element => {
                     </Col>
                     <div className="mt-2"></div>
                     <Center>
-                        <Button color="gradient" rounded onClick={() => history.push('/admin/products/edit/new')}>
-                            <MdAdd />
-                            Termék hozzáadása
-                        </Button>
+                        <Middleware
+                            permission="Products.create"
+                            displayError={false}
+                            component={
+                                <Button
+                                    color="gradient"
+                                    rounded
+                                    onClick={() => history.push('/admin/products/edit/new')}
+                                >
+                                    <MdAdd />
+                                    Termék hozzáadása
+                                </Button>
+                            }
+                        />
                     </Center>
                 </Row>
             </Container>

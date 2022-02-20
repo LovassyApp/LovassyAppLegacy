@@ -17,8 +17,11 @@ use Illuminate\Validation\Rule;
 
 class LoloRequestController extends Controller
 {
+    protected string $permissionScope = 'Requests';
+
     public function index(): JsonResponse
     {
+        $this->checkPermission('index');
         $requests = LoloRequest::with('user')->get();
 
         return ResponseMaker::generate($requests);
@@ -26,6 +29,7 @@ class LoloRequestController extends Controller
 
     public function show(): JsonResponse
     {
+        $this->checkPermission('view');
         $requests = SessionManager::user()
             ->requests()
             ->get();
@@ -35,6 +39,7 @@ class LoloRequestController extends Controller
 
     public function create(Request $request): JsonResponse
     {
+        $this->checkPermission('new');
         $data = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'body' => ['required', 'string', 'max:65535'],
@@ -49,6 +54,7 @@ class LoloRequestController extends Controller
 
     public function update(Request $request): JsonResponse
     {
+        $this->checkPermission('overrule');
         $data = $request->validate(
             [
                 'id' => ['required', 'integer'],
@@ -75,10 +81,7 @@ class LoloRequestController extends Controller
                 $loloRequest->accepted_at = Carbon::now();
                 $loloRequest->save();
                 LoloGenerator::saveRequest($data['loloAmount'], $loloRequest);
-                LoloAmountUpdated::dispatch(
-                    $loloRequest->user,
-                    $loloRequest->user->balance
-                );
+                LoloAmountUpdated::dispatch($loloRequest->user, $loloRequest->user->balance);
                 break;
 
             default:

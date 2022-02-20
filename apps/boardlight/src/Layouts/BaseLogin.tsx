@@ -17,10 +17,13 @@ const BaseLogin = ({ children }: { children: React.ReactNode }): JSX.Element => 
             animation: 'x 1s',
             animationName: Radium.keyframes(slideInRight, 'entry'),
         } as React.CSSProperties,
+        bg: {
+            cursor: 'default',
+        } as React.CSSProperties,
     };
     return (
         <Radium.StyleRoot>
-            <div className="loading-background">
+            <div className="loading-background" style={localStyles.bg}>
                 <div className={style.inputPage}>
                     <div className={style.center}>
                         <div className={style.inputCard} style={localStyles.entry}>

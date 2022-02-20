@@ -105,6 +105,7 @@ const EditGroup = () => {
             })
             .catch((err) => {
                 setSavePending(false);
+                console.log(err);
                 if (err.errors != null) {
                     if (err.errors.name != null) {
                         setNameErr(err.errors.name);
@@ -113,6 +114,12 @@ const EditGroup = () => {
                     if (err.errors.permissions != null) {
                         setPermissionsErr(err.errors.permissions);
                         permissionsSetVisible(true);
+                    }
+
+                    if (err.errors.permissions === undefined && err.errors.name === undefined) {
+                        console.log('hello');
+                        setGLOBERR(err.message);
+                        globSetVisible(true);
                     }
                 } else {
                     setGLOBERR(err.message);

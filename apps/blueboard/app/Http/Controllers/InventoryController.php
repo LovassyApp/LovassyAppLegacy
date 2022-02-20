@@ -16,11 +16,14 @@ use Illuminate\Http\Request;
 
 class InventoryController extends Controller
 {
+    protected string $permissionScope = 'Inventory';
+
     private string $stringInputRules = 'required|string|max:255';
     private string $boolInputRules = 'required|boolean';
 
     public function index()
     {
+        $this->checkPermission('view');
         $user = SessionManager::user();
         $items = $user
             ->items()
@@ -51,8 +54,9 @@ class InventoryController extends Controller
 
     public function validateCode(Request $request)
     {
-        $user = SessionManager::user();
+        $this->checkPermission('validate', 'QRCode');
 
+        $user = SessionManager::user();
         $code = $this->getQR($request);
 
         $items = $code
@@ -80,6 +84,7 @@ class InventoryController extends Controller
 
     public function useItem(Request $request)
     {
+        $this->checkPermission('use');
         $itemID = $request->validate(
             [
                 'itemID' => ['required', 'integer', 'exists:inventory_items,id'],

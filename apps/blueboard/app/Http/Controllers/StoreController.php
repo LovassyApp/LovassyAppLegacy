@@ -10,14 +10,16 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Helpers\LibLolo\LoloHelper;
 use App\Models\InventoryItem;
-use App\Models\Lolo;
 use App\Models\StoreHistory;
 use Auth;
 
 class StoreController extends Controller
 {
+    protected string $permissionScope = 'Store';
+
     public function index()
     {
+        $this->checkPermission('view');
         $products = Product::allVisible();
 
         return ResponseMaker::generate($products);
@@ -25,6 +27,8 @@ class StoreController extends Controller
 
     public function buy(Request $request)
     {
+        $this->checkPermission('buy');
+
         $id = $request->validate([
             'productId' => ['required', 'integer'],
         ])['productId'];

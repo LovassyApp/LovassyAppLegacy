@@ -11,6 +11,7 @@ import { useBlueboardClient } from 'blueboard-client-react';
 import { BlueboardClient, BlueboardLoloRequest, BlueboardLoloRequestAction } from 'blueboard-client';
 import { eventDeclaration, useStatefulEvent, useStatefulListener } from '../../Hooks/EventHooks';
 import { FormElement } from '@nextui-org/react/esm/input/input-props';
+import Middleware from '../../Helpers/Middleware';
 
 const RequestModalContent = ({
     client,
@@ -191,6 +192,10 @@ const Requests = () => {
             selector: (row: BlueboardLoloRequest) => row.user?.name ?? '',
         },
         {
+            name: 'Diák e-mail címe',
+            selector: (row: BlueboardLoloRequest) => row.user?.email ?? '',
+        },
+        {
             name: 'Benyújtás ideje',
             cell: (row: BlueboardLoloRequest) => {
                 const unix = Date.parse(row.timestamps.createdAt);
@@ -217,16 +222,23 @@ const Requests = () => {
                 }
 
                 return (
-                    <Button
-                        auto
-                        onClick={() => {
-                            setRequest(row);
-                            setShow(true);
-                        }}
-                        color="gradient"
-                    >
-                        Megtekintés
-                    </Button>
+                    <Middleware
+                        permission="Requests.overrule"
+                        displayError={false}
+                        component={
+                            <Button
+                                auto
+                                rounded
+                                onClick={() => {
+                                    setRequest(row);
+                                    setShow(true);
+                                }}
+                                color="gradient"
+                            >
+                                Elbírálás
+                            </Button>
+                        }
+                    />
                 );
             },
         },

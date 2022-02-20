@@ -91,6 +91,7 @@ const Login = (): JSX.Element => {
                         placeholder="E-mail cím"
                     />
                 </InputGroup>
+
                 <Alert color="danger" isOpen={userIsVisible} toggle={() => userSetVisible(false)}>
                     {userErr.map((el) => (
                         <span>
