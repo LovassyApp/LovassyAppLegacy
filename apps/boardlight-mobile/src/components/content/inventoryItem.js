@@ -5,7 +5,6 @@ import { Image, Platform, TouchableWithoutFeedback, View } from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import color from "color";
 
 export const InventoryItem = (props) => {
   const theme = useTheme();
@@ -57,12 +56,18 @@ export const InventoryItem = (props) => {
         <View style={{ width: "60%", padding: 10 }}>
           <Text
             numberOfLines={1}
-            style={{ fontSize: 16, color: color(theme.colors.text).alpha(0.87).rgb().string() }}>
+            style={{
+              fontSize: 16,
+              color: theme.dark ? "rgba(255, 255, 255, 0.87)" : "rgba(0, 0, 0, 0.87)",
+            }}>
             {product.name}
           </Text>
           <Text
             numberOfLines={1}
-            style={{ fontSize: 14, color: color(theme.colors.text).alpha(0.54).rgb().string() }}>
+            style={{
+              fontSize: 14,
+              color: theme.dark ? "rgba(255, 255, 255, 0.54)" : "rgba(0, 0, 0, 0.54)",
+            }}>
             {product.description}
           </Text>
           <Chip
@@ -81,7 +86,7 @@ export const InventoryItem = (props) => {
         <Ionicons
           style={{ alignSelf: "center" }}
           size={26}
-          color={color(theme.colors.text).alpha(0.87).rgb().string()}
+          color={theme.dark ? "rgba(255, 255, 255, 0.87)" : "rgba(0, 0, 0, 0.87)"}
           name="chevron-forward"
         />
       </View>
