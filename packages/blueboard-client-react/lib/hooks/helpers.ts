@@ -14,7 +14,7 @@ const useEvent = (channel: any, eventName: any, callback: any) => {
         return () => {
             if (typeof channel.stopListening === 'function') {
                 channel.stopListening(eventName);
-                console.log('DEBUG: Stopped listening for ' + eventName + 'on ' + channel.name + '.');
+                console.log('DEBUG: Stopped listening for ' + eventName + ' on ' + channel.name + '.');
             }
         };
     }, [channel]);

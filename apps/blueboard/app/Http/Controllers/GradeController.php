@@ -10,8 +10,12 @@ use App\Helpers\ResponseMaker;
 
 class GradeController extends Controller
 {
+    protected string $permissionScope = 'General';
+
     public function index(Request $request)
     {
+        $this->checkPermission('grades');
+
         $refresh = (bool) $request->query('refresh', false);
         if ($refresh == true) {
             LoloHelper::updateGrades();

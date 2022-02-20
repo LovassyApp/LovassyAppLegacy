@@ -82,117 +82,176 @@ const TopNav = (): JSX.Element => {
                             displayError={false}
                         />
 
-                        <NavItem>
-                            <NavLink
-                                href="#"
-                                active={history.location.pathname === '/grades'}
-                                onClick={() => {
-                                    history.push('/grades');
-                                }}
-                            >
-                                <MdOutlineGrade className="mb-1" />
-                                <span className="ml-4"> Jegyek</span>
-                            </NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink
-                                href="#"
-                                active={history.location.pathname === '/lolo'}
-                                onClick={() => {
-                                    history.push('/lolo');
-                                }}
-                            >
-                                <MdOutlineAttachMoney className="mb-1" />
-                                <span className="ml-4"> LoLó</span>
-                            </NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink
-                                href="#"
-                                active={history.location.pathname === '/store'}
-                                onClick={() => {
-                                    history.push('/store');
-                                }}
-                            >
-                                <MdOutlineStore className="mb-1" />
-                                <span className="ml-4"> Bazár</span>
-                            </NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink
-                                href="#"
-                                active={history.location.pathname === '/inventory'}
-                                onClick={() => {
-                                    history.push('/inventory');
-                                }}
-                            >
-                                <MdOutlineInventory2 className="mb-1" />
-                                <span className="ml-4"> Kincstár</span>
-                            </NavLink>
-                        </NavItem>
+                        <Middleware
+                            component={
+                                <NavItem>
+                                    <NavLink
+                                        href="#"
+                                        active={history.location.pathname === '/grades'}
+                                        onClick={() => {
+                                            history.push('/grades');
+                                        }}
+                                    >
+                                        <MdOutlineGrade className="mb-1" />
+                                        <span className="ml-4"> Jegyek</span>
+                                    </NavLink>
+                                </NavItem>
+                            }
+                            permission="General.grades"
+                            displayError={false}
+                        />
+
+                        <Middleware
+                            component={
+                                <NavItem>
+                                    <NavLink
+                                        href="#"
+                                        active={history.location.pathname === '/lolo'}
+                                        onClick={() => {
+                                            history.push('/lolo');
+                                        }}
+                                    >
+                                        <MdOutlineAttachMoney className="mb-1" />
+                                        <span className="ml-4"> LoLó</span>
+                                    </NavLink>
+                                </NavItem>
+                            }
+                            permission="General.lolo"
+                            displayError={false}
+                        />
+
+                        <Middleware
+                            component={
+                                <NavItem>
+                                    <NavLink
+                                        href="#"
+                                        active={history.location.pathname === '/store'}
+                                        onClick={() => {
+                                            history.push('/store');
+                                        }}
+                                    >
+                                        <MdOutlineStore className="mb-1" />
+                                        <span className="ml-4"> Bazár</span>
+                                    </NavLink>
+                                </NavItem>
+                            }
+                            permission="Store.view"
+                            displayError={false}
+                        />
+
+                        <Middleware
+                            component={
+                                <NavItem>
+                                    <NavLink
+                                        href="#"
+                                        active={history.location.pathname === '/inventory'}
+                                        onClick={() => {
+                                            history.push('/inventory');
+                                        }}
+                                    >
+                                        <MdOutlineInventory2 className="mb-1" />
+                                        <span className="ml-4"> Kincstár</span>
+                                    </NavLink>
+                                </NavItem>
+                            }
+                            permission="Inventory.view"
+                            displayError={false}
+                        />
 
                         {/* Admin section, permissionök kellenek */}
+                        <Middleware
+                            component={
+                                <NavItem>
+                                    <NavLink
+                                        href="#"
+                                        active={history.location.pathname === '/admin/products'}
+                                        onClick={() => {
+                                            history.push('/admin/products');
+                                        }}
+                                    >
+                                        <MdOutlineProductionQuantityLimits className="mb-1" />
+                                        <span className="ml-4"> Termékek</span>
+                                    </NavLink>
+                                </NavItem>
+                            }
+                            permission="Products.index"
+                            displayError={false}
+                        />
 
-                        <NavItem>
-                            <NavLink
-                                href="#"
-                                active={history.location.pathname === '/admin/products'}
-                                onClick={() => {
-                                    history.push('/admin/products');
-                                }}
-                            >
-                                <MdOutlineProductionQuantityLimits className="mb-1" />
-                                <span className="ml-4"> Termékek</span>
-                            </NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink
-                                href="#"
-                                active={history.location.pathname === '/admin/requests'}
-                                onClick={() => {
-                                    history.push('/admin/requests');
-                                }}
-                            >
-                                <MdOutlineRequestPage className="mb-1" />
-                                <span className="ml-4"> Kérvények</span>
-                            </NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink
-                                href="#"
-                                active={history.location.pathname === '/admin/qrcodes'}
-                                onClick={() => {
-                                    history.push('/admin/qrcodes');
-                                }}
-                            >
-                                <MdQrCode2 className="mb-1" />
-                                <span className="ml-4"> QR-kódok</span>
-                            </NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink
-                                href="#"
-                                active={history.location.pathname === '/admin/users'}
-                                onClick={() => {
-                                    history.push('/admin/users');
-                                }}
-                            >
-                                <MdOutlinePeopleAlt className="mb-1" />
-                                <span className="ml-4"> Felhasználók</span>
-                            </NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink
-                                href="#"
-                                active={history.location.pathname === '/admin/permissions'}
-                                onClick={() => {
-                                    history.push('/admin/permissions');
-                                }}
-                            >
-                                <MdOutlineSecurity className="mb-1" />
-                                <span className="ml-4"> Jogosultságok</span>
-                            </NavLink>
-                        </NavItem>
+                        <Middleware
+                            component={
+                                <NavItem>
+                                    <NavLink
+                                        href="#"
+                                        active={history.location.pathname === '/admin/requests'}
+                                        onClick={() => {
+                                            history.push('/admin/requests');
+                                        }}
+                                    >
+                                        <MdOutlineRequestPage className="mb-1" />
+                                        <span className="ml-4"> Kérvények</span>
+                                    </NavLink>
+                                </NavItem>
+                            }
+                            permission="Requests.index"
+                            displayError={false}
+                        />
+
+                        <Middleware
+                            component={
+                                <NavItem>
+                                    <NavLink
+                                        href="#"
+                                        active={history.location.pathname === '/admin/qrcodes'}
+                                        onClick={() => {
+                                            history.push('/admin/qrcodes');
+                                        }}
+                                    >
+                                        <MdQrCode2 className="mb-1" />
+                                        <span className="ml-4"> QR-kódok</span>
+                                    </NavLink>
+                                </NavItem>
+                            }
+                            permission="QRCode.view"
+                            displayError={false}
+                        />
+                        <Middleware
+                            component={
+                                <NavItem>
+                                    <NavLink
+                                        href="#"
+                                        active={history.location.pathname === '/admin/users'}
+                                        onClick={() => {
+                                            history.push('/admin/users');
+                                        }}
+                                    >
+                                        <MdOutlinePeopleAlt className="mb-1" />
+                                        <span className="ml-4"> Felhasználók</span>
+                                    </NavLink>
+                                </NavItem>
+                            }
+                            permission="Users.view"
+                            displayError={false}
+                        />
+                        <Middleware
+                            component={
+                                <NavItem>
+                                    <NavLink
+                                        href="#"
+                                        active={history.location.pathname === '/admin/permissions'}
+                                        onClick={() => {
+                                            history.push('/admin/permissions');
+                                        }}
+                                    >
+                                        <MdOutlineSecurity className="mb-1" />
+                                        <span className="ml-4"> Jogosultságok</span>
+                                    </NavLink>
+                                </NavItem>
+                            }
+                            permission="Permissions.view"
+                            displayError={false}
+                        />
+
                         {/*<NavItem>
                             <NavLink
                                 href="#"

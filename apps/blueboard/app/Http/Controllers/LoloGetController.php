@@ -11,8 +11,12 @@ use App\Helpers\ResponseMaker;
 
 class LoloGetController extends Controller
 {
+    protected string $permissionScope = 'General';
+
     public function index(Request $request)
     {
+        $this->checkPermission('lolo');
+
         $refresh = (bool) $request->query('refresh', false);
         if ($refresh == true) {
             LoloHelper::updateGrades();

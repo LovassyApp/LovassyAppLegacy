@@ -29,12 +29,13 @@ class Controller extends BaseController
         return $helper;
     }
 
-    protected function checkPermission(string $permission)
+    protected function checkPermission(string $permission, string $permissionScope = null)
     {
-        if (!isset($this->permissionScope)) {
+        if ($permissionScope == null && !isset($this->permissionScope)) {
             throw new Exception("Please specify a 'permissionScope' property on your controller.");
         }
-        $scope = $this->permissionScope;
+
+        $scope = $permissionScope ?? $this->permissionScope;
         $permissionString = "$scope.$permission";
 
         $this->permissionHelper()->authorize($permissionString);

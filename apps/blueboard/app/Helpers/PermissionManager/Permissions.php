@@ -44,16 +44,13 @@ class Permissions
     public const SCOPES = [
         // 'DisplayName' => 'Assigned constant'
         'General' => 'MISC',
+        'Store' => 'STORE',
+        'Inventory' => 'INVENTORY',
+        'Products' => 'PRODUCTS',
+        'Requests' => 'REQUESTS',
+        'QRCode' => 'QR',
         'Users' => 'USERS',
         'Permissions' => 'PERMISSIONS',
-        'QRCode' => 'QR',
-        'Products' => 'PRODUCTS',
-        //'Shop' => 'SHOP',
-        //'Inventory' => 'INVENTORY',
-        //'QRCode' => 'QRCODE',
-        //'Users' => 'USERS',
-        //'Permissions' => 'PERMISSIONS',
-        //'Settings' => 'Settings',
     ];
 
     /**
@@ -72,10 +69,10 @@ class Permissions
             'description' => 'Jegyek oldal megtekintése',
             'errorMessage' => self::PAGE_DENIED,
         ],
-        'settings' => [
-            'permission' => 'settings',
-            'displayName' => 'Beállítások',
-            'description' => 'Felhasználói beállítások változtatása',
+        'lolo' => [
+            'permission' => 'lolo',
+            'displayName' => 'LoLó',
+            'description' => 'LoLó oldal megtekintése',
             'errorMessage' => self::PAGE_DENIED,
         ],
         'control' => [
@@ -96,10 +93,10 @@ class Permissions
             'description' => 'Felhasználói lista megtekintése',
             'errorMessage' => self::PAGE_DENIED,
         ],
-        'viewuser' => [
-            'permission' => 'viewuser',
+        'show' => [
+            'permission' => 'show',
             'displayName' => 'Felhasználó lekérése',
-            'description' => 'Egy adott felhasználó adatainak lekérése',
+            'description' => 'Egy adott felhasználó adatainak lekérése (Boardlight beépített szerkesztőjéhez kell!)',
             'errorMessage' => self::PAGE_DENIED,
         ],
         'update' => [
@@ -129,13 +126,14 @@ class Permissions
         'viewgroup' => [
             'permission' => 'viewgroup',
             'displayName' => 'Csoport lekérése',
-            'description' => 'Egy adott csoport adatainak lekérése',
+            'description' => 'Egy adott csoport adatainak lekérése (Boardlight beépített szerkesztőjéhez kell!)',
             'errorMessage' => self::PAGE_DENIED,
         ],
         'getpermissions' => [
             'permission' => 'getpermissions',
             'displayName' => 'Jogosultságok lekérése',
-            'description' => 'A rendszerben lévő összes jogosultság lekérése',
+            'description' =>
+                'A rendszerben lévő összes jogosultság lekérése (Boardlight beépített szerkesztőjéhez kell!)',
             'errorMessage' => self::PAGE_DENIED,
         ],
         'update' => [
@@ -180,6 +178,18 @@ class Permissions
             'description' => 'Aktiváló QR Kód törlése',
             'errorMessage' => self::PAGE_DENIED,
         ],
+        'delete' => [
+            'permission' => 'delete',
+            'displayName' => 'Törlés',
+            'description' => 'Aktiváló QR Kód törlése',
+            'errorMessage' => self::PAGE_DENIED,
+        ],
+        'validate' => [
+            'permission' => 'validate',
+            'displayName' => 'Ellenőrzés',
+            'description' => 'QR Kód ellenőrzése beváltás előtt',
+            'errorMessage' => self::PAGE_DENIED,
+        ],
     ];
 
     /**
@@ -216,10 +226,70 @@ class Permissions
             'description' => 'Egy adott termék törlése',
             'errorMessage' => self::PAGE_DENIED,
         ],
-        'uses' => [
-            'permission' => 'uses',
-            'displayName' => 'Felhasználások',
-            'description' => 'Egy adott termék felhasználásainak megtekintése, annak kitöltési adataival együtt',
+    ];
+
+    /**
+     *
+     */
+    public const REQUESTS = [
+        'index' => [
+            'permission' => 'index',
+            'displayName' => 'Listázás',
+            'description' => 'Kérvénylista megtekintése',
+            'errorMessage' => self::PAGE_DENIED,
+        ],
+        'overrule' => [
+            'permission' => 'overrule',
+            'displayName' => 'Kérvény elbírálása',
+            'description' => 'Egy adott kérvény elutasítása vagy elfogadása',
+            'errorMessage' => self::PAGE_DENIED,
+        ],
+        'view' => [
+            'permission' => 'view',
+            'displayName' => 'Megtekintés',
+            'description' => 'Saját kérvények megtekintése',
+            'errorMessage' => self::PAGE_DENIED,
+        ],
+        'new' => [
+            'permission' => 'new',
+            'displayName' => 'Benyújtás',
+            'description' => 'Új kérvény benyújtása',
+            'errorMessage' => self::PAGE_DENIED,
+        ],
+    ];
+
+    /**
+     *
+     */
+    public const STORE = [
+        'view' => [
+            'permission' => 'view',
+            'displayName' => 'Listázás',
+            'description' => 'Bazár megtekintése',
+            'errorMessage' => self::PAGE_DENIED,
+        ],
+        'buy' => [
+            'permission' => 'buy',
+            'displayName' => 'Vásárlás',
+            'description' => 'Termékek vásárlása a bazárban',
+            'errorMessage' => self::PAGE_DENIED,
+        ],
+    ];
+
+    /**
+     *
+     */
+    public const INVENTORY = [
+        'view' => [
+            'permission' => 'view',
+            'displayName' => 'Listázás',
+            'description' => 'Kincstár megtekintése',
+            'errorMessage' => self::PAGE_DENIED,
+        ],
+        'use' => [
+            'permission' => 'use',
+            'displayName' => 'Felhasználás',
+            'description' => 'Tárgy felhasználása',
             'errorMessage' => self::PAGE_DENIED,
         ],
     ];

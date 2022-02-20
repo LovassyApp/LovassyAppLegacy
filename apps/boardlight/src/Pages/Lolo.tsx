@@ -10,6 +10,7 @@ import { Col, Container, Row, Badge } from 'reactstrap';
 import Center from '../Components/Center';
 import toast from 'react-hot-toast';
 import { BlueboardClient, BlueboardLoloData, BlueboardLoloReason } from 'blueboard-client';
+import Middlware from '../Helpers/Middleware';
 
 const RequestModalContent = ({ closeHandler, client }: { closeHandler: () => void; client: BlueboardClient }) => {
     const [body, setBody] = React.useState('');
@@ -195,16 +196,22 @@ const Lolo = (): JSX.Element => {
                                             >
                                                 Frissítés
                                             </Button>
-                                            <Button
-                                                rounded
-                                                onClick={() => setShow(true)}
-                                                auto
-                                                className="float-md-end mt-md-0 me-2 mt-2"
-                                                color="success"
-                                                flat
-                                            >
-                                                Új kérvény
-                                            </Button>
+                                            <Middlware
+                                                permission="Requests.new"
+                                                component={
+                                                    <Button
+                                                        rounded
+                                                        onClick={() => setShow(true)}
+                                                        auto
+                                                        className="float-md-end mt-md-0 me-2 mt-2"
+                                                        color="success"
+                                                        flat
+                                                    >
+                                                        Új kérvény
+                                                    </Button>
+                                                }
+                                                displayError={false}
+                                            ></Middlware>
                                         </Col>
                                     </Row>
                                 </Card>

@@ -81,18 +81,33 @@ const Groups = () => {
             cell: (el: BlueboardUserGroup) => {
                 return (
                     <>
-                        <Button
-                            className="mx-1"
-                            auto
-                            rounded
-                            color="primary"
-                            onClick={() => history.push('/admin/permissions/edit/' + el.id)}
-                        >
-                            Szerkesztés
-                        </Button>
-                        <Button className="mx-1" auto rounded color="error" onClick={() => deleteRow(el)}>
-                            Törlés
-                        </Button>
+                        <Middleware
+                            permission="Permissions.update"
+                            component={
+                                <>
+                                    <Button
+                                        className="mx-1"
+                                        auto
+                                        rounded
+                                        color="primary"
+                                        onClick={() => history.push('/admin/permissions/edit/' + el.id)}
+                                    >
+                                        Szerkesztés
+                                    </Button>
+                                </>
+                            }
+                        />
+
+                        <Middleware
+                            permission="Permissions.delete"
+                            component={
+                                <>
+                                    <Button className="mx-1" auto rounded color="error" onClick={() => deleteRow(el)}>
+                                        Törlés
+                                    </Button>
+                                </>
+                            }
+                        />
                     </>
                 );
             },

@@ -12,6 +12,7 @@ import { useTheme } from '@nextui-org/react';
 import { useBlueboardClient } from 'blueboard-client-react';
 import { BlueboardQRCode } from 'blueboard-client';
 import Center from '../../Components/Center';
+import Middleware from '../../Helpers/Middleware';
 
 const QRCard = ({
     code,
@@ -64,20 +65,26 @@ const QRCard = ({
                             </UncontrolledTooltip>
                         </Text>
                     </Row>
-                    <Button
-                        type="button"
-                        size="mini"
-                        role="button"
-                        tabIndex={0}
-                        auto
-                        rounded
-                        color="error"
-                        onClick={() => {
-                            deleteCallback(code, theme);
-                        }}
-                    >
-                        Törlés
-                    </Button>
+                    <Middleware
+                        permission="QRCode.delete"
+                        displayError={false}
+                        component={
+                            <Button
+                                type="button"
+                                size="mini"
+                                role="button"
+                                tabIndex={0}
+                                auto
+                                rounded
+                                color="error"
+                                onClick={() => {
+                                    deleteCallback(code, theme);
+                                }}
+                            >
+                                Törlés
+                            </Button>
+                        }
+                    />
                 </Card.Footer>
             </Card>
         </Grid>
@@ -264,7 +271,11 @@ const QRCodes = () => {
                         {qrCodes.map((el, key) => (
                             <QRCard key={key} deleteCallback={deleteC} code={el} />
                         ))}
-                        <AddCard bootstrap={bootstrap} />
+                        <Middleware
+                            permission="QRCode.add"
+                            displayError={false}
+                            component={<AddCard bootstrap={bootstrap} />}
+                        />
                     </Grid.Container>
                 </Container>
             )}

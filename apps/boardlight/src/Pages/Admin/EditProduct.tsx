@@ -18,6 +18,9 @@ import { useBlueboardClient } from 'blueboard-client-react';
 import { BlueboardNotFoundException, BlueboardProduct, BlueboardProductInput, BlueboardQRCode } from 'blueboard-client';
 import Center from '../../Components/Center';
 import { FormElement } from '@nextui-org/react/esm/input/input-props';
+import { usePermissions } from '../../Hooks/ControlHooks';
+import Four0Three from '../403';
+import { checkPermission } from '../../Helpers/Middleware';
 
 const animatedComponents = makeAnimated();
 
@@ -199,6 +202,16 @@ const EditProduct = () => {
                 }
             });
     };
+
+    const userPermissions = usePermissions();
+
+    if (id === 'new' && !checkPermission('Products.create', userPermissions)) {
+        return <Four0Three />;
+    }
+
+    if (id !== 'new' && !isNaN(Number(id)) && !checkPermission('Products.update', userPermissions)) {
+        return <Four0Three />;
+    }
 
     return (
         <AuthLayout>
