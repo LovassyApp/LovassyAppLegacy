@@ -8,6 +8,7 @@ import kretaReducer from "./slices/kretaSlice";
 import loadingReducer from "./slices/loadingSlice";
 import refreshTokenReducer from "./slices/refreshTokenSlice";
 import settingsReducer from "./slices/settingsSlice";
+import requestsReducer from "./slices/requestsSlice";
 import storeReducer from "./slices/storeSlice";
 import tokenReducer from "./slices/tokenSlice";
 
@@ -22,6 +23,7 @@ const store = configureStore({
     loading: loadingReducer,
     store: storeReducer,
     inventory: inventoryReducer,
+    requests: requestsReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

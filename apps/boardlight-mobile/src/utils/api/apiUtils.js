@@ -72,3 +72,20 @@ export const fetchInventory = async (client, token = null) => {
     console.log(err);
   }
 };
+
+export const fetchRequests = async (client, token = null) => {
+  const { dispatch } = store;
+
+  console.log("DEBUG: Fetching requests...");
+
+  try {
+    const res = await client.lolo_request.get(token);
+
+    dispatch({
+      type: "requests/setRequests",
+      payload: res,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};

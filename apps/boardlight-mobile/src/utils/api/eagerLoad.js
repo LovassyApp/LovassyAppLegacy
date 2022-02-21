@@ -1,4 +1,4 @@
-import { fetchGrades, fetchInventory, fetchLolo, fetchStore } from "./apiUtils";
+import { fetchGrades, fetchInventory, fetchLolo, fetchRequests, fetchStore } from "./apiUtils";
 
 export const eagerLoad = async (client, token) => {
   console.log("DEBUG: Eager loading data...");
@@ -9,10 +9,16 @@ export const eagerLoad = async (client, token) => {
       fetchGrades(client, false, token),
       fetchStore(client, token),
       fetchInventory(client, token),
+      fetchRequests(client, token),
     ]);
   } else {
     await fetchLolo(client, true);
 
-    await Promise.all([fetchGrades(client), fetchStore(client), fetchInventory(client)]);
+    await Promise.all([
+      fetchGrades(client),
+      fetchStore(client),
+      fetchInventory(client),
+      fetchRequests(client),
+    ]);
   }
 };
