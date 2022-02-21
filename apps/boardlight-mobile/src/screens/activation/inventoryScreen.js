@@ -21,22 +21,10 @@ export const InventoryScreen = ({ navigation }) => {
   useEffect(() => {
     setRenderedItems(
       query === ""
-        ? [].concat(items).sort((a, b) => {
-            if (a.usedAt && !b.usedAt) {
-              return 1;
-            }
-
-            return a.usedAt && b.usedAt ? 0 : -1;
-          })
+        ? items
         : matchSorter(items, query, {
             keys: ["product.name", "product.description"],
             threshold: matchSorter.rankings.CONTAINS,
-          }).sort((a, b) => {
-            if (a.usedAt && !b.usedAt) {
-              return 1;
-            }
-
-            return a.usedAt && b.usedAt ? 0 : -1;
           }),
     );
   }, [query, items]);
