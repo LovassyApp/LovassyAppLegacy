@@ -18,6 +18,7 @@ class Evaluations extends BaseKreta
         parent::__construct();
         $this->token = $token;
         $this->decodedToken = $this->decodeToken($token);
+        //dd($token);
         $this->institute = $this->decodedToken->attributes->{"kreta:institute_code"};
         $this->getData();
     }

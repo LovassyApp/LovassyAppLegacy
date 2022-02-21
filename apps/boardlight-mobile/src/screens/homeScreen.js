@@ -145,7 +145,7 @@ export const HomeScreen = () => {
 
         <Portal>
           {showNewRequest && (
-            <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+            <KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
               <View style={{ flex: 1 }}>
                 <Dialog visible={true} dismissable={false}>
                   <Dialog.Title>Új kérelem létrehozása</Dialog.Title>

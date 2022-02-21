@@ -96,7 +96,7 @@ class AuthController extends Controller
         // Akkor ez most egy júzer???? Igen.
         $user = new User($data);
 
-        // Krétát veriFIKÁlni, és elmenteni titkosítva -> Chain of trust kezdete
+        // Krétát veriFIKÁlni, és elmenteni titkosítva -> AES
         KretaTokenHelper::registerUserKreta($user, $data['kreta_username'], $data['kreta_password'], $key, $salt);
 
         $user->groups()->sync([1]);

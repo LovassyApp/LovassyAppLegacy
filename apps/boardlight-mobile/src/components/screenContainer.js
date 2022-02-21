@@ -13,7 +13,7 @@ export const ScreenContainer = (props) => {
     container: {
       margin: 10,
       height: "100%",
-      marginBottom: insets.bottom - 25,
+      paddingBottom: insets.bottom + 25,
     },
   });
 
