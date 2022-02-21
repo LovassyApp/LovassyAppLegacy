@@ -17,10 +17,10 @@
         "apps/boardlight-mobile/**": [
             "yarn --cwd apps/boardlight-mobile run format"
         ],
-        "apps/boardlight/**.js": [
+        "apps/boardlight/**.ts": [
             "yarn --cwd apps/boardlight run lint"
         ],
-        "apps/boardlight/**.jsx": [
+        "apps/boardlight/**.tsx": [
             "yarn --cwd apps/boardlight run lint"
         ]
     },
