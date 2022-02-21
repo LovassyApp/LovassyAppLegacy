@@ -50,6 +50,7 @@ class KretaTokenHelper
     ) {
         $auth = Auth::verifyCredentials($username, $password);
         $tokenAttributes = $auth->decoded->attributes;
+        //dd($auth);
 
         // Emberünk tanuló -e?
         if ($tokenAttributes->role != self::$studentRole) {
