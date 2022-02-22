@@ -1,5 +1,5 @@
 import React from "react";
-import {Loading} from "@nextui-org/react";
+import { Loading } from "@nextui-org/react";
 
 const TableLoader = (): JSX.Element => {
     return (

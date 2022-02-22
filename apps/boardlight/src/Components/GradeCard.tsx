@@ -5,8 +5,8 @@
 import React from "react";
 import style from "../CSS/gradecard.module.css";
 import styled from "styled-components";
-import {useTheme} from "@nextui-org/react";
-import {BlueboardKretaGrade} from "blueboard-client";
+import { useTheme } from "@nextui-org/react";
+import { BlueboardKretaGrade } from "blueboard-client";
 
 type Color =
     | "red"
@@ -77,7 +77,7 @@ const convert = (num: number): string => {
     return String(num);
 };
 
-const GradeCard = ({grade}: {grade: BlueboardKretaGrade}): JSX.Element => {
+const GradeCard = ({ grade }: { grade: BlueboardKretaGrade }): JSX.Element => {
     const theme = useTheme();
 
     const shadow_light = "0 8px 30px rgba(0, 0, 0, 0.15)";

@@ -1,14 +1,14 @@
 import toast from "react-hot-toast";
-import {useGroups, useUser} from "../Hooks/ControlHooks";
+import { useGroups, useUser } from "../Hooks/ControlHooks";
 import {
     useBlueboardChannel /* useBlueboardPrivateChannel */,
     useBlueboardPrivateChannel,
 } from "blueboard-client-react";
 import useToken from "../Hooks/useToken";
-import {useDispatch} from "react-redux";
-import {BlueboardUser, BlueboardUserGroup} from "blueboard-client";
-import {AppDispatch} from "../State";
-import {setGroups, setUser} from "../State/controlReducer";
+import { useDispatch } from "react-redux";
+import { BlueboardUser, BlueboardUserGroup } from "blueboard-client";
+import { AppDispatch } from "../State";
+import { setGroups, setUser } from "../State/controlReducer";
 
 const GroupListener = ({
     groupID,
@@ -43,7 +43,7 @@ const AuthedListeners = ({
     user: BlueboardUser;
 }): JSX.Element => {
     useBlueboardPrivateChannel(`Users.${user.id}`, "LoloAmountUpdated", (res: any) => {
-        const newUser = {...user, balance: res.balance} as BlueboardUser;
+        const newUser = { ...user, balance: res.balance } as BlueboardUser;
         dispatch(setUser(newUser));
     });
 

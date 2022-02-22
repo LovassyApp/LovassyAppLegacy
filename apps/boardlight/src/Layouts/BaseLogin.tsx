@@ -1,13 +1,13 @@
 import * as React from "react";
-import {CardBody, CardTitle} from "reactstrap";
+import { CardBody, CardTitle } from "reactstrap";
 import style from "../CSS/login.module.css";
 import logo from "../Assets/white-logo.png";
 import Carousel from "../Components/Carousel";
-import {fadeInDown, slideInRight} from "react-animations";
+import { fadeInDown, slideInRight } from "react-animations";
 import Radium from "radium";
 import Center from "../Components/Center";
 
-const BaseLogin = ({children}: {children: React.ReactNode}): JSX.Element => {
+const BaseLogin = ({ children }: { children: React.ReactNode }): JSX.Element => {
     const localStyles = {
         entry: {
             animation: "x 1s",

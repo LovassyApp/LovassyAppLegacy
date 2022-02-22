@@ -43,7 +43,7 @@ const getDefImg = (): BoardlightFile => {
         uInt8Array[i] = raw.charCodeAt(i);
     }
 
-    const blob = new Blob([uInt8Array], {type: contentType});
+    const blob = new Blob([uInt8Array], { type: contentType });
     return makeFile(blob, "defImg.jpg");
 };
 
@@ -56,4 +56,4 @@ const getImageBase64 = (file: BoardlightFile): Promise<string | ArrayBuffer | nu
         reader.onerror = (error) => reject(error);
     });
 
-export {getDefImg, getImageBase64, importImage};
+export { getDefImg, getImageBase64, importImage };

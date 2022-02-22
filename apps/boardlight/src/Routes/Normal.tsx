@@ -1,6 +1,6 @@
 import Login from "../Pages/Login";
 import React from "react";
-import {Redirect} from "react-router";
+import { Redirect } from "react-router";
 
 export interface Route {
     path: string;
@@ -10,14 +10,14 @@ export interface Route {
 }
 
 const normalRoutes: Route[] = [
-    {path: "/login", component: <Login />, exact: true, noAuthOnly: true},
+    { path: "/login", component: <Login />, exact: true, noAuthOnly: true },
     {
         path: "/",
         component: (
             <Redirect
                 to={{
                     pathname: "/home",
-                    state: {referrer: "/"},
+                    state: { referrer: "/" },
                 }}
             />
         ),

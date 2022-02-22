@@ -1,6 +1,6 @@
 import * as React from "react";
 
-const Center = ({children}: {children: React.ReactNode}): JSX.Element => {
+const Center = ({ children }: { children: React.ReactNode }): JSX.Element => {
     const localStyles = {
         center: {
             textAlign: "center",

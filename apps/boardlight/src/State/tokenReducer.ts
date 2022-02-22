@@ -1,4 +1,4 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface tokenState {
     token: string | null;
@@ -21,6 +21,6 @@ export const tokenReducer = createSlice({
     },
 });
 
-export const {setToken, removeToken} = tokenReducer.actions;
+export const { setToken, removeToken } = tokenReducer.actions;
 
 export default tokenReducer.reducer;

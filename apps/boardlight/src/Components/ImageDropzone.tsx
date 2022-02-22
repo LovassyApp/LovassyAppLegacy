@@ -1,7 +1,7 @@
-import {useDropzone} from "react-dropzone";
+import { useDropzone } from "react-dropzone";
 import * as React from "react";
-import {Grid} from "@nextui-org/react";
-import {BoardlightFile} from "../Helpers/ImageUtils";
+import { Grid } from "@nextui-org/react";
+import { BoardlightFile } from "../Helpers/ImageUtils";
 
 const thumbsContainer = {
     display: "flex",
@@ -41,7 +41,7 @@ const ImageDropzone = ({
     files: BoardlightFile[];
     setFiles: any;
 }): JSX.Element => {
-    const {getRootProps, getInputProps} = useDropzone({
+    const { getRootProps, getInputProps } = useDropzone({
         accept: "image/png, image/jpeg",
         onDrop: (acceptedFiles) => {
             if (acceptedFiles.length !== 0) {
@@ -76,7 +76,7 @@ const ImageDropzone = ({
         <section className="container">
             <Grid.Container gap={2} justify="center">
                 <Grid md={10}>
-                    <div {...getRootProps({className: "dropzone"})}>
+                    <div {...getRootProps({ className: "dropzone" })}>
                         <input {...getInputProps()} />
                         <p>
                             <b>Helyezd</b> ide képed

@@ -1,17 +1,17 @@
 import * as React from "react";
-import {BrowserRouter} from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import Routes from "./Routes";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "./CSS/style.css";
-import {Toaster} from "react-hot-toast";
-import {ThemeProvider, useTheme} from "@nextui-org/react";
-import {createTheme} from "react-data-table-component";
+import { Toaster } from "react-hot-toast";
+import { ThemeProvider, useTheme } from "@nextui-org/react";
+import { createTheme } from "react-data-table-component";
 import useToken from "./Hooks/useToken";
 import useThemePrefs from "./Hooks/useThemePrefs";
 import GlobalListeners from "./Boot/GlobalListeners";
-import AppBootstrapProvider, {AppBootstrapContext} from "./Boot/AppBootstrapProvider";
-import {BlueboardClientInit} from "blueboard-client-react";
+import AppBootstrapProvider, { AppBootstrapContext } from "./Boot/AppBootstrapProvider";
+import { BlueboardClientInit } from "blueboard-client-react";
 import CheckBlueboard from "./Boot/CheckBluaboard";
 
 const [BlueboardProvider] = BlueboardClientInit(
@@ -30,7 +30,7 @@ const ToasterContainer = (): JSX.Element => {
                 position="top-center"
                 reverseOrder={true}
                 gutter={8}
-                containerStyle={{zIndex: "2147483647"}}
+                containerStyle={{ zIndex: "2147483647" }}
                 toastOptions={{
                     // Define default options
                     className: "",
@@ -48,11 +48,11 @@ const ToasterContainer = (): JSX.Element => {
     );
 };
 
-const ProviderStack = ({children}: {children: React.ReactNode}): JSX.Element => {
+const ProviderStack = ({ children }: { children: React.ReactNode }): JSX.Element => {
     const theme = useThemePrefs();
     const token = useToken();
     return (
-        <ThemeProvider theme={{type: theme.isDark ? "dark" : "light"}}>
+        <ThemeProvider theme={{ type: theme.isDark ? "dark" : "light" }}>
             <BlueboardProvider token={token}>
                 <CheckBlueboard>
                     <AppBootstrapProvider>

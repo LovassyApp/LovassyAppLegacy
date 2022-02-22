@@ -1,7 +1,7 @@
-import {RootState} from ".";
+import { RootState } from ".";
 
 const objectWithoutKey = (object: any, key: string): any => {
-    const {[key]: deletedKey, ...otherKeys} = object;
+    const { [key]: deletedKey, ...otherKeys } = object;
     return otherKeys;
 };
 

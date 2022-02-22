@@ -1,6 +1,6 @@
-import {Badge, Col, Row} from "reactstrap";
-import {Button, Card, Text} from "@nextui-org/react";
-import {BlueboardInventoryItem, BlueboardProduct} from "blueboard-client";
+import { Badge, Col, Row } from "reactstrap";
+import { Button, Card, Text } from "@nextui-org/react";
+import { BlueboardInventoryItem, BlueboardProduct } from "blueboard-client";
 import Middleware from "../Helpers/Middleware";
 
 const ProductCard = ({
@@ -44,7 +44,7 @@ const ProductCard = ({
                 border={true}
                 noPadding={true}
                 borderColor="rgba(15, 17, 20, 0.4)"
-                style={{position: "absolute", zIndex: 1, bottom: 0}}>
+                style={{ position: "absolute", zIndex: 1, bottom: 0 }}>
                 {item == null ? (
                     <ProductFooter product={product} buttonCallback={callback} />
                 ) : (

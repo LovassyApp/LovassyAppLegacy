@@ -86,7 +86,7 @@ const protectedRoutes: ProtectedRoute[] = [
         ),
         exact: true,
     },
-    {path: "/admin/permissions/edit/:id", component: <EditGroup />, exact: false},
+    { path: "/admin/permissions/edit/:id", component: <EditGroup />, exact: false },
 
     {
         path: "/admin/qrcodes",
@@ -111,7 +111,7 @@ const protectedRoutes: ProtectedRoute[] = [
         ),
         exact: true,
     },
-    {path: "/admin/products/edit/:id", component: <EditProduct />, exact: false},
+    { path: "/admin/products/edit/:id", component: <EditProduct />, exact: false },
 ];
 
 export default protectedRoutes;

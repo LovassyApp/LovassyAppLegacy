@@ -1,7 +1,7 @@
 import * as React from "react";
 import AuthLayout from "../../Layouts/Auth";
 import HeaderCard from "../../Components/HeaderCard";
-import {useHistory, useParams} from "react-router";
+import { useHistory, useParams } from "react-router";
 import {
     Loading,
     Input,
@@ -33,8 +33,8 @@ import MDEditor from "@uiw/react-md-editor";
 import EmptyTable from "../../Components/EmptyTable";
 import InputRenderer from "../../Components/InputRenderer";
 import ImageDropzone from "../../Components/ImageDropzone";
-import {BoardlightFile, getDefImg, getImageBase64, importImage} from "../../Helpers/ImageUtils";
-import {useBlueboardClient} from "blueboard-client-react";
+import { BoardlightFile, getDefImg, getImageBase64, importImage } from "../../Helpers/ImageUtils";
+import { useBlueboardClient } from "blueboard-client-react";
 import {
     BlueboardNotFoundException,
     BlueboardProduct,
@@ -42,15 +42,15 @@ import {
     BlueboardQRCode,
 } from "blueboard-client";
 import Center from "../../Components/Center";
-import {FormElement} from "@nextui-org/react/esm/input/input-props";
-import {usePermissions} from "../../Hooks/ControlHooks";
+import { FormElement } from "@nextui-org/react/esm/input/input-props";
+import { usePermissions } from "../../Hooks/ControlHooks";
 import Four0Three from "../403";
-import {checkPermission} from "../../Helpers/Middleware";
+import { checkPermission } from "../../Helpers/Middleware";
 
 const animatedComponents = makeAnimated();
 
 const EditProduct = (): JSX.Element => {
-    const {id} = useParams() as {id: string};
+    const { id } = useParams() as { id: string };
     const history = useHistory();
     const theme = useTheme();
     const client = useBlueboardClient();
@@ -111,7 +111,7 @@ const EditProduct = (): JSX.Element => {
 
         await client.qrcodes
             .all()
-            .then((res) => setQrCodes(res.map((el) => ({value: el.id, label: el.name}))));
+            .then((res) => setQrCodes(res.map((el) => ({ value: el.id, label: el.name }))));
 
         setLoading(false);
     };
@@ -151,7 +151,7 @@ const EditProduct = (): JSX.Element => {
 
     const setInputValName = (inputValue: any, key: number): void => {
         const newInputs = inputs.map((value, index) => {
-            return index === key ? {...value, name: inputValue} : value;
+            return index === key ? { ...value, name: inputValue } : value;
         });
 
         setInputs(newInputs);
@@ -159,7 +159,7 @@ const EditProduct = (): JSX.Element => {
 
     const setInputTitle = (inputValue: any, key: number): void => {
         const newInputs = inputs.map((value, index) => {
-            return index === key ? {...value, title: inputValue} : value;
+            return index === key ? { ...value, title: inputValue } : value;
         });
 
         setInputs(newInputs);
@@ -227,9 +227,9 @@ const EditProduct = (): JSX.Element => {
                     if (err.message === "Network Error") {
                         const message =
                             "Internal networking error. You might have to check your connection.";
-                        setErrors((errors: any) => ({...errors, globalErr: message}));
+                        setErrors((errors: any) => ({ ...errors, globalErr: message }));
                     } else {
-                        setErrors((errors: any) => ({...errors, globalErr: err.message}));
+                        setErrors((errors: any) => ({ ...errors, globalErr: err.message }));
                     }
                 }
             });
@@ -261,7 +261,7 @@ const EditProduct = (): JSX.Element => {
                 }}
                 preventClose={true}
                 width="650px">
-                <Modal.Header style={{border: "none"}}>
+                <Modal.Header style={{ border: "none" }}>
                     <Text id="modal-title" size={18}>
                         Inputok
                     </Text>
@@ -343,7 +343,7 @@ const EditProduct = (): JSX.Element => {
                         </Row>
                     ))}
                 </Modal.Body>
-                <Modal.Footer style={{overflow: "visible", border: "none"}}>
+                <Modal.Footer style={{ overflow: "visible", border: "none" }}>
                     <UncontrolledDropdown direction="up">
                         <DropdownToggle data-toggle="dropdown" tag="div">
                             <Button auto={true} flat={true} color="success">
@@ -382,7 +382,7 @@ const EditProduct = (): JSX.Element => {
                     <TableLoader />
                 </Center>
             ) : (
-                <Container fluid={true} style={{width: "95%"}}>
+                <Container fluid={true} style={{ width: "95%" }}>
                     <Alert className="mt-2" color="danger" isOpen={errors.globalErr !== undefined}>
                         Fatal error: {errors.globalErr}
                     </Alert>
@@ -641,7 +641,7 @@ const EditProduct = (): JSX.Element => {
                                             blur={true}
                                             border={true}
                                             borderColor="rgba(15, 17, 20, 0.4)"
-                                            style={{position: "absolute", zIndex: 1, bottom: 0}}>
+                                            style={{ position: "absolute", zIndex: 1, bottom: 0 }}>
                                             <Row>
                                                 <Col>
                                                     <Row justify="flex-end">

@@ -1,5 +1,5 @@
 import * as React from "react";
-import Carousel, {autoplayPlugin} from "@brainhubeu/react-carousel";
+import Carousel, { autoplayPlugin } from "@brainhubeu/react-carousel";
 import "@brainhubeu/react-carousel/lib/style.css";
 import style from "../CSS/login.module.css";
 import Center from "./Center";

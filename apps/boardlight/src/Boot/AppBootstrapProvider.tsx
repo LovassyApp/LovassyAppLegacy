@@ -1,19 +1,19 @@
 import React from "react";
-import {createContext, useEffect, useState} from "react";
-import {useDispatch} from "react-redux";
-import {useBlueboardClient} from "blueboard-client-react";
+import { createContext, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useBlueboardClient } from "blueboard-client-react";
 import useLoaderState from "../Hooks/useLoaderState";
 import useLogout from "../Hooks/useLogout";
 import useRenew from "../Hooks/useRenew";
 import Loading from "../Components/Loading";
 import useToken from "../Hooks/useToken";
 import Swal from "sweetalert2";
-import {BlueboardControlException} from "blueboard-client";
+import { BlueboardControlException } from "blueboard-client";
 import useSystemTheme from "../Hooks/useSystemTheme";
 
 export const AppBootstrapContext = createContext(false);
 
-const AppBootstrapProvider = ({children}: {children: React.ReactNode}): JSX.Element => {
+const AppBootstrapProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
     useSystemTheme();
 
     const [loading, setLoading] = useState(true);
@@ -31,7 +31,7 @@ const AppBootstrapProvider = ({children}: {children: React.ReactNode}): JSX.Elem
         console.log("DEBUG: Control fetch...");
 
         await client.account.control(token).then((res) => {
-            dispatch({type: "control/setControl", payload: res});
+            dispatch({ type: "control/setControl", payload: res });
 
             setTimeout(() => setShow(true), 0);
             setTimeout(() => setLoading(false), 300);
@@ -46,7 +46,7 @@ const AppBootstrapProvider = ({children}: {children: React.ReactNode}): JSX.Elem
             fcontrol(token)
                 .then(() => {
                     startRenew();
-                    dispatch({type: "loader/removeLoader"});
+                    dispatch({ type: "loader/removeLoader" });
                     setBootstrapInProgress(false);
                 })
                 .catch((err) => {
@@ -69,8 +69,8 @@ const AppBootstrapProvider = ({children}: {children: React.ReactNode}): JSX.Elem
                 .then((res) => {
                     fcontrol(res.token).then(() => {
                         startRenew();
-                        dispatch({type: "token/setToken", payload: res.token});
-                        dispatch({type: "loader/removeLoader"});
+                        dispatch({ type: "token/setToken", payload: res.token });
+                        dispatch({ type: "loader/removeLoader" });
                         setBootstrapInProgress(false);
                     });
                 })

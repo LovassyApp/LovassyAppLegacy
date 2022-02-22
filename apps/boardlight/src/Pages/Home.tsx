@@ -5,8 +5,8 @@ import AuthLayout from "../Layouts/Auth";
 // import { useTheme } from '@nextui-org/react';
 // import { useSelector } from 'react-redux';
 import toast from "react-hot-toast";
-import {useBlueboardPrivateChannel} from "blueboard-client-react";
-import {useUser} from "../Hooks/ControlHooks";
+import { useBlueboardPrivateChannel } from "blueboard-client-react";
+import { useUser } from "../Hooks/ControlHooks";
 
 const Home = (): JSX.Element => {
     const user = useUser();

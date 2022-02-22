@@ -1,6 +1,6 @@
 import * as React from "react";
-import {Row, Col, Input, Switch, Text} from "@nextui-org/react";
-import {BlueboardProductInput} from "blueboard-client";
+import { Row, Col, Input, Switch, Text } from "@nextui-org/react";
+import { BlueboardProductInput } from "blueboard-client";
 
 const InputRenderer = ({
     inputs,
@@ -10,8 +10,8 @@ const InputRenderer = ({
 }: {
     inputs: BlueboardProductInput[];
     callback?(input: string, value: string | boolean): void;
-    inputState?: {[key: string]: string | boolean};
-    errors?: {[key: string]: string[]};
+    inputState?: { [key: string]: string | boolean };
+    errors?: { [key: string]: string[] };
 }): JSX.Element => {
     const onChange = (input: string, value: string | boolean): void => {
         if (callback !== undefined) {
@@ -24,7 +24,7 @@ const InputRenderer = ({
     });
 
     const getErrors = (inputName: string): string => {
-        const err = errors ?? ({} as {[key: string]: string[]});
+        const err = errors ?? ({} as { [key: string]: string[] });
 
         const error = err[`inputs.${inputName}`] ?? [];
         let str = "";
@@ -74,7 +74,7 @@ const InputRenderer = ({
                                     </Text>
                                     <Switch
                                         onChange={(e) => onChange(value.name, e.target.checked)}
-                                        style={{display: "inline-block", verticalAlign: "middle"}}
+                                        style={{ display: "inline-block", verticalAlign: "middle" }}
                                         initialChecked={state[value.name] as boolean}
                                         className="mx-2"
                                     />

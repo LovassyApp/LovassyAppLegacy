@@ -1,12 +1,12 @@
 import * as React from "react";
-import {InputGroup, InputGroupText, Input, Alert} from "reactstrap";
-import {Button, Checkbox} from "@nextui-org/react";
+import { InputGroup, InputGroupText, Input, Alert } from "reactstrap";
+import { Button, Checkbox } from "@nextui-org/react";
 import BaseLogin from "../Layouts/BaseLogin";
-import {MdOutlineAlternateEmail, MdOutlinePassword} from "react-icons/md";
-import {useDispatch} from "react-redux";
+import { MdOutlineAlternateEmail, MdOutlinePassword } from "react-icons/md";
+import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import getGreeting from "../Helpers/GetGreeting";
-import {useBlueboardClient} from "blueboard-client-react";
+import { useBlueboardClient } from "blueboard-client-react";
 import useRenew from "../Hooks/useRenew";
 
 const Login = (): JSX.Element => {
@@ -46,12 +46,12 @@ const Login = (): JSX.Element => {
             client.auth
                 .login(username, password, remember)
                 .then((res) => {
-                    const {token} = res;
+                    const { token } = res;
                     client.account.control(token).then((res) => {
-                        dispatch({type: "control/setControl", payload: res});
-                        const {name} = res.user;
+                        dispatch({ type: "control/setControl", payload: res });
+                        const { name } = res.user;
                         toast.success(`${getGreeting() + (name.split(" ")[1] ?? name)}!`);
-                        dispatch({type: "token/setToken", payload: token});
+                        dispatch({ type: "token/setToken", payload: token });
                         renew();
                     });
                 })

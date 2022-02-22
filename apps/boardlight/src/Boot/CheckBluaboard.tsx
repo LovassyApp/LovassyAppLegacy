@@ -1,12 +1,12 @@
-import React, {useCallback} from "react";
+import React, { useCallback } from "react";
 
 import Five0Three from "../Pages/503";
 import Loading from "../Components/Loading";
-import {useBlueboardClient} from "blueboard-client-react";
+import { useBlueboardClient } from "blueboard-client-react";
 
 let interval: any;
 
-const CheckBlueboard = ({children}: {children: React.ReactNode}): JSX.Element => {
+const CheckBlueboard = ({ children }: { children: React.ReactNode }): JSX.Element => {
     const client = useBlueboardClient();
 
     const [loading, setLoading] = React.useState(true);

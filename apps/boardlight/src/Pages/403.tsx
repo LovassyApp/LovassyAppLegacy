@@ -1,7 +1,7 @@
 import * as React from "react";
 import style from "../CSS/error.module.css";
-import {Button, useTheme} from "@nextui-org/react";
-import {useHistory} from "react-router";
+import { Button, useTheme } from "@nextui-org/react";
+import { useHistory } from "react-router";
 import Radium from "radium";
 import styled from "styled-components";
 import Center from "../Components/Center";
@@ -61,11 +61,11 @@ const Four0Three = (): JSX.Element => {
                 </section>
                 <div className={style.heroText}>
                     <h1>403</h1>
-                    <h2 style={{color: theme.palette.text}}>
+                    <h2 style={{ color: theme.palette.text }}>
                         Hát uram... Úgy látszik, eme oldal túl kúl néked
                     </h2>
                     <Center>
-                        <div style={{zIndex: 99, marginTop: "20px"}}>
+                        <div style={{ zIndex: 99, marginTop: "20px" }}>
                             <Button
                                 rounded={true}
                                 loaderType="points"

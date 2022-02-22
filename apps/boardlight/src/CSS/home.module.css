@@ -1,51 +1,51 @@
 .icon {
-	width: 25px;
-	height: 25px;
+    width: 25px;
+    height: 25px;
 }
 
 .subjectCircle {
-	position: relative;
-	left: -5%;
-	height: 50px;
-	width: 50px;
-	border-radius: 50px;
-	background-color: rgb(247, 137, 82);
-	text-align: center;
-	box-shadow: 0 0 10px 3px rgba(247, 137, 82, 0.3);
+    position: relative;
+    left: -5%;
+    height: 50px;
+    width: 50px;
+    border-radius: 50px;
+    background-color: rgb(247, 137, 82);
+    text-align: center;
+    box-shadow: 0 0 10px 3px rgba(247, 137, 82, 0.3);
 }
 
 .subjectCircle p {
-	position: relative;
-	top: 50%;
-	-ms-transform: translateY(-50%);
-	transform: translateY(-50%);
-	color: rgb(247, 247, 247);
-	font-size: 150%;
+    position: relative;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    color: rgb(247, 247, 247);
+    font-size: 150%;
 }
 
 .card {
-	display: inline-block;
-	border-radius: 40px !important;
-	background-color: white;
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
-	border: 0px solid transparent !important;
+    display: inline-block;
+    border-radius: 40px !important;
+    background-color: white;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    border: 0px solid transparent !important;
 }
 
 .cardSubjectN {
-	position: relative;
-	top: 50%;
-	-ms-transform: translateY(-50%);
-	transform: translateY(-50%);
+    position: relative;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
 }
 
 .gradesContainer {
-	background-color: rgb(247, 247, 247);
-	border-radius: 20px;
-	height: auto;
-	padding: 10px;
-	width: 85%;
-	margin: 0 auto;
+    background-color: rgb(247, 247, 247);
+    border-radius: 20px;
+    height: auto;
+    padding: 10px;
+    width: 85%;
+    margin: 0 auto;
 }

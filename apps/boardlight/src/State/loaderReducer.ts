@@ -1,4 +1,4 @@
-import {createSlice} from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 export interface loaderState {
     loader: boolean;
@@ -23,6 +23,6 @@ const loaderReducerObj = {
 
 export const loaderReducer = createSlice(loaderReducerObj);
 
-export const {forceLoader, removeLoader} = loaderReducer.actions;
+export const { forceLoader, removeLoader } = loaderReducer.actions;
 
 export default loaderReducer.reducer;

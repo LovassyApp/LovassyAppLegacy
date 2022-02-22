@@ -1,17 +1,17 @@
 import * as React from "react";
 import HeaderCard from "../Components/HeaderCard";
 import AuthLayout from "../Layouts/Auth";
-import {Modal, Button, Card, Container, Input, Text} from "@nextui-org/react";
-import {Row, Col, Badge} from "reactstrap";
+import { Modal, Button, Card, Container, Input, Text } from "@nextui-org/react";
+import { Row, Col, Badge } from "reactstrap";
 import toast from "react-hot-toast";
-import {useUser} from "../Hooks/ControlHooks";
+import { useUser } from "../Hooks/ControlHooks";
 import ProductCard from "../Components/ProductCard";
-import {useBlueboardClient, useBlueboardPrivateChannel} from "blueboard-client-react";
+import { useBlueboardClient, useBlueboardPrivateChannel } from "blueboard-client-react";
 import TableLoader from "../Components/TableLoader";
 import EmptyTable from "../Components/EmptyTable";
-import {matchSorter} from "match-sorter";
-import {eventDeclaration, useStatefulEvent, useStatefulListener} from "../Hooks/EventHooks";
-import {BlueboardProduct, BlueboardUser} from "blueboard-client";
+import { matchSorter } from "match-sorter";
+import { eventDeclaration, useStatefulEvent, useStatefulListener } from "../Hooks/EventHooks";
+import { BlueboardProduct, BlueboardUser } from "blueboard-client";
 import Center from "../Components/Center";
 import MDEditor from "@uiw/react-md-editor";
 
@@ -32,7 +32,7 @@ const ProductModalContent = ({
 
     return (
         <>
-            <Modal.Header style={{border: "none"}}>
+            <Modal.Header style={{ border: "none" }}>
                 <Text id="modal-title" size={18}>
                     Termékvásárlás - {product.name}
                 </Text>
@@ -68,11 +68,11 @@ const ProductModalContent = ({
                     </Col>
                     <Col>
                         {product.codeActivated ? (
-                            <Badge style={{whiteSpace: "normal"}} pill={true} color="warning">
+                            <Badge style={{ whiteSpace: "normal" }} pill={true} color="warning">
                                 Csak QR kóddal aktiválható ({product.codeNames.join(", ")})
                             </Badge>
                         ) : (
-                            <Badge style={{whiteSpace: "normal"}} pill={true} color="success">
+                            <Badge style={{ whiteSpace: "normal" }} pill={true} color="success">
                                 Magában aktiválható
                             </Badge>
                         )}
@@ -140,7 +140,7 @@ const ProductModalContent = ({
                     </Col>
                 </Row>
             </Modal.Body>
-            <Modal.Footer style={{overflow: "visible", border: "none"}}>
+            <Modal.Footer style={{ overflow: "visible", border: "none" }}>
                 <Button auto={true} rounded={true} flat={true} color="error" onClick={closeHandler}>
                     Mégsem
                 </Button>
@@ -183,8 +183,8 @@ const Store = (): JSX.Element => {
     };
 
     const updateCallback = (data: any): void => {
-        const {product} = data;
-        const {products} = data;
+        const { product } = data;
+        const { products } = data;
 
         if (product.id === productRef.current.id) {
             setProduct(product);
@@ -258,7 +258,7 @@ const Store = (): JSX.Element => {
                 </Center>
             ) : (
                 <>
-                    <Container fluid={true} style={{width: "95%"}}>
+                    <Container fluid={true} style={{ width: "95%" }}>
                         <Card hoverable={true}>
                             <Row>
                                 <Col md="4" sm="12">
@@ -292,7 +292,7 @@ const Store = (): JSX.Element => {
                             </Row>
                         </Card>
                     </Container>
-                    <Container fluid={true} style={{width: "95%"}}>
+                    <Container fluid={true} style={{ width: "95%" }}>
                         {renderedProducts.length > 0 ? (
                             <Row className="mt-4">
                                 {renderedProducts.map((el) => (

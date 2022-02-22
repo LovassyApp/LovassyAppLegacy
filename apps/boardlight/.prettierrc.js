@@ -4,6 +4,6 @@ module.exports = {
     printWidth: 100,
     semi: true,
     quoteProps: "as-needed",
-    bracketSpacing: false,
+    bracketSpacing: true,
     tabWidth: 4, // We use eslint to handle this
 };

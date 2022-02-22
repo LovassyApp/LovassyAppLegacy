@@ -4,7 +4,7 @@
         Ezért még egyszer pokolra jutok
             - minigyima, 2021
 */
-import {MutableRefObject, useEffect, useRef, useState} from "react";
+import { MutableRefObject, useEffect, useRef, useState } from "react";
 
 export interface eventDeclaration<ValueType> {
     eventName: string;
@@ -18,7 +18,7 @@ const useStatefulEvent = <Type>(
     const ref = useRef<Type>(initialValue);
     const update = (value: any): void => {
         ref.current = value;
-        const event = new CustomEvent(eventName, {detail: value});
+        const event = new CustomEvent(eventName, { detail: value });
         document.dispatchEvent(event);
     };
 
@@ -46,4 +46,4 @@ const useStatefulListener = <Type>(decl: eventDeclaration<Type>): Type => {
     return state;
 };
 
-export {useStatefulEvent, useStatefulListener};
+export { useStatefulEvent, useStatefulListener };

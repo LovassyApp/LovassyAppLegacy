@@ -2,17 +2,17 @@ import React from "react";
 import AuthLayout from "../../Layouts/Auth";
 import HeaderCard from "../../Components/HeaderCard";
 import DataTable from "react-data-table-component";
-import {Container, Col, Row, Card, CardBody, Badge} from "reactstrap";
-import {Button, useTheme} from "@nextui-org/react";
+import { Container, Col, Row, Card, CardBody, Badge } from "reactstrap";
+import { Button, useTheme } from "@nextui-org/react";
 import TableLoader from "../../Components/TableLoader";
-import {MdAdd} from "react-icons/md";
-import {useHistory} from "react-router";
+import { MdAdd } from "react-icons/md";
+import { useHistory } from "react-router";
 import toast from "react-hot-toast";
 import EmptyTable from "../../Components/EmptyTable";
 import Middleware from "../../Helpers/Middleware";
 import deleteModal from "../../Helpers/DeleteModal";
-import {useBlueboardClient} from "blueboard-client-react";
-import {BlueboardUserGroup} from "blueboard-client";
+import { useBlueboardClient } from "blueboard-client-react";
+import { BlueboardUserGroup } from "blueboard-client";
 import Center from "../../Components/Center";
 
 const Groups = (): JSX.Element => {
@@ -127,7 +127,7 @@ const Groups = (): JSX.Element => {
     return (
         <AuthLayout>
             <HeaderCard title="Felhasználói csoportok" />
-            <Container fluid={true} style={{width: "95%"}}>
+            <Container fluid={true} style={{ width: "95%" }}>
                 <Row className="ml-2 mr-2">
                     <Col md="12">
                         <Card
@@ -137,7 +137,7 @@ const Groups = (): JSX.Element => {
                                         ? theme.palette.accents_1
                                         : theme.palette.background,
                             }}>
-                            <CardBody style={{height: "calc(100vh - 320px)"}}>
+                            <CardBody style={{ height: "calc(100vh - 320px)" }}>
                                 <DataTable
                                     highlightOnHover={true}
                                     pointerOnHover={true}

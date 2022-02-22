@@ -2,14 +2,14 @@ import * as React from "react";
 import HeaderCard from "../Components/HeaderCard";
 import EmptyTable from "../Components/EmptyTable";
 import AuthLayout from "../Layouts/Auth";
-import {Text, Card, Button, Grid, Modal, Input, Textarea} from "@nextui-org/react";
+import { Text, Card, Button, Grid, Modal, Input, Textarea } from "@nextui-org/react";
 // import toast from 'react-hot-toast';
-import {useBlueboardClient} from "blueboard-client-react";
+import { useBlueboardClient } from "blueboard-client-react";
 import TableLoader from "../Components/TableLoader";
-import {Col, Container, Row, Badge} from "reactstrap";
+import { Col, Container, Row, Badge } from "reactstrap";
 import Center from "../Components/Center";
 import toast from "react-hot-toast";
-import {BlueboardClient, BlueboardLoloData, BlueboardLoloReason} from "blueboard-client";
+import { BlueboardClient, BlueboardLoloData, BlueboardLoloReason } from "blueboard-client";
 import Middlware from "../Helpers/Middleware";
 
 const RequestModalContent = ({
@@ -22,10 +22,10 @@ const RequestModalContent = ({
     const [body, setBody] = React.useState("");
     const [title, setTitle] = React.useState("");
     const [savePending, setSavePending] = React.useState(false);
-    const [errors, setErrors] = React.useState<{[key: string]: string[]}>({});
+    const [errors, setErrors] = React.useState<{ [key: string]: string[] }>({});
 
     const getErrors = (inputName: string): string => {
-        const err = errors ?? ({} as {[key: string]: string[]});
+        const err = errors ?? ({} as { [key: string]: string[] });
 
         const error = err[inputName] ?? [];
         let str = "";
@@ -49,7 +49,7 @@ const RequestModalContent = ({
                 if (err.errors != null) {
                     setErrors(err.errors);
                 } else {
-                    setErrors({general: [err.message]});
+                    setErrors({ general: [err.message] });
                     toast.error(err.message);
                 }
             });
@@ -57,7 +57,7 @@ const RequestModalContent = ({
 
     return (
         <>
-            <Modal.Header style={{border: "none"}}>
+            <Modal.Header style={{ border: "none" }}>
                 <Text id="modal-title" size={18}>
                     LoLó kérvény benyújtása
                 </Text>
@@ -103,7 +103,7 @@ const RequestModalContent = ({
                     </Col>
                 </Row>
             </Modal.Body>
-            <Modal.Footer style={{overflow: "visible", border: "none"}}>
+            <Modal.Footer style={{ overflow: "visible", border: "none" }}>
                 <Button auto={true} rounded={true} flat={true} color="error" onClick={closeHandler}>
                     Mégsem
                 </Button>
@@ -177,7 +177,7 @@ const Lolo = (): JSX.Element => {
                         </Center>
                     ) : (
                         <>
-                            <Container fluid={true} style={{width: "95%"}}>
+                            <Container fluid={true} style={{ width: "95%" }}>
                                 <Card hoverable={true}>
                                     <Row>
                                         <Col md="4" sm="12">
@@ -225,7 +225,7 @@ const Lolo = (): JSX.Element => {
                                     </Row>
                                 </Card>
                             </Container>
-                            <Container fluid={true} style={{width: "95%"}}>
+                            <Container fluid={true} style={{ width: "95%" }}>
                                 <Grid.Container justify="center" className="my-2" gap={2}>
                                     {lolo.coins.map((coin) => (
                                         <>
@@ -246,7 +246,7 @@ const Lolo = (): JSX.Element => {
                                                     </Text>
                                                     {coin.grades.map((grade) => (
                                                         <Badge
-                                                            style={{whiteSpace: "normal"}}
+                                                            style={{ whiteSpace: "normal" }}
                                                             className="badge-white my-1"
                                                             key={grade.id}>
                                                             {grade.name} ({grade.type}) -{" "}

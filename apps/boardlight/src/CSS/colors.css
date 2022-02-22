@@ -1,46 +1,46 @@
 :root {
-	--red: rgb(247, 79, 79);
-	--red-shadow: rgba(247, 79, 79, 0.3);
-	--red-text-default: whitesmoke;
-	/* --- --- --- --- --- --- --- --- <-- Elválasztó vonalka */
-	--orange: rgb(247, 137, 82);
-	--orange-shadow: rgba(247, 137, 82, 0.3);
-	--orange-text-default: whitesmoke;
-	/* --- --- --- --- --- --- --- --- <-- Elválasztó vonalka */
-	--yellow: rgb(247, 162, 82);
-	--yellow-shadow: rgba(247, 162, 82, 0.3);
-	--yellow-text-default: whitesmoke;
-	/* --- --- --- --- --- --- --- --- <-- Elválasztó vonalka */
-	--strong-yellow: rgb(247, 214, 82);
-	--strong-yellow-shadow: rgba(247, 214, 82, 0.3);
-	--strong-yellow-text-default: #111;
-	/* --- --- --- --- --- --- --- --- <-- Elválasztó vonalka */
-	--green-yellow: rgb(211, 247, 82);
-	--green-yellow-shadow: rgba(211, 247, 82, 0.3);
-	--green-yellow-text-default: #111;
-	/* --- --- --- --- --- --- --- --- <-- Elválasztó vonalka */
-	--green: rgb(82, 247, 118);
-	--green-shadow: rgba(82, 247, 118, 0.3);
-	--green-text-default: #111;
-	/* --- --- --- --- --- --- --- --- <-- Elválasztó vonalka */
-	--lightblue: rgb(82, 214, 247);
-	--lightblue-shadow: rgba(82, 214, 247, 0.3);
-	--lightblue-text-default: #111;
-	/* --- --- --- --- --- --- --- --- <-- Elválasztó vonalka */
-	--blue: rgb(82, 104, 247);
-	--blue-shadow: rgba(82, 104, 247, 0.3);
-	--blue-text-default: whitesmoke;
-	/* --- --- --- --- --- --- --- --- <-- Elválasztó vonalka */
-	--purple: rgb(148, 82, 247);
-	--purple-shadow: rgba(148, 82, 247);
-	--purple-text-default: whitesmoke;
-	/* --- --- --- --- --- --- --- --- <-- Elválasztó vonalka */
-	--pink: rgb(211, 82, 247);
-	--pink-shadow: rgba(211, 82, 247, 0.3);
-	--pink-text-default: whitesmoke;
-	/* --- --- --- --- --- --- --- --- <-- Elválasztó vonalka */
-	--gray: rgb(80, 80, 80);
-	--gray-shadow: rgba(80, 80, 80, 0.3);
-	--gray-text-default: whitesmoke;
-	/* --- --- --- --- --- --- --- --- <-- Elválasztó vonalka */
+    --red: rgb(247, 79, 79);
+    --red-shadow: rgba(247, 79, 79, 0.3);
+    --red-text-default: whitesmoke;
+    /* --- --- --- --- --- --- --- --- <-- Elválasztó vonalka */
+    --orange: rgb(247, 137, 82);
+    --orange-shadow: rgba(247, 137, 82, 0.3);
+    --orange-text-default: whitesmoke;
+    /* --- --- --- --- --- --- --- --- <-- Elválasztó vonalka */
+    --yellow: rgb(247, 162, 82);
+    --yellow-shadow: rgba(247, 162, 82, 0.3);
+    --yellow-text-default: whitesmoke;
+    /* --- --- --- --- --- --- --- --- <-- Elválasztó vonalka */
+    --strong-yellow: rgb(247, 214, 82);
+    --strong-yellow-shadow: rgba(247, 214, 82, 0.3);
+    --strong-yellow-text-default: #111;
+    /* --- --- --- --- --- --- --- --- <-- Elválasztó vonalka */
+    --green-yellow: rgb(211, 247, 82);
+    --green-yellow-shadow: rgba(211, 247, 82, 0.3);
+    --green-yellow-text-default: #111;
+    /* --- --- --- --- --- --- --- --- <-- Elválasztó vonalka */
+    --green: rgb(82, 247, 118);
+    --green-shadow: rgba(82, 247, 118, 0.3);
+    --green-text-default: #111;
+    /* --- --- --- --- --- --- --- --- <-- Elválasztó vonalka */
+    --lightblue: rgb(82, 214, 247);
+    --lightblue-shadow: rgba(82, 214, 247, 0.3);
+    --lightblue-text-default: #111;
+    /* --- --- --- --- --- --- --- --- <-- Elválasztó vonalka */
+    --blue: rgb(82, 104, 247);
+    --blue-shadow: rgba(82, 104, 247, 0.3);
+    --blue-text-default: whitesmoke;
+    /* --- --- --- --- --- --- --- --- <-- Elválasztó vonalka */
+    --purple: rgb(148, 82, 247);
+    --purple-shadow: rgba(148, 82, 247);
+    --purple-text-default: whitesmoke;
+    /* --- --- --- --- --- --- --- --- <-- Elválasztó vonalka */
+    --pink: rgb(211, 82, 247);
+    --pink-shadow: rgba(211, 82, 247, 0.3);
+    --pink-text-default: whitesmoke;
+    /* --- --- --- --- --- --- --- --- <-- Elválasztó vonalka */
+    --gray: rgb(80, 80, 80);
+    --gray-shadow: rgba(80, 80, 80, 0.3);
+    --gray-text-default: whitesmoke;
+    /* --- --- --- --- --- --- --- --- <-- Elválasztó vonalka */
 }

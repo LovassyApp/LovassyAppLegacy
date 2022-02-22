@@ -2,21 +2,21 @@ import React from "react";
 import AuthLayout from "../../Layouts/Auth";
 import HeaderCard from "../../Components/HeaderCard";
 import DataTable from "react-data-table-component";
-import {Container, Col, Row, Card, CardBody, Badge} from "reactstrap";
-import {Button, useTheme} from "@nextui-org/react";
+import { Container, Col, Row, Card, CardBody, Badge } from "reactstrap";
+import { Button, useTheme } from "@nextui-org/react";
 import TableLoader from "../../Components/TableLoader";
-import {useHistory} from "react-router";
+import { useHistory } from "react-router";
 import toast from "react-hot-toast";
 import EmptyTable from "../../Components/EmptyTable";
 import deleteModal from "../../Helpers/DeleteModal";
-import {MdClose, MdCheck, MdAdd} from "react-icons/md";
+import { MdClose, MdCheck, MdAdd } from "react-icons/md";
 import MDEditor from "@uiw/react-md-editor";
 import InputRenderer from "../../Components/InputRenderer";
-import {useBlueboardClient} from "blueboard-client-react";
-import {BlueboardProduct} from "blueboard-client";
+import { useBlueboardClient } from "blueboard-client-react";
+import { BlueboardProduct } from "blueboard-client";
 import Center from "../../Components/Center";
 import Middleware from "../../Helpers/Middleware";
-const Expand = ({data}: {data: BlueboardProduct}): JSX.Element => {
+const Expand = ({ data }: { data: BlueboardProduct }): JSX.Element => {
     return (
         <div className="my-2 mx-2">
             <Row>
@@ -179,7 +179,7 @@ const Products = (): JSX.Element => {
     return (
         <AuthLayout>
             <HeaderCard title="Termékek" />
-            <Container fluid={true} style={{width: "95%"}}>
+            <Container fluid={true} style={{ width: "95%" }}>
                 <Row className="ml-2 mr-2">
                     <Col md="12">
                         <Card
@@ -189,7 +189,7 @@ const Products = (): JSX.Element => {
                                         ? theme.palette.accents_1
                                         : theme.palette.background,
                             }}>
-                            <CardBody style={{height: "calc(100vh - 320px)"}}>
+                            <CardBody style={{ height: "calc(100vh - 320px)" }}>
                                 <DataTable
                                     highlightOnHover={true}
                                     pointerOnHover={true}

@@ -2,16 +2,16 @@ import React from "react";
 import AuthLayout from "../../Layouts/Auth";
 import HeaderCard from "../../Components/HeaderCard";
 import DataTable from "react-data-table-component";
-import {Container, Col, Row, Card, CardBody, Badge} from "reactstrap";
-import {Button, useTheme} from "@nextui-org/react";
+import { Container, Col, Row, Card, CardBody, Badge } from "reactstrap";
+import { Button, useTheme } from "@nextui-org/react";
 import TableLoader from "../../Components/TableLoader";
-import {useHistory} from "react-router";
+import { useHistory } from "react-router";
 import toast from "react-hot-toast";
 import EmptyTable from "../../Components/EmptyTable";
 import deleteModal from "../../Helpers/DeleteModal";
-import {useBlueboardClient} from "blueboard-client-react";
-import {BlueboardUser, BlueboardUserGroup} from "blueboard-client";
-import {useUser} from "../../Hooks/ControlHooks";
+import { useBlueboardClient } from "blueboard-client-react";
+import { BlueboardUser, BlueboardUserGroup } from "blueboard-client";
+import { useUser } from "../../Hooks/ControlHooks";
 import Middleware from "../../Helpers/Middleware";
 const Users = (): JSX.Element => {
     const [users, setUsers] = React.useState<BlueboardUser[]>([]);
@@ -139,7 +139,7 @@ const Users = (): JSX.Element => {
     return (
         <AuthLayout>
             <HeaderCard title="Felhasználók" />
-            <Container fluid={true} style={{width: "95%"}}>
+            <Container fluid={true} style={{ width: "95%" }}>
                 <Row className="ml-2 mr-2">
                     <Col md="12">
                         <Card

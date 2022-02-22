@@ -1,22 +1,22 @@
 import * as React from "react";
 import AuthLayout from "../../Layouts/Auth";
 import HeaderCard from "../../Components/HeaderCard";
-import {useHistory, useParams} from "react-router";
-import {Loading, Input, Button, useTheme} from "@nextui-org/react";
-import {Row, Col, CardBody, Card, Alert} from "reactstrap";
-import {Container} from "@nextui-org/react";
+import { useHistory, useParams } from "react-router";
+import { Loading, Input, Button, useTheme } from "@nextui-org/react";
+import { Row, Col, CardBody, Card, Alert } from "reactstrap";
+import { Container } from "@nextui-org/react";
 import toast from "react-hot-toast";
 import TableLoader from "../../Components/TableLoader";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import {useBlueboardClient} from "blueboard-client-react";
-import {BlueboardNotFoundException, BlueboardUser, BlueboardUserGroup} from "blueboard-client";
+import { useBlueboardClient } from "blueboard-client-react";
+import { BlueboardNotFoundException, BlueboardUser, BlueboardUserGroup } from "blueboard-client";
 import Center from "../../Components/Center";
 
 const animatedComponents = makeAnimated();
 
 const EditUser = (): JSX.Element => {
-    const {id} = useParams() as {id: string};
+    const { id } = useParams() as { id: string };
     const history = useHistory();
     const theme = useTheme();
     const client = useBlueboardClient();
@@ -28,7 +28,7 @@ const EditUser = (): JSX.Element => {
     const [loading, setLoading] = React.useState(true);
     const [savePending, setSavePending] = React.useState(false);
 
-    type DropGroupArray = Array<{value: string | number; label: string}>;
+    type DropGroupArray = Array<{ value: string | number; label: string }>;
 
     const [allGroups, setAllGroups] = React.useState<DropGroupArray>([]);
     const [name, setName] = React.useState("");
@@ -58,7 +58,7 @@ const EditUser = (): JSX.Element => {
                 client.groups
                     .all()
                     .then((res) => {
-                        const all = res.map((el) => ({value: el.id, label: el.name}));
+                        const all = res.map((el) => ({ value: el.id, label: el.name }));
                         setAllGroups(all);
                         setLoading(false);
                     })
@@ -115,7 +115,7 @@ const EditUser = (): JSX.Element => {
                     <TableLoader />
                 </Center>
             ) : (
-                <Container fluid={true} style={{width: "95%"}}>
+                <Container fluid={true} style={{ width: "95%" }}>
                     <Row className="ml-2 mr-2">
                         <Col md="12">
                             <Card

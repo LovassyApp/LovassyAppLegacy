@@ -1,7 +1,7 @@
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import React from "react";
-import {RootState} from "../State";
-import {setDark, setSystemMode} from "../State/themeReducer";
+import { RootState } from "../State";
+import { setDark, setSystemMode } from "../State/themeReducer";
 
 const useSystemTheme = (): void => {
     const canSetTheme: boolean = useSelector<RootState>(

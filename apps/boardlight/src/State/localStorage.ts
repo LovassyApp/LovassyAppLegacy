@@ -1,4 +1,4 @@
-import {RootState} from ".";
+import { RootState } from ".";
 
 export const loadState = (): any => {
     try {

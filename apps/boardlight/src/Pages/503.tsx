@@ -1,6 +1,6 @@
 import * as React from "react";
 import style from "../CSS/error.module.css";
-import {useTheme} from "@nextui-org/react";
+import { useTheme } from "@nextui-org/react";
 import Radium from "radium";
 import styled from "styled-components";
 import Center from "../Components/Center";
@@ -60,8 +60,8 @@ const Five0Three = (): JSX.Element => {
                 <div className={style.heroText}>
                     <h1>503</h1>
                     <Center>
-                        <h2 style={{color: theme.palette.text}}>Hoppá!</h2>
-                        <h4 style={{color: theme.palette.text}}>
+                        <h2 style={{ color: theme.palette.text }}>Hoppá!</h2>
+                        <h4 style={{ color: theme.palette.text }}>
                             Úgy tűnik, az applikáció jelenleg nem elérhető. Kérlek próbáld újra
                             később. Amikor újra elérhető lesz, az oldal magától frissül.
                         </h4>

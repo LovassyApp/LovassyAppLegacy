@@ -1,7 +1,7 @@
-import Swal, {SweetAlertResult} from "sweetalert2";
+import Swal, { SweetAlertResult } from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import {Button, NextUIThemes} from "@nextui-org/react";
-import {BlueboardInventoryItem} from "blueboard-client";
+import { Button, NextUIThemes } from "@nextui-org/react";
+import { BlueboardInventoryItem } from "blueboard-client";
 
 const ReactSwal = withReactContent(Swal);
 
@@ -15,7 +15,7 @@ const itemUsedModalFresh = async (
         icon: "success",
         html: (
             <>
-                <h4 style={{color: theme.palette.text}}>
+                <h4 style={{ color: theme.palette.text }}>
                     {item.product.name} - Tárgy #{item.id}
                 </h4>
                 <Button

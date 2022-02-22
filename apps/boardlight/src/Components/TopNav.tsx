@@ -12,8 +12,8 @@ import {
     DropdownItem,
 } from "reactstrap";
 import * as React from "react";
-import {useHistory} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import {
     MdOutlineSecurity,
     MdOutlineStore,
@@ -27,9 +27,9 @@ import {
     MdOutlineInventory2,
     MdQrCode2,
 } from "react-icons/md";
-import {useTheme} from "@nextui-org/react";
+import { useTheme } from "@nextui-org/react";
 import useLogout from "../Hooks/useLogout";
-import {RootState} from "../State";
+import { RootState } from "../State";
 import Middleware from "../Helpers/Middleware";
 
 const TopNav = (): JSX.Element => {
@@ -271,7 +271,7 @@ const TopNav = (): JSX.Element => {
                                 end={true}>
                                 <DropdownItem
                                     onClick={() =>
-                                        dispatch({type: "settingsModal/openSettingsModal"})
+                                        dispatch({ type: "settingsModal/openSettingsModal" })
                                     }>
                                     Beállítások
                                 </DropdownItem>

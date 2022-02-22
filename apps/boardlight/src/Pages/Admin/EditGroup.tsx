@@ -1,10 +1,10 @@
 import * as React from "react";
 import AuthLayout from "../../Layouts/Auth";
 import HeaderCard from "../../Components/HeaderCard";
-import {useHistory, useParams} from "react-router";
+import { useHistory, useParams } from "react-router";
 import TableLoader from "../../Components/TableLoader";
-import {Loading, Input, Button, Text, Switch, useTheme} from "@nextui-org/react";
-import {Card as NextUICard} from "@nextui-org/react";
+import { Loading, Input, Button, Text, Switch, useTheme } from "@nextui-org/react";
+import { Card as NextUICard } from "@nextui-org/react";
 import {
     Row,
     Col,
@@ -20,15 +20,15 @@ import {
     Container,
 } from "reactstrap";
 import toast from "react-hot-toast";
-import {checkPermission} from "../../Helpers/Middleware";
+import { checkPermission } from "../../Helpers/Middleware";
 import Four0Three from "../403";
-import {usePermissions} from "../../Hooks/ControlHooks";
-import {useBlueboardClient} from "blueboard-client-react";
-import {BlueboardNotFoundException, BlueboardUserGroup} from "blueboard-client";
+import { usePermissions } from "../../Hooks/ControlHooks";
+import { useBlueboardClient } from "blueboard-client-react";
+import { BlueboardNotFoundException, BlueboardUserGroup } from "blueboard-client";
 import Center from "../../Components/Center";
 
 const EditGroup = (): JSX.Element => {
-    const {id} = useParams() as {id: string};
+    const { id } = useParams() as { id: string };
     const history = useHistory();
     const theme = useTheme();
     const client = useBlueboardClient();
@@ -147,7 +147,7 @@ const EditGroup = (): JSX.Element => {
                     <TableLoader />
                 </Center>
             ) : (
-                <Container fluid={true} style={{width: "95%"}}>
+                <Container fluid={true} style={{ width: "95%" }}>
                     <Row className="ml-2 mr-2">
                         <Col md="12">
                             <Card
@@ -160,7 +160,7 @@ const EditGroup = (): JSX.Element => {
                                 <CardBody>
                                     <Center>
                                         <Input
-                                            style={{width: "200px"}}
+                                            style={{ width: "200px" }}
                                             className="mt-2"
                                             clearable={true}
                                             bordered={true}

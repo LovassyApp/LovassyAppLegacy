@@ -1,6 +1,6 @@
-import Swal, {SweetAlertResult} from "sweetalert2";
+import Swal, { SweetAlertResult } from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import {Button, NextUIThemes} from "@nextui-org/react";
+import { Button, NextUIThemes } from "@nextui-org/react";
 
 const ReactSwal = withReactContent(Swal);
 
@@ -16,7 +16,7 @@ const deleteModal = async (
         icon: "error",
         html: (
             <>
-                <p style={{color: theme.palette.text}}>{modalText}</p>
+                <p style={{ color: theme.palette.text }}>{modalText}</p>
                 <Button
                     type="button"
                     role="button"

@@ -2,14 +2,14 @@ import * as React from "react";
 import HeaderCard from "../Components/HeaderCard";
 import EmptyTable from "../Components/EmptyTable";
 import AuthLayout from "../Layouts/Auth";
-import {Collapse, Text /* Card, Button*/} from "@nextui-org/react";
+import { Collapse, Text /* Card, Button*/ } from "@nextui-org/react";
 import GradeCard from "../Components/GradeCard";
 // import toast from 'react-hot-toast';
-import {useBlueboardClient} from "blueboard-client-react";
+import { useBlueboardClient } from "blueboard-client-react";
 import TableLoader from "../Components/TableLoader";
-import {Col, Container, Row /* Badge*/} from "reactstrap";
+import { Col, Container, Row /* Badge*/ } from "reactstrap";
 import Center from "../Components/Center";
-import {BlueboardKretaGradeData} from "blueboard-client";
+import { BlueboardKretaGradeData } from "blueboard-client";
 import toast from "react-hot-toast";
 
 const Grades = (): JSX.Element => {
@@ -73,11 +73,11 @@ const Grades = (): JSX.Element => {
                                     </Row>
                                 </Card>
                             </Container>*/}
-                            <Container fluid={true} style={{width: "95%"}}>
+                            <Container fluid={true} style={{ width: "95%" }}>
                                 <Collapse.Group>
                                     {grades.map((value, key) => (
                                         <Collapse
-                                            style={{display: "block"}}
+                                            style={{ display: "block" }}
                                             key={key}
                                             title={<Text h4={true}>{value.subject}</Text>}>
                                             <Row className="ms-3 me-1 my-4">

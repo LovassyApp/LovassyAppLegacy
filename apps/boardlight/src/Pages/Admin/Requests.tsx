@@ -12,14 +12,18 @@ import {
     ButtonGroup,
     Button as RSButton,
 } from "reactstrap";
-import {Button, useTheme, Modal, Text, Input} from "@nextui-org/react";
+import { Button, useTheme, Modal, Text, Input } from "@nextui-org/react";
 import TableLoader from "../../Components/TableLoader";
 import toast from "react-hot-toast";
 import EmptyTable from "../../Components/EmptyTable";
-import {useBlueboardClient} from "blueboard-client-react";
-import {BlueboardClient, BlueboardLoloRequest, BlueboardLoloRequestAction} from "blueboard-client";
-import {eventDeclaration, useStatefulEvent, useStatefulListener} from "../../Hooks/EventHooks";
-import {FormElement} from "@nextui-org/react/esm/input/input-props";
+import { useBlueboardClient } from "blueboard-client-react";
+import {
+    BlueboardClient,
+    BlueboardLoloRequest,
+    BlueboardLoloRequestAction,
+} from "blueboard-client";
+import { eventDeclaration, useStatefulEvent, useStatefulListener } from "../../Hooks/EventHooks";
+import { FormElement } from "@nextui-org/react/esm/input/input-props";
 import Middleware from "../../Helpers/Middleware";
 
 const RequestModalContent = ({
@@ -38,11 +42,11 @@ const RequestModalContent = ({
     const [loloCount, setLoloCount] = React.useState(1);
     const [verdict, setVerdict] = React.useState<BlueboardLoloRequestAction>(0);
 
-    const [errors, setErrors] = React.useState<{[key: string]: string[]}>({});
+    const [errors, setErrors] = React.useState<{ [key: string]: string[] }>({});
     const [savePending, setSavePending] = React.useState(false);
 
     const getErrors = (inputName: string): string => {
-        const err = errors ?? ({} as {[key: string]: string[]});
+        const err = errors ?? ({} as { [key: string]: string[] });
 
         const error = err[inputName] ?? [];
         let str = "";
@@ -76,7 +80,7 @@ const RequestModalContent = ({
 
     return (
         <>
-            <Modal.Header style={{border: "none"}}>
+            <Modal.Header style={{ border: "none" }}>
                 <Text id="modal-title" size={18}>
                     Kérvény - {requestState.title}
                 </Text>
@@ -152,7 +156,7 @@ const RequestModalContent = ({
                     <></>
                 )}
             </Modal.Body>
-            <Modal.Footer style={{overflow: "visible", border: "none"}}>
+            <Modal.Footer style={{ overflow: "visible", border: "none" }}>
                 <Button auto={true} rounded={true} flat={true} color="error" onClick={closeHandler}>
                     Mégsem
                 </Button>
@@ -285,7 +289,7 @@ const Requests = (): JSX.Element => {
                 />
             </Modal>
             <HeaderCard title="LoLó kérvények" />
-            <Container fluid={true} style={{width: "95%"}}>
+            <Container fluid={true} style={{ width: "95%" }}>
                 <Row className="ml-2 mr-2">
                     <Col md="12">
                         <Card

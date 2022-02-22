@@ -1,5 +1,5 @@
 import * as React from "react";
-import {usePermissions} from "../Hooks/ControlHooks";
+import { usePermissions } from "../Hooks/ControlHooks";
 import useToken from "../Hooks/useToken";
 import Four0Three from "../Pages/403";
 
@@ -33,6 +33,6 @@ const checkPermission = (permString: string, permissions: string[]): boolean => 
     return canAccess;
 };
 
-export {checkPermission};
+export { checkPermission };
 
 export default Middleware;

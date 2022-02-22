@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import store from "./State";
-import {Provider} from "react-redux";
+import { Provider } from "react-redux";
 // import register from './Utils/Console';
 // import reportWebVitals from './reportWebVitals';
 

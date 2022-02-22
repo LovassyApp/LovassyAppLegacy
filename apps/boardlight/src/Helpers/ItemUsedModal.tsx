@@ -1,8 +1,8 @@
-import Swal, {SweetAlertResult} from "sweetalert2";
+import Swal, { SweetAlertResult } from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import {Button, NextUIThemes} from "@nextui-org/react";
-import {BlueboardInventoryItem} from "blueboard-client";
-import {Badge, Col, Row} from "reactstrap";
+import { Button, NextUIThemes } from "@nextui-org/react";
+import { BlueboardInventoryItem } from "blueboard-client";
+import { Badge, Col, Row } from "reactstrap";
 
 const ReactSwal = withReactContent(Swal);
 
@@ -16,17 +16,17 @@ const itemUsedModal = async (
         icon: "info",
         html: (
             <>
-                <h4 style={{color: theme.palette.text}}>
+                <h4 style={{ color: theme.palette.text }}>
                     {item.product.name} - Tárgy #{item.id}
                 </h4>
-                <p style={{color: theme.palette.text}}>Beváltás dátuma: {item.usedAt}</p>
+                <p style={{ color: theme.palette.text }}>Beváltás dátuma: {item.usedAt}</p>
                 {item.itemUse ? (
                     <>
                         <div
                             className="dropdown-divider"
-                            style={{background: theme.palette.accents_2}}
+                            style={{ background: theme.palette.accents_2 }}
                         />
-                        <div className="mt-3" style={{color: theme.palette.text, width: "95%"}}>
+                        <div className="mt-3" style={{ color: theme.palette.text, width: "95%" }}>
                             {item.product.inputs.map((el, key) => (
                                 <Row key={key} className="mt-2">
                                     <Col md="auto">{el.title}: </Col>

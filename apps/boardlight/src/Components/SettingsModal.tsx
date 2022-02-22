@@ -1,8 +1,8 @@
-import {Modal, Switch, Text, useTheme} from "@nextui-org/react";
+import { Modal, Switch, Text, useTheme } from "@nextui-org/react";
 import React from "react";
-import {MdOutlineDarkMode, MdOutlineLightMode, MdCheck, MdClose} from "react-icons/md";
-import {useDispatch} from "react-redux";
-import {Row, Col} from "reactstrap";
+import { MdOutlineDarkMode, MdOutlineLightMode, MdCheck, MdClose } from "react-icons/md";
+import { useDispatch } from "react-redux";
+import { Row, Col } from "reactstrap";
 import styled from "styled-components";
 import useSettingsModalState from "../Hooks/useSettingsModalState";
 import useThemePrefs from "../Hooks/useThemePrefs";
@@ -42,10 +42,10 @@ const SettingsModal = (): JSX.Element => {
             blur={true}
             aria-labelledby="modal-title"
             open={isOpen}
-            onClose={() => dispatch({type: "settingsModal/closeSettingsModal"})}
+            onClose={() => dispatch({ type: "settingsModal/closeSettingsModal" })}
             preventClose={true}
             width="650px">
-            <Modal.Header style={{border: "none"}}>
+            <Modal.Header style={{ border: "none" }}>
                 <Text id="modal-title" size={18}>
                     Beállítások
                 </Text>
@@ -66,7 +66,7 @@ const SettingsModal = (): JSX.Element => {
                                     size="large"
                                     color="gradient"
                                     checked={themeState.isDark}
-                                    onChange={() => dispatch({type: "theme/toggle"})}
+                                    onChange={() => dispatch({ type: "theme/toggle" })}
                                     disabled={!!themeState.isSynced}
                                 />
                             </Col>
@@ -97,7 +97,7 @@ const SettingsModal = (): JSX.Element => {
                     </Col>
                 </Row>
             </Modal.Body>
-            <Modal.Footer style={{overflow: "visible", border: "none"}} />
+            <Modal.Footer style={{ overflow: "visible", border: "none" }} />
         </Modal>
     );
 };

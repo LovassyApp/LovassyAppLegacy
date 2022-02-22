@@ -1,16 +1,16 @@
 import * as React from "react";
 import AuthLayout from "../../Layouts/Auth";
 import HeaderCard from "../../Components/HeaderCard";
-import {Container, Grid, Card, Row, Text, Input, Button, NextUIThemes} from "@nextui-org/react";
+import { Container, Grid, Card, Row, Text, Input, Button, NextUIThemes } from "@nextui-org/react";
 import TableLoader from "../../Components/TableLoader";
-import {MdAdd} from "react-icons/md";
+import { MdAdd } from "react-icons/md";
 import EmptyTable from "../../Components/EmptyTable";
-import {Popover, PopoverBody, Alert, UncontrolledTooltip} from "reactstrap";
+import { Popover, PopoverBody, Alert, UncontrolledTooltip } from "reactstrap";
 import deleteModal from "../../Helpers/DeleteModal";
 import toast from "react-hot-toast";
-import {useTheme} from "@nextui-org/react";
-import {useBlueboardClient} from "blueboard-client-react";
-import {BlueboardQRCode} from "blueboard-client";
+import { useTheme } from "@nextui-org/react";
+import { useBlueboardClient } from "blueboard-client-react";
+import { BlueboardQRCode } from "blueboard-client";
 import Center from "../../Components/Center";
 import Middleware from "../../Helpers/Middleware";
 
@@ -38,7 +38,7 @@ const QRCard = ({
                         objectFit="cover"
                         autoResize={false}
                         src={code.image}
-                        style={{height: "200px", width: "200px"}}
+                        style={{ height: "200px", width: "200px" }}
                         // height={200}
                         // width={200}
                         alt="code"
@@ -90,12 +90,12 @@ const QRCard = ({
     );
 };
 
-const AddCard = ({bootstrap}: {bootstrap(): void}): JSX.Element => {
+const AddCard = ({ bootstrap }: { bootstrap(): void }): JSX.Element => {
     const [popover, setPopover] = React.useState(false);
     const [name, setName] = React.useState("");
     const [email, setEmail] = React.useState("");
     const [errorShow, setErrorShow] = React.useState(false);
-    const [errors, setErrors] = React.useState<{[key: string]: string[]}>({});
+    const [errors, setErrors] = React.useState<{ [key: string]: string[] }>({});
     const [savePending, setSavePending] = React.useState(false);
     const client = useBlueboardClient();
 
@@ -121,7 +121,7 @@ const AddCard = ({bootstrap}: {bootstrap(): void}): JSX.Element => {
                 if (err.errors != null) {
                     setErrors(err.errors);
                 } else {
-                    setErrors({general: [err.message]});
+                    setErrors({ general: [err.message] });
                     setErrorShow(true);
                 }
             });

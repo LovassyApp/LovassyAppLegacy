@@ -1,15 +1,15 @@
 import * as React from "react";
 
-import {Badge, Col, Container, Row} from "reactstrap";
+import { Badge, Col, Container, Row } from "reactstrap";
 import {
     BlueboardClient,
     BlueboardInventoryFactory,
     BlueboardInventoryItem,
     BlueboardProduct,
 } from "blueboard-client";
-import {Button, Card, Grid, Input, Modal, Text, useTheme} from "@nextui-org/react";
-import {eventDeclaration, useStatefulEvent, useStatefulListener} from "../Hooks/EventHooks";
-import {useBlueboardClient, useBlueboardPrivateChannel} from "blueboard-client-react";
+import { Button, Card, Grid, Input, Modal, Text, useTheme } from "@nextui-org/react";
+import { eventDeclaration, useStatefulEvent, useStatefulListener } from "../Hooks/EventHooks";
+import { useBlueboardClient, useBlueboardPrivateChannel } from "blueboard-client-react";
 
 import AuthLayout from "../Layouts/Auth";
 import Center from "../Components/Center";
@@ -22,11 +22,11 @@ import QrReader from "react-qr-reader";
 import TableLoader from "../Components/TableLoader";
 import itemUsedModal from "../Helpers/ItemUsedModal";
 import itemUsedModalFresh from "../Helpers/ItemUsedModalFresh";
-import {matchSorter} from "match-sorter";
+import { matchSorter } from "match-sorter";
 // import { useTheme } from '@nextui-org/react';
 // import { useSelector } from 'react-redux';
 import toast from "react-hot-toast";
-import {useUser} from "../Hooks/ControlHooks";
+import { useUser } from "../Hooks/ControlHooks";
 
 const defaultItem = {} as BlueboardInventoryItem;
 const defaultProduct = {} as BlueboardProduct;
@@ -47,8 +47,8 @@ const ItemModalContent = ({
     const product: BlueboardProduct = useStatefulListener(productEventDeclaration);
     const item: BlueboardInventoryItem = useStatefulListener(itemEventDeclaration);
 
-    const getInitialInputState = React.useCallback((): {[key: string]: string | boolean} => {
-        const obj: {[key: string]: string | boolean} = {};
+    const getInitialInputState = React.useCallback((): { [key: string]: string | boolean } => {
+        const obj: { [key: string]: string | boolean } = {};
 
         const inputs = product.inputs ?? [];
 
@@ -65,10 +65,10 @@ const ItemModalContent = ({
         return obj;
     }, [product]);
 
-    const [inputState, setInputState] = React.useState<{[key: string]: string | boolean}>(
+    const [inputState, setInputState] = React.useState<{ [key: string]: string | boolean }>(
         getInitialInputState(),
     );
-    const [errors, setErrors] = React.useState<{[key: string]: string[]}>({});
+    const [errors, setErrors] = React.useState<{ [key: string]: string[] }>({});
     const [canScan, setScan] = React.useState<boolean>(false);
     const [savePending, setSavePending] = React.useState<boolean>(false);
     const [codeValidated, setCodeValidated] = React.useState<boolean>(false);
@@ -144,7 +144,7 @@ const ItemModalContent = ({
 
     return (
         <>
-            <Modal.Header style={{border: "none"}}>
+            <Modal.Header style={{ border: "none" }}>
                 <Text id="modal-title" size={18}>
                     Termékbeváltás - {product.name}
                 </Text>
@@ -164,7 +164,7 @@ const ItemModalContent = ({
                         <InputRenderer
                             inputs={product.inputs}
                             callback={(input: string, value: string | boolean) => {
-                                const newState = {...inputState};
+                                const newState = { ...inputState };
                                 newState[input] = value as string;
                                 setInputState(newState);
                             }}
@@ -198,7 +198,7 @@ const ItemModalContent = ({
                                 <Grid.Container justify="center" className="my-2" gap={2}>
                                     {
                                         <QrReader
-                                            style={{width: "320px"}}
+                                            style={{ width: "320px" }}
                                             onError={handleError}
                                             onScan={handleScan}
                                             delay={100}
@@ -235,7 +235,7 @@ const ItemModalContent = ({
                     <></>
                 )}
             </Modal.Body>
-            <Modal.Footer style={{overflow: "visible", border: "none"}}>
+            <Modal.Footer style={{ overflow: "visible", border: "none" }}>
                 <Button auto={true} rounded={true} flat={true} color="error" onClick={closeHandler}>
                     Mégsem
                 </Button>
@@ -329,7 +329,7 @@ const Inventory = (): JSX.Element => {
     const renderedItems =
         query === ""
             ? items
-            : matchSorter(items, query, {keys: ["product.name", "product.description"]});
+            : matchSorter(items, query, { keys: ["product.name", "product.description"] });
 
     const openUse = React.useCallback(
         (product: BlueboardProduct, item?: BlueboardInventoryItem) => {
@@ -384,7 +384,7 @@ const Inventory = (): JSX.Element => {
                 </Center>
             ) : (
                 <>
-                    <Container fluid={true} style={{width: "95%"}}>
+                    <Container fluid={true} style={{ width: "95%" }}>
                         <Card hoverable={true}>
                             <Row>
                                 <Col md="4" sm="12">
@@ -417,7 +417,7 @@ const Inventory = (): JSX.Element => {
                         </Center>
                     ) : (
                         <>
-                            <Container fluid={true} style={{width: "95%"}}>
+                            <Container fluid={true} style={{ width: "95%" }}>
                                 <Row className="mt-4">
                                     {renderedItems.map((item) => (
                                         <Col key={item.id} className="mt-2 mb-3" xl="3" md="6">
