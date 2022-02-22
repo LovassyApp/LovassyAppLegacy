@@ -1,15 +1,15 @@
-import { createSlice } from '@reduxjs/toolkit';
+import {createSlice} from "@reduxjs/toolkit";
 
-export type settingsModalState = {
+export interface settingsModalState {
     isOpen: boolean;
-};
+}
 
 const initialState: settingsModalState = {
     isOpen: false,
 };
 
 const settingsModalReducerObj = {
-    name: 'settingsModal',
+    name: "settingsModal",
     initialState,
     reducers: {
         openSettingsModal: (state: settingsModalState) => {
@@ -23,6 +23,6 @@ const settingsModalReducerObj = {
 
 export const settingsModalReducer = createSlice(settingsModalReducerObj);
 
-export const { closeSettingsModal, openSettingsModal } = settingsModalReducer.actions;
+export const {closeSettingsModal, openSettingsModal} = settingsModalReducer.actions;
 
 export default settingsModalReducer.reducer;

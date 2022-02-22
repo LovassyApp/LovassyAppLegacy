@@ -1,15 +1,15 @@
-import { createSlice } from '@reduxjs/toolkit';
+import {createSlice} from "@reduxjs/toolkit";
 
-export type loaderState = {
+export interface loaderState {
     loader: boolean;
-};
+}
 
 const initialState: loaderState = {
     loader: false,
 };
 
 const loaderReducerObj = {
-    name: 'loader',
+    name: "loader",
     initialState,
     reducers: {
         forceLoader: (state: loaderState) => {
@@ -23,6 +23,6 @@ const loaderReducerObj = {
 
 export const loaderReducer = createSlice(loaderReducerObj);
 
-export const { forceLoader, removeLoader } = loaderReducer.actions;
+export const {forceLoader, removeLoader} = loaderReducer.actions;
 
 export default loaderReducer.reducer;

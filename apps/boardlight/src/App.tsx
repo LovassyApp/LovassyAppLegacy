@@ -1,24 +1,24 @@
-import * as React from 'react';
-import { BrowserRouter } from 'react-router-dom';
-import Routes from './Routes';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '@fortawesome/fontawesome-free/css/all.css';
-import './CSS/style.css';
-import { Toaster } from 'react-hot-toast';
-import { ThemeProvider, useTheme } from '@nextui-org/react';
-import { createTheme } from 'react-data-table-component';
-import useToken from './Hooks/useToken';
-import useThemePrefs from './Hooks/useThemePrefs';
-import GlobalListeners from './Boot/GlobalListeners';
-import AppBootstrapProvider, { AppBootstrapContext } from './Boot/AppBootstrapProvider';
-import { BlueboardClientInit } from 'blueboard-client-react';
-import CheckBlueboard from './Boot/CheckBluaboard';
+import * as React from "react";
+import {BrowserRouter} from "react-router-dom";
+import Routes from "./Routes";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "@fortawesome/fontawesome-free/css/all.css";
+import "./CSS/style.css";
+import {Toaster} from "react-hot-toast";
+import {ThemeProvider, useTheme} from "@nextui-org/react";
+import {createTheme} from "react-data-table-component";
+import useToken from "./Hooks/useToken";
+import useThemePrefs from "./Hooks/useThemePrefs";
+import GlobalListeners from "./Boot/GlobalListeners";
+import AppBootstrapProvider, {AppBootstrapContext} from "./Boot/AppBootstrapProvider";
+import {BlueboardClientInit} from "blueboard-client-react";
+import CheckBlueboard from "./Boot/CheckBluaboard";
 
 const [BlueboardProvider] = BlueboardClientInit(
     process.env.REACT_APP_BLUEBOARD_URL as string,
     process.env.REACT_APP_BLUEBOARD_SOKETI_HOST as string,
     process.env.REACT_APP_BLUEBOARD_SOKETI_KEY as string,
-    true
+    true,
 );
 
 const ToasterContainer = (): JSX.Element => {
@@ -30,13 +30,16 @@ const ToasterContainer = (): JSX.Element => {
                 position="top-center"
                 reverseOrder={true}
                 gutter={8}
-                containerStyle={{ zIndex: '2147483647' }}
+                containerStyle={{zIndex: "2147483647"}}
                 toastOptions={{
                     // Define default options
-                    className: '',
+                    className: "",
                     duration: 5000,
                     style: {
-                        background: theme.type === 'dark' ? theme.palette.accents_2 : theme.palette.background,
+                        background:
+                            theme.type === "dark"
+                                ? theme.palette.accents_2
+                                : theme.palette.background,
                         color: theme.palette.text,
                     },
                 }}
@@ -45,11 +48,11 @@ const ToasterContainer = (): JSX.Element => {
     );
 };
 
-const ProviderStack = ({ children }: { children: React.ReactNode }): JSX.Element => {
+const ProviderStack = ({children}: {children: React.ReactNode}): JSX.Element => {
     const theme = useThemePrefs();
     const token = useToken();
     return (
-        <ThemeProvider theme={{ type: theme.isDark ? 'dark' : 'light' }}>
+        <ThemeProvider theme={{type: theme.isDark ? "dark" : "light"}}>
             <BlueboardProvider token={token}>
                 <CheckBlueboard>
                     <AppBootstrapProvider>
@@ -62,73 +65,73 @@ const ProviderStack = ({ children }: { children: React.ReactNode }): JSX.Element
         </ThemeProvider>
     );
 };
-const UIBootstrap = () => {
+const UIBootstrap = (): JSX.Element => {
     const canShow: boolean = React.useContext(AppBootstrapContext);
 
     // Table themes
     // Dark, uses NextUI colors
-    createTheme('dark', {
+    createTheme("dark", {
         text: {
-            primary: '#fff',
-            secondary: '#0070f3',
+            primary: "#fff",
+            secondary: "#0070f3",
         },
         background: {
-            default: '#111',
+            default: "#111",
         },
         highlightOnHover: {
-            default: '#333',
-            text: '#fff',
+            default: "#333",
+            text: "#fff",
         },
         context: {
-            background: '#7928ca',
-            text: '#FFFFFF',
+            background: "#7928ca",
+            text: "#FFFFFF",
         },
         divider: {
-            default: '#333',
+            default: "#333",
         },
         button: {
-            default: '#0070f3',
-            hover: 'rgba(0,0,0,.08)',
+            default: "#0070f3",
+            hover: "rgba(0,0,0,.08)",
 
-            focus: 'rgba(255,255,255,.12)',
+            focus: "rgba(255,255,255,.12)",
 
-            disabled: 'rgba(255, 255, 255, .34)',
+            disabled: "rgba(255, 255, 255, .34)",
         },
         sortFocus: {
-            default: '#0070f3',
+            default: "#0070f3",
         },
     });
 
     // Light, uses NextUI colors
-    createTheme('light', {
+    createTheme("light", {
         text: {
-            primary: '#333',
-            secondary: '#0070f3',
+            primary: "#333",
+            secondary: "#0070f3",
         },
         background: {
-            default: '#fff',
+            default: "#fff",
         },
         highlightOnHover: {
-            default: '#eaeaea',
-            text: '#333',
+            default: "#eaeaea",
+            text: "#333",
         },
         context: {
-            background: '#7928ca',
-            text: '#FFFFFF',
+            background: "#7928ca",
+            text: "#FFFFFF",
         },
         divider: {
-            default: '#eaeaea',
+            default: "#eaeaea",
         },
         button: {
-            default: '#0070f3',
-            hover: 'rgba(0,0,0,.08)',
+            default: "#0070f3",
+            hover: "rgba(0,0,0,.08)",
 
-            focus: 'rgba(255,255,255,.12)',
+            focus: "rgba(255,255,255,.12)",
 
-            disabled: 'rgba(255, 255, 255, .34)',
+            disabled: "rgba(255, 255, 255, .34)",
         },
         sortFocus: {
-            default: '#0070f3',
+            default: "#0070f3",
         },
     });
 

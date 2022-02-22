@@ -1,44 +1,42 @@
-import * as React from 'react';
-import { InputGroup, InputGroupText, Input, Alert } from 'reactstrap';
-import { Button, Checkbox } from '@nextui-org/react';
-import BaseLogin from '../Layouts/BaseLogin';
-import { MdOutlineAlternateEmail, MdOutlinePassword } from 'react-icons/md';
-import { useDispatch } from 'react-redux';
-import toast from 'react-hot-toast';
-import getGreeting from '../Helpers/GetGreeting';
-import { useBlueboardClient } from 'blueboard-client-react';
-import useRenew from '../Hooks/useRenew';
+import * as React from "react";
+import {InputGroup, InputGroupText, Input, Alert} from "reactstrap";
+import {Button, Checkbox} from "@nextui-org/react";
+import BaseLogin from "../Layouts/BaseLogin";
+import {MdOutlineAlternateEmail, MdOutlinePassword} from "react-icons/md";
+import {useDispatch} from "react-redux";
+import toast from "react-hot-toast";
+import getGreeting from "../Helpers/GetGreeting";
+import {useBlueboardClient} from "blueboard-client-react";
+import useRenew from "../Hooks/useRenew";
 
 const Login = (): JSX.Element => {
     const dispatch = useDispatch();
     const client = useBlueboardClient();
     const renew = useRenew();
 
-    const [username, setUsername] = React.useState('');
-    const [password, setPassword] = React.useState('');
+    const [username, setUsername] = React.useState("");
+    const [password, setPassword] = React.useState("");
     const [remember, setRemember] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
 
-    const [GLOBERR, setGLOBERR] = React.useState('');
+    const [GLOBERR, setGLOBERR] = React.useState("");
     const [userErr, setUserErr] = React.useState([]);
     const [passwordErr, setPasswordErr] = React.useState([]);
     const [globIsVisible, globSetVisible] = React.useState(false);
     const [passIsVisible, passSetVisible] = React.useState(false);
     const [userIsVisible, userSetVisible] = React.useState(false);
 
-    const onDismiss = () => globSetVisible(false);
-
-    const onRememberToggle = () => {
+    const onRememberToggle = (): void => {
         const newVal = !remember;
         setRemember(newVal);
         if (newVal) {
-            toast.success('Jó döntés, ifjú padavan.');
+            toast.success("Jó döntés, ifjú padavan.");
         } else {
-            toast.error('Azt ugye tudod, hogy fél óra múlva ki leszel rakva innen?');
+            toast.error("Azt ugye tudod, hogy fél óra múlva ki leszel rakva innen?");
         }
     };
 
-    const handleClick = (e: React.FormEvent) => {
+    const handleClick = (e: React.FormEvent): void => {
         e.preventDefault();
         globSetVisible(false);
         passSetVisible(false);
@@ -48,12 +46,12 @@ const Login = (): JSX.Element => {
             client.auth
                 .login(username, password, remember)
                 .then((res) => {
-                    const token = res.token;
+                    const {token} = res;
                     client.account.control(token).then((res) => {
-                        dispatch({ type: 'control/setControl', payload: res });
-                        const name = res.user.name;
-                        toast.success(getGreeting() + (name.split(' ')[1] ?? name) + '!');
-                        dispatch({ type: 'token/setToken', payload: token });
+                        dispatch({type: "control/setControl", payload: res});
+                        const {name} = res.user;
+                        toast.success(`${getGreeting() + (name.split(" ")[1] ?? name)}!`);
+                        dispatch({type: "token/setToken", payload: token});
                         renew();
                     });
                 })
@@ -85,7 +83,9 @@ const Login = (): JSX.Element => {
                         <MdOutlineAlternateEmail />
                     </InputGroupText>
                     <Input
-                        onInput={(e: React.ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)}
+                        onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            setUsername(e.target.value)
+                        }
                         name="email"
                         id="email"
                         placeholder="E-mail cím"
@@ -94,9 +94,9 @@ const Login = (): JSX.Element => {
 
                 <Alert color="danger" isOpen={userIsVisible} toggle={() => userSetVisible(false)}>
                     {userErr.map((el) => (
-                        <span>
-                            {' '}
-                            {el} <br />{' '}
+                        <span key={el}>
+                            {" "}
+                            {el} <br />{" "}
                         </span>
                     ))}
                 </Alert>
@@ -106,7 +106,9 @@ const Login = (): JSX.Element => {
                     </InputGroupText>
                     <Input
                         name="password"
-                        onInput={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+                        onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            setPassword(e.target.value)
+                        }
                         id="password"
                         type="password"
                         placeholder="Jelszó"
@@ -114,9 +116,9 @@ const Login = (): JSX.Element => {
                 </InputGroup>
                 <Alert color="danger" isOpen={passIsVisible} toggle={() => passSetVisible(false)}>
                     {passwordErr.map((el) => (
-                        <span>
-                            {' '}
-                            {el} <br />{' '}
+                        <span key={el}>
+                            {" "}
+                            {el} <br />{" "}
                         </span>
                     ))}
                 </Alert>
@@ -125,18 +127,17 @@ const Login = (): JSX.Element => {
                     <Checkbox
                         color="gradient"
                         size="small"
-                        rounded
+                        rounded={true}
                         onClick={onRememberToggle}
                         initialChecked={remember}
                         // @ts-ignore
-                        textColor="white"
-                    >
+                        textColor="white">
                         Nefelejts-pipa
                     </Checkbox>
                 </div>
                 <br />
                 <br />
-                <Alert color="danger" isOpen={globIsVisible} toggle={onDismiss}>
+                <Alert color="danger" isOpen={globIsVisible} toggle={() => globSetVisible(false)}>
                     <h4 className="alert-heading">Hoppácska!</h4>
                     <p>{GLOBERR}</p>
                 </Alert>

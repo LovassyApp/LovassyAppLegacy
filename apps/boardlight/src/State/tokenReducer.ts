@@ -1,15 +1,15 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
-export type tokenState = {
+export interface tokenState {
     token: string | null;
-};
+}
 
 const initialState: tokenState = {
     token: null,
 };
 
 export const tokenReducer = createSlice({
-    name: 'token',
+    name: "token",
     initialState,
     reducers: {
         setToken: (state: tokenState, action: PayloadAction<string>) => {
@@ -21,6 +21,6 @@ export const tokenReducer = createSlice({
     },
 });
 
-export const { setToken, removeToken } = tokenReducer.actions;
+export const {setToken, removeToken} = tokenReducer.actions;
 
 export default tokenReducer.reducer;

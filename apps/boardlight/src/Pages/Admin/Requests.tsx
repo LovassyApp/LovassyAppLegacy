@@ -1,17 +1,26 @@
-import React from 'react';
-import AuthLayout from '../../Layouts/Auth';
-import HeaderCard from '../../Components/HeaderCard';
-import DataTable from 'react-data-table-component';
-import { Container, Col, Row, Card, CardBody, Badge, ButtonGroup, Button as RSButton } from 'reactstrap';
-import { Button, useTheme, Modal, Text, Input } from '@nextui-org/react';
-import TableLoader from '../../Components/TableLoader';
-import toast from 'react-hot-toast';
-import EmptyTable from '../../Components/EmptyTable';
-import { useBlueboardClient } from 'blueboard-client-react';
-import { BlueboardClient, BlueboardLoloRequest, BlueboardLoloRequestAction } from 'blueboard-client';
-import { eventDeclaration, useStatefulEvent, useStatefulListener } from '../../Hooks/EventHooks';
-import { FormElement } from '@nextui-org/react/esm/input/input-props';
-import Middleware from '../../Helpers/Middleware';
+import React from "react";
+import AuthLayout from "../../Layouts/Auth";
+import HeaderCard from "../../Components/HeaderCard";
+import DataTable from "react-data-table-component";
+import {
+    Container,
+    Col,
+    Row,
+    Card,
+    CardBody,
+    Badge,
+    ButtonGroup,
+    Button as RSButton,
+} from "reactstrap";
+import {Button, useTheme, Modal, Text, Input} from "@nextui-org/react";
+import TableLoader from "../../Components/TableLoader";
+import toast from "react-hot-toast";
+import EmptyTable from "../../Components/EmptyTable";
+import {useBlueboardClient} from "blueboard-client-react";
+import {BlueboardClient, BlueboardLoloRequest, BlueboardLoloRequestAction} from "blueboard-client";
+import {eventDeclaration, useStatefulEvent, useStatefulListener} from "../../Hooks/EventHooks";
+import {FormElement} from "@nextui-org/react/esm/input/input-props";
+import Middleware from "../../Helpers/Middleware";
 
 const RequestModalContent = ({
     client,
@@ -20,25 +29,25 @@ const RequestModalContent = ({
     request,
 }: {
     client: BlueboardClient;
-    callback: () => void;
-    closeHandler: () => void;
+    callback(): void;
+    closeHandler(): void;
     request: eventDeclaration<BlueboardLoloRequest>;
-}) => {
+}): JSX.Element => {
     const requestState = useStatefulListener(request);
 
     const [loloCount, setLoloCount] = React.useState(1);
     const [verdict, setVerdict] = React.useState<BlueboardLoloRequestAction>(0);
 
-    const [errors, setErrors] = React.useState<{ [key: string]: Array<string> }>({});
+    const [errors, setErrors] = React.useState<{[key: string]: string[]}>({});
     const [savePending, setSavePending] = React.useState(false);
 
-    const getErrors = (inputName: string) => {
-        const err = errors ?? ({} as { [key: string]: Array<string> });
+    const getErrors = (inputName: string): string => {
+        const err = errors ?? ({} as {[key: string]: string[]});
 
         const error = err[inputName] ?? [];
-        let str = '';
+        let str = "";
         error.forEach((el: string) => {
-            str = str + el + '\n';
+            str = `${str + el}\n`;
         });
 
         return str;
@@ -50,7 +59,7 @@ const RequestModalContent = ({
         client.lolo_request
             .update(requestState.id, verdict, loloCount)
             .then((res) => {
-                toast.success('Kérvény sikeresen frissítve!');
+                toast.success("Kérvény sikeresen frissítve!");
                 setSavePending(false);
                 closeHandler();
                 callback();
@@ -67,7 +76,7 @@ const RequestModalContent = ({
 
     return (
         <>
-            <Modal.Header style={{ border: 'none' }}>
+            <Modal.Header style={{border: "none"}}>
                 <Text id="modal-title" size={18}>
                     Kérvény - {requestState.title}
                 </Text>
@@ -78,7 +87,7 @@ const RequestModalContent = ({
                         Törzsszöveg:
                     </Col>
                     <Col>
-                        <Text p> {requestState.body} </Text>
+                        <Text p={true}> {requestState.body} </Text>
                     </Col>
                 </Row>
                 <Row>
@@ -87,17 +96,23 @@ const RequestModalContent = ({
                             <RSButton
                                 disabled={savePending}
                                 active={verdict === BlueboardLoloRequestAction.accept}
-                                color={verdict === BlueboardLoloRequestAction.accept ? 'success' : 'secondary'}
-                                onClick={() => setVerdict(BlueboardLoloRequestAction.accept)}
-                            >
+                                color={
+                                    verdict === BlueboardLoloRequestAction.accept
+                                        ? "success"
+                                        : "secondary"
+                                }
+                                onClick={() => setVerdict(BlueboardLoloRequestAction.accept)}>
                                 Jóváhagyás
                             </RSButton>
                             <RSButton
                                 disabled={savePending}
                                 active={verdict === BlueboardLoloRequestAction.deny}
-                                color={verdict === BlueboardLoloRequestAction.deny ? 'danger' : 'secondary'}
-                                onClick={() => setVerdict(BlueboardLoloRequestAction.deny)}
-                            >
+                                color={
+                                    verdict === BlueboardLoloRequestAction.deny
+                                        ? "danger"
+                                        : "secondary"
+                                }
+                                onClick={() => setVerdict(BlueboardLoloRequestAction.deny)}>
                                 Elutasítás
                             </RSButton>
                         </ButtonGroup>
@@ -111,9 +126,9 @@ const RequestModalContent = ({
                             </Col>
                             <Col>
                                 <Input
-                                    fullWidth
-                                    bordered
-                                    underlined
+                                    fullWidth={true}
+                                    bordered={true}
+                                    underlined={true}
                                     disabled={savePending}
                                     type="number"
                                     min="1"
@@ -123,10 +138,12 @@ const RequestModalContent = ({
                                     }
                                     labelRight="LoLó"
                                     initialValue={String(loloCount)}
-                                    color={getErrors('loloAmount') === '' ? 'primary' : 'error'}
-                                    status={getErrors('loloAmount') === '' ? 'default' : 'error'}
-                                    helperColor={getErrors('loloAmount') === '' ? 'default' : 'error'}
-                                    helperText={getErrors('loloAmount')}
+                                    color={getErrors("loloAmount") === "" ? "primary" : "error"}
+                                    status={getErrors("loloAmount") === "" ? "default" : "error"}
+                                    helperColor={
+                                        getErrors("loloAmount") === "" ? "default" : "error"
+                                    }
+                                    helperText={getErrors("loloAmount")}
                                 />
                             </Col>
                         </Row>
@@ -135,11 +152,18 @@ const RequestModalContent = ({
                     <></>
                 )}
             </Modal.Body>
-            <Modal.Footer style={{ overflow: 'visible', border: 'none' }}>
-                <Button auto rounded flat color="error" onClick={closeHandler}>
+            <Modal.Footer style={{overflow: "visible", border: "none"}}>
+                <Button auto={true} rounded={true} flat={true} color="error" onClick={closeHandler}>
                     Mégsem
                 </Button>
-                <Button auto rounded color="success" flat onClick={send} loading={savePending} loaderType="points">
+                <Button
+                    auto={true}
+                    rounded={true}
+                    color="success"
+                    flat={true}
+                    onClick={send}
+                    loading={savePending}
+                    loaderType="points">
                     Küldés
                 </Button>
             </Modal.Footer>
@@ -147,7 +171,7 @@ const RequestModalContent = ({
     );
 };
 
-const Requests = () => {
+const Requests = (): JSX.Element => {
     const [requests, setRequests] = React.useState<BlueboardLoloRequest[]>([]);
     const [loading, setLoading] = React.useState(true);
     const [show, setShow] = React.useState(false);
@@ -173,30 +197,30 @@ const Requests = () => {
     // eslint-disable-next-line
     const [requestRef, setRequest, eventDecl] = useStatefulEvent<BlueboardLoloRequest>(
         {} as BlueboardLoloRequest,
-        'loloRequestEvent'
+        "loloRequestEvent",
     );
 
     React.useEffect(bootstrap, [bootstrap]);
 
     const columns = [
         {
-            name: 'ID',
+            name: "ID",
             selector: (row: BlueboardLoloRequest) => row.id,
         },
         {
-            name: 'Cím',
+            name: "Cím",
             selector: (row: BlueboardLoloRequest) => row.title,
         },
         {
-            name: 'Diák neve',
-            selector: (row: BlueboardLoloRequest) => row.user?.name ?? '',
+            name: "Diák neve",
+            selector: (row: BlueboardLoloRequest) => row.user?.name ?? "",
         },
         {
-            name: 'Diák e-mail címe',
-            selector: (row: BlueboardLoloRequest) => row.user?.email ?? '',
+            name: "Diák e-mail címe",
+            selector: (row: BlueboardLoloRequest) => row.user?.email ?? "",
         },
         {
-            name: 'Benyújtás ideje',
+            name: "Benyújtás ideje",
             cell: (row: BlueboardLoloRequest) => {
                 const unix = Date.parse(row.timestamps.createdAt);
                 const date = new Date(unix);
@@ -204,18 +228,18 @@ const Requests = () => {
             },
         },
         {
-            name: '',
+            name: "",
             cell: (row: BlueboardLoloRequest) => {
                 if (row.acceptedAt !== null) {
                     return (
-                        <Badge color="success" pill>
+                        <Badge color="success" pill={true}>
                             Elfogadva ({row.acceptedAt})
                         </Badge>
                     );
                 }
                 if (row.deniedAt !== null) {
                     return (
-                        <Badge color="danger" pill>
+                        <Badge color="danger" pill={true}>
                             Elutasítva ({row.deniedAt})
                         </Badge>
                     );
@@ -227,14 +251,13 @@ const Requests = () => {
                         displayError={false}
                         component={
                             <Button
-                                auto
-                                rounded
+                                auto={true}
+                                rounded={true}
                                 onClick={() => {
                                     setRequest(row);
                                     setShow(true);
                                 }}
-                                color="gradient"
-                            >
+                                color="gradient">
                                 Elbírálás
                             </Button>
                         }
@@ -247,14 +270,13 @@ const Requests = () => {
     return (
         <AuthLayout>
             <Modal
-                closeButton
-                blur
+                closeButton={true}
+                blur={true}
                 aria-labelledby="modal-title"
                 open={show}
                 onClose={closeHandler}
-                preventClose
-                width="650px"
-            >
+                preventClose={true}
+                width="650px">
                 <RequestModalContent
                     closeHandler={closeHandler}
                     request={eventDecl}
@@ -263,29 +285,30 @@ const Requests = () => {
                 />
             </Modal>
             <HeaderCard title="LoLó kérvények" />
-            <Container fluid style={{ width: '95%' }}>
+            <Container fluid={true} style={{width: "95%"}}>
                 <Row className="ml-2 mr-2">
                     <Col md="12">
                         <Card
                             style={{
-                                background: theme.type === 'dark' ? theme.palette.accents_1 : theme.palette.background,
-                            }}
-                        >
+                                background:
+                                    theme.type === "dark"
+                                        ? theme.palette.accents_1
+                                        : theme.palette.background,
+                            }}>
                             <CardBody
                                 style={{
-                                    height: 'calc(100vh - 320px)',
-                                }}
-                            >
+                                    height: "calc(100vh - 320px)",
+                                }}>
                                 <DataTable
-                                    highlightOnHover
-                                    pointerOnHover
+                                    highlightOnHover={true}
+                                    pointerOnHover={true}
                                     columns={columns}
                                     data={requests}
                                     theme={theme.type}
                                     progressPending={loading}
                                     progressComponent={<TableLoader />}
                                     noDataComponent={<EmptyTable />}
-                                    fixedHeader
+                                    fixedHeader={true}
                                     fixedHeaderScrollHeight="calc(100vh - 350px)"
                                 />
                             </CardBody>

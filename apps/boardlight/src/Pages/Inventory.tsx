@@ -1,27 +1,32 @@
-import * as React from 'react';
+import * as React from "react";
 
-import { Badge, Col, Container, Row } from 'reactstrap';
-import { BlueboardClient, BlueboardInventoryFactory, BlueboardInventoryItem, BlueboardProduct } from 'blueboard-client';
-import { Button, Card, Grid, Input, Modal, Text, useTheme } from '@nextui-org/react';
-import { eventDeclaration, useStatefulEvent, useStatefulListener } from '../Hooks/EventHooks';
-import { useBlueboardClient, useBlueboardPrivateChannel } from 'blueboard-client-react';
+import {Badge, Col, Container, Row} from "reactstrap";
+import {
+    BlueboardClient,
+    BlueboardInventoryFactory,
+    BlueboardInventoryItem,
+    BlueboardProduct,
+} from "blueboard-client";
+import {Button, Card, Grid, Input, Modal, Text, useTheme} from "@nextui-org/react";
+import {eventDeclaration, useStatefulEvent, useStatefulListener} from "../Hooks/EventHooks";
+import {useBlueboardClient, useBlueboardPrivateChannel} from "blueboard-client-react";
 
-import AuthLayout from '../Layouts/Auth';
-import Center from '../Components/Center';
-import EmptyTable from '../Components/EmptyTable';
-import HeaderCard from '../Components/HeaderCard';
-import InputRenderer from '../Components/InputRenderer';
-import MDEditor from '@uiw/react-md-editor';
-import ProductCard from '../Components/ProductCard';
-import QrReader from 'react-qr-reader';
-import TableLoader from '../Components/TableLoader';
-import itemUsedModal from '../Helpers/ItemUsedModal';
-import itemUsedModalFresh from '../Helpers/ItemUsedModalFresh';
-import { matchSorter } from 'match-sorter';
-//import { useTheme } from '@nextui-org/react';
-//import { useSelector } from 'react-redux';
-import toast from 'react-hot-toast';
-import { useUser } from '../Hooks/ControlHooks';
+import AuthLayout from "../Layouts/Auth";
+import Center from "../Components/Center";
+import EmptyTable from "../Components/EmptyTable";
+import HeaderCard from "../Components/HeaderCard";
+import InputRenderer from "../Components/InputRenderer";
+import MDEditor from "@uiw/react-md-editor";
+import ProductCard from "../Components/ProductCard";
+import QrReader from "react-qr-reader";
+import TableLoader from "../Components/TableLoader";
+import itemUsedModal from "../Helpers/ItemUsedModal";
+import itemUsedModalFresh from "../Helpers/ItemUsedModalFresh";
+import {matchSorter} from "match-sorter";
+// import { useTheme } from '@nextui-org/react';
+// import { useSelector } from 'react-redux';
+import toast from "react-hot-toast";
+import {useUser} from "../Hooks/ControlHooks";
 
 const defaultItem = {} as BlueboardInventoryItem;
 const defaultProduct = {} as BlueboardProduct;
@@ -38,21 +43,21 @@ const ItemModalContent = ({
     closeHandler: any;
     callback: any;
     client: BlueboardClient;
-}) => {
+}): JSX.Element => {
     const product: BlueboardProduct = useStatefulListener(productEventDeclaration);
     const item: BlueboardInventoryItem = useStatefulListener(itemEventDeclaration);
 
-    const getInitialInputState = React.useCallback((): { [key: string]: string | boolean } => {
-        let obj: { [key: string]: string | boolean } = {};
+    const getInitialInputState = React.useCallback((): {[key: string]: string | boolean} => {
+        const obj: {[key: string]: string | boolean} = {};
 
         const inputs = product.inputs ?? [];
 
         inputs.forEach((el) => {
-            if (el.type === 'textbox') {
-                obj[el.name] = '';
+            if (el.type === "textbox") {
+                obj[el.name] = "";
             }
 
-            if (el.type === 'boolean') {
+            if (el.type === "boolean") {
                 obj[el.name] = false;
             }
         });
@@ -60,14 +65,16 @@ const ItemModalContent = ({
         return obj;
     }, [product]);
 
-    const [inputState, setInputState] = React.useState<{ [key: string]: string | boolean }>(getInitialInputState());
-    const [errors, setErrors] = React.useState<{ [key: string]: Array<string> }>({});
+    const [inputState, setInputState] = React.useState<{[key: string]: string | boolean}>(
+        getInitialInputState(),
+    );
+    const [errors, setErrors] = React.useState<{[key: string]: string[]}>({});
     const [canScan, setScan] = React.useState<boolean>(false);
     const [savePending, setSavePending] = React.useState<boolean>(false);
     const [codeValidated, setCodeValidated] = React.useState<boolean>(false);
     const [buttonLoading, setButtonLoading] = React.useState<boolean>(false);
-    const [qrContent, setQRContent] = React.useState<string>('');
-    const [codeName, setCodeName] = React.useState<string>('');
+    const [qrContent, setQRContent] = React.useState<string>("");
+    const [codeName, setCodeName] = React.useState<string>("");
 
     const sendCallback = React.useCallback(
         (product: BlueboardProduct, item: BlueboardInventoryItem) => {
@@ -88,15 +95,15 @@ const ItemModalContent = ({
                     }
                 });
         },
-        [qrContent, inputState, client, callback, closeHandler]
+        [qrContent, inputState, client, callback, closeHandler],
     );
 
     const clearScan = React.useCallback(() => {
         setScan(false);
         setButtonLoading(false);
         setCodeValidated(false);
-        setQRContent('');
-        setCodeName('');
+        setQRContent("");
+        setCodeName("");
     }, []);
 
     const startScan = React.useCallback(() => {
@@ -122,13 +129,13 @@ const ItemModalContent = ({
                         setCodeValidated(true);
                         setButtonLoading(false);
                     } catch (e) {
-                        toast.error('A beolvasott kód nem használható a termék beváltására.');
+                        toast.error("A beolvasott kód nem használható a termék beváltására.");
                         clearScan();
                     }
                 }
             })();
         },
-        [client, item, clearScan]
+        [client, item, clearScan],
     );
 
     const handleError = React.useCallback((error) => {
@@ -137,7 +144,7 @@ const ItemModalContent = ({
 
     return (
         <>
-            <Modal.Header style={{ border: 'none' }}>
+            <Modal.Header style={{border: "none"}}>
                 <Text id="modal-title" size={18}>
                     Termékbeváltás - {product.name}
                 </Text>
@@ -157,7 +164,7 @@ const ItemModalContent = ({
                         <InputRenderer
                             inputs={product.inputs}
                             callback={(input: string, value: string | boolean) => {
-                                const newState = { ...inputState };
+                                const newState = {...inputState};
                                 newState[input] = value as string;
                                 setInputState(newState);
                             }}
@@ -170,14 +177,13 @@ const ItemModalContent = ({
                     <Row>
                         <Center>
                             <Button
-                                rounded
+                                rounded={true}
                                 onClick={startScan}
                                 loading={buttonLoading}
                                 loaderType="points"
                                 disabled={canScan || buttonLoading}
                                 color="gradient"
-                                auto
-                            >
+                                auto={true}>
                                 Kód beolvasása
                             </Button>
                         </Center>
@@ -192,18 +198,23 @@ const ItemModalContent = ({
                                 <Grid.Container justify="center" className="my-2" gap={2}>
                                     {
                                         <QrReader
-                                            style={{ width: '320px' }}
+                                            style={{width: "320px"}}
                                             onError={handleError}
                                             onScan={handleScan}
                                             delay={100}
-                                        ></QrReader>
+                                        />
                                     }
                                 </Grid.Container>
                             </Col>
                         </Row>
                         <Row>
                             <Center>
-                                <Button rounded auto flat onClick={clearScan} color="error">
+                                <Button
+                                    rounded={true}
+                                    auto={true}
+                                    flat={true}
+                                    onClick={clearScan}
+                                    color="error">
                                     Mégsem
                                 </Button>
                             </Center>
@@ -215,7 +226,7 @@ const ItemModalContent = ({
                 {codeValidated ? (
                     <Row>
                         <Center>
-                            <Badge pill color="success">
+                            <Badge pill={true} color="success">
                                 QR Kód: {codeName}
                             </Badge>
                         </Center>
@@ -224,22 +235,21 @@ const ItemModalContent = ({
                     <></>
                 )}
             </Modal.Body>
-            <Modal.Footer style={{ overflow: 'visible', border: 'none' }}>
-                <Button auto rounded flat color="error" onClick={closeHandler}>
+            <Modal.Footer style={{overflow: "visible", border: "none"}}>
+                <Button auto={true} rounded={true} flat={true} color="error" onClick={closeHandler}>
                     Mégsem
                 </Button>
                 <Button
-                    auto
-                    rounded
+                    auto={true}
+                    rounded={true}
                     color="success"
-                    flat
+                    flat={true}
                     disabled={product.codeActivated && codeValidated === false}
                     onClick={() => {
                         sendCallback(product, item);
                     }}
                     loading={savePending}
-                    loaderType="points"
-                >
+                    loaderType="points">
                     Beváltás
                 </Button>
             </Modal.Footer>
@@ -247,30 +257,32 @@ const ItemModalContent = ({
     );
 };
 
-const Inventory = () => {
+const Inventory = (): JSX.Element => {
     const user = useUser();
     const client = useBlueboardClient();
     const theme = useTheme();
 
-    useBlueboardPrivateChannel('Users.' + user.id, 'TestEvent', (data: any) => {
+    useBlueboardPrivateChannel(`Users.${user.id}`, "TestEvent", (data: any) => {
         toast(data.message);
     });
 
-    const [items, setItems] = React.useState<BlueboardInventoryItem[]>([] as BlueboardInventoryItem[]);
+    const [items, setItems] = React.useState<BlueboardInventoryItem[]>(
+        [] as BlueboardInventoryItem[],
+    );
     const itemsRef = React.useRef<BlueboardInventoryItem[]>([] as BlueboardInventoryItem[]);
     const [loading, setLoading] = React.useState<boolean>(true);
-    const [query, setQuery] = React.useState<string>('');
+    const [query, setQuery] = React.useState<string>("");
     const [visible, setVisible] = React.useState<boolean>(false);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [productRef, setProduct, productEventDeclaration] = useStatefulEvent<BlueboardProduct>(
         {} as BlueboardProduct,
-        'inventoryProductEvent'
+        "inventoryProductEvent",
     );
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [itemRef, setItem, itemEventDeclaration] = useStatefulEvent<BlueboardInventoryItem>(
         {} as BlueboardInventoryItem,
-        'inventoryItemEvent'
+        "inventoryItemEvent",
     );
 
     const bootstrap = React.useCallback(() => {
@@ -289,7 +301,7 @@ const Inventory = () => {
         (data: any) => {
             const newItem = BlueboardInventoryFactory.getItem(data.item);
 
-            let itemsClone = [...itemsRef.current];
+            const itemsClone = [...itemsRef.current];
 
             const index = itemsClone.findIndex((x) => x.id === data.item.id);
 
@@ -305,17 +317,19 @@ const Inventory = () => {
 
             setItems(itemsRef.current);
         },
-        [itemsRef]
+        [itemsRef],
     );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     React.useEffect(bootstrap, []);
 
-    useBlueboardPrivateChannel('Users.' + user.id, 'InventoryItemUsed', itemChange);
-    useBlueboardPrivateChannel('Users.' + user.id, 'InventoryItemCreated', itemChange);
+    useBlueboardPrivateChannel(`Users.${user.id}`, "InventoryItemUsed", itemChange);
+    useBlueboardPrivateChannel(`Users.${user.id}`, "InventoryItemCreated", itemChange);
 
     const renderedItems =
-        query === '' ? items : matchSorter(items, query, { keys: ['product.name', 'product.description'] });
+        query === ""
+            ? items
+            : matchSorter(items, query, {keys: ["product.name", "product.description"]});
 
     const openUse = React.useCallback(
         (product: BlueboardProduct, item?: BlueboardInventoryItem) => {
@@ -327,14 +341,14 @@ const Inventory = () => {
                 setVisible(true);
             }
         },
-        [theme, setItem, setProduct]
+        [theme, setItem, setProduct],
     );
 
     const itemCallback = React.useCallback(
         (product: BlueboardProduct, item: BlueboardInventoryItem) => {
             itemUsedModalFresh(item, theme);
         },
-        [theme]
+        [theme],
     );
 
     const closeHandler = React.useCallback(() => {
@@ -348,14 +362,13 @@ const Inventory = () => {
     return (
         <AuthLayout>
             <Modal
-                closeButton
-                blur
+                closeButton={true}
+                blur={true}
                 aria-labelledby="modal-title"
                 open={visible}
                 onClose={closeHandler}
-                preventClose
-                width="650px"
-            >
+                preventClose={true}
+                width="650px">
                 <ItemModalContent
                     itemEventDeclaration={itemEventDeclaration}
                     productEventDeclaration={productEventDeclaration}
@@ -371,23 +384,23 @@ const Inventory = () => {
                 </Center>
             ) : (
                 <>
-                    <Container fluid style={{ width: '95%' }}>
-                        <Card hoverable>
+                    <Container fluid={true} style={{width: "95%"}}>
+                        <Card hoverable={true}>
                             <Row>
                                 <Col md="4" sm="12">
                                     <Text className="mt-1">
-                                        <Badge pill className="badge-primary">
+                                        <Badge pill={true} className="badge-primary">
                                             {renderedItems.length} / {items.length} tárgy
                                         </Badge>
                                     </Text>
                                 </Col>
-                                <Col md="4" sm="0"></Col>
+                                <Col md="4" sm="0" />
                                 <Col md="4" sm="12">
                                     <Input
-                                        fullWidth
-                                        clearable
-                                        bordered
-                                        underlined
+                                        fullWidth={true}
+                                        clearable={true}
+                                        bordered={true}
+                                        underlined={true}
                                         shadow={false}
                                         onChange={(e) => setQuery(e.target.value)}
                                         labelLeft="Filter"
@@ -404,7 +417,7 @@ const Inventory = () => {
                         </Center>
                     ) : (
                         <>
-                            <Container fluid style={{ width: '95%' }}>
+                            <Container fluid={true} style={{width: "95%"}}>
                                 <Row className="mt-4">
                                     {renderedItems.map((item) => (
                                         <Col key={item.id} className="mt-2 mb-3" xl="3" md="6">
@@ -412,7 +425,7 @@ const Inventory = () => {
                                                 product={item.product}
                                                 item={item}
                                                 callback={openUse}
-                                            ></ProductCard>
+                                            />
                                         </Col>
                                     ))}
                                 </Row>

@@ -1,25 +1,25 @@
-import Login from '../Pages/Login';
-import React from 'react';
-import { Redirect } from 'react-router';
+import Login from "../Pages/Login";
+import React from "react";
+import {Redirect} from "react-router";
 
-export type Route = {
+export interface Route {
     path: string;
     component: React.ReactNode;
     exact: boolean;
     noAuthOnly: boolean;
-};
+}
 
 const normalRoutes: Route[] = [
-    { path: '/login', component: <Login />, exact: true, noAuthOnly: true },
+    {path: "/login", component: <Login />, exact: true, noAuthOnly: true},
     {
-        path: '/',
+        path: "/",
         component: (
             <Redirect
                 to={{
-                    pathname: '/home',
-                    state: { referrer: '/' },
+                    pathname: "/home",
+                    state: {referrer: "/"},
                 }}
-            ></Redirect>
+            />
         ),
         exact: true,
         noAuthOnly: false,

@@ -1,11 +1,11 @@
-import { Modal, Switch, Text, useTheme } from '@nextui-org/react';
-import React from 'react';
-import { MdOutlineDarkMode, MdOutlineLightMode, MdCheck, MdClose } from 'react-icons/md';
-import { useDispatch } from 'react-redux';
-import { Row, Col } from 'reactstrap';
-import styled from 'styled-components';
-import useSettingsModalState from '../Hooks/useSettingsModalState';
-import useThemePrefs from '../Hooks/useThemePrefs';
+import {Modal, Switch, Text, useTheme} from "@nextui-org/react";
+import React from "react";
+import {MdOutlineDarkMode, MdOutlineLightMode, MdCheck, MdClose} from "react-icons/md";
+import {useDispatch} from "react-redux";
+import {Row, Col} from "reactstrap";
+import styled from "styled-components";
+import useSettingsModalState from "../Hooks/useSettingsModalState";
+import useThemePrefs from "../Hooks/useThemePrefs";
 
 const Subheading = styled.h4`
     display: flex;
@@ -16,7 +16,7 @@ const Subheading = styled.h4`
     color: ${(props) => props.color};
 
     &:after {
-        content: '';
+        content: "";
         flex-grow: 1;
         height: 1px;
         background: ${(props) => props.color};
@@ -36,19 +36,16 @@ const SettingsModal = (): JSX.Element => {
 
     const theme = useTheme();
 
-    const closeHandler = () => dispatch({ type: 'settingsModal/closeSettingsModal' });
-
     return (
         <Modal
-            closeButton
-            blur
+            closeButton={true}
+            blur={true}
             aria-labelledby="modal-title"
             open={isOpen}
-            onClose={closeHandler}
-            preventClose
-            width="650px"
-        >
-            <Modal.Header style={{ border: 'none' }}>
+            onClose={() => dispatch({type: "settingsModal/closeSettingsModal"})}
+            preventClose={true}
+            width="650px">
+            <Modal.Header style={{border: "none"}}>
                 <Text id="modal-title" size={18}>
                     Beállítások
                 </Text>
@@ -69,8 +66,8 @@ const SettingsModal = (): JSX.Element => {
                                     size="large"
                                     color="gradient"
                                     checked={themeState.isDark}
-                                    onChange={() => dispatch({ type: 'theme/toggle' })}
-                                    disabled={themeState.isSynced ? true : false}
+                                    onChange={() => dispatch({type: "theme/toggle"})}
+                                    disabled={!!themeState.isSynced}
                                 />
                             </Col>
                         </Row>
@@ -88,14 +85,19 @@ const SettingsModal = (): JSX.Element => {
                                     size="large"
                                     color="gradient"
                                     checked={themeState.isSynced}
-                                    onChange={(e) => dispatch({ type: 'theme/setSynced', payload: e.target.checked })}
+                                    onChange={(e) =>
+                                        dispatch({
+                                            type: "theme/setSynced",
+                                            payload: e.target.checked,
+                                        })
+                                    }
                                 />
                             </Col>
                         </Row>
                     </Col>
                 </Row>
             </Modal.Body>
-            <Modal.Footer style={{ overflow: 'visible', border: 'none' }}></Modal.Footer>
+            <Modal.Footer style={{overflow: "visible", border: "none"}} />
         </Modal>
     );
 };

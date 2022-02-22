@@ -1,67 +1,91 @@
-import * as React from 'react';
-import AuthLayout from '../../Layouts/Auth';
-import HeaderCard from '../../Components/HeaderCard';
-import { useHistory, useParams } from 'react-router';
-import { Loading, Input, Button, Switch, Textarea, useTheme } from '@nextui-org/react';
-import { Row, Col, Card, DropdownItem, DropdownToggle, DropdownMenu, UncontrolledDropdown, Alert } from 'reactstrap';
-import { Container, Grid, Card as NextCard, Text, Modal } from '@nextui-org/react';
-import toast from 'react-hot-toast';
-import TableLoader from '../../Components/TableLoader';
-import Select from 'react-select';
-import makeAnimated from 'react-select/animated';
-import MDEditor from '@uiw/react-md-editor';
-import EmptyTable from '../../Components/EmptyTable';
-import InputRenderer from '../../Components/InputRenderer';
-import ImageDropzone from '../../Components/ImageDropzone';
-import { BoardlightFile, getDefImg, getImageBase64, importImage } from '../../Helpers/ImageUtils';
-import { useBlueboardClient } from 'blueboard-client-react';
-import { BlueboardNotFoundException, BlueboardProduct, BlueboardProductInput, BlueboardQRCode } from 'blueboard-client';
-import Center from '../../Components/Center';
-import { FormElement } from '@nextui-org/react/esm/input/input-props';
-import { usePermissions } from '../../Hooks/ControlHooks';
-import Four0Three from '../403';
-import { checkPermission } from '../../Helpers/Middleware';
+import * as React from "react";
+import AuthLayout from "../../Layouts/Auth";
+import HeaderCard from "../../Components/HeaderCard";
+import {useHistory, useParams} from "react-router";
+import {
+    Loading,
+    Input,
+    Button,
+    Switch,
+    Textarea,
+    useTheme,
+    Container,
+    Grid,
+    Card as NextCard,
+    Text,
+    Modal,
+} from "@nextui-org/react";
+import {
+    Row,
+    Col,
+    Card,
+    DropdownItem,
+    DropdownToggle,
+    DropdownMenu,
+    UncontrolledDropdown,
+    Alert,
+} from "reactstrap";
+import toast from "react-hot-toast";
+import TableLoader from "../../Components/TableLoader";
+import Select from "react-select";
+import makeAnimated from "react-select/animated";
+import MDEditor from "@uiw/react-md-editor";
+import EmptyTable from "../../Components/EmptyTable";
+import InputRenderer from "../../Components/InputRenderer";
+import ImageDropzone from "../../Components/ImageDropzone";
+import {BoardlightFile, getDefImg, getImageBase64, importImage} from "../../Helpers/ImageUtils";
+import {useBlueboardClient} from "blueboard-client-react";
+import {
+    BlueboardNotFoundException,
+    BlueboardProduct,
+    BlueboardProductInput,
+    BlueboardQRCode,
+} from "blueboard-client";
+import Center from "../../Components/Center";
+import {FormElement} from "@nextui-org/react/esm/input/input-props";
+import {usePermissions} from "../../Hooks/ControlHooks";
+import Four0Three from "../403";
+import {checkPermission} from "../../Helpers/Middleware";
 
 const animatedComponents = makeAnimated();
 
-const EditProduct = () => {
-    const { id } = useParams() as { id: string };
+const EditProduct = (): JSX.Element => {
+    const {id} = useParams() as {id: string};
     const history = useHistory();
     const theme = useTheme();
     const client = useBlueboardClient();
 
-    if (id !== 'new' && isNaN(Number(id))) {
-        history.push('/404');
+    if (id !== "new" && isNaN(Number(id))) {
+        history.push("/404");
     }
 
     const [qrcodes, setQrCodes] = React.useState<any[]>([]);
     const [selectedCodes, setSelectedCodes] = React.useState<any[]>([]);
     const [loading, setLoading] = React.useState(true);
     const [savePending, setSavePending] = React.useState(false);
-    const [name, setName] = React.useState('Random kimentés valami izé');
-    const [description, setDescription] = React.useState('Rövid sokatmondó leírás');
+    const [name, setName] = React.useState("Random kimentés valami izé");
+    const [description, setDescription] = React.useState("Rövid sokatmondó leírás");
     const [files, setFiles] = React.useState<BoardlightFile[]>([]);
-    const [markdown, setMarkdown] = React.useState('**Markdown a beváltáshoz / leíráshoz a shopban**<br>jej<br>kúl');
+    const [markdown, setMarkdown] = React.useState(
+        "**Markdown a beváltáshoz / leíráshoz a shopban**<br>jej<br>kúl",
+    );
     const [codeIsDisabled, setCodeDisabled] = React.useState(true);
     const [price, setPrice] = React.useState(1);
     const [quantity, setQuantity] = React.useState(1);
     const [modalShow, setModalShow] = React.useState(false);
     const [inputs, setInputs] = React.useState<BlueboardProductInput[]>([]);
     const [visible, setVisible] = React.useState(false);
-    const closeHandler = () => {
-        setModalShow(false);
-    };
 
     const [errors, setErrors] = React.useState<any>({});
 
-    const bootstrap = async () => {
-        if (id !== 'new') {
+    const bootstrap = async (): Promise<void> => {
+        if (id !== "new") {
             let product = {} as BlueboardProduct;
             try {
                 product = (await client.products.get(Number(id))).pop() as BlueboardProduct;
             } catch (e) {
                 if (e instanceof BlueboardNotFoundException) {
-                    history.push('/404');
+                    history.push("/404");
                 } else {
                     toast.error((e as any).message);
                 }
@@ -69,25 +93,32 @@ const EditProduct = () => {
             const image = await importImage(product.imageUrl);
             setInputs(product.inputs);
             setMarkdown(product.markdownContent);
-            setCodeDisabled(!Boolean(product.codeActivated));
+            setCodeDisabled(!product.codeActivated);
             setName(product.name);
             setPrice(product.price);
             setQuantity(product.quantity);
-            setSelectedCodes((product as any).codes.map((el: BlueboardQRCode) => ({ value: el.id, label: el.name })));
+            setSelectedCodes(
+                (product as any).codes.map((el: BlueboardQRCode) => ({
+                    value: el.id,
+                    label: el.name,
+                })),
+            );
             setFiles([image]);
             setVisible(product.visible);
         } else {
             setFiles([getDefImg()]);
         }
 
-        await client.qrcodes.all().then((res) => setQrCodes(res.map((el) => ({ value: el.id, label: el.name }))));
+        await client.qrcodes
+            .all()
+            .then((res) => setQrCodes(res.map((el) => ({value: el.id, label: el.name}))));
 
         setLoading(false);
     };
 
     React.useEffect(() => {
         setLoading(true);
-        if (id !== 'new' && isNaN(Number(id))) {
+        if (id !== "new" && isNaN(Number(id))) {
             setFiles([getDefImg()]);
             setLoading(false);
         } else {
@@ -96,64 +127,64 @@ const EditProduct = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const title = 'Termék - ' + name;
+    const title = `Termék - ${name}`;
 
-    const AddTextbox = () => {
-        let obj = {
-            name: 'semmi',
-            type: 'textbox' as 'textbox',
-            title: 'Cím',
+    const AddTextbox = (): void => {
+        const obj = {
+            name: "semmi",
+            type: "textbox" as const,
+            title: "Cím",
         };
 
         setInputs([...inputs, obj]);
     };
 
-    const addBoolean = () => {
-        let obj = {
-            name: 'semmi',
-            type: 'boolean' as 'boolean',
-            title: 'Cím',
+    const addBoolean = (): void => {
+        const obj = {
+            name: "semmi",
+            type: "boolean" as const,
+            title: "Cím",
         };
 
         setInputs([...inputs, obj]);
     };
 
-    const setInputValName = (inputValue: any, key: number) => {
+    const setInputValName = (inputValue: any, key: number): void => {
         const newInputs = inputs.map((value, index) => {
-            return index === key ? { ...value, name: inputValue } : value;
+            return index === key ? {...value, name: inputValue} : value;
         });
 
         setInputs(newInputs);
     };
 
-    const setInputTitle = (inputValue: any, key: number) => {
+    const setInputTitle = (inputValue: any, key: number): void => {
         const newInputs = inputs.map((value, index) => {
-            return index === key ? { ...value, title: inputValue } : value;
+            return index === key ? {...value, title: inputValue} : value;
         });
 
         setInputs(newInputs);
     };
 
-    const deleteInput = (index: number) => {
+    const deleteInput = (index: number): void => {
         const newInputs = [...inputs.slice(0, index), ...inputs.slice(index + 1)];
         setInputs(newInputs);
     };
 
-    const getErrors = (name: string) => {
+    const getErrors = (name: string): string => {
         const error = errors[name] ?? [];
-        let str = '';
+        let str = "";
         error.forEach((el: string) => {
-            str = str + el + '\n';
+            str = `${str + el}\n`;
         });
 
         return str;
     };
 
-    const makeInputString = (id: number, name: string) => {
-        return 'inputs.' + id + '.' + name;
+    const makeInputString = (id: number, name: string): string => {
+        return `inputs.${id}.${name}`;
     };
 
-    const trySave = async () => {
+    const trySave = async (): Promise<void> => {
         const data = {
             id: id,
             name: String(name),
@@ -168,9 +199,9 @@ const EditProduct = () => {
             visible: visible,
         };
 
-        const checkForInputError = (errObj: any) => {
+        const checkForInputError = (errObj: any): void => {
             const str = JSON.stringify(errObj);
-            const isset = str.includes('inputs.');
+            const isset = str.includes("inputs.");
             if (isset) {
                 setModalShow(true);
             }
@@ -184,8 +215,8 @@ const EditProduct = () => {
             .then(() => {
                 setSavePending(false);
                 setErrors({});
-                toast.success('Siker!');
-                history.push('/admin/products');
+                toast.success("Siker!");
+                history.push("/admin/products");
             })
             .catch((err) => {
                 setSavePending(false);
@@ -193,11 +224,12 @@ const EditProduct = () => {
                     setErrors(err.errors);
                     checkForInputError(err.errors);
                 } else {
-                    if (err.message === 'Network Error') {
-                        const message = 'Internal networking error. You might have to check your connection.';
-                        setErrors((errors: any) => ({ ...errors, globalErr: message }));
+                    if (err.message === "Network Error") {
+                        const message =
+                            "Internal networking error. You might have to check your connection.";
+                        setErrors((errors: any) => ({...errors, globalErr: message}));
                     } else {
-                        setErrors((errors: any) => ({ ...errors, globalErr: err.message }));
+                        setErrors((errors: any) => ({...errors, globalErr: err.message}));
                     }
                 }
             });
@@ -205,26 +237,31 @@ const EditProduct = () => {
 
     const userPermissions = usePermissions();
 
-    if (id === 'new' && !checkPermission('Products.create', userPermissions)) {
+    if (id === "new" && !checkPermission("Products.create", userPermissions)) {
         return <Four0Three />;
     }
 
-    if (id !== 'new' && !isNaN(Number(id)) && !checkPermission('Products.update', userPermissions)) {
+    if (
+        id !== "new" &&
+        !isNaN(Number(id)) &&
+        !checkPermission("Products.update", userPermissions)
+    ) {
         return <Four0Three />;
     }
 
     return (
         <AuthLayout>
             <Modal
-                closeButton
-                blur
+                closeButton={true}
+                blur={true}
                 aria-labelledby="modal-title"
                 open={modalShow}
-                onClose={closeHandler}
-                preventClose
-                width="650px"
-            >
-                <Modal.Header style={{ border: 'none' }}>
+                onClose={() => {
+                    setModalShow(false);
+                }}
+                preventClose={true}
+                width="650px">
+                <Modal.Header style={{border: "none"}}>
                     <Text id="modal-title" size={18}>
                         Inputok
                     </Text>
@@ -233,37 +270,61 @@ const EditProduct = () => {
                     {inputs.length === 0 ? <EmptyTable /> : null}
                     {inputs.map((value, key) => (
                         <Row key={key}>
-                            <Text b>{value.type === 'textbox' ? 'Textbox' : 'Switch'}</Text>
+                            <Text b={true}>{value.type === "textbox" ? "Textbox" : "Switch"}</Text>
                             <Col md="5">
                                 <Input
-                                    fullWidth
-                                    bordered
-                                    underlined
+                                    fullWidth={true}
+                                    bordered={true}
+                                    underlined={true}
                                     min="1"
                                     shadow={false}
                                     onChange={(e) => setInputValName(e.target.value, key)}
                                     labelLeft="ValueName: "
                                     initialValue={value.name}
-                                    color={getErrors(makeInputString(key, 'name')) === '' ? 'primary' : 'error'}
-                                    status={getErrors(makeInputString(key, 'name')) === '' ? 'default' : 'error'}
-                                    helperColor={getErrors(makeInputString(key, 'name')) === '' ? 'default' : 'error'}
-                                    helperText={getErrors(makeInputString(key, 'name'))}
+                                    color={
+                                        getErrors(makeInputString(key, "name")) === ""
+                                            ? "primary"
+                                            : "error"
+                                    }
+                                    status={
+                                        getErrors(makeInputString(key, "name")) === ""
+                                            ? "default"
+                                            : "error"
+                                    }
+                                    helperColor={
+                                        getErrors(makeInputString(key, "name")) === ""
+                                            ? "default"
+                                            : "error"
+                                    }
+                                    helperText={getErrors(makeInputString(key, "name"))}
                                 />
                             </Col>
                             <Col md="5">
                                 <Input
-                                    fullWidth
-                                    bordered
-                                    underlined
+                                    fullWidth={true}
+                                    bordered={true}
+                                    underlined={true}
                                     min="1"
                                     shadow={false}
                                     onChange={(e) => setInputTitle(e.target.value, key)}
                                     labelLeft="Név: "
                                     initialValue={value.title}
-                                    color={getErrors(makeInputString(key, 'title')) === '' ? 'primary' : 'error'}
-                                    status={getErrors(makeInputString(key, 'title')) === '' ? 'default' : 'error'}
-                                    helperColor={getErrors(makeInputString(key, 'title')) === '' ? 'default' : 'error'}
-                                    helperText={getErrors(makeInputString(key, 'title'))}
+                                    color={
+                                        getErrors(makeInputString(key, "title")) === ""
+                                            ? "primary"
+                                            : "error"
+                                    }
+                                    status={
+                                        getErrors(makeInputString(key, "title")) === ""
+                                            ? "default"
+                                            : "error"
+                                    }
+                                    helperColor={
+                                        getErrors(makeInputString(key, "title")) === ""
+                                            ? "default"
+                                            : "error"
+                                    }
+                                    helperText={getErrors(makeInputString(key, "title"))}
                                 />
                             </Col>
                             <Col md="2">
@@ -272,49 +333,56 @@ const EditProduct = () => {
                                     size="mini"
                                     role="button"
                                     tabIndex={0}
-                                    auto
-                                    rounded
+                                    auto={true}
+                                    rounded={true}
                                     color="error"
-                                    onClick={() => deleteInput(key)}
-                                >
+                                    onClick={() => deleteInput(key)}>
                                     Törlés
                                 </Button>
                             </Col>
                         </Row>
                     ))}
                 </Modal.Body>
-                <Modal.Footer style={{ overflow: 'visible', border: 'none' }}>
+                <Modal.Footer style={{overflow: "visible", border: "none"}}>
                     <UncontrolledDropdown direction="up">
                         <DropdownToggle data-toggle="dropdown" tag="div">
-                            <Button auto flat color="success">
+                            <Button auto={true} flat={true} color="success">
                                 Input hozzáadása
                             </Button>
                         </DropdownToggle>
                         <DropdownMenu
-                            dark={theme.type === 'dark'}
+                            dark={theme.type === "dark"}
                             style={{
                                 marginBottom: 5,
                                 borderRadius: 10,
-                                background: theme.type === 'dark' ? theme.palette.background : theme.palette.accents_1,
-                            }}
-                        >
-                            <DropdownItem header>Input típusok</DropdownItem>
+                                background:
+                                    theme.type === "dark"
+                                        ? theme.palette.background
+                                        : theme.palette.accents_1,
+                            }}>
+                            <DropdownItem header={true}>Input típusok</DropdownItem>
                             <DropdownItem onClick={AddTextbox}>Szövegdoboz</DropdownItem>
                             <DropdownItem onClick={addBoolean}>Búlín</DropdownItem>
                         </DropdownMenu>
                     </UncontrolledDropdown>
-                    <Button auto flat color="error" onClick={closeHandler}>
+                    <Button
+                        auto={true}
+                        flat={true}
+                        color="error"
+                        onClick={() => {
+                            setModalShow(false);
+                        }}>
                         klóz
                     </Button>
                 </Modal.Footer>
             </Modal>
-            <HeaderCard title={loading ? <Loading color="white" /> : title}></HeaderCard>
+            <HeaderCard title={loading ? <Loading color="white" /> : title} />
             {loading ? (
                 <Center>
                     <TableLoader />
                 </Center>
             ) : (
-                <Container fluid style={{ width: '95%' }}>
+                <Container fluid={true} style={{width: "95%"}}>
                     <Alert className="mt-2" color="danger" isOpen={errors.globalErr !== undefined}>
                         Fatal error: {errors.globalErr}
                     </Alert>
@@ -323,30 +391,44 @@ const EditProduct = () => {
                             <Card
                                 style={{
                                     background:
-                                        theme.type === 'dark' ? theme.palette.accents_1 : theme.palette.background,
-                                }}
-                            >
-                                <MDEditor value={markdown} onChange={(e) => setMarkdown(e as string)} preview="edit" />
+                                        theme.type === "dark"
+                                            ? theme.palette.accents_1
+                                            : theme.palette.background,
+                                }}>
+                                <MDEditor
+                                    value={markdown}
+                                    onChange={(e) => setMarkdown(e as string)}
+                                    preview="edit"
+                                />
                                 <div className="mt-4 mb-2">
                                     <Textarea
-                                        bordered
+                                        bordered={true}
                                         width="100%"
                                         rows={4}
                                         shadow={false}
                                         placeholder="Rövid leírás"
                                         value={description}
                                         onChange={(e) => setDescription(e.target.value)}
-                                        color={getErrors('description') === '' ? 'primary' : 'error'}
-                                        status={getErrors('description') === '' ? 'default' : 'error'}
-                                        helperColor={getErrors('description') === '' ? 'default' : 'error'}
-                                        helperText={getErrors('description')}
+                                        color={
+                                            getErrors("description") === "" ? "primary" : "error"
+                                        }
+                                        status={
+                                            getErrors("description") === "" ? "default" : "error"
+                                        }
+                                        helperColor={
+                                            getErrors("description") === "" ? "default" : "error"
+                                        }
+                                        helperText={getErrors("description")}
                                     />
                                 </div>
 
                                 <div className="mt-4 mb-2">
                                     <ImageDropzone files={files} setFiles={setFiles} />
-                                    <Alert className="mt-2 mx-4" color="danger" isOpen={getErrors('image') !== ''}>
-                                        {getErrors('image')}
+                                    <Alert
+                                        className="mt-2 mx-4"
+                                        color="danger"
+                                        isOpen={getErrors("image") !== ""}>
+                                        {getErrors("image")}
                                     </Alert>
                                 </div>
                                 <Row className="mx-2">
@@ -356,23 +438,32 @@ const EditProduct = () => {
                                                 <Text className="mt-1">Termék látható?</Text>
                                             </Col>
                                             <Col xs="3">
-                                                <Switch checked={visible} onChange={() => setVisible(!visible)} />
+                                                <Switch
+                                                    checked={visible}
+                                                    onChange={() => setVisible(!visible)}
+                                                />
                                             </Col>
                                         </Row>
                                         <Row>
                                             <Input
-                                                fullWidth
-                                                clearable
-                                                bordered
-                                                underlined
+                                                fullWidth={true}
+                                                clearable={true}
+                                                bordered={true}
+                                                underlined={true}
                                                 shadow={false}
                                                 onChange={(e) => setName(e.target.value)}
                                                 labelLeft="Név: "
                                                 initialValue={name}
-                                                color={getErrors('name') === '' ? 'primary' : 'error'}
-                                                status={getErrors('name') === '' ? 'default' : 'error'}
-                                                helperColor={getErrors('name') === '' ? 'default' : 'error'}
-                                                helperText={getErrors('name')}
+                                                color={
+                                                    getErrors("name") === "" ? "primary" : "error"
+                                                }
+                                                status={
+                                                    getErrors("name") === "" ? "default" : "error"
+                                                }
+                                                helperColor={
+                                                    getErrors("name") === "" ? "default" : "error"
+                                                }
+                                                helperText={getErrors("name")}
                                             />
                                         </Row>
                                     </Col>
@@ -384,14 +475,16 @@ const EditProduct = () => {
                                             <Col xs="3">
                                                 <Switch
                                                     checked={!codeIsDisabled}
-                                                    onChange={() => setCodeDisabled(!codeIsDisabled)}
+                                                    onChange={() =>
+                                                        setCodeDisabled(!codeIsDisabled)
+                                                    }
                                                 />
                                             </Col>
                                         </Row>
                                         <Select
                                             components={animatedComponents}
                                             closeMenuOnSelect={false}
-                                            isMulti
+                                            isMulti={true}
                                             defaultValue={selectedCodes}
                                             theme={(dropTheme) => {
                                                 return {
@@ -420,19 +513,24 @@ const EditProduct = () => {
                                             }}
                                             isDisabled={codeIsDisabled}
                                             options={qrcodes}
-                                            onChange={(e) => setSelectedCodes(e.map((e: any) => e.value))}
+                                            onChange={(e) =>
+                                                setSelectedCodes(e.map((e: any) => e.value))
+                                            }
                                         />
-                                        <Alert className="mt-2" color="danger" isOpen={getErrors('codes') !== ''}>
-                                            {getErrors('codes')}
+                                        <Alert
+                                            className="mt-2"
+                                            color="danger"
+                                            isOpen={getErrors("codes") !== ""}>
+                                            {getErrors("codes")}
                                         </Alert>
                                     </Col>
                                 </Row>
                                 <Row className="mx-2">
                                     <Col md="6">
                                         <Input
-                                            fullWidth
-                                            bordered
-                                            underlined
+                                            fullWidth={true}
+                                            bordered={true}
+                                            underlined={true}
                                             type="number"
                                             min="1"
                                             shadow={false}
@@ -442,17 +540,19 @@ const EditProduct = () => {
                                             labelLeft="Ár: "
                                             labelRight="LoLó"
                                             initialValue={String(price)}
-                                            color={getErrors('price') === '' ? 'primary' : 'error'}
-                                            status={getErrors('price') === '' ? 'default' : 'error'}
-                                            helperColor={getErrors('price') === '' ? 'default' : 'error'}
-                                            helperText={getErrors('price')}
+                                            color={getErrors("price") === "" ? "primary" : "error"}
+                                            status={getErrors("price") === "" ? "default" : "error"}
+                                            helperColor={
+                                                getErrors("price") === "" ? "default" : "error"
+                                            }
+                                            helperText={getErrors("price")}
                                         />
                                     </Col>
                                     <Col md="6">
                                         <Input
-                                            fullWidth
-                                            bordered
-                                            underlined
+                                            fullWidth={true}
+                                            bordered={true}
+                                            underlined={true}
                                             type="number"
                                             min="0"
                                             shadow={false}
@@ -461,34 +561,38 @@ const EditProduct = () => {
                                             }
                                             labelLeft="Mennyiség: "
                                             initialValue={String(quantity)}
-                                            color={getErrors('quantity') === '' ? 'primary' : 'error'}
-                                            status={getErrors('quantity') === '' ? 'default' : 'error'}
-                                            helperColor={getErrors('quantity') === '' ? 'default' : 'error'}
-                                            helperText={getErrors('quantity')}
+                                            color={
+                                                getErrors("quantity") === "" ? "primary" : "error"
+                                            }
+                                            status={
+                                                getErrors("quantity") === "" ? "default" : "error"
+                                            }
+                                            helperColor={
+                                                getErrors("quantity") === "" ? "default" : "error"
+                                            }
+                                            helperText={getErrors("quantity")}
                                         />
                                     </Col>
                                 </Row>
                                 <Grid.Container gap={2} justify="center" className="my-2">
                                     <Grid>
                                         <Button
-                                            auto
+                                            auto={true}
                                             className="mt-2 mx-1"
                                             color="primary"
-                                            flat
-                                            rounded
-                                            onClick={() => setModalShow(true)}
-                                        >
+                                            flat={true}
+                                            rounded={true}
+                                            onClick={() => setModalShow(true)}>
                                             Inputok
                                         </Button>
                                         <Button
-                                            auto
+                                            auto={true}
                                             className="mt-2 mx-1"
                                             loading={savePending}
                                             loaderType="points"
                                             color="gradient"
-                                            rounded
-                                            onClick={trySave}
-                                        >
+                                            rounded={true}
+                                            onClick={trySave}>
                                             Mentés
                                         </Button>
                                     </Grid>
@@ -504,21 +608,23 @@ const EditProduct = () => {
                                     </NextCard>
                                 </Grid>
                                 <Grid md={6}>
-                                    <NextCard width="100%" color="#0f1114" cover>
+                                    <NextCard width="100%" color="#0f1114" cover={true}>
                                         <NextCard.Header
                                             style={{
-                                                position: 'absolute',
+                                                position: "absolute",
                                                 zIndex: 1,
                                                 top: 5,
-                                                border: 'none',
-                                            }}
-                                        >
+                                                border: "none",
+                                            }}>
                                             <Col>
-                                                <Text h4 weight="bold" color="white">
+                                                <Text h4={true} weight="bold" color="white">
                                                     {name}
                                                 </Text>
 
-                                                <Text className="text-justify mt-2" p color="white">
+                                                <Text
+                                                    className="text-justify mt-2"
+                                                    p={true}
+                                                    color="white">
                                                     {description}
                                                 </Text>
                                             </Col>
@@ -532,16 +638,22 @@ const EditProduct = () => {
                                             />
                                         </NextCard.Body>
                                         <NextCard.Footer
-                                            blur
-                                            border
+                                            blur={true}
+                                            border={true}
                                             borderColor="rgba(15, 17, 20, 0.4)"
-                                            style={{ position: 'absolute', zIndex: 1, bottom: 0 }}
-                                        >
+                                            style={{position: "absolute", zIndex: 1, bottom: 0}}>
                                             <Row>
                                                 <Col>
                                                     <Row justify="flex-end">
-                                                        <Button flat auto rounded color="#94f9f0">
-                                                            <Text size={12} weight="bold" transform="uppercase">
+                                                        <Button
+                                                            flat={true}
+                                                            auto={true}
+                                                            rounded={true}
+                                                            color="#94f9f0">
+                                                            <Text
+                                                                size={12}
+                                                                weight="bold"
+                                                                transform="uppercase">
                                                                 Beváltás
                                                             </Text>
                                                         </Button>

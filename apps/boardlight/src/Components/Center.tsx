@@ -1,13 +1,13 @@
-import * as React from 'react';
+import * as React from "react";
 
-const Center = ({ children }: { children: React.ReactNode }): JSX.Element => {
+const Center = ({children}: {children: React.ReactNode}): JSX.Element => {
     const localStyles = {
         center: {
-            textAlign: 'center',
+            textAlign: "center",
         } as React.CSSProperties,
         childDiv: {
-            marginLeft: 'auto',
-            marginRight: 'auto',
+            marginLeft: "auto",
+            marginRight: "auto",
         } as React.CSSProperties,
     };
 

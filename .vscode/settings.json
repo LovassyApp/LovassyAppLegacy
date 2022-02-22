@@ -1,5 +1,5 @@
 {
-    "eslint.workingDirectories": ["./apps/boardlight-mobile"],
+    "eslint.workingDirectories": ["./apps/boardlight-mobile", "./apps/boardlight-rewrite", "./apps/boardlight"],
     "files.watcherExclude": {
         "**/.git/objects/**": true,
         "**/.git/subtree-cache/**": true,

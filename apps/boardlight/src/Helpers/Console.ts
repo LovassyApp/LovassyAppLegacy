@@ -1,7 +1,7 @@
 class BoardlightConsole {
-    get msg() {
-        console.log('hello world!');
-        return '';
+    public get msg(): string {
+        console.log("hello world!");
+        return "";
     }
 }
 
@@ -11,7 +11,7 @@ declare global {
     }
 }
 
-const register = () => {
+const register = (): void => {
     window.blc = new BoardlightConsole();
 };
 

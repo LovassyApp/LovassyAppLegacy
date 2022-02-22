@@ -1,19 +1,19 @@
-import { Route, Redirect, Switch } from 'react-router-dom';
-import ProtectedRoutes from './Protected';
-import NormalRoutes from './Normal';
-import Four0Four from '../Pages/404';
-import React from 'react';
-import useToken from '../Hooks/useToken';
-import { useControl } from '../Hooks/ControlHooks';
+import {Route, Redirect, Switch} from "react-router-dom";
+import ProtectedRoutes from "./Protected";
+import NormalRoutes from "./Normal";
+import Four0Four from "../Pages/404";
+import React from "react";
+import useToken from "../Hooks/useToken";
+import {useControl} from "../Hooks/ControlHooks";
 
-const Routes = () => {
+const Routes = (): JSX.Element => {
     const token = useToken();
     const control = useControl();
 
     const canAuthAccess = Object.keys(control).length !== 0;
 
-    const noAuthRedirect = '/login';
-    const authRedirect = '/home';
+    const noAuthRedirect = "/login";
+    const authRedirect = "/home";
 
     let i = 0;
 
@@ -26,7 +26,7 @@ const Routes = () => {
                         <Redirect
                             to={{
                                 pathname: authRedirect,
-                                state: { referrer: el.path, guest: true },
+                                state: {referrer: el.path, guest: true},
                             }}
                         />
                     ) : (
@@ -44,9 +44,9 @@ const Routes = () => {
                         <Redirect
                             to={{
                                 pathname: noAuthRedirect,
-                                state: { referrer: el.path, guest: false },
+                                state: {referrer: el.path, guest: false},
                             }}
-                        ></Redirect>
+                        />
                     )}
                 </Route>
             ))}

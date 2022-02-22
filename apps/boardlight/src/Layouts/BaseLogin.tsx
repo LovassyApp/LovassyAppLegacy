@@ -1,24 +1,24 @@
-import * as React from 'react';
-import { CardBody, CardTitle } from 'reactstrap';
-import style from '../CSS/login.module.css';
-import logo from '../Assets/white-logo.png';
-import Carousel from '../Components/Carousel';
-import { fadeInDown, slideInRight } from 'react-animations';
-import Radium from 'radium';
-import Center from '../Components/Center';
+import * as React from "react";
+import {CardBody, CardTitle} from "reactstrap";
+import style from "../CSS/login.module.css";
+import logo from "../Assets/white-logo.png";
+import Carousel from "../Components/Carousel";
+import {fadeInDown, slideInRight} from "react-animations";
+import Radium from "radium";
+import Center from "../Components/Center";
 
-const BaseLogin = ({ children }: { children: React.ReactNode }): JSX.Element => {
+const BaseLogin = ({children}: {children: React.ReactNode}): JSX.Element => {
     const localStyles = {
         entry: {
-            animation: 'x 1s',
-            animationName: Radium.keyframes(fadeInDown, 'entry'),
+            animation: "x 1s",
+            animationName: Radium.keyframes(fadeInDown, "entry"),
         } as React.CSSProperties,
         carouselEntry: {
-            animation: 'x 1s',
-            animationName: Radium.keyframes(slideInRight, 'entry'),
+            animation: "x 1s",
+            animationName: Radium.keyframes(slideInRight, "entry"),
         } as React.CSSProperties,
         bg: {
-            cursor: 'default',
+            cursor: "default",
         } as React.CSSProperties,
     };
     return (
@@ -30,7 +30,11 @@ const BaseLogin = ({ children }: { children: React.ReactNode }): JSX.Element => 
                             <CardBody>
                                 <CardTitle>
                                     <Center>
-                                        <img src={logo} className={style.logo} alt="LovassyApp logo" />
+                                        <img
+                                            src={logo}
+                                            className={style.logo}
+                                            alt="LovassyApp logo"
+                                        />
                                     </Center>
                                 </CardTitle>
                                 <br />

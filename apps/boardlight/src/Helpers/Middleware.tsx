@@ -1,7 +1,7 @@
-import * as React from 'react';
-import { usePermissions } from '../Hooks/ControlHooks';
-import useToken from '../Hooks/useToken';
-import Four0Three from '../Pages/403';
+import * as React from "react";
+import {usePermissions} from "../Hooks/ControlHooks";
+import useToken from "../Hooks/useToken";
+import Four0Three from "../Pages/403";
 
 const Middleware = ({
     permission,
@@ -13,7 +13,7 @@ const Middleware = ({
     displayError?: boolean;
 }): JSX.Element => {
     if (permission === undefined) {
-        throw Error('No permission supplied.');
+        throw Error("No permission supplied.");
     }
 
     const token = useToken();
@@ -27,12 +27,12 @@ const Middleware = ({
     return <>{canAccess ? component : <>{displayError ? <Four0Three /> : null}</>}</>;
 };
 
-const checkPermission = (permString: string, permissions: String[]) => {
+const checkPermission = (permString: string, permissions: string[]): boolean => {
     const canAccess = permissions.includes(permString);
 
     return canAccess;
 };
 
-export { checkPermission };
+export {checkPermission};
 
 export default Middleware;

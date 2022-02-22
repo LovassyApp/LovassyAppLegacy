@@ -2,34 +2,34 @@
     Jegy-kártya-izé
 */
 
-import React from 'react';
-import style from '../CSS/gradecard.module.css';
-import styled from 'styled-components';
-import { useTheme } from '@nextui-org/react';
-import { BlueboardKretaGrade } from 'blueboard-client';
+import React from "react";
+import style from "../CSS/gradecard.module.css";
+import styled from "styled-components";
+import {useTheme} from "@nextui-org/react";
+import {BlueboardKretaGrade} from "blueboard-client";
 
 type Color =
-    | 'red'
-    | 'orange'
-    | 'yellow'
-    | 'strong-yellow'
-    | 'green-yellow'
-    | 'green'
-    | 'lightblue'
-    | 'blue'
-    | 'purple'
-    | 'pink'
-    | 'gray';
+    | "red"
+    | "orange"
+    | "yellow"
+    | "strong-yellow"
+    | "green-yellow"
+    | "green"
+    | "lightblue"
+    | "blue"
+    | "purple"
+    | "pink"
+    | "gray";
 
-const makeVar = (color: Color) => {
-    return '--' + color;
+const makeVar = (color: Color): string => {
+    return `--${color}`;
 };
-const makeShadow = (color: Color) => {
-    return '--' + color + '-shadow';
+const makeShadow = (color: Color): string => {
+    return `--${color}-shadow`;
 };
 
-const makeTextColor = (color: Color) => {
-    return '--' + color + '-text-default';
+const makeTextColor = (color: Color): string => {
+    return `--${color}-text-default`;
 };
 
 // AU
@@ -53,40 +53,41 @@ const GradeCircle = styled.div`
     }
 `;
 
-const getColor = (grade: number) => {
+const getColor = (grade: number): string => {
     switch (grade) {
         case 5:
-            return 'green';
+            return "green";
         case 4:
-            return 'green-yellow';
+            return "green-yellow";
         case 3:
-            return 'strong-yellow';
+            return "strong-yellow";
         case 2:
-            return 'orange';
+            return "orange";
         case 1:
-            return 'red';
+            return "red";
         default:
-            return 'blue';
+            return "blue";
     }
 };
 
-const convert = (num: number) => {
+const convert = (num: number): string => {
     if (num === 0) {
-        return '–';
-    } else {
-        return String(num);
+        return "–";
     }
+    return String(num);
 };
 
-const GradeCard = ({ grade }: { grade: BlueboardKretaGrade }) => {
+const GradeCard = ({grade}: {grade: BlueboardKretaGrade}): JSX.Element => {
     const theme = useTheme();
 
-    const shadow_light = '0 8px 30px rgba(0, 0, 0, 0.15)';
-    const shadow_dark = '0 15px 22px -10px rgba(0, 0, 0, 0.1)';
+    const shadow_light = "0 8px 30px rgba(0, 0, 0, 0.15)";
+    const shadow_dark = "0 15px 22px -10px rgba(0, 0, 0, 0.1)";
 
     const Container = styled.div`
-        background-color: ${theme.type === 'dark' ? theme.palette.accents_1 : theme.palette.background};
-        box-shadow: ${theme.type === 'dark' ? shadow_dark : shadow_light};
+        background-color: ${theme.type === "dark"
+            ? theme.palette.accents_1
+            : theme.palette.background};
+        box-shadow: ${theme.type === "dark" ? shadow_dark : shadow_light};
     `;
 
     return (

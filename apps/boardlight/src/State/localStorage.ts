@@ -1,8 +1,8 @@
-import { RootState } from '.';
+import {RootState} from ".";
 
 export const loadState = (): any => {
     try {
-        const serializedState = localStorage.getItem('boardlight.persist');
+        const serializedState = localStorage.getItem("boardlight.persist");
 
         if (serializedState === null) {
             return undefined;
@@ -13,7 +13,7 @@ export const loadState = (): any => {
     return undefined;
 };
 
-const __savedStateFactory__ = (state: RootState) => {
+const __savedStateFactory__ = (state: RootState): any => {
     return {
         theme: state.theme,
     };
@@ -23,6 +23,6 @@ export const saveState = (state: RootState): void => {
     try {
         const saveState = __savedStateFactory__(state);
         const serializedData = JSON.stringify(saveState);
-        localStorage.setItem('boardlight.persist', serializedData);
+        localStorage.setItem("boardlight.persist", serializedData);
     } catch (err) {}
 };

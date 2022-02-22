@@ -22,6 +22,9 @@
         ],
         "apps/boardlight/**.tsx": [
             "yarn --cwd apps/boardlight run lint"
+        ],
+        "apps/boardlight/**": [
+            "yarn --cwd apps/boardlight run format"
         ]
     },
     "scripts": {

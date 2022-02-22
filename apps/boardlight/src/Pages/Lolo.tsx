@@ -1,30 +1,36 @@
-import * as React from 'react';
-import HeaderCard from '../Components/HeaderCard';
-import EmptyTable from '../Components/EmptyTable';
-import AuthLayout from '../Layouts/Auth';
-import { Text, Card, Button, Grid, Modal, Input, Textarea } from '@nextui-org/react';
-//import toast from 'react-hot-toast';
-import { useBlueboardClient } from 'blueboard-client-react';
-import TableLoader from '../Components/TableLoader';
-import { Col, Container, Row, Badge } from 'reactstrap';
-import Center from '../Components/Center';
-import toast from 'react-hot-toast';
-import { BlueboardClient, BlueboardLoloData, BlueboardLoloReason } from 'blueboard-client';
-import Middlware from '../Helpers/Middleware';
+import * as React from "react";
+import HeaderCard from "../Components/HeaderCard";
+import EmptyTable from "../Components/EmptyTable";
+import AuthLayout from "../Layouts/Auth";
+import {Text, Card, Button, Grid, Modal, Input, Textarea} from "@nextui-org/react";
+// import toast from 'react-hot-toast';
+import {useBlueboardClient} from "blueboard-client-react";
+import TableLoader from "../Components/TableLoader";
+import {Col, Container, Row, Badge} from "reactstrap";
+import Center from "../Components/Center";
+import toast from "react-hot-toast";
+import {BlueboardClient, BlueboardLoloData, BlueboardLoloReason} from "blueboard-client";
+import Middlware from "../Helpers/Middleware";
 
-const RequestModalContent = ({ closeHandler, client }: { closeHandler: () => void; client: BlueboardClient }) => {
-    const [body, setBody] = React.useState('');
-    const [title, setTitle] = React.useState('');
+const RequestModalContent = ({
+    closeHandler,
+    client,
+}: {
+    closeHandler(): void;
+    client: BlueboardClient;
+}): JSX.Element => {
+    const [body, setBody] = React.useState("");
+    const [title, setTitle] = React.useState("");
     const [savePending, setSavePending] = React.useState(false);
-    const [errors, setErrors] = React.useState<{ [key: string]: Array<string> }>({});
+    const [errors, setErrors] = React.useState<{[key: string]: string[]}>({});
 
-    const getErrors = (inputName: string) => {
-        const err = errors ?? ({} as { [key: string]: Array<string> });
+    const getErrors = (inputName: string): string => {
+        const err = errors ?? ({} as {[key: string]: string[]});
 
         const error = err[inputName] ?? [];
-        let str = '';
+        let str = "";
         error.forEach((el: string) => {
-            str = str + el + '\n';
+            str = `${str + el}\n`;
         });
 
         return str;
@@ -36,14 +42,14 @@ const RequestModalContent = ({ closeHandler, client }: { closeHandler: () => voi
             .make(title, body)
             .then(() => {
                 closeHandler();
-                toast.success('Kérvény sikeresen benyújtva!');
+                toast.success("Kérvény sikeresen benyújtva!");
             })
             .catch((err) => {
                 setSavePending(false);
                 if (err.errors != null) {
                     setErrors(err.errors);
                 } else {
-                    setErrors({ general: [err.message] });
+                    setErrors({general: [err.message]});
                     toast.error(err.message);
                 }
             });
@@ -51,7 +57,7 @@ const RequestModalContent = ({ closeHandler, client }: { closeHandler: () => voi
 
     return (
         <>
-            <Modal.Header style={{ border: 'none' }}>
+            <Modal.Header style={{border: "none"}}>
                 <Text id="modal-title" size={18}>
                     LoLó kérvény benyújtása
                 </Text>
@@ -60,9 +66,9 @@ const RequestModalContent = ({ closeHandler, client }: { closeHandler: () => voi
                 <Row>
                     <Col className="mb-3">
                         <Input
-                            fullWidth
-                            bordered
-                            underlined
+                            fullWidth={true}
+                            bordered={true}
+                            underlined={true}
                             min="1"
                             className="mb-1"
                             shadow={false}
@@ -70,17 +76,17 @@ const RequestModalContent = ({ closeHandler, client }: { closeHandler: () => voi
                             onChange={(e) => setTitle(e.target.value)}
                             labelLeft="Cím: "
                             initialValue={title}
-                            color={getErrors('title') === '' ? 'primary' : 'error'}
-                            status={getErrors('title') === '' ? 'default' : 'error'}
-                            helperColor={getErrors('title') === '' ? 'default' : 'error'}
-                            helperText={getErrors('title')}
+                            color={getErrors("title") === "" ? "primary" : "error"}
+                            status={getErrors("title") === "" ? "default" : "error"}
+                            helperColor={getErrors("title") === "" ? "default" : "error"}
+                            helperText={getErrors("title")}
                         />
                     </Col>
                 </Row>
                 <Row>
                     <Col className="mb-3">
                         <Textarea
-                            bordered
+                            bordered={true}
                             className="mb-1"
                             width="100%"
                             rows={6}
@@ -89,19 +95,26 @@ const RequestModalContent = ({ closeHandler, client }: { closeHandler: () => voi
                             placeholder="Kérvény törzsszövege"
                             value={body}
                             onChange={(e) => setBody(e.target.value)}
-                            color={getErrors('body') === '' ? 'primary' : 'error'}
-                            status={getErrors('body') === '' ? 'default' : 'error'}
-                            helperColor={getErrors('body') === '' ? 'default' : 'error'}
-                            helperText={getErrors('body')}
+                            color={getErrors("body") === "" ? "primary" : "error"}
+                            status={getErrors("body") === "" ? "default" : "error"}
+                            helperColor={getErrors("body") === "" ? "default" : "error"}
+                            helperText={getErrors("body")}
                         />
                     </Col>
                 </Row>
             </Modal.Body>
-            <Modal.Footer style={{ overflow: 'visible', border: 'none' }}>
-                <Button auto rounded flat color="error" onClick={closeHandler}>
+            <Modal.Footer style={{overflow: "visible", border: "none"}}>
+                <Button auto={true} rounded={true} flat={true} color="error" onClick={closeHandler}>
                     Mégsem
                 </Button>
-                <Button auto rounded color="success" flat loading={savePending} onClick={submit} loaderType="points">
+                <Button
+                    auto={true}
+                    rounded={true}
+                    color="success"
+                    flat={true}
+                    loading={savePending}
+                    onClick={submit}
+                    loaderType="points">
                     Beküldés
                 </Button>
             </Modal.Footer>
@@ -121,13 +134,13 @@ const Lolo = (): JSX.Element => {
         client.lolo
             .get(true)
             .then((res) => {
-                //console.log(res);
-                //console.log('fetch');
+                // console.log(res);
+                // console.log('fetch');
                 setLolo(res);
                 setLoading(false);
             })
             .catch((err) => {
-                toast.error('ERROR! - ' + err.message);
+                toast.error(`ERROR! - ${err.message}`);
             });
     }, [client]);
 
@@ -140,14 +153,13 @@ const Lolo = (): JSX.Element => {
     return (
         <AuthLayout>
             <Modal
-                closeButton
-                blur
+                closeButton={true}
+                blur={true}
                 aria-labelledby="modal-title"
                 open={show}
                 onClose={closeHandler}
-                preventClose
-                width="650px"
-            >
+                preventClose={true}
+                width="650px">
                 <RequestModalContent client={client} closeHandler={closeHandler} />
             </Modal>
             <HeaderCard title="LoLó, avagy Lovassy Lóvé" />
@@ -165,84 +177,89 @@ const Lolo = (): JSX.Element => {
                         </Center>
                     ) : (
                         <>
-                            <Container fluid style={{ width: '95%' }}>
-                                <Card hoverable>
+                            <Container fluid={true} style={{width: "95%"}}>
+                                <Card hoverable={true}>
                                     <Row>
                                         <Col md="4" sm="12">
                                             <Text className="mt-2">
-                                                Jelenlegi egyenleged:{' '}
+                                                Jelenlegi egyenleged:{" "}
                                                 <Badge
-                                                    pill
+                                                    pill={true}
                                                     color={
                                                         (lolo.balance ?? 0) > 0
                                                             ? (lolo.balance ?? 0) > 2
-                                                                ? 'success'
-                                                                : 'warning'
-                                                            : 'danger'
-                                                    }
-                                                >
+                                                                ? "success"
+                                                                : "warning"
+                                                            : "danger"
+                                                    }>
                                                     {lolo.balance} LoLó
                                                 </Badge>
                                             </Text>
                                         </Col>
-                                        <Col md="4" sm="0"></Col>
+                                        <Col md="4" sm="0" />
                                         <Col md="4" sm="12">
                                             <Button
-                                                rounded
+                                                rounded={true}
                                                 onClick={bootstrap}
-                                                auto
+                                                auto={true}
                                                 className="float-md-end mt-md-0 mt-2"
-                                                color="gradient"
-                                            >
+                                                color="gradient">
                                                 Frissítés
                                             </Button>
                                             <Middlware
                                                 permission="Requests.new"
                                                 component={
                                                     <Button
-                                                        rounded
+                                                        rounded={true}
                                                         onClick={() => setShow(true)}
-                                                        auto
+                                                        auto={true}
                                                         className="float-md-end mt-md-0 me-2 mt-2"
                                                         color="success"
-                                                        flat
-                                                    >
+                                                        flat={true}>
                                                         Új kérvény
                                                     </Button>
                                                 }
                                                 displayError={false}
-                                            ></Middlware>
+                                            />
                                         </Col>
                                     </Row>
                                 </Card>
                             </Container>
-                            <Container fluid style={{ width: '95%' }}>
+                            <Container fluid={true} style={{width: "95%"}}>
                                 <Grid.Container justify="center" className="my-2" gap={2}>
                                     {lolo.coins.map((coin) => (
                                         <>
                                             <Grid>
-                                                <Card hoverable>
-                                                    <Text className="pb-1" h5>
-                                                        {' '}
-                                                        {coin.reasonText}{' '}
-                                                        <Badge pill color={coin.isSpent ? 'danger' : 'success'}>
-                                                            {coin.isSpent ? 'Felhasználva' : 'Aktív'}
+                                                <Card hoverable={true}>
+                                                    <Text className="pb-1" h5={true}>
+                                                        {" "}
+                                                        {coin.reasonText}{" "}
+                                                        <Badge
+                                                            pill={true}
+                                                            color={
+                                                                coin.isSpent ? "danger" : "success"
+                                                            }>
+                                                            {coin.isSpent
+                                                                ? "Felhasználva"
+                                                                : "Aktív"}
                                                         </Badge>
                                                     </Text>
                                                     {coin.grades.map((grade) => (
                                                         <Badge
-                                                            style={{ whiteSpace: 'normal' }}
+                                                            style={{whiteSpace: "normal"}}
                                                             className="badge-white my-1"
-                                                        >
-                                                            {grade.name} ({grade.type}) - {grade.teacher}
+                                                            key={grade.id}>
+                                                            {grade.name} ({grade.type}) -{" "}
+                                                            {grade.teacher}
                                                         </Badge>
                                                     ))}
-                                                    {coin.reason === BlueboardLoloReason.FromRequest ? (
+                                                    {coin.reason ===
+                                                    BlueboardLoloReason.FromRequest ? (
                                                         <p> {coin.reasonBody} </p>
                                                     ) : (
                                                         <></>
                                                     )}
-                                                    <Card.Footer></Card.Footer>
+                                                    <Card.Footer />
                                                 </Card>
                                             </Grid>
                                         </>
