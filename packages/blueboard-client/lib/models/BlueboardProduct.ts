@@ -1,6 +1,7 @@
 import BlueboardQRCode from './BlueboardQRCode';
 import BlueboardTimestamps from './BlueboardTimestamps';
 import BlueboardProductInput from './BlueboardProductInput';
+import { BlueboardUserGroup } from '.';
 
 class BlueboardProduct {
     constructor(
@@ -17,7 +18,8 @@ class BlueboardProduct {
         public readonly visible: boolean,
         public readonly imageUrl: string,
         public readonly codeNames: Array<string>,
-        public readonly codes?: Array<BlueboardQRCode>
+        public readonly codes?: Array<BlueboardQRCode>,
+        public readonly notifiedGroups?: Array<BlueboardUserGroup>
     ) {}
 }
 

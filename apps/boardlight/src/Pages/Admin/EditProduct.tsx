@@ -59,6 +59,8 @@ const EditProduct = (): JSX.Element => {
         history.push("/404");
     }
 
+    type DropGroupArray = { value: string | number; label: string }[];
+
     const [qrcodes, setQrCodes] = React.useState<any[]>([]);
     const [selectedCodes, setSelectedCodes] = React.useState<any[]>([]);
     const [loading, setLoading] = React.useState(true);
@@ -72,6 +74,9 @@ const EditProduct = (): JSX.Element => {
     const [codeIsDisabled, setCodeDisabled] = React.useState(true);
     const [price, setPrice] = React.useState(1);
     const [quantity, setQuantity] = React.useState(1);
+    const [emails, setEmails] = React.useState<string>("");
+    const [allGroups, setAllGroups] = React.useState<DropGroupArray>([]);
+    const [groups, setGroups] = React.useState<DropGroupArray>([]);
     const [modalShow, setModalShow] = React.useState(false);
     const [inputs, setInputs] = React.useState<BlueboardProductInput[]>([]);
     const [visible, setVisible] = React.useState(false);
@@ -112,6 +117,15 @@ const EditProduct = (): JSX.Element => {
         await client.qrcodes
             .all()
             .then((res) => setQrCodes(res.map((el) => ({ value: el.id, label: el.name }))));
+
+        await client.groups
+            .all()
+            .then((res) => {
+                const all = res.map((el) => ({ value: el.id, label: el.name }));
+                setAllGroups(all);
+                setLoading(false);
+            })
+            .catch((err) => toast.error(err.message));
 
         setLoading(false);
     };
@@ -197,6 +211,8 @@ const EditProduct = (): JSX.Element => {
             inputs: inputs,
             image: await getImageBase64(files[0]),
             visible: visible,
+            notified_groups: groups.map((group) => (group.value as number) ?? group),
+            notified_mails: emails,
         };
 
         const checkForInputError = (errObj: any): void => {
@@ -522,6 +538,95 @@ const EditProduct = (): JSX.Element => {
                                             color="danger"
                                             isOpen={getErrors("codes") !== ""}>
                                             {getErrors("codes")}
+                                        </Alert>
+                                    </Col>
+                                </Row>
+                                <Row className="mx-2">
+                                    <Col md="6" className="my-2">
+                                        <Row>
+                                            <Col>
+                                                <Text className="mt-1 mb-2">
+                                                    Értesített E-mail címek (vesszővel elválasztva):
+                                                </Text>
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Input
+                                                fullWidth
+                                                clearable
+                                                bordered
+                                                underlined
+                                                shadow={false}
+                                                onChange={(e) => setEmails(e.target.value)}
+                                                labelLeft="E-mailek: "
+                                                initialValue={emails}
+                                                color={
+                                                    getErrors("notified_mails") === ""
+                                                        ? "primary"
+                                                        : "error"
+                                                }
+                                                status={
+                                                    getErrors("notified_mails") === ""
+                                                        ? "default"
+                                                        : "error"
+                                                }
+                                                helperColor={
+                                                    getErrors("notified_mails") === ""
+                                                        ? "default"
+                                                        : "error"
+                                                }
+                                                helperText={getErrors("notified_mails")}
+                                            />
+                                        </Row>
+                                    </Col>
+                                    <Col md="6" className="my-2">
+                                        <Row>
+                                            <Col>
+                                                <Text className="mt-1 mb-2">
+                                                    Értesített csoportok:
+                                                </Text>
+                                            </Col>
+                                        </Row>
+                                        <Select
+                                            components={animatedComponents}
+                                            closeMenuOnSelect={false}
+                                            isMulti
+                                            defaultValue={groups}
+                                            theme={(dropTheme) => {
+                                                return {
+                                                    ...dropTheme,
+                                                    borderRadius: 4,
+                                                    colors: {
+                                                        ...dropTheme.colors,
+                                                        primary: theme.palette.primary,
+                                                        primary25: theme.palette.primary,
+                                                        primary50: theme.palette.primary,
+                                                        primary75: theme.palette.primary,
+                                                        danger: theme.palette.errorDark,
+                                                        dangerLight: theme.palette.secondary,
+                                                        neutral0: theme.palette.accents_1,
+                                                        neutral10: theme.palette.accents_2,
+                                                        neutral20: theme.palette.accents_2,
+                                                        neutral30: theme.palette.accents_3,
+                                                        neutral40: theme.palette.accents_4,
+                                                        neutral50: theme.palette.accents_5,
+                                                        neutral60: theme.palette.accents_6,
+                                                        neutral70: theme.palette.accents_7,
+                                                        neutral80: theme.palette.accents_8,
+                                                        neutral90: theme.palette.accents_8,
+                                                    },
+                                                };
+                                            }}
+                                            options={allGroups}
+                                            onChange={(e: any) =>
+                                                setGroups(e.map((e: any) => e.value))
+                                            }
+                                        />
+                                        <Alert
+                                            className="mt-2"
+                                            color="danger"
+                                            isOpen={getErrors("notified_groups") !== ""}>
+                                            {getErrors("notified_groups")}
                                         </Alert>
                                     </Col>
                                 </Row>

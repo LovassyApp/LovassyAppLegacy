@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Response;
+use Spatie\ValidationRules\Rules\Delimited;
 use Str;
 
 class ProductController extends Controller
@@ -35,6 +36,8 @@ class ProductController extends Controller
                 'price' => 'required|numeric|min:0',
                 'quantity' => 'required|numeric|min:0',
                 'inputs' => 'nullable|array',
+                'notified_mails' => ['nullable', (new Delimited('email'))->min(1)],
+                'notified_groups' => 'nullable|array',
                 // Jaj JSON valid kulcs regeksz
                 // Fáj az agyam
                 'inputs.*.name' => ['required', 'distinct', "regex:/^[a-z][a-z0-9_]*$/i"],
@@ -74,9 +77,11 @@ class ProductController extends Controller
                 'codeActivated' => 'required|boolean',
                 'visible' => 'required|boolean',
                 'codes' => 'required_if:codeActivated,true|array',
+                'notified_groups' => 'nullable|array',
                 'price' => 'required|numeric|min:0',
                 'quantity' => 'required|numeric|min:0',
                 'inputs' => 'nullable|array',
+                'notified_mails' => ['nullable', (new Delimited('email'))->min(1)],
                 // Jaj JSON valid kulcs regeksz
                 // Fáj az agyam
                 'inputs.*.name' => ['required', 'distinct', "regex:/^[a-z][a-z0-9_]*$/i"],
@@ -125,9 +130,12 @@ class ProductController extends Controller
         $product->inputs = $data['inputs'];
         $product->imageName = $filename;
         $product->visible = $data['visible'];
+        $product->notified_mails = $data['notified_mails'] ?? '';
         $product->save();
 
-        $product->codes()->sync($data['codes']);
+        $codeVal = $data['codeActivated'] === true ? $data['codes'] ?? [] : [];
+        $product->codes()->sync($codeVal);
+        $product->notifiedGroups()->sync($data['notified_groups'] ?? []);
     }
 
     public function index()
@@ -142,7 +150,7 @@ class ProductController extends Controller
     {
         $this->checkPermission('show');
 
-        $product = Product::findOrFail($productID);
+        $product = Product::with('notifiedGroups')->findOrFail($productID);
         return ResponseMaker::generate($product);
     }
 

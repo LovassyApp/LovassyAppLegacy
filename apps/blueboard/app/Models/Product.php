@@ -46,6 +46,11 @@ class Product extends Model
         return $this->belongsToMany(QRCode::class, 'product_code', 'product_id', 'code_id');
     }
 
+    public function notifiedGroups(): BelongsToMany
+    {
+        return $this->belongsToMany(UserGroup::class, 'user_group_product', 'product_id', 'group_id');
+    }
+
     public function items(): HasMany
     {
         return $this->hasMany(InventoryItem::class);
@@ -53,6 +58,7 @@ class Product extends Model
 
     protected $casts = [
         'inputs' => AsArrayObject::class,
+        //'notified_mails' => AsArrayObject::class,
     ];
 
     protected $with = ['codes'];
@@ -61,6 +67,7 @@ class Product extends Model
     {
         return self::setEagerLoads([])
             ->where('visible', 1)
-            ->get();
+            ->get()
+            ->makeHidden(['notified_mails']);
     }
 }
