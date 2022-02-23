@@ -478,41 +478,41 @@
                                                             cellspacing="0"
                                                             role="presentation"
                                                             style="
-                                                                                                    mso-table-lspace: 0pt;
-                                                                                                    mso-table-rspace: 0pt;
-                                                                                                    word-break: break-word;
-                                                                                                ">
+                                                                                                        mso-table-lspace: 0pt;
+                                                                                                        mso-table-rspace: 0pt;
+                                                                                                        word-break: break-word;
+                                                                                                    ">
                                                             <tr>
                                                                 <td
                                                                     style="
-                                                                                                            padding-bottom: 40px;
-                                                                                                            padding-left: 10px;
-                                                                                                            padding-right: 10px;
-                                                                                                            padding-top: 5px;
-                                                                                                        ">
+                                                                                                                padding-bottom: 40px;
+                                                                                                                padding-left: 10px;
+                                                                                                                padding-right: 10px;
+                                                                                                                padding-top: 5px;
+                                                                                                            ">
                                                                     <div style="font-family: Arial, sans-serif;">
                                                                         <div
                                                                             style="
-                                                                                                                    font-size: 14px;
-                                                                                                                    font-family: 'Nunito', Arial,
-                                                                                                                        'Helvetica Neue', Helvetica,
-                                                                                                                        sans-serif;
-                                                                                                                    mso-line-height-alt: 21px;
-                                                                                                                    color: #555555;
-                                                                                                                    line-height: 1.5;
-                                                                                                                ">
+                                                                                                                        font-size: 14px;
+                                                                                                                        font-family: 'Nunito', Arial,
+                                                                                                                            'Helvetica Neue', Helvetica,
+                                                                                                                            sans-serif;
+                                                                                                                        mso-line-height-alt: 21px;
+                                                                                                                        color: #555555;
+                                                                                                                        line-height: 1.5;
+                                                                                                                    ">
                                                                             <p
                                                                                 style="
-                                                                                                                        margin: 0;
-                                                                                                                        font-size: 14px;
-                                                                                                                        text-align: left;
-                                                                                                                        mso-line-height-alt: 24px;
-                                                                                                                    ">
+                                                                                                                            margin: 0;
+                                                                                                                            font-size: 14px;
+                                                                                                                            text-align: left;
+                                                                                                                            mso-line-height-alt: 24px;
+                                                                                                                        ">
                                                                                 <span
                                                                                     style="
-                                                                                                                            color: #ffffff;
-                                                                                                                            font-size: 16px;
-                                                                                                                        "><span
+                                                                                                                                color: #ffffff;
+                                                                                                                                font-size: 16px;
+                                                                                                                            "><span
                                                                                         style="color: #2c2053;"><span
                                                                                             style="color: #fe4496;">+
                                                                                         </span><strong><span
@@ -538,7 +538,6 @@
                                                             </tr>
                                                         </table>
                                                     @endisset
-                                                    @dump($item)
                                                 </td>
                                                 <td
                                                     class="column"
