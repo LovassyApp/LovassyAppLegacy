@@ -59,9 +59,37 @@ class ItemUseNotifier implements ShouldQueue
         // TODO
         //dd($this->notifiedGroups)
 
+        // Array for all notified E-mail addresses
+        $emailArray = [];
+
+        $product = $this->item
+            ->product()
+            ->with('notifiedGroups')
+            ->first();
+
+        foreach ($product->notifiedGroups ?? [] as $group) {
+            $mails = $group
+                ->users()
+                ->get()
+                ->pluck('email')
+                ->toArray();
+            $emailArray = array_merge($emailArray, $mails);
+        }
+
+        $notifiedMails = explode(',', $product->notified_mails);
+        $emailArray = array_merge($emailArray, $notifiedMails);
+
+        // Send mail to notified person fronm code
         if (isset($this->code)) {
-            // Send mail to notified person fronm code
-            Mail::to($this->code->email)->send(new ProductUsedMail($this->item, $this->user));
+            array_push($emailArray, $this->code->email);
+        }
+
+        // Unique array
+        $emailArray = array_merge(array_flip(array_flip($emailArray)));
+
+        // Send emails
+        if (!empty($emailArray)) {
+            Mail::bcc($emailArray)->send(new ProductUsedMail($this->item, $this->user));
         }
     }
 }

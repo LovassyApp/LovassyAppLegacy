@@ -23,4 +23,9 @@ class UserGroup extends Model
             UserGroupUpdated::dispatch($group);
         });
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_group', 'group_id', 'user_id');
+    }
 }

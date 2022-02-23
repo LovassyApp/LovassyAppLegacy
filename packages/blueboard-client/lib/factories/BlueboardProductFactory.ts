@@ -1,10 +1,10 @@
-import BlueboardProduct from '../models/BlueboardProduct';
-import BlueboardTimestamps from '../models/BlueboardTimestamps';
-import BlueboardProductInput from '../models/BlueboardProductInput';
-import BlueboardQRCode from '../models/BlueboardQRCode';
-import BlueboardQRCodeFactory from './BlueboardQRCodeFactory';
-import { checkIterable } from '../BlueboardClientUtils';
-import { BlueboardUser, BlueboardUserGroup } from '..';
+import BlueboardProduct from "../models/BlueboardProduct";
+import BlueboardTimestamps from "../models/BlueboardTimestamps";
+import BlueboardProductInput from "../models/BlueboardProductInput";
+import BlueboardQRCode from "../models/BlueboardQRCode";
+import BlueboardQRCodeFactory from "./BlueboardQRCodeFactory";
+import { checkIterable } from "../BlueboardClientUtils";
+import { BlueboardUser, BlueboardUserGroup } from "..";
 
 class BlueboardProductFactory {
     static getResponse(obj: any) {
@@ -23,7 +23,10 @@ class BlueboardProductFactory {
 
     static getProduct(obj: any) {
         const id = obj.id;
-        const timestamps = new BlueboardTimestamps(obj.created_at, obj.updated_at);
+        const timestamps = new BlueboardTimestamps(
+            obj.created_at,
+            obj.updated_at
+        );
         const name = obj.name;
         const description = obj.description;
         const markdownContent = obj.markdownContent;
@@ -33,7 +36,9 @@ class BlueboardProductFactory {
         const inputs: Array<BlueboardProductInput> = [];
 
         for (const input of obj.inputs) {
-            inputs.push(new BlueboardProductInput(input.name, input.type, input.title));
+            inputs.push(
+                new BlueboardProductInput(input.name, input.type, input.title)
+            );
         }
 
         const imageName = obj.imageName;
@@ -47,6 +52,7 @@ class BlueboardProductFactory {
 
         const codes: Array<BlueboardQRCode> = [];
         const notifiedGroups: Array<BlueboardUserGroup> = [];
+        let notifiedMails = "";
 
         if (obj.codes) {
             for (const code of obj.codes) {
@@ -58,6 +64,10 @@ class BlueboardProductFactory {
             for (const group of obj.notified_groups) {
                 notifiedGroups.push(group as BlueboardUserGroup);
             }
+        }
+
+        if (obj.notified_mails) {
+            notifiedMails = obj.notified_mails;
         }
 
         return new BlueboardProduct(
@@ -75,6 +85,7 @@ class BlueboardProductFactory {
             imageUrl,
             codeNames,
             codes,
+            notifiedMails,
             notifiedGroups
         );
     }

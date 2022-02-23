@@ -108,6 +108,13 @@ const EditProduct = (): JSX.Element => {
                     label: el.name,
                 })),
             );
+            setGroups(
+                (product.notifiedGroups ?? []).map((el) => ({
+                    value: el.id as number,
+                    label: el.name as string,
+                })),
+            );
+            setEmails(product.notifiedMails ?? "");
             setFiles([image]);
             setVisible(product.visible);
         } else {
