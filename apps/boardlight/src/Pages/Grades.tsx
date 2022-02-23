@@ -78,6 +78,7 @@ const Grades = (): JSX.Element => {
                                     {grades.map((value, key) => (
                                         <Collapse
                                             style={{ display: "block" }}
+                                            // eslint-disable-next-line react/no-array-index-key
                                             key={key}
                                             title={<Text h4={true}>{value.subject}</Text>}>
                                             <Row className="ms-3 me-1 my-4">

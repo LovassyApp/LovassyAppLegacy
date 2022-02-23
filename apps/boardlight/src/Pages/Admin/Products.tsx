@@ -128,6 +128,7 @@ const Products = (): JSX.Element => {
                         <i>Itt nincs semmi.</i>
                     ) : (
                         row.codes?.map((el, key) => (
+                            // eslint-disable-next-line react/no-array-index-key
                             <Badge pill={true} key={key} className="badge-white m-1">
                                 {el.name}
                             </Badge>

@@ -88,7 +88,7 @@ const ItemModalContent = ({
                 })
                 .catch((err) => {
                     setSavePending(false);
-                    if (err.errors != null) {
+                    if (err.errors !== undefined) {
                         setErrors(err.errors);
                     } else {
                         toast.error(err.message);

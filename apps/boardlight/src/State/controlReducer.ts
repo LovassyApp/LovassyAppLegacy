@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { BlueboardControl, BlueboardUser, BlueboardUserGroup } from "blueboard-client";
 
-export type controlState = {
+export interface controlState {
     control: BlueboardControl;
-};
+}
 
 const initialState: controlState = {
     control: {} as BlueboardControl,
@@ -19,7 +19,7 @@ const controlReducerObj = {
         removeControl: (state: controlState) => {
             state.control = {} as BlueboardControl;
         },
-        setGroups: (state: controlState, action: PayloadAction<Array<BlueboardUserGroup>>) => {
+        setGroups: (state: controlState, action: PayloadAction<BlueboardUserGroup[]>) => {
             // Pfuj. ESNext
             const newPermissions = [...new Set(action.payload.map((el) => el.permissions).flat())];
 

@@ -71,6 +71,7 @@ const GlobalListeners = (): JSX.Element => {
                         <GroupListener
                             dispatch={dispatch}
                             groups={groups}
+                            // eslint-disable-next-line react/no-array-index-key
                             key={key}
                             groupID={el.id as number}
                         />

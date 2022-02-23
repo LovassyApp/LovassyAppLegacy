@@ -2,9 +2,8 @@ import * as React from "react";
 import AuthLayout from "../../Layouts/Auth";
 import HeaderCard from "../../Components/HeaderCard";
 import { useHistory, useParams } from "react-router";
-import { Loading, Input, Button, useTheme } from "@nextui-org/react";
+import { Loading, Input, Button, useTheme, Container } from "@nextui-org/react";
 import { Row, Col, CardBody, Card, Alert } from "reactstrap";
-import { Container } from "@nextui-org/react";
 import toast from "react-hot-toast";
 import TableLoader from "../../Components/TableLoader";
 import Select from "react-select";
@@ -85,18 +84,18 @@ const EditUser = (): JSX.Element => {
         setSavePending(true);
         client.users
             .save(data)
-            .then((res) => {
+            .then(() => {
                 toast.success("Sikeres mentés!");
                 history.push("/admin/users");
             })
             .catch((err) => {
                 setSavePending(false);
                 if (err.errors) {
-                    if (err.errors.name != null) {
+                    if (err.errors.name !== undefined) {
                         setNameErr(err.errors.name);
                         nameSetVisible(true);
                     }
-                    if (err.errors.email != null) {
+                    if (err.errors.email !== undefined) {
                         setEmailErr(err.errors.email);
                         emailSetVisible(true);
                     }

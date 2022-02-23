@@ -9,11 +9,13 @@ export const loadState = (): any => {
         }
 
         return JSON.parse(serializedState);
-    } catch (error) {}
+    } catch (error) {
+        // nothing
+    }
     return undefined;
 };
 
-const __savedStateFactory__ = (state: RootState): any => {
+const savedStateFactory = (state: RootState): any => {
     return {
         theme: state.theme,
     };
@@ -21,8 +23,10 @@ const __savedStateFactory__ = (state: RootState): any => {
 
 export const saveState = (state: RootState): void => {
     try {
-        const saveState = __savedStateFactory__(state);
+        const saveState = savedStateFactory(state);
         const serializedData = JSON.stringify(saveState);
         localStorage.setItem("boardlight.persist", serializedData);
-    } catch (err) {}
+    } catch (err) {
+        // nothing
+    }
 };

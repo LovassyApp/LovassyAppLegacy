@@ -45,7 +45,7 @@ const ProductCard = ({
                 noPadding={true}
                 borderColor="rgba(15, 17, 20, 0.4)"
                 style={{ position: "absolute", zIndex: 1, bottom: 0 }}>
-                {item == null ? (
+                {item === undefined ? (
                     <ProductFooter product={product} buttonCallback={callback} />
                 ) : (
                     <ItemFooter item={item} buttonCallback={callback} />
@@ -102,6 +102,7 @@ const ItemFooter = ({
                         <Row>
                             <Col>
                                 {item.product.inputs.map((el, key) => (
+                                    // eslint-disable-next-line react/no-array-index-key
                                     <Badge key={key} pill={true} className="me-1" color="primary">
                                         {el.title}
                                         {` (${el.type === "boolean" ? "Igen / nem" : "Szöveg"})`}

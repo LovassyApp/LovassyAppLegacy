@@ -1,14 +1,23 @@
 import * as React from "react";
 import AuthLayout from "../../Layouts/Auth";
 import HeaderCard from "../../Components/HeaderCard";
-import { Container, Grid, Card, Row, Text, Input, Button, NextUIThemes } from "@nextui-org/react";
+import {
+    Container,
+    Grid,
+    Card,
+    Row,
+    Text,
+    Input,
+    Button,
+    NextUIThemes,
+    useTheme,
+} from "@nextui-org/react";
 import TableLoader from "../../Components/TableLoader";
 import { MdAdd } from "react-icons/md";
 import EmptyTable from "../../Components/EmptyTable";
 import { Popover, PopoverBody, Alert, UncontrolledTooltip } from "reactstrap";
 import deleteModal from "../../Helpers/DeleteModal";
 import toast from "react-hot-toast";
-import { useTheme } from "@nextui-org/react";
 import { useBlueboardClient } from "blueboard-client-react";
 import { BlueboardQRCode } from "blueboard-client";
 import Center from "../../Components/Center";
@@ -111,14 +120,14 @@ const AddCard = ({ bootstrap }: { bootstrap(): void }): JSX.Element => {
         setSavePending(true);
         client.qrcodes
             .save(name, email)
-            .then((res) => {
+            .then(() => {
                 setSavePending(false);
                 bootstrap();
                 togglePopover();
             })
             .catch((err) => {
                 setSavePending(false);
-                if (err.errors != null) {
+                if (err.errors !== undefined) {
                     setErrors(err.errors);
                 } else {
                     setErrors({ general: [err.message] });
@@ -279,6 +288,7 @@ const QRCodes = (): JSX.Element => {
                     <Center>{qrCodes.length === 0 ? <EmptyTable /> : null}</Center>
                     <Grid.Container gap={2} justify="center">
                         {qrCodes.map((el, key) => (
+                            // eslint-disable-next-line react/no-array-index-key
                             <QRCard key={key} deleteCallback={deleteC} code={el} />
                         ))}
                         <Middleware

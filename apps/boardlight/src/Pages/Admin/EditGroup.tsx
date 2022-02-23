@@ -3,8 +3,16 @@ import AuthLayout from "../../Layouts/Auth";
 import HeaderCard from "../../Components/HeaderCard";
 import { useHistory, useParams } from "react-router";
 import TableLoader from "../../Components/TableLoader";
-import { Loading, Input, Button, Text, Switch, useTheme } from "@nextui-org/react";
-import { Card as NextUICard } from "@nextui-org/react";
+import {
+    Loading,
+    Input,
+    Button,
+    Text,
+    Switch,
+    useTheme,
+    Card as NextUICard,
+} from "@nextui-org/react";
+
 import {
     Row,
     Col,
@@ -98,19 +106,19 @@ const EditGroup = (): JSX.Element => {
         setSavePending(true);
         client.groups
             .save(data)
-            .then((res) => {
+            .then(() => {
                 toast.success("Sikeres mentés!");
                 history.push("/admin/permissions");
             })
             .catch((err) => {
                 setSavePending(false);
                 console.log(err);
-                if (err.errors != null) {
-                    if (err.errors.name != null) {
+                if (err.errors !== undefined) {
+                    if (err.errors.name !== undefined) {
                         setNameErr(err.errors.name);
                         nameSetVisible(true);
                     }
-                    if (err.errors.permissions != null) {
+                    if (err.errors.permissions !== undefined) {
                         setPermissionsErr(err.errors.permissions);
                         permissionsSetVisible(true);
                     }
@@ -219,6 +227,7 @@ const EditGroup = (): JSX.Element => {
                                     <div className="mt-2">
                                         <Nav pills={true}>
                                             {permissions.map((el, key) => (
+                                                // eslint-disable-next-line react/no-array-index-key
                                                 <NavItem key={key}>
                                                     <NavLink
                                                         active={tab === key}
@@ -231,6 +240,7 @@ const EditGroup = (): JSX.Element => {
                                         </Nav>
                                         <TabContent className="mt-2" activeTab={tab}>
                                             {permissions.map((el, key) => (
+                                                // eslint-disable-next-line react/no-array-index-key
                                                 <TabPane key={key} tabId={key}>
                                                     <Row>
                                                         {el.permissions.map(
@@ -238,6 +248,7 @@ const EditGroup = (): JSX.Element => {
                                                                 <Col
                                                                     md="6"
                                                                     className="mt-2"
+                                                                    // eslint-disable-next-line react/no-array-index-key
                                                                     key={key}>
                                                                     <NextUICard
                                                                         color={

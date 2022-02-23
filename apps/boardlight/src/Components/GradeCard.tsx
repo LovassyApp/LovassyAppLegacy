@@ -54,6 +54,7 @@ const GradeCircle = styled.div`
 `;
 
 const getColor = (grade: number): string => {
+    // eslint-disable-next-line
     switch (grade) {
         case 5:
             return "green";

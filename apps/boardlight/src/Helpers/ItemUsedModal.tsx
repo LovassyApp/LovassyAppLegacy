@@ -28,6 +28,7 @@ const itemUsedModal = async (
                         />
                         <div className="mt-3" style={{ color: theme.palette.text, width: "95%" }}>
                             {item.product.inputs.map((el, key) => (
+                                // eslint-disable-next-line react/no-array-index-key
                                 <Row key={key} className="mt-2">
                                     <Col md="auto">{el.title}: </Col>
                                     <Col>

@@ -9,7 +9,8 @@ module.exports = {
         "plugin:react-hooks/recommended",
     ],
     rules: {
-        indent: ["warn", 4],
+        // Eslint vs prettier
+        //indent: ["warn", 4],
         quotes: ["warn", "double"],
         semi: ["warn", "always"],
         eqeqeq: "warn",

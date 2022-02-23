@@ -54,6 +54,7 @@ const ProductModalContent = ({
                         </Col>
                         <Col>
                             {product.inputs.map((el, key) => (
+                                // eslint-disable-next-line react/no-array-index-key
                                 <Badge key={key} pill={true} className="me-1" color="primary">
                                     {el.title}
                                     {` (${el.type === "boolean" ? "Igen / nem" : "Szöveg"})`}

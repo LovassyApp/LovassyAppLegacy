@@ -85,8 +85,11 @@ const Users = (): JSX.Element => {
                     {row.groups.length === 0 ? (
                         <i>Itt nincs semmi.</i>
                     ) : (
-                        row.groups.map((el, key) => (
-                            <Badge pill={true} key={key} className="badge-white m-1">
+                        row.groups.map((el) => (
+                            <Badge
+                                pill={true}
+                                key={(el as BlueboardUserGroup).id}
+                                className="badge-white m-1">
                                 {(el as BlueboardUserGroup).name}
                             </Badge>
                         ))

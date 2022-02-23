@@ -62,7 +62,7 @@ const RequestModalContent = ({
         setErrors({});
         client.lolo_request
             .update(requestState.id, verdict, loloCount)
-            .then((res) => {
+            .then(() => {
                 toast.success("Kérvény sikeresen frissítve!");
                 setSavePending(false);
                 closeHandler();
@@ -70,7 +70,7 @@ const RequestModalContent = ({
             })
             .catch((err) => {
                 setSavePending(false);
-                if (err.errors != null) {
+                if (err.errors !== undefined) {
                     setErrors(err.errors);
                 } else {
                     toast.error(err.message);

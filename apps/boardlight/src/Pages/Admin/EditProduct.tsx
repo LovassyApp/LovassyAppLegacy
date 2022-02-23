@@ -59,7 +59,7 @@ const EditProduct = (): JSX.Element => {
         history.push("/404");
     }
 
-    type DropGroupArray = { value: string | number; label: string }[];
+    type DropGroupArray = Array<{ value: string | number; label: string }>;
 
     const [qrcodes, setQrCodes] = React.useState<any[]>([]);
     const [selectedCodes, setSelectedCodes] = React.useState<any[]>([]);
@@ -285,6 +285,7 @@ const EditProduct = (): JSX.Element => {
                 <Modal.Body>
                     {inputs.length === 0 ? <EmptyTable /> : null}
                     {inputs.map((value, key) => (
+                        // eslint-disable-next-line react/no-array-index-key
                         <Row key={key}>
                             <Text b={true}>{value.type === "textbox" ? "Textbox" : "Switch"}</Text>
                             <Col md="5">
@@ -552,10 +553,10 @@ const EditProduct = (): JSX.Element => {
                                         </Row>
                                         <Row>
                                             <Input
-                                                fullWidth
-                                                clearable
-                                                bordered
-                                                underlined
+                                                fullWidth={true}
+                                                clearable={true}
+                                                bordered={true}
+                                                underlined={true}
                                                 shadow={false}
                                                 onChange={(e) => setEmails(e.target.value)}
                                                 labelLeft="E-mailek: "
@@ -590,7 +591,7 @@ const EditProduct = (): JSX.Element => {
                                         <Select
                                             components={animatedComponents}
                                             closeMenuOnSelect={false}
-                                            isMulti
+                                            isMulti={true}
                                             defaultValue={groups}
                                             theme={(dropTheme) => {
                                                 return {

@@ -46,7 +46,7 @@ const RequestModalContent = ({
             })
             .catch((err) => {
                 setSavePending(false);
-                if (err.errors != null) {
+                if (err.errors !== undefined) {
                     setErrors(err.errors);
                 } else {
                     setErrors({ general: [err.message] });

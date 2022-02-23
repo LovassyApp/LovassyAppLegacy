@@ -71,6 +71,7 @@ const Groups = (): JSX.Element => {
             cell: (row: BlueboardUserGroup) => (
                 <div>
                     {row.permissions.map((el, key) => (
+                        // eslint-disable-next-line react/no-array-index-key
                         <Badge pill={true} key={key} className="badge-white m-1">
                             {el}
                         </Badge>

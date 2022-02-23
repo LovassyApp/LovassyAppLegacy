@@ -41,6 +41,7 @@ const InputRenderer = ({
         <div>
             <div className="dropdown-divider" />
             {renderedInputs.map((value, key) => (
+                // eslint-disable-next-line react/no-array-index-key
                 <Row className="mt-3" key={key}>
                     <Col>
                         {value.type === "textbox" ? (

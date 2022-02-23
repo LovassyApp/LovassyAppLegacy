@@ -59,11 +59,11 @@ const Login = (): JSX.Element => {
                     console.log(err);
                     setLoading(false);
                     if (err.errors) {
-                        if (err.errors.email != null) {
+                        if (err.errors.email !== undefined) {
                             setUserErr(err.errors.email);
                             userSetVisible(true);
                         }
-                        if (err.errors.password != null) {
+                        if (err.errors.password !== undefined) {
                             setPasswordErr(err.errors.password);
                             passSetVisible(true);
                         }
