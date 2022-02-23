@@ -30,11 +30,13 @@ import { useLoading } from "../hooks/useLoading";
 import { useSelector } from "react-redux";
 import { useUser } from "../hooks/controlHooks";
 import { LaInput } from "../components/content/customized/laInput";
+import { RequestItem } from "../components/content/requestItem";
 
 export const HomeScreen = () => {
   const loading = useLoading();
 
   const coins = useSelector((state) => state.coins.value);
+  const requests = useSelector((state) => state.requests.value);
 
   const [displayCoins, setDisplayCoins] = useState(false);
   const [showNewRequest, setShowNewRequest] = useState(false);
@@ -76,6 +78,12 @@ export const HomeScreen = () => {
 
   const getCoins = () => {
     return coins?.map((coin) => <LoloCoin data={coin} key={coin.id} minimal={true} />);
+  };
+
+  const getRequest = () => {
+    return requests?.map((request) => (
+      <RequestItem data={request} key={request.id} minimal={true} />
+    ));
   };
 
   const sendRequest = async () => {
@@ -139,8 +147,12 @@ export const HomeScreen = () => {
             </>
           )}
         </LaCard>
-        <LaCard title="Kérelmek" actionIcon="add" onPress={() => setShowNewRequest(true)}>
-          <Text style={{ alignSelf: "center", margin: 25 }}>Úgy néz ki nincsenek kérelmeid</Text>
+        <LaCard title="Kérvények" actionIcon="add" onPress={() => setShowNewRequest(true)}>
+          {requests.length === 0 ? (
+            <Text style={{ alignSelf: "center", margin: 25 }}>Úgy néz ki nincsenek kérvényeid</Text>
+          ) : (
+            getRequest()
+          )}
         </LaCard>
 
         <Portal>
@@ -148,7 +160,7 @@ export const HomeScreen = () => {
             <KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
               <View style={{ flex: 1 }}>
                 <Dialog visible={true} dismissable={false}>
-                  <Dialog.Title>Új kérelem létrehozása</Dialog.Title>
+                  <Dialog.Title>Új kérvény létrehozása</Dialog.Title>
                   <Dialog.Content>
                     <LaInput
                       label="Cím"
