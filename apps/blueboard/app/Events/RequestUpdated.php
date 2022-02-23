@@ -42,6 +42,6 @@ class RequestUpdated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('Users.' . $this->user->id);
+        return new PrivateChannel('Users.' . $this->request->user->id);
     }
 }
