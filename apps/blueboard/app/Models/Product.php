@@ -29,7 +29,7 @@ class Product extends Model
     {
         parent::boot();
 
-        static::updated(function ($product) {
+        static::saved(function ($product) {
             ProductUpdated::dispatch($product);
         });
     }
