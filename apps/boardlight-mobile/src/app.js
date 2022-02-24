@@ -1,6 +1,10 @@
 import { BLUEBOARD_SOKETI_HOST, BLUEBOARD_SOKETI_KEY, BLUEBOARD_URL } from "@env";
 import { BlueboardClientInit, useBlueboardPrivateChannel } from "blueboard-client-react";
-import { BlueboardInventoryFactory, BlueboardLoloResponseFactory } from "blueboard-client";
+import {
+  BlueboardInventoryFactory,
+  BlueboardLoloRequestFactory,
+  BlueboardLoloResponseFactory,
+} from "blueboard-client";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import React, { useEffect } from "react";
 import { addItem, updateItem } from "./store/slices/inventorySlice";
@@ -21,6 +25,7 @@ import { setCoins } from "./store/slices/coinsSlice";
 import { setStore } from "./store/slices/storeSlice";
 import store from "./store/store";
 import { useUser } from "./hooks/controlHooks";
+import { setRequests } from "./store/slices/requestsSlice";
 
 const [BlueboardProvider, BlueboardSocketProvider, BlueboardClientProvider] = BlueboardClientInit(
   BLUEBOARD_URL,
@@ -87,6 +92,10 @@ const ListenerStack = ({ children }) => {
 
   useBlueboardPrivateChannel(`Users.${user.id}`, "InventoryItemCreated", (data) => {
     dispatch(addItem(BlueboardInventoryFactory.getItem(data.item)));
+  });
+
+  useBlueboardPrivateChannel(`Users.${user.id}`, "RequestUpdated", (data) => {
+    dispatch(setRequests(BlueboardLoloRequestFactory.getResponse(data.requests)));
   });
 
   useBlueboardPrivateChannel(`Users.${user.id}`, "InventoryItemUsed", (data) => {

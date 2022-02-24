@@ -30,8 +30,8 @@ class RequestUpdated implements ShouldBroadcast
     public function broadcastWith()
     {
         return [
-            'request' => $this->request->user->requests()->get(),
-            'requests' => $this->request,
+            'requests' => $this->request->user->requests()->get(),
+            'request' => $this->request,
         ];
     }
 
