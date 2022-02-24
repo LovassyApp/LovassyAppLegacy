@@ -1,12 +1,11 @@
+import { Avatar, Chip, List, Text, useTheme } from "react-native-paper";
+import { Platform, View } from "react-native";
+
 /* eslint-disable indent */
 import React from "react";
-import { Avatar, Chip, List, Text, useTheme } from "react-native-paper";
-import { View, Platform } from "react-native";
 
 export const RequestItem = (props) => {
   const theme = useTheme();
-
-  console.log(props.data);
 
   const getColor = () => {
     if (props.data.acceptedAt) {

@@ -1,0 +1,12 @@
+node-modules
+dist
+public
+package.json
+yarn.lock
+vite.config.js
+.eslintrc.js
+.prettierrc.js
+.env
+.env.example
+.prettierignore
+.eslintignore
