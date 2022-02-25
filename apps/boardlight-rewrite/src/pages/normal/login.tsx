@@ -4,12 +4,14 @@ import {
     Center,
     Checkbox,
     PasswordInput,
+    Text,
     TextInput,
     Title,
     createStyles,
 } from "@mantine/core";
 import { Lock, Mail } from "tabler-icons-react";
 
+import { getRandomTipp } from "../../utils/misc/tippsUtils";
 import { setControl } from "../../store/slices/controlSlice";
 import { setToken } from "../../store/slices/tokenSlice";
 import { useBlueboardClient } from "blueboard-client-react";
@@ -21,7 +23,7 @@ import { useNotifications } from "@mantine/notifications";
 
 const useStyles = createStyles((theme) => ({
     center: {
-        height: "100vh",
+        height: "100%",
     },
     content: {
         width: "25vw",
@@ -49,6 +51,7 @@ const useStyles = createStyles((theme) => ({
         width: "100%",
         display: "flex",
         justifyContent: "flex-end",
+        alignItems: "center",
     },
 }));
 
