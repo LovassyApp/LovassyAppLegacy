@@ -1,17 +1,16 @@
-import { Box, ColorScheme, createStyles, useMantineColorScheme } from "@mantine/core";
+import { Box, createStyles } from "@mantine/core";
+
 import { useViewportSize } from "@mantine/hooks";
 
-const useStyles = createStyles((theme, viewportHeight: number) => ({
+const useStyles = createStyles(() => ({
     content: {
-        minHeight: viewportHeight,
         width: "100%",
     },
 }));
 
+// This only really exists so we can mess around with it in the future if we need to
 export const NormalLayout = ({ children }: { children: React.ReactNode }): JSX.Element => {
-    const { height: viewportHeight } = useViewportSize();
-
-    const { classes } = useStyles(viewportHeight);
+    const { classes } = useStyles();
 
     return <Box className={classes.content}>{children}</Box>;
 };

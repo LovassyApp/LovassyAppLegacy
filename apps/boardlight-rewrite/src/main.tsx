@@ -1,20 +1,33 @@
+import { ColorScheme, ColorSchemeProvider, MantineProvider } from "@mantine/core";
+import { Provider, useDispatch, useSelector } from "react-redux";
+import { RootState, store } from "./store/store";
+
+import { BlueboardClientInit } from "blueboard-client-react";
+import { BrowserRouter } from "react-router-dom";
+import { FullScreenLoading } from "./components/fullScreenLoading";
+import { LayoutDecider } from "./pages/layouts/layoutDecider";
+import { ModalsProvider } from "@mantine/modals";
+import { NotificationsProvider } from "@mantine/notifications";
+import { PersistGate } from "redux-persist/es/integration/react";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Router } from "./routes/router";
-import { Provider, useDispatch, useSelector } from "react-redux";
-import { PersistGate } from "redux-persist/es/integration/react";
-import { RootState, store } from "./store/store";
 import { persistStore } from "redux-persist";
-import { ColorScheme, ColorSchemeProvider, MantineProvider } from "@mantine/core";
-import { ModalsProvider } from "@mantine/modals";
-import { NotificationsProvider } from "@mantine/notifications";
 import { setColorScheme } from "./store/slices/settingsSlice";
 import { useHotkeys } from "@mantine/hooks";
-import { BrowserRouter } from "react-router-dom";
-import { LayoutDecider } from "./pages/layouts/layoutDecider";
-import { FullScreenLoading } from "./components/fullScreenLoading";
 
 const persistor = persistStore(store);
+
+// The ts plugin in vscode was being exceptionally stupid here
+const [BlueboardProvider] = BlueboardClientInit(
+    // @ts-ignore
+    import.meta.env.VITE_BLUEBOARD_URL as string,
+    // @ts-ignore
+    import.meta.env.VITE_BLUEBOARD_SOKETI_HOST as string,
+    // @ts-ignore
+    import.meta.env.VITE_BLUEBOARD_SOKETI_KEY as string,
+    true,
+);
 
 const ProviderStack = (): JSX.Element => {
     const colorScheme = useSelector((state: RootState) => state.settings.colorScheme);
@@ -27,22 +40,25 @@ const ProviderStack = (): JSX.Element => {
     useHotkeys([["mod+J", () => toggleColorScheme()]]);
 
     const loading = useSelector((state: RootState) => state.loading.value);
+    const token = useSelector((state: RootState) => state.token.value);
 
     return (
         <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-            <MantineProvider
-                theme={{ colorScheme }}
-                withNormalizeCSS={true}
-                withGlobalStyles={true}>
-                <ModalsProvider>
-                    <NotificationsProvider>
-                        <LayoutDecider>
-                            {loading && <FullScreenLoading />}
-                            <Router />
-                        </LayoutDecider>
-                    </NotificationsProvider>
-                </ModalsProvider>
-            </MantineProvider>
+            <BlueboardProvider token={token}>
+                <MantineProvider
+                    theme={{ colorScheme }}
+                    withNormalizeCSS={true}
+                    withGlobalStyles={true}>
+                    <ModalsProvider>
+                        <NotificationsProvider>
+                            <LayoutDecider>
+                                {loading && <FullScreenLoading />}
+                                <Router />
+                            </LayoutDecider>
+                        </NotificationsProvider>
+                    </ModalsProvider>
+                </MantineProvider>
+            </BlueboardProvider>
         </ColorSchemeProvider>
     );
 };

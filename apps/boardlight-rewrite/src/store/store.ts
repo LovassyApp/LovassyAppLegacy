@@ -1,16 +1,16 @@
 import { combineReducers, createStore } from "@reduxjs/toolkit";
-import tokenReducer from "./slices/tokenSlice";
-import settingsReducer from "./slices/settingsSlice";
+
 import controlReducer from "./slices/controlSlice";
 import loadingReducer from "./slices/loadingSlice";
-
-import storage from "redux-persist/lib/storage";
 import { persistReducer } from "redux-persist";
+import settingsReducer from "./slices/settingsSlice";
+import storage from "redux-persist/lib/storage";
+import tokenReducer from "./slices/tokenSlice";
 
 const persistConfig = {
     key: "boardlight_rewrite",
     storage,
-    blacklist: ["control", "loading"],
+    blacklist: ["control", "loading", "token"],
 };
 
 const rootReducer = combineReducers({
