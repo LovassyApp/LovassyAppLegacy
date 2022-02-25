@@ -12,6 +12,12 @@ const tipps: JSX.Element[] = [
         <Kbd mr={3}>J</Kbd>
         <Text color="gray"> kombinációt a téma megváltoztatásához.</Text>
     </>,
+    <>
+        <Text color="gray">
+            {" "}
+            Tipp: A versenyeredményeidért kérvények létrehozásával kaphatsz lolót
+        </Text>
+    </>,
 ];
 
 export const getRandomTipp = (): JSX.Element => {
