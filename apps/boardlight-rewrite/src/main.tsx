@@ -1,15 +1,15 @@
 import { ColorScheme, ColorSchemeProvider, MantineProvider } from "@mantine/core";
+import { ContextModalProps, ModalsProvider } from "@mantine/modals";
 import { Provider, useDispatch, useSelector } from "react-redux";
+import React, { FC } from "react";
 import { RootState, store } from "./store/store";
 
 import { BlueboardClientInit } from "blueboard-client-react";
 import { BrowserRouter } from "react-router-dom";
 import { FullScreenLoading } from "./components/fullScreenLoading";
 import { LayoutDecider } from "./pages/layouts/layoutDecider";
-import { ModalsProvider } from "@mantine/modals";
 import { NotificationsProvider } from "@mantine/notifications";
 import { PersistGate } from "redux-persist/es/integration/react";
-import React from "react";
 import ReactDOM from "react-dom";
 import { Router } from "./routes/router";
 import { persistStore } from "redux-persist";

@@ -2,13 +2,14 @@ import {
     Box,
     Center,
     ColorScheme,
-    createStyles,
     Loader,
     Text,
+    createStyles,
     useMantineColorScheme,
 } from "@mantine/core";
-import { useSelector } from "react-redux";
+
 import { RootState } from "../store/store";
+import { useSelector } from "react-redux";
 
 const useStyles = createStyles((theme, colorScheme: ColorScheme) => ({
     container: {
@@ -18,7 +19,7 @@ const useStyles = createStyles((theme, colorScheme: ColorScheme) => ({
         height: "100%",
         zIndex: 1000,
         width: "100%",
-        backgroundColor: colorScheme === "dark" ? theme.colors.dark[8] : theme.colors.white,
+        backgroundColor: colorScheme === "dark" ? theme.colors.dark[8] : theme.white,
     },
     content: {
         display: "flex",
