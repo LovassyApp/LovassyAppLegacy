@@ -1,9 +1,9 @@
-import BlueboardProvider from './providers/BlueboardProvider';
-import BlueboardSocketProvider from './providers/BlueboardSocketProvider';
-import BlueboardClientProvider from './providers/BlueboardClientProvider';
-import BlueboardClientProps from './models/BlueboardClientProps';
-import { BlueboardClient } from 'blueboard-client';
-import { createContext } from 'react';
+import BlueboardProvider from "./providers/BlueboardProvider";
+import BlueboardSocketProvider from "./providers/BlueboardSocketProvider";
+import BlueboardClientProvider from "./providers/BlueboardClientProvider";
+import BlueboardClientProps from "./models/BlueboardClientProps";
+import { BlueboardClient } from "blueboard-client";
+import { createContext } from "react";
 
 let globalState: {
     props: BlueboardClientProps;
@@ -19,14 +19,22 @@ const BlueboardClientInit = (
     blueboardWsUrl: string,
     blueboardSocketKey: string,
     cookies: boolean = false
-) => {
+): [
+    typeof BlueboardProvider,
+    typeof BlueboardSocketProvider,
+    typeof BlueboardClientProvider
+] => {
     const props: BlueboardClientProps = new BlueboardClientProps(
         blueboardUrl,
         blueboardWsUrl,
         blueboardSocketKey,
         cookies
     );
-    const client: BlueboardClient = new BlueboardClient(props.blueboardUrl, props.cookies);
+
+    const client: BlueboardClient = new BlueboardClient(
+        props.blueboardUrl,
+        props.cookies
+    );
 
     globalState = {
         props: props,
@@ -35,7 +43,11 @@ const BlueboardClientInit = (
         BlueboardSocketContext: createContext({}),
     };
 
-    return [BlueboardProvider, BlueboardSocketProvider, BlueboardClientProvider];
+    return [
+        BlueboardProvider,
+        BlueboardSocketProvider,
+        BlueboardClientProvider,
+    ];
 };
 
 export default BlueboardClientInit;
