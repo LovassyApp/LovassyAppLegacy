@@ -44,13 +44,16 @@ const useStyles = createStyles((theme) => ({
             width: "75vw",
         },
     },
-    input: {
+    emailInput: {
         marginBottom: theme.spacing.sm,
+    },
+    pwInput: {
+        marginBottom: theme.spacing.md,
     },
     buttonContainer: {
         width: "100%",
         display: "flex",
-        justifyContent: "flex-end",
+        justifyContent: "space-between",
         alignItems: "center",
     },
 }));
@@ -142,7 +145,7 @@ export const Login = (): JSX.Element => {
                         required={true}
                         value={email}
                         error={emailError}
-                        className={classes.input}
+                        className={classes.emailInput}
                         onChange={setEmail}
                     />
                     {/* required prop doesn't work rn, waiting on mantine to fix this */}
@@ -153,17 +156,16 @@ export const Login = (): JSX.Element => {
                         required={true}
                         value={password}
                         error={passwordError}
-                        className={classes.input}
+                        className={classes.pwInput}
                         onChange={setPassword}
-                    />
-                    <Checkbox
-                        label="Nefelejts pipa"
-                        checked={remember}
-                        className={classes.input}
-                        onChange={setRemember}
                     />
 
                     <Box className={classes.buttonContainer}>
+                        <Checkbox
+                            label="Nefelejts pipa"
+                            checked={remember}
+                            onChange={setRemember}
+                        />
                         <Button type="submit">Bejelentkezés</Button>
                     </Box>
                 </form>
