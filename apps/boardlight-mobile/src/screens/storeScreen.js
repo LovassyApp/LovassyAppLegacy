@@ -118,6 +118,11 @@ export const StoreScreen = () => {
       flexWrap: "wrap",
       marginVertical: 10,
     },
+    errorContent: {
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "center",
+    },
   });
 
   const tryAgain = async () => {
@@ -137,7 +142,7 @@ export const StoreScreen = () => {
     return (
       <ScreenContainer>
         <Headline>Áruház</Headline>
-        <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <View style={styles.errorContent}>
           <Text>Az adatok lekérése sikertelen</Text>
           <Button onPress={() => tryAgain()}>Próbáld újra</Button>
         </View>

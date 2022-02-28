@@ -1,5 +1,5 @@
+import { Platform, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
-import { ScrollView, StyleSheet, View } from "react-native";
 
 import React from "react";
 import { useTheme } from "react-native-paper";
@@ -13,7 +13,7 @@ export const ScreenContainer = (props) => {
     container: {
       margin: 10,
       height: "100%",
-      paddingBottom: insets.bottom + 25,
+      paddingBottom: Platform.OS === "android" ? insets.bottom + 25 : 0,
     },
   });
 

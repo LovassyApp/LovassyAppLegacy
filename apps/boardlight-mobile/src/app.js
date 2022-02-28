@@ -10,7 +10,6 @@ import React, { useEffect } from "react";
 import { addItem, updateItem } from "./store/slices/inventorySlice";
 import { darkTheme, lightTheme } from "./utils/theme/themes";
 import { setState, setTheme } from "./store/slices/settingsSlice";
-import { setUser, setUserBalance } from "./store/slices/controlSlice";
 
 import AppBootstrapProvider from "./bootstrap/appBootstrapProvider";
 import { Appearance } from "react-native";
@@ -22,12 +21,13 @@ import { StatusBar } from "expo-status-bar";
 import { loadData } from "./utils/misc/storageUtils";
 import { registerRootComponent } from "expo";
 import { setCoins } from "./store/slices/coinsSlice";
+import { setRequests } from "./store/slices/requestsSlice";
 import { setStore } from "./store/slices/storeSlice";
+import { setUserBalance } from "./store/slices/controlSlice";
 import store from "./store/store";
 import { useUser } from "./hooks/controlHooks";
-import { setRequests } from "./store/slices/requestsSlice";
 
-const [BlueboardProvider, BlueboardSocketProvider, BlueboardClientProvider] = BlueboardClientInit(
+const [BlueboardProvider] = BlueboardClientInit(
   BLUEBOARD_URL,
   BLUEBOARD_SOKETI_HOST,
   BLUEBOARD_SOKETI_KEY,
@@ -54,23 +54,21 @@ const ProviderStack = ({ children }) => {
   return (
     <>
       <StatusBar style={theme.dark ? "light" : "dark"} />
-      <BlueboardClientProvider token={token}>
+      <BlueboardProvider token={token}>
         <AppBootstrapProvider>
-          <BlueboardSocketProvider token={token}>
-            <ListenerStack>
-              <PaperProvider
-                settings={{
-                  icon: (props) => <Ionicons {...props} />,
-                }}
-                theme={theme}>
-                {/* This is here because it needs the theme and I didn't want to make a new provider for it */}
-                {loading && <FullScreenLoading />}
-                {children}
-              </PaperProvider>
-            </ListenerStack>
-          </BlueboardSocketProvider>
+          <ListenerStack>
+            <PaperProvider
+              settings={{
+                icon: (props) => <Ionicons {...props} />,
+              }}
+              theme={theme}>
+              {/* This is here because it needs the theme and I didn't want to make a new provider for it */}
+              {loading && <FullScreenLoading />}
+              {children}
+            </PaperProvider>
+          </ListenerStack>
         </AppBootstrapProvider>
-      </BlueboardClientProvider>
+      </BlueboardProvider>
     </>
   );
 };

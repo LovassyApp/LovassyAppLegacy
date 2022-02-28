@@ -4,14 +4,12 @@ import {
     Center,
     Checkbox,
     PasswordInput,
-    Text,
     TextInput,
     Title,
     createStyles,
 } from "@mantine/core";
 import { Lock, Mail } from "tabler-icons-react";
 
-import { getRandomTipp } from "../../utils/misc/tippsUtils";
 import { setControl } from "../../store/slices/controlSlice";
 import { setToken } from "../../store/slices/tokenSlice";
 import { useBlueboardClient } from "blueboard-client-react";
@@ -114,7 +112,7 @@ export const Login = (): JSX.Element => {
 
             if (err.errors) {
                 setEmailError(err.errors.email ?? "");
-                setPasswordError(err.response.data.errors.password ?? "");
+                setPasswordError(err.errors.password ?? "");
             } else if (err.message === "Bad credentials") {
                 setEmailError("");
                 setPasswordError("A megadott jelszó helytelen");

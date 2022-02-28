@@ -114,21 +114,14 @@ export const LoginScreen = ({ navigation }) => {
         loading(false);
       }
     } catch (err) {
-      if (err.response) {
-        if (err.response.data.errors) {
-          setEmailError(err.response.data.errors.email ?? "");
-          setPasswordError(err.response.data.errors.password ?? "");
-        } else if (
-          err.response.data.status === "error" &&
-          err.response.data.type === "AuthErrorException"
-        ) {
-          setEmailError("");
-          setPasswordError("A megadott jelszó helytelen");
-        } else {
-          setGeneralError("Egy ismeretlen hiba történt");
-        }
+      if (err.errors) {
+        setEmailError(err.errors.email ?? "");
+        setPasswordError(err.errors.password ?? "");
+      } else if (err.message === "Bad credentials") {
+        setEmailError("");
+        setPasswordError("A megadott jelszó helytelen");
       } else {
-        setGeneralError(err.message);
+        setGeneralError("Egy ismeretlen hiba történt");
       }
 
       loading(false);
