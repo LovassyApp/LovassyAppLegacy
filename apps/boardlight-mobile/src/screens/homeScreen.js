@@ -7,27 +7,27 @@ import {
   Portal,
   Subheading,
   Text,
-  useTheme,
 } from "react-native-paper";
 import { KeyboardAvoidingView, StyleSheet, View } from "react-native";
 import React, { useState } from "react";
+import { fetchLolo, fetchRequests } from "../utils/api/apiUtils";
 import {
   getCoinsFromGrades,
   getCoinsFromRequests,
   getTotalSpendings,
 } from "../utils/misc/loloUtils";
+import { usePermissions, useUser } from "../hooks/controlHooks";
 
 import { LaCard } from "../components/content/laCard";
 import { LaInput } from "../components/content/customized/laInput";
 import { LaSnackbar } from "../components/content/customized/laSnackbar";
 import { LoloCoin } from "../components/content/loloCoin";
 import { RequestItem } from "../components/content/requestItem";
+import { RestrictedWrapper } from "../components/restrictedWrapper";
 import { ScreenContainer } from "../components/screenContainer";
-import { fetchLolo } from "../utils/api/apiUtils";
 import { useBlueboardClient } from "blueboard-client-react";
 import { useLoading } from "../hooks/useLoading";
 import { useSelector } from "react-redux";
-import { useUser } from "../hooks/controlHooks";
 
 export const HomeScreen = () => {
   const loading = useLoading();
@@ -47,7 +47,7 @@ export const HomeScreen = () => {
 
   const client = useBlueboardClient();
   const user = useUser();
-  const theme = useTheme();
+  const permissions = usePermissions();
 
   const styles = StyleSheet.create({
     coinsContainer: {
@@ -61,11 +61,23 @@ export const HomeScreen = () => {
     },
   });
 
-  const tryAgain = async () => {
+  const tryAgainCoins = async () => {
     loading(true);
 
     try {
       await fetchLolo(client);
+    } catch (err) {
+      console.log(err);
+    }
+
+    loading(false);
+  };
+
+  const tryAgainRequests = async () => {
+    loading(true);
+
+    try {
+      await fetchRequests(client);
     } catch (err) {
       console.log(err);
     }
@@ -115,10 +127,12 @@ export const HomeScreen = () => {
         <Headline>Kezdőlap</Headline>
         <LaCard
           title={displayCoins ? "Érmék" : "Egyenleg"}
-          actionIcon={displayCoins ? "arrow-back" : "arrow-forward"}
+          actionIcon={
+            permissions.includes("General.lolo") && displayCoins ? "arrow-back" : "arrow-forward"
+          }
           onPress={() => setDisplayCoins(!displayCoins)}
-          error={coins === null}
-          retry={() => tryAgain()}>
+          error={coins === null && permissions.includes("General.lolo")}
+          retry={() => tryAgainCoins()}>
           {displayCoins ? (
             <>{getCoins()}</>
           ) : (
@@ -129,14 +143,16 @@ export const HomeScreen = () => {
               </View>
 
               <Divider style={{ width: "100%", marginVertical: 5 }} />
-              <View style={styles.balanceView}>
-                <Text>Összes loló jegyekből:</Text>
-                <Text>{getCoinsFromGrades(coins)}</Text>
-              </View>
-              <View style={styles.balanceView}>
-                <Text>Összes loló kérvényekből:</Text>
-                <Text>{getCoinsFromRequests(coins)}</Text>
-              </View>
+              <RestrictedWrapper permission="General.lolo">
+                <View style={styles.balanceView}>
+                  <Text>Összes loló jegyekből:</Text>
+                  <Text>{getCoinsFromGrades(coins)}</Text>
+                </View>
+                <View style={styles.balanceView}>
+                  <Text>Összes loló kérvényekből:</Text>
+                  <Text>{getCoinsFromRequests(coins)}</Text>
+                </View>
+              </RestrictedWrapper>
               <View style={styles.balanceView}>
                 <Text>Összes elköltött loló:</Text>
                 <Text>{getTotalSpendings(coins)}</Text>
@@ -144,12 +160,21 @@ export const HomeScreen = () => {
             </>
           )}
         </LaCard>
-        <LaCard title="Kérvények" actionIcon="add" onPress={() => setShowNewRequest(true)}>
-          {requests.length === 0 ? (
-            <Text style={{ alignSelf: "center", margin: 25 }}>Úgy néz ki nincsenek kérvényeid</Text>
-          ) : (
-            getRequest()
-          )}
+        <LaCard
+          title="Kérvények"
+          actionIcon={permissions.includes("Requests.new") && "add"}
+          onPress={() => setShowNewRequest(true)}
+          error={requests === null && permissions.includes("Requests.view")}
+          retry={() => tryAgainRequests()}>
+          <RestrictedWrapper permission="Requests.view">
+            {requests.length === 0 ? (
+              <Text style={{ alignSelf: "center", margin: 25 }}>
+                Úgy néz ki nincsenek kérvényeid
+              </Text>
+            ) : (
+              getRequest()
+            )}
+          </RestrictedWrapper>
         </LaCard>
 
         <Portal>

@@ -13,5 +13,5 @@ export const RestrictedWrapper = (props) => {
     return props.children;
   }
 
-  return props.fallback ?? "";
+  return props.fallback ?? null;
 };

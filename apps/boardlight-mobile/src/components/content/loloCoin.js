@@ -6,9 +6,11 @@ import { BlueboardLoloReason } from "blueboard-client";
 import BottomSheet from "../bottomSheet";
 import { GradeItem } from "./gradeItem";
 import React from "react";
+import { usePermissions } from "../../hooks/controlHooks";
 
 export const LoloCoin = (props) => {
   const theme = useTheme();
+  const permissions = usePermissions();
 
   const bottomSheetRef = React.useRef();
 
@@ -60,7 +62,9 @@ export const LoloCoin = (props) => {
           />
         )}
         onPress={() =>
-          props.data.reason !== BlueboardLoloReason.FromRequest && bottomSheetRef.current.show()
+          props.data.reason !== BlueboardLoloReason.FromRequest &&
+          permissions.includes("General.grades") &&
+          bottomSheetRef.current.show()
         }
         style={
           props.minimal
