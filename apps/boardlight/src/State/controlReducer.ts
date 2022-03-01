@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { BlueboardControl, BlueboardUser, BlueboardUserGroup } from "blueboard-client";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { BlueboardControl, BlueboardUser, BlueboardUserGroup } from 'blueboard-client';
 
 export interface controlState {
     control: BlueboardControl;
@@ -10,7 +10,7 @@ const initialState: controlState = {
 };
 
 const controlReducerObj = {
-    name: "control",
+    name: 'control',
     initialState,
     reducers: {
         setControl: (state: controlState, action: PayloadAction<BlueboardControl>) => {

@@ -1,5 +1,6 @@
 .eslintrc.js
 .prettierrc.js
-vite.config.js
+craco.config.js
+src/react-app-env.d.ts
 
 build

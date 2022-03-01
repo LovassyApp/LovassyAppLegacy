@@ -1,8 +1,8 @@
-import * as React from "react";
-import AuthLayout from "../../Layouts/Auth";
-import HeaderCard from "../../Components/HeaderCard";
-import { useHistory, useParams } from "react-router";
-import TableLoader from "../../Components/TableLoader";
+import * as React from 'react';
+import AuthLayout from '../../Layouts/Auth';
+import HeaderCard from '../../Components/HeaderCard';
+import { useHistory, useParams } from 'react-router';
+import TableLoader from '../../Components/TableLoader';
 import {
     Loading,
     Input,
@@ -11,7 +11,7 @@ import {
     Switch,
     useTheme,
     Card as NextUICard,
-} from "@nextui-org/react";
+} from '@nextui-org/react';
 
 import {
     Row,
@@ -26,14 +26,14 @@ import {
     Badge,
     Alert,
     Container,
-} from "reactstrap";
-import toast from "react-hot-toast";
-import { checkPermission } from "../../Helpers/Middleware";
-import Four0Three from "../403";
-import { usePermissions } from "../../Hooks/ControlHooks";
-import { useBlueboardClient } from "blueboard-client-react";
-import { BlueboardNotFoundException, BlueboardUserGroup } from "blueboard-client";
-import Center from "../../Components/Center";
+} from 'reactstrap';
+import toast from 'react-hot-toast';
+import { checkPermission } from '../../Helpers/Middleware';
+import Four0Three from '../403';
+import { usePermissions } from '../../Hooks/ControlHooks';
+import { useBlueboardClient } from 'blueboard-client-react';
+import { BlueboardNotFoundException, BlueboardUserGroup } from 'blueboard-client';
+import Center from '../../Components/Center';
 
 const EditGroup = (): JSX.Element => {
     const { id } = useParams() as { id: string };
@@ -43,18 +43,18 @@ const EditGroup = (): JSX.Element => {
 
     const userPermissions = usePermissions();
 
-    if (id !== "new" && isNaN(Number(id))) {
-        history.push("/404");
+    if (id !== 'new' && isNaN(Number(id))) {
+        history.push('/404');
     }
 
     const [permissions, setPermissions] = React.useState<any[]>([]);
     const [loading, setLoading] = React.useState(true);
-    const [name, setName] = React.useState("");
+    const [name, setName] = React.useState('');
     const [tab, setTab] = React.useState(0);
     const [checked, setChecked] = React.useState<string[]>([]);
     const [savePending, setSavePending] = React.useState(false);
 
-    const [GLOBERR, setGLOBERR] = React.useState("");
+    const [GLOBERR, setGLOBERR] = React.useState('');
     const [nameErr, setNameErr] = React.useState([]);
     const [permissionsErr, setPermissionsErr] = React.useState([]);
     const [globIsVisible, globSetVisible] = React.useState(false);
@@ -78,7 +78,7 @@ const EditGroup = (): JSX.Element => {
             .all()
             .then((res) => {
                 setPermissions(Object.values(res as any));
-                if (id !== "new") {
+                if (id !== 'new') {
                     client.groups
                         .get(Number(id))
                         .then((res) => {
@@ -88,7 +88,7 @@ const EditGroup = (): JSX.Element => {
                         })
                         .catch((err) => {
                             if (err instanceof BlueboardNotFoundException) {
-                                history.push("/404");
+                                history.push('/404');
                             } else {
                                 toast.error(err.message);
                             }
@@ -107,8 +107,8 @@ const EditGroup = (): JSX.Element => {
         client.groups
             .save(data)
             .then(() => {
-                toast.success("Sikeres mentés!");
-                history.push("/admin/permissions");
+                toast.success('Sikeres mentés!');
+                history.push('/admin/permissions');
             })
             .catch((err) => {
                 setSavePending(false);
@@ -124,7 +124,7 @@ const EditGroup = (): JSX.Element => {
                     }
 
                     if (err.errors.permissions === undefined && err.errors.name === undefined) {
-                        console.log("hello");
+                        console.log('hello');
                         setGLOBERR(err.message);
                         globSetVisible(true);
                     }
@@ -135,14 +135,14 @@ const EditGroup = (): JSX.Element => {
             });
     };
 
-    if (id === "new" && !checkPermission("Permissions.add", userPermissions)) {
+    if (id === 'new' && !checkPermission('Permissions.add', userPermissions)) {
         return <Four0Three />;
     }
 
     if (
-        id !== "new" &&
+        id !== 'new' &&
         !isNaN(Number(id)) &&
-        !checkPermission("Permissions.update", userPermissions)
+        !checkPermission('Permissions.update', userPermissions)
     ) {
         return <Four0Three />;
     }
@@ -155,25 +155,25 @@ const EditGroup = (): JSX.Element => {
                     <TableLoader />
                 </Center>
             ) : (
-                <Container fluid={true} style={{ width: "95%" }}>
+                <Container fluid={true} style={{ width: '95%' }}>
                     <Row className="ml-2 mr-2">
                         <Col md="12">
                             <Card
                                 style={{
                                     background:
-                                        theme.type === "dark"
+                                        theme.type === 'dark'
                                             ? theme.palette.accents_1
                                             : theme.palette.background,
                                 }}>
                                 <CardBody>
                                     <Center>
                                         <Input
-                                            style={{ width: "200px" }}
+                                            style={{ width: '200px' }}
                                             className="mt-2"
                                             clearable={true}
                                             bordered={true}
                                             underlined={true}
-                                            color={name === "" ? "error" : "primary"}
+                                            color={name === '' ? 'error' : 'primary'}
                                             shadow={false}
                                             onChange={(e) => setName(e.target.value)}
                                             labelLeft="Név: "
@@ -196,8 +196,8 @@ const EditGroup = (): JSX.Element => {
                                             toggle={() => nameSetVisible(false)}>
                                             {nameErr.map((el) => (
                                                 <span key={el}>
-                                                    {" "}
-                                                    {el} <br />{" "}
+                                                    {' '}
+                                                    {el} <br />{' '}
                                                 </span>
                                             ))}
                                         </Alert>
@@ -208,8 +208,8 @@ const EditGroup = (): JSX.Element => {
                                             toggle={() => permissionsSetVisible(false)}>
                                             {permissionsErr.map((el) => (
                                                 <span key={el}>
-                                                    {" "}
-                                                    {el} <br />{" "}
+                                                    {' '}
+                                                    {el} <br />{' '}
                                                 </span>
                                             ))}
                                         </Alert>
@@ -255,7 +255,7 @@ const EditGroup = (): JSX.Element => {
                                                                             getChecked(
                                                                                 el.permissionString,
                                                                             )
-                                                                                ? "default"
+                                                                                ? 'default'
                                                                                 : theme.palette
                                                                                       .accents_2
                                                                         }
@@ -269,14 +269,14 @@ const EditGroup = (): JSX.Element => {
                                                                         hoverable={true}
                                                                         clickable={true}>
                                                                         <Text h5={true}>
-                                                                            {el.displayName}{" "}
+                                                                            {el.displayName}{' '}
                                                                             <Badge
                                                                                 pill={true}
                                                                                 className="badge-white">
                                                                                 {
                                                                                     el.permissionString
                                                                                 }
-                                                                            </Badge>{" "}
+                                                                            </Badge>{' '}
                                                                         </Text>
                                                                         <p>{el.description}</p>
                                                                         <Switch

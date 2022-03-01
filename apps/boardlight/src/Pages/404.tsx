@@ -1,15 +1,15 @@
-import * as React from "react";
-import style from "../CSS/error.module.css";
-import { Button, useTheme } from "@nextui-org/react";
-import { useHistory } from "react-router";
-import Radium from "radium";
-import styled from "styled-components";
-import Center from "../Components/Center";
+import * as React from 'react';
+import style from '../CSS/error.module.css';
+import { Button, useTheme } from '@nextui-org/react';
+import { useHistory } from 'react-router';
+import Radium from 'radium';
+import styled from 'styled-components';
+import Center from '../Components/Center';
 
 const Four0Four = (): JSX.Element => {
     const history = useHistory();
     const theme = useTheme();
-    const bg = theme.type === "dark" ? theme.palette.background : theme.palette.accents_1;
+    const bg = theme.type === 'dark' ? theme.palette.background : theme.palette.accents_1;
     // Au. Styled. Au.
     const Curve = styled.div`
         position: absolute;
@@ -18,7 +18,7 @@ const Four0Four = (): JSX.Element => {
         bottom: 0;
         text-align: center;
         &:before {
-            content: "";
+            content: '';
             display: block;
             position: absolute;
             border-radius: 100% 50%;
@@ -28,7 +28,7 @@ const Four0Four = (): JSX.Element => {
             background: ${bg};
         }
         &:after {
-            content: "";
+            content: '';
             display: block;
             position: absolute;
             border-radius: 100% 50%;
@@ -63,12 +63,12 @@ const Four0Four = (): JSX.Element => {
                     <h1>404</h1>
                     <h2 style={{ color: theme.palette.text }}>Ilyen oldal nincs... Eltévetdél?</h2>
                     <Center>
-                        <div style={{ zIndex: 99, marginTop: "20px" }}>
+                        <div style={{ zIndex: 99, marginTop: '20px' }}>
                             <Button
                                 rounded={true}
                                 loaderType="points"
                                 onClick={() => {
-                                    history.push("/home");
+                                    history.push('/home');
                                 }}
                                 color="gradient">
                                 Vissza a kezdőlapra

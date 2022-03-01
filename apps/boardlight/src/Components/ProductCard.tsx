@@ -1,7 +1,7 @@
-import { Badge, Col, Row } from "reactstrap";
-import { Button, Card, Text } from "@nextui-org/react";
-import { BlueboardInventoryItem, BlueboardProduct } from "blueboard-client";
-import Middleware from "../Helpers/Middleware";
+import { Badge, Col, Row } from 'reactstrap';
+import { Button, Card, Text } from '@nextui-org/react';
+import { BlueboardInventoryItem, BlueboardProduct } from 'blueboard-client';
+import Middleware from '../Helpers/Middleware';
 
 const ProductCard = ({
     product,
@@ -16,10 +16,10 @@ const ProductCard = ({
         <Card width="100%" hoverable={true} color="#0f1114" cover={true}>
             <Card.Header
                 style={{
-                    position: "absolute",
+                    position: 'absolute',
                     zIndex: 1,
                     top: 5,
-                    border: "none",
+                    border: 'none',
                 }}>
                 <Col>
                     <Text h4={true} weight="bold" color="white">
@@ -44,7 +44,7 @@ const ProductCard = ({
                 border={true}
                 noPadding={true}
                 borderColor="rgba(15, 17, 20, 0.4)"
-                style={{ position: "absolute", zIndex: 1, bottom: 0 }}>
+                style={{ position: 'absolute', zIndex: 1, bottom: 0 }}>
                 {item === undefined ? (
                     <ProductFooter product={product} buttonCallback={callback} />
                 ) : (
@@ -78,9 +78,9 @@ const ItemFooter = ({
                                     buttonCallback(item.product, item);
                                 }}
                                 rounded={true}
-                                color={item.usedAt !== null ? "error" : "#94f9f0"}>
+                                color={item.usedAt !== null ? 'error' : '#94f9f0'}>
                                 <Text size={12} weight="bold" transform="uppercase">
-                                    {item.usedAt !== null ? "Megtekintés" : "Beváltás"}
+                                    {item.usedAt !== null ? 'Megtekintés' : 'Beváltás'}
                                 </Text>
                             </Button>
                         }
@@ -92,7 +92,7 @@ const ItemFooter = ({
                     <>
                         {item.product.codeActivated ? (
                             <Badge pill={true} color="warning">
-                                Csak QR kóddal aktiválható ({item.product.codeNames.join(", ")})
+                                Csak QR kóddal aktiválható ({item.product.codeNames.join(', ')})
                             </Badge>
                         ) : (
                             <Badge pill={true} color="success">
@@ -105,7 +105,7 @@ const ItemFooter = ({
                                     // eslint-disable-next-line react/no-array-index-key
                                     <Badge key={key} pill={true} className="me-1" color="primary">
                                         {el.title}
-                                        {` (${el.type === "boolean" ? "Igen / nem" : "Szöveg"})`}
+                                        {` (${el.type === 'boolean' ? 'Igen / nem' : 'Szöveg'})`}
                                     </Badge>
                                 ))}
                             </Col>

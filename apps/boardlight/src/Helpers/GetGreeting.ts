@@ -6,11 +6,11 @@ const getGreeting = (): string => {
     const hour = new Date().getHours();
 
     if (hour < 12) {
-        return "Jó reggelt, ";
+        return 'Jó reggelt, ';
     } else if (hour < 18) {
-        return "Szép napot, ";
+        return 'Szép napot, ';
     }
-    return "Szép estét, ";
+    return 'Szép estét, ';
 };
 
 export default getGreeting;

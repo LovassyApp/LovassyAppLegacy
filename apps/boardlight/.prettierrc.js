@@ -1,9 +1,10 @@
 module.exports = {
     bracketSameLine: true,
-    trailingComma: "all",
+    trailingComma: 'all',
     printWidth: 100,
     semi: true,
-    quoteProps: "as-needed",
+    quoteProps: 'as-needed',
     bracketSpacing: true,
+    singleQuote: true,
     tabWidth: 4, // We use eslint to handle this
 };

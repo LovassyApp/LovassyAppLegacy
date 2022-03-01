@@ -1,14 +1,14 @@
-import toast from "react-hot-toast";
-import { useGroups, useUser } from "../Hooks/ControlHooks";
+import toast from 'react-hot-toast';
+import { useGroups, useUser } from '../Hooks/ControlHooks';
 import {
     useBlueboardChannel /* useBlueboardPrivateChannel */,
     useBlueboardPrivateChannel,
-} from "blueboard-client-react";
-import useToken from "../Hooks/useToken";
-import { useDispatch } from "react-redux";
-import { BlueboardUser, BlueboardUserGroup } from "blueboard-client";
-import { AppDispatch } from "../State";
-import { setGroups, setUser } from "../State/controlReducer";
+} from 'blueboard-client-react';
+import useToken from '../Hooks/useToken';
+import { useDispatch } from 'react-redux';
+import { BlueboardUser, BlueboardUserGroup } from 'blueboard-client';
+import { AppDispatch } from '../State';
+import { setGroups, setUser } from '../State/controlReducer';
 
 const GroupListener = ({
     groupID,
@@ -19,7 +19,7 @@ const GroupListener = ({
     groups: BlueboardUserGroup[];
     dispatch: AppDispatch;
 }): JSX.Element => {
-    useBlueboardPrivateChannel(`Groups.${groupID}`, "UserGroupUpdated", (data: any) => {
+    useBlueboardPrivateChannel(`Groups.${groupID}`, 'UserGroupUpdated', (data: any) => {
         const groupsClone = [...groups];
         const index = groupsClone.findIndex((x) => x.id === groupID);
 
@@ -30,7 +30,7 @@ const GroupListener = ({
         }
 
         dispatch(setGroups(groupsClone));
-        toast.success("Felhasználói jogosultságok frissítve!");
+        toast.success('Felhasználói jogosultságok frissítve!');
     });
     return <></>;
 };
@@ -42,7 +42,7 @@ const AuthedListeners = ({
     dispatch: AppDispatch;
     user: BlueboardUser;
 }): JSX.Element => {
-    useBlueboardPrivateChannel(`Users.${user.id}`, "LoloAmountUpdated", (res: any) => {
+    useBlueboardPrivateChannel(`Users.${user.id}`, 'LoloAmountUpdated', (res: any) => {
         const newUser = { ...user, balance: res.balance } as BlueboardUser;
         dispatch(setUser(newUser));
     });
@@ -58,7 +58,7 @@ const GlobalListeners = (): JSX.Element => {
 
     const isUser = token !== null;
 
-    useBlueboardChannel("global", "GlobalEvent", (data: any) => {
+    useBlueboardChannel('global', 'GlobalEvent', (data: any) => {
         toast(data.message);
     });
 

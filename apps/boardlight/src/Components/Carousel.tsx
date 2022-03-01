@@ -1,16 +1,16 @@
-import * as React from "react";
-import Carousel, { autoplayPlugin } from "@brainhubeu/react-carousel";
-import "@brainhubeu/react-carousel/lib/style.css";
-import style from "../CSS/login.module.css";
-import Center from "./Center";
+import * as React from 'react';
+import Carousel, { autoplayPlugin } from '@brainhubeu/react-carousel';
+import '@brainhubeu/react-carousel/lib/style.css';
+import style from '../CSS/login.module.css';
+import Center from './Center';
 
 const LoginCarousel = (): JSX.Element => {
     return (
         <div className={String(style.center)}>
             <Carousel
                 plugins={[
-                    "infinite",
-                    "centered",
+                    'infinite',
+                    'centered',
                     {
                         resolve: autoplayPlugin,
                         options: {

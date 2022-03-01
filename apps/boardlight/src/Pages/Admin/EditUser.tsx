@@ -1,16 +1,16 @@
-import * as React from "react";
-import AuthLayout from "../../Layouts/Auth";
-import HeaderCard from "../../Components/HeaderCard";
-import { useHistory, useParams } from "react-router";
-import { Loading, Input, Button, useTheme, Container } from "@nextui-org/react";
-import { Row, Col, CardBody, Card, Alert } from "reactstrap";
-import toast from "react-hot-toast";
-import TableLoader from "../../Components/TableLoader";
-import Select from "react-select";
-import makeAnimated from "react-select/animated";
-import { useBlueboardClient } from "blueboard-client-react";
-import { BlueboardNotFoundException, BlueboardUser, BlueboardUserGroup } from "blueboard-client";
-import Center from "../../Components/Center";
+import * as React from 'react';
+import AuthLayout from '../../Layouts/Auth';
+import HeaderCard from '../../Components/HeaderCard';
+import { useHistory, useParams } from 'react-router';
+import { Loading, Input, Button, useTheme, Container } from '@nextui-org/react';
+import { Row, Col, CardBody, Card, Alert } from 'reactstrap';
+import toast from 'react-hot-toast';
+import TableLoader from '../../Components/TableLoader';
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
+import { useBlueboardClient } from 'blueboard-client-react';
+import { BlueboardNotFoundException, BlueboardUser, BlueboardUserGroup } from 'blueboard-client';
+import Center from '../../Components/Center';
 
 const animatedComponents = makeAnimated();
 
@@ -21,7 +21,7 @@ const EditUser = (): JSX.Element => {
     const client = useBlueboardClient();
 
     if (isNaN(Number(id))) {
-        history.push("/404");
+        history.push('/404');
     }
 
     const [loading, setLoading] = React.useState(true);
@@ -30,11 +30,11 @@ const EditUser = (): JSX.Element => {
     type DropGroupArray = Array<{ value: string | number; label: string }>;
 
     const [allGroups, setAllGroups] = React.useState<DropGroupArray>([]);
-    const [name, setName] = React.useState("");
-    const [email, setEmail] = React.useState("");
+    const [name, setName] = React.useState('');
+    const [email, setEmail] = React.useState('');
     const [groups, setGroups] = React.useState<DropGroupArray>([]);
 
-    const [GLOBERR, setGLOBERR] = React.useState("");
+    const [GLOBERR, setGLOBERR] = React.useState('');
     const [nameErr, setNameErr] = React.useState<string[]>([]);
     const [emailErr, setEmailErr] = React.useState<string[]>([]);
 
@@ -65,7 +65,7 @@ const EditUser = (): JSX.Element => {
             })
             .catch((err) => {
                 if (err instanceof BlueboardNotFoundException) {
-                    history.push("/404");
+                    history.push('/404');
                 } else {
                     toast.error(err.message);
                 }
@@ -85,8 +85,8 @@ const EditUser = (): JSX.Element => {
         client.users
             .save(data)
             .then(() => {
-                toast.success("Sikeres mentés!");
-                history.push("/admin/users");
+                toast.success('Sikeres mentés!');
+                history.push('/admin/users');
             })
             .catch((err) => {
                 setSavePending(false);
@@ -114,13 +114,13 @@ const EditUser = (): JSX.Element => {
                     <TableLoader />
                 </Center>
             ) : (
-                <Container fluid={true} style={{ width: "95%" }}>
+                <Container fluid={true} style={{ width: '95%' }}>
                     <Row className="ml-2 mr-2">
                         <Col md="12">
                             <Card
                                 style={{
                                     background:
-                                        theme.type === "dark"
+                                        theme.type === 'dark'
                                             ? theme.palette.accents_1
                                             : theme.palette.background,
                                 }}>
@@ -134,7 +134,7 @@ const EditUser = (): JSX.Element => {
                                                     clearable={true}
                                                     bordered={true}
                                                     underlined={true}
-                                                    color={name === "" ? "error" : "primary"}
+                                                    color={name === '' ? 'error' : 'primary'}
                                                     shadow={false}
                                                     onChange={(e) => setName(e.target.value)}
                                                     labelLeft="Név: "
@@ -147,8 +147,8 @@ const EditUser = (): JSX.Element => {
                                                     toggle={() => nameSetVisible(false)}>
                                                     {nameErr.map((el) => (
                                                         <span key={el}>
-                                                            {" "}
-                                                            {el} <br />{" "}
+                                                            {' '}
+                                                            {el} <br />{' '}
                                                         </span>
                                                     ))}
                                                 </Alert>
@@ -160,7 +160,7 @@ const EditUser = (): JSX.Element => {
                                                     clearable={true}
                                                     bordered={true}
                                                     underlined={true}
-                                                    color={email === "" ? "error" : "primary"}
+                                                    color={email === '' ? 'error' : 'primary'}
                                                     shadow={false}
                                                     onChange={(e) => setEmail(e.target.value)}
                                                     labelLeft="Email: "
@@ -173,8 +173,8 @@ const EditUser = (): JSX.Element => {
                                                     toggle={() => emailSetVisible(false)}>
                                                     {emailErr.map((el) => (
                                                         <span key={el}>
-                                                            {" "}
-                                                            {el} <br />{" "}
+                                                            {' '}
+                                                            {el} <br />{' '}
                                                         </span>
                                                     ))}
                                                 </Alert>

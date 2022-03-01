@@ -1,16 +1,16 @@
-import * as React from "react";
-import HeaderCard from "../Components/HeaderCard";
-import EmptyTable from "../Components/EmptyTable";
-import AuthLayout from "../Layouts/Auth";
-import { Text, Card, Button, Grid, Modal, Input, Textarea } from "@nextui-org/react";
+import * as React from 'react';
+import HeaderCard from '../Components/HeaderCard';
+import EmptyTable from '../Components/EmptyTable';
+import AuthLayout from '../Layouts/Auth';
+import { Text, Card, Button, Grid, Modal, Input, Textarea } from '@nextui-org/react';
 // import toast from 'react-hot-toast';
-import { useBlueboardClient } from "blueboard-client-react";
-import TableLoader from "../Components/TableLoader";
-import { Col, Container, Row, Badge } from "reactstrap";
-import Center from "../Components/Center";
-import toast from "react-hot-toast";
-import { BlueboardClient, BlueboardLoloData, BlueboardLoloReason } from "blueboard-client";
-import Middlware from "../Helpers/Middleware";
+import { useBlueboardClient } from 'blueboard-client-react';
+import TableLoader from '../Components/TableLoader';
+import { Col, Container, Row, Badge } from 'reactstrap';
+import Center from '../Components/Center';
+import toast from 'react-hot-toast';
+import { BlueboardClient, BlueboardLoloData, BlueboardLoloReason } from 'blueboard-client';
+import Middlware from '../Helpers/Middleware';
 
 const RequestModalContent = ({
     closeHandler,
@@ -19,8 +19,8 @@ const RequestModalContent = ({
     closeHandler(): void;
     client: BlueboardClient;
 }): JSX.Element => {
-    const [body, setBody] = React.useState("");
-    const [title, setTitle] = React.useState("");
+    const [body, setBody] = React.useState('');
+    const [title, setTitle] = React.useState('');
     const [savePending, setSavePending] = React.useState(false);
     const [errors, setErrors] = React.useState<{ [key: string]: string[] }>({});
 
@@ -28,7 +28,7 @@ const RequestModalContent = ({
         const err = errors ?? ({} as { [key: string]: string[] });
 
         const error = err[inputName] ?? [];
-        let str = "";
+        let str = '';
         error.forEach((el: string) => {
             str = `${str + el}\n`;
         });
@@ -42,7 +42,7 @@ const RequestModalContent = ({
             .make(title, body)
             .then(() => {
                 closeHandler();
-                toast.success("Kérvény sikeresen benyújtva!");
+                toast.success('Kérvény sikeresen benyújtva!');
             })
             .catch((err) => {
                 setSavePending(false);
@@ -57,7 +57,7 @@ const RequestModalContent = ({
 
     return (
         <>
-            <Modal.Header style={{ border: "none" }}>
+            <Modal.Header style={{ border: 'none' }}>
                 <Text id="modal-title" size={18}>
                     LoLó kérvény benyújtása
                 </Text>
@@ -76,10 +76,10 @@ const RequestModalContent = ({
                             onChange={(e) => setTitle(e.target.value)}
                             labelLeft="Cím: "
                             initialValue={title}
-                            color={getErrors("title") === "" ? "primary" : "error"}
-                            status={getErrors("title") === "" ? "default" : "error"}
-                            helperColor={getErrors("title") === "" ? "default" : "error"}
-                            helperText={getErrors("title")}
+                            color={getErrors('title') === '' ? 'primary' : 'error'}
+                            status={getErrors('title') === '' ? 'default' : 'error'}
+                            helperColor={getErrors('title') === '' ? 'default' : 'error'}
+                            helperText={getErrors('title')}
                         />
                     </Col>
                 </Row>
@@ -95,15 +95,15 @@ const RequestModalContent = ({
                             placeholder="Kérvény törzsszövege"
                             value={body}
                             onChange={(e) => setBody(e.target.value)}
-                            color={getErrors("body") === "" ? "primary" : "error"}
-                            status={getErrors("body") === "" ? "default" : "error"}
-                            helperColor={getErrors("body") === "" ? "default" : "error"}
-                            helperText={getErrors("body")}
+                            color={getErrors('body') === '' ? 'primary' : 'error'}
+                            status={getErrors('body') === '' ? 'default' : 'error'}
+                            helperColor={getErrors('body') === '' ? 'default' : 'error'}
+                            helperText={getErrors('body')}
                         />
                     </Col>
                 </Row>
             </Modal.Body>
-            <Modal.Footer style={{ overflow: "visible", border: "none" }}>
+            <Modal.Footer style={{ overflow: 'visible', border: 'none' }}>
                 <Button auto={true} rounded={true} flat={true} color="error" onClick={closeHandler}>
                     Mégsem
                 </Button>
@@ -177,20 +177,20 @@ const Lolo = (): JSX.Element => {
                         </Center>
                     ) : (
                         <>
-                            <Container fluid={true} style={{ width: "95%" }}>
+                            <Container fluid={true} style={{ width: '95%' }}>
                                 <Card hoverable={true}>
                                     <Row>
                                         <Col md="4" sm="12">
                                             <Text className="mt-2">
-                                                Jelenlegi egyenleged:{" "}
+                                                Jelenlegi egyenleged:{' '}
                                                 <Badge
                                                     pill={true}
                                                     color={
                                                         (lolo.balance ?? 0) > 0
                                                             ? (lolo.balance ?? 0) > 2
-                                                                ? "success"
-                                                                : "warning"
-                                                            : "danger"
+                                                                ? 'success'
+                                                                : 'warning'
+                                                            : 'danger'
                                                     }>
                                                     {lolo.balance} LoLó
                                                 </Badge>
@@ -225,31 +225,31 @@ const Lolo = (): JSX.Element => {
                                     </Row>
                                 </Card>
                             </Container>
-                            <Container fluid={true} style={{ width: "95%" }}>
+                            <Container fluid={true} style={{ width: '95%' }}>
                                 <Grid.Container justify="center" className="my-2" gap={2}>
                                     {lolo.coins.map((coin) => (
                                         <>
                                             <Grid>
                                                 <Card hoverable={true}>
                                                     <Text className="pb-1" h5={true}>
-                                                        {" "}
-                                                        {coin.reasonText}{" "}
+                                                        {' '}
+                                                        {coin.reasonText}{' '}
                                                         <Badge
                                                             pill={true}
                                                             color={
-                                                                coin.isSpent ? "danger" : "success"
+                                                                coin.isSpent ? 'danger' : 'success'
                                                             }>
                                                             {coin.isSpent
-                                                                ? "Felhasználva"
-                                                                : "Aktív"}
+                                                                ? 'Felhasználva'
+                                                                : 'Aktív'}
                                                         </Badge>
                                                     </Text>
                                                     {coin.grades.map((grade) => (
                                                         <Badge
-                                                            style={{ whiteSpace: "normal" }}
+                                                            style={{ whiteSpace: 'normal' }}
                                                             className="badge-white my-1"
                                                             key={grade.id}>
-                                                            {grade.name} ({grade.type}) -{" "}
+                                                            {grade.name} ({grade.type}) -{' '}
                                                             {grade.teacher}
                                                         </Badge>
                                                     ))}

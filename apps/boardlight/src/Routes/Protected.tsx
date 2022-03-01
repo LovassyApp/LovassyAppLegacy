@@ -1,18 +1,18 @@
-import React from "react";
-import Home from "../Pages/Home";
-import Users from "../Pages/Admin/Users";
-import Permissions from "../Pages/Admin/Groups";
-import EditGroup from "../Pages/Admin/EditGroup";
-import EditUser from "../Pages/Admin/EditUser";
-import QRCodes from "../Pages/Admin/QRCodes";
-import Middleware from "../Helpers/Middleware";
-import Products from "../Pages/Admin/Products";
-import EditProduct from "../Pages/Admin/EditProduct";
-import Store from "../Pages/Store";
-import Grades from "../Pages/Grades";
-import Lolo from "../Pages/Lolo";
-import Inventory from "../Pages/Inventory";
-import Requests from "../Pages/Admin/Requests";
+import React from 'react';
+import Home from '../Pages/Home';
+import Users from '../Pages/Admin/Users';
+import Permissions from '../Pages/Admin/Groups';
+import EditGroup from '../Pages/Admin/EditGroup';
+import EditUser from '../Pages/Admin/EditUser';
+import QRCodes from '../Pages/Admin/QRCodes';
+import Middleware from '../Helpers/Middleware';
+import Products from '../Pages/Admin/Products';
+import EditProduct from '../Pages/Admin/EditProduct';
+import Store from '../Pages/Store';
+import Grades from '../Pages/Grades';
+import Lolo from '../Pages/Lolo';
+import Inventory from '../Pages/Inventory';
+import Requests from '../Pages/Admin/Requests';
 
 export interface ProtectedRoute {
     path: string;
@@ -24,7 +24,7 @@ const protectedRoutes: ProtectedRoute[] = [
     // { path: '/test', component: <Protected />, exact: true },
     // User routes
     {
-        path: "/home",
+        path: '/home',
         component: (
             <Middleware permission="General.home" displayError={true} component={<Home />} />
         ),
@@ -32,7 +32,7 @@ const protectedRoutes: ProtectedRoute[] = [
     },
 
     {
-        path: "/grades",
+        path: '/grades',
         component: (
             <Middleware permission="General.grades" displayError={true} component={<Grades />} />
         ),
@@ -40,7 +40,7 @@ const protectedRoutes: ProtectedRoute[] = [
     },
 
     {
-        path: "/lolo",
+        path: '/lolo',
         component: (
             <Middleware permission="General.lolo" displayError={true} component={<Lolo />} />
         ),
@@ -48,13 +48,13 @@ const protectedRoutes: ProtectedRoute[] = [
     },
 
     {
-        path: "/store",
+        path: '/store',
         component: <Middleware permission="Store.view" displayError={true} component={<Store />} />,
         exact: true,
     },
 
     {
-        path: "/inventory",
+        path: '/inventory',
         component: (
             <Middleware permission="Inventory.view" displayError={true} component={<Inventory />} />
         ),
@@ -63,12 +63,12 @@ const protectedRoutes: ProtectedRoute[] = [
 
     // Admin stuff
     {
-        path: "/admin/users",
+        path: '/admin/users',
         component: <Middleware permission="Users.view" displayError={true} component={<Users />} />,
         exact: true,
     },
     {
-        path: "/admin/users/edit/:id",
+        path: '/admin/users/edit/:id',
         component: (
             <Middleware permission="Users.update" displayError={true} component={<EditUser />} />
         ),
@@ -76,7 +76,7 @@ const protectedRoutes: ProtectedRoute[] = [
     },
 
     {
-        path: "/admin/permissions",
+        path: '/admin/permissions',
         component: (
             <Middleware
                 permission="Permissions.view"
@@ -86,10 +86,10 @@ const protectedRoutes: ProtectedRoute[] = [
         ),
         exact: true,
     },
-    { path: "/admin/permissions/edit/:id", component: <EditGroup />, exact: false },
+    { path: '/admin/permissions/edit/:id', component: <EditGroup />, exact: false },
 
     {
-        path: "/admin/qrcodes",
+        path: '/admin/qrcodes',
         component: (
             <Middleware permission="QRCode.view" displayError={true} component={<QRCodes />} />
         ),
@@ -97,7 +97,7 @@ const protectedRoutes: ProtectedRoute[] = [
     },
 
     {
-        path: "/admin/requests",
+        path: '/admin/requests',
         component: (
             <Middleware permission="Requests.index" displayError={true} component={<Requests />} />
         ),
@@ -105,13 +105,13 @@ const protectedRoutes: ProtectedRoute[] = [
     },
 
     {
-        path: "/admin/products",
+        path: '/admin/products',
         component: (
             <Middleware permission="Products.index" displayError={true} component={<Products />} />
         ),
         exact: true,
     },
-    { path: "/admin/products/edit/:id", component: <EditProduct />, exact: false },
+    { path: '/admin/products/edit/:id', component: <EditProduct />, exact: false },
 ];
 
 export default protectedRoutes;

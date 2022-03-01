@@ -1,13 +1,13 @@
-import * as React from "react";
-import style from "../CSS/error.module.css";
-import { useTheme } from "@nextui-org/react";
-import Radium from "radium";
-import styled from "styled-components";
-import Center from "../Components/Center";
+import * as React from 'react';
+import style from '../CSS/error.module.css';
+import { useTheme } from '@nextui-org/react';
+import Radium from 'radium';
+import styled from 'styled-components';
+import Center from '../Components/Center';
 
 const Five0Three = (): JSX.Element => {
     const theme = useTheme();
-    const bg = theme.type === "dark" ? theme.palette.background : theme.palette.accents_1;
+    const bg = theme.type === 'dark' ? theme.palette.background : theme.palette.accents_1;
     // Au. Styled. Au.
     const Curve = styled.div`
         position: absolute;
@@ -16,7 +16,7 @@ const Five0Three = (): JSX.Element => {
         bottom: 0;
         text-align: center;
         &:before {
-            content: "";
+            content: '';
             display: block;
             position: absolute;
             border-radius: 100% 50%;
@@ -26,7 +26,7 @@ const Five0Three = (): JSX.Element => {
             background: ${bg};
         }
         &:after {
-            content: "";
+            content: '';
             display: block;
             position: absolute;
             border-radius: 100% 50%;

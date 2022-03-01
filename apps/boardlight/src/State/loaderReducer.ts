@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 export interface loaderState {
     loader: boolean;
@@ -9,7 +9,7 @@ const initialState: loaderState = {
 };
 
 const loaderReducerObj = {
-    name: "loader",
+    name: 'loader',
     initialState,
     reducers: {
         forceLoader: (state: loaderState) => {

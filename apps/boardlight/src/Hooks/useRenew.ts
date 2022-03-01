@@ -1,8 +1,8 @@
-import { useDispatch } from "react-redux";
-import Swal from "sweetalert2";
-import { useBlueboardClient } from "blueboard-client-react";
-import useLogout from "./useLogout";
-import { BlueboardLoginResponse } from "blueboard-client";
+import { useDispatch } from 'react-redux';
+import Swal from 'sweetalert2';
+import { useBlueboardClient } from 'blueboard-client-react';
+import useLogout from './useLogout';
+import { BlueboardLoginResponse } from 'blueboard-client';
 
 const useRenew = (): (() => Promise<void>) => {
     const client = useBlueboardClient();
@@ -13,10 +13,10 @@ const useRenew = (): (() => Promise<void>) => {
         return client.renew.start(callback, () => {
             logout().then(() => {
                 Swal.fire({
-                    title: "Probléma!",
-                    text: "Hú csávókám hát, ez nagyon lent van, hogy kilettél rakva innen.",
-                    icon: "error",
-                    confirmButtonText: "többet nem fordul elő...",
+                    title: 'Probléma!',
+                    text: 'Hú csávókám hát, ez nagyon lent van, hogy kilettél rakva innen.',
+                    icon: 'error',
+                    confirmButtonText: 'többet nem fordul elő...',
                 });
             });
         });
@@ -25,8 +25,8 @@ const useRenew = (): (() => Promise<void>) => {
     const callback = async (res: BlueboardLoginResponse): Promise<void> => {
         const { token } = res;
         client.account.control(token).then((res) => {
-            dispatch({ type: "token/setToken", payload: token });
-            dispatch({ type: "control/setControl", payload: res });
+            dispatch({ type: 'token/setToken', payload: token });
+            dispatch({ type: 'control/setControl', payload: res });
             renew();
         });
     };

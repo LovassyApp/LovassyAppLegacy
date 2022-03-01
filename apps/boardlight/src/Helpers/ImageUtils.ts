@@ -5,13 +5,13 @@
 			- minigyima
 */
 
-import defImg from "../Assets/default.jpg";
+import defImg from '../Assets/default.jpg';
 
 // Image URL-ről képet importál Blobként
 const importImage = async (imageUrl: string): Promise<BoardlightFile> => {
     const res = await fetch(imageUrl);
     // Custom header, képeknél a DB-ben tárolt fájl neve
-    const name = res.headers.get("x-llgapp-filename") as string;
+    const name = res.headers.get('x-llgapp-filename') as string;
     const blob = await res.blob();
 
     return makeFile(blob, name);
@@ -32,10 +32,10 @@ const makeFile = (blob: Blob, filename: string): BoardlightFile => {
 
 // Webpack-ból importált alap kimentéses kép
 const getDefImg = (): BoardlightFile => {
-    const BASE64_MARKER = ";base64,";
+    const BASE64_MARKER = ';base64,';
     const parts = defImg.split(BASE64_MARKER);
     const [part0, part1] = parts;
-    const [contentType] = part0.split(":");
+    const [contentType] = part0.split(':');
     const raw = window.atob(part1);
     const rawLength = raw.length;
     const uInt8Array = new Uint8Array(rawLength);
@@ -45,7 +45,7 @@ const getDefImg = (): BoardlightFile => {
     }
 
     const blob = new Blob([uInt8Array], { type: contentType });
-    return makeFile(blob, "defImg.jpg");
+    return makeFile(blob, 'defImg.jpg');
 };
 
 // Base64-el egy képet a feltöltéshez
