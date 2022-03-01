@@ -1,4 +1,5 @@
 import { ConfirmScreen } from "../screens/activation/confirmScreen";
+import { ContributoprsScreen } from "../screens/settings/contributorsScreen";
 import { HomeScreen } from "../screens/homeScreen";
 import { InventoryScreen } from "../screens/activation/inventoryScreen";
 import { Ionicons } from "@expo/vector-icons";
@@ -11,7 +12,7 @@ import React from "react";
 import { RegisterScreen } from "../screens/registerScreen";
 import { RequestsScreen } from "../screens/admin/requestsScreen";
 import { ScanScreen } from "../screens/activation/scanScreen";
-import { SettingsScreen } from "../screens/settingsScreen";
+import { SettingsScreen } from "../screens/settings/settingsScreen";
 import { StoreScreen } from "../screens/storeScreen";
 import { SuccessScreen } from "../screens/activation/successScreen";
 import { UsersScreen } from "../screens/admin/usersScreen";
@@ -127,7 +128,7 @@ const MainNavigation = () => {
           options={{
             tabBarIcon: ({ color }) => <Ionicons name="settings" size={24} color={color} />,
           }}
-          component={SettingsScreen}
+          component={SettingsNavigation}
         />
       </Tab.Navigator>
     </View>
@@ -161,6 +162,23 @@ const ActivationNavigation = () => {
         <Stack.Screen name="Megerősítés" component={ConfirmScreen} />
         <Stack.Screen name="Beolvasás" component={ScanScreen} />
         <Stack.Screen name="Siker" component={SuccessScreen} />
+      </Stack.Navigator>
+    </View>
+  );
+};
+
+const SettingsNavigation = () => {
+  const theme = useTheme();
+
+  return (
+    <View style={{ backgroundColor: theme.colors.background, flex: 1 }}>
+      <Stack.Navigator
+        initialRouteName="Kezdőlap"
+        screenOptions={{
+          headerShown: false,
+        }}>
+        <Stack.Screen name="Kezdőlap" component={SettingsScreen} />
+        <Stack.Screen name="Fejlesztők" component={ContributoprsScreen} />
       </Stack.Navigator>
     </View>
   );

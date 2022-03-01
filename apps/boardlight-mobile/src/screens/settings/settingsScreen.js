@@ -15,19 +15,19 @@ import {
 } from "react-native-paper";
 import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { darkTheme, lightTheme } from "../utils/theme/themes";
-import { loadData, saveData } from "../utils/misc/storageUtils";
-import { setAdmin, setPredictiveLoad, setTheme } from "../store/slices/settingsSlice";
+import { darkTheme, lightTheme } from "../../utils/theme/themes";
+import { loadData, saveData } from "../../utils/misc/storageUtils";
+import { setAdmin, setPredictiveLoad, setTheme } from "../../store/slices/settingsSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-import BottomSheet from "../components/bottomSheet";
+import BottomSheet from "../../components/bottomSheet";
 import { Ionicons } from "@expo/vector-icons";
-import { RestrictedWrapper } from "../components/restrictedWrapper";
-import { ScreenContainer } from "../components/screenContainer";
-import { SettingsItem } from "../components/content/settingsItem";
-import useLogout from "../hooks/useLogout";
+import { RestrictedWrapper } from "../../components/restrictedWrapper";
+import { ScreenContainer } from "../../components/screenContainer";
+import { SettingsItem } from "../../components/content/settingsItem";
+import useLogout from "../../hooks/useLogout";
 
-export const SettingsScreen = () => {
+export const SettingsScreen = ({ navigation }) => {
   const [showInformation, setShowInformation] = useState(false);
   const [confirmLogout, setConfirmLogout] = useState(false);
 
@@ -41,8 +41,6 @@ export const SettingsScreen = () => {
   const predictiveLoad = useSelector((state) => state.settings.predictiveLoad);
   const reduxTheme = useSelector((state) => state.settings.theme);
   const dispatch = useDispatch();
-
-  const bottomSheetRef = useRef();
 
   useEffect(() => {
     (async () => {
@@ -161,11 +159,11 @@ export const SettingsScreen = () => {
         <Caption>Névjegy</Caption>
         <SettingsItem
           title="Verzió"
-          right={<Subheading>{require("../../package.json").version}</Subheading>}
+          right={<Subheading>{require("../../../package.json").version}</Subheading>}
         />
         <SettingsItem
           title="Fejlesztők"
-          onPress={() => bottomSheetRef.current.show()}
+          onPress={() => navigation.navigate("Fejlesztők")}
           right={
             <Ionicons
               style={{ marginRight: 2 }}
@@ -175,19 +173,6 @@ export const SettingsScreen = () => {
             />
           }
         />
-
-        <BottomSheet
-          backgroundColor={theme.colors.backdrop}
-          sheetBackgroundColor={theme.dark ? "#1e1e1e" : theme.colors.surface}
-          radius={theme.roundness}
-          ref={bottomSheetRef}
-          height={130}>
-          <View style={styles.sheetContainer}>
-            <Title>Fejlesztők</Title>
-            <Text>Mobil app - Ocskó Nándor</Text>
-            <Text>Backend - Gyimesi Máté</Text>
-          </View>
-        </BottomSheet>
 
         <Portal>
           <Dialog visible={showInformation} dismissable={false}>
