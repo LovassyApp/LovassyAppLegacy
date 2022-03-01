@@ -4,33 +4,30 @@ import {
   Divider,
   Headline,
   HelperText,
-  Modal,
   Portal,
   Snackbar,
   Subheading,
   Text,
-  Title,
   useTheme,
 } from "react-native-paper";
-import { KeyboardAvoidingView, KeyboardAvoidingViewBase, StyleSheet, View } from "react-native";
+import { KeyboardAvoidingView, StyleSheet, View } from "react-native";
+import React, { useState } from "react";
 import {
   getCoinsFromGrades,
   getCoinsFromRequests,
   getTotalSpendings,
 } from "../utils/misc/loloUtils";
 
-import { LaButton } from "../components/content/customized/laButton";
 import { LaCard } from "../components/content/laCard";
+import { LaInput } from "../components/content/customized/laInput";
 import { LoloCoin } from "../components/content/loloCoin";
-import React, { useState } from "react";
+import { RequestItem } from "../components/content/requestItem";
 import { ScreenContainer } from "../components/screenContainer";
 import { fetchLolo } from "../utils/api/apiUtils";
 import { useBlueboardClient } from "blueboard-client-react";
 import { useLoading } from "../hooks/useLoading";
 import { useSelector } from "react-redux";
 import { useUser } from "../hooks/controlHooks";
-import { LaInput } from "../components/content/customized/laInput";
-import { RequestItem } from "../components/content/requestItem";
 
 export const HomeScreen = () => {
   const loading = useLoading();

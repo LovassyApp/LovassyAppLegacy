@@ -20,6 +20,24 @@
             "apps/boardlight-mobile/node_modules": true,
             "apps/boardlight-rewrite/node_modules": true
         },
+        "material-icon-theme.folders.associations": {
+            "blueboard": "server",
+            "boardlight": "client",
+            "boardlight-mobile": "mobile",
+            "blueboard-client": "connection",
+            "blueboard-client-react": "react-components",
+            "navigation": "routes",
+            "store": "redux-store",
+            "slices": "redux-reducer",
+            "screens": "content",
+            "activation": "wakatime",
+            "customized": "custom",
+            "bootstrap": "batch",
+            "boot": "batch",
+            "normal": "public",
+            "protected": "private",
+            "boardlight-rewrite": "client"
+        },
         "workspace.isHidden": true
     }
 }

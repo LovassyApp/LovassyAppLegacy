@@ -71,6 +71,10 @@ export const SettingsScreen = () => {
     name: {
       marginBottom: 5,
     },
+    devider: {
+      width: "100%",
+      marginVertical: 5,
+    },
   });
 
   const toggleTheme = () => {
@@ -107,7 +111,7 @@ export const SettingsScreen = () => {
           onPress={() => setShowInformation(true)}
           dense={true}
         />
-        <Divider style={{ width: "100%", marginVertical: 5 }} />
+        <Divider style={styles.devider} />
         <Caption>Titkos cuccok</Caption>
         <SettingsItem
           title="Admin mód"
@@ -119,7 +123,7 @@ export const SettingsScreen = () => {
             />
           }
         />
-        <Divider style={{ width: "100%", marginVertical: 5 }} />
+        <Divider style={styles.devider} />
         <Caption>Kinézet</Caption>
         <SettingsItem
           title="Sötét téma"
@@ -131,7 +135,7 @@ export const SettingsScreen = () => {
             />
           }
         />
-        <Divider style={{ width: "100%", marginVertical: 5 }} />
+        <Divider style={styles.devider} />
         <Caption>Kísérleti</Caption>
         <SettingsItem
           title="Prediktív betöltés"
@@ -143,7 +147,7 @@ export const SettingsScreen = () => {
             />
           }
         />
-        <Divider style={{ width: "100%", marginVertical: 5 }} />
+        <Divider style={styles.devider} />
         <Caption>Névjegy</Caption>
         <SettingsItem
           title="Verzió"

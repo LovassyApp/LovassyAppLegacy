@@ -40,6 +40,11 @@ export const KretaScreen = () => {
     subTitle: {
       paddingBottom: 8,
     },
+    subjectItem: {
+      padding: 0,
+      marginVertical: 5,
+      borderRadius: theme.roundness,
+    },
   });
 
   const colors = {
@@ -59,11 +64,7 @@ export const KretaScreen = () => {
       <List.Item
         key={item.subject}
         title={item.subject}
-        style={{
-          padding: 0,
-          marginVertical: 5,
-          borderRadius: theme.roundness,
-        }}
+        style={styles.subjectItem}
         right={() => (
           <Ionicons name="chevron-forward-outline" size={24} color={theme.colors.text} />
         )}
