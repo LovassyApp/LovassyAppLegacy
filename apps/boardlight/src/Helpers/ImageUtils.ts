@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 /*
 	Hölgyeim és uraim:
 	Most véresen őszintén:
@@ -34,9 +35,8 @@ const makeFile = (blob: Blob, filename: string): BoardlightFile => {
 const getDefImg = (): BoardlightFile => {
     const BASE64_MARKER = ';base64,';
     const parts = defImg.split(BASE64_MARKER);
-    const [part0, part1] = parts;
-    const [contentType] = part0.split(':');
-    const raw = window.atob(part1);
+    const contentType = parts[0].split(':')[1];
+    const raw = window.atob(parts[1]);
     const rawLength = raw.length;
     const uInt8Array = new Uint8Array(rawLength);
 
