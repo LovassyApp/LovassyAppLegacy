@@ -1,11 +1,11 @@
 /* eslint-disable indent */
 import { Button, Headline, HelperText, Text, TextInput } from "react-native-paper";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, View } from "react-native";
 
 import { InventoryItem } from "../../components/content/inventoryItem";
 import { LaInput } from "../../components/content/customized/laInput";
-import React, { useEffect, useState } from "react";
 import { ScreenContainer } from "../../components/screenContainer";
-import { View } from "react-native";
 import { fetchInventory } from "../../utils/api/apiUtils";
 import { matchSorter } from "match-sorter";
 import { useBlueboardClient } from "blueboard-client-react";
@@ -31,6 +31,14 @@ export const InventoryScreen = ({ navigation }) => {
 
   const client = useBlueboardClient();
   const loading = useLoading();
+
+  const styles = StyleSheet.create({
+    failedContainer: {
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+  });
 
   const getItems = () => {
     return renderedItems?.map((item, key) => (
@@ -59,7 +67,7 @@ export const InventoryScreen = ({ navigation }) => {
     return (
       <ScreenContainer>
         <Headline>Áruház</Headline>
-        <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <View style={styles.failedContainer}>
           <Text>Az adatok lekérése sikertelen</Text>
           <Button onPress={() => tryAgain()}>Próbáld újra</Button>
         </View>

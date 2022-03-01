@@ -4,7 +4,6 @@ import {
   Chip,
   Headline,
   HelperText,
-  Snackbar,
   Subheading,
   Text,
   TextInput,
@@ -19,6 +18,7 @@ import { useBlueboardClient, useBlueboardPrivateChannel } from "blueboard-client
 import BottomSheet from "../components/bottomSheet";
 import { LaButton } from "../components/content/customized/laButton";
 import { LaInput } from "../components/content/customized/laInput";
+import { LaSnackbar } from "../components/content/customized/laSnackbar";
 import { ProductCard } from "../components/content/productCard";
 import { ScreenContainer } from "../components/screenContainer";
 import { matchSorter } from "match-sorter";
@@ -227,23 +227,15 @@ export const StoreScreen = () => {
         </BottomSheet>
       </ScreenContainer>
       {snackBarOpen && (
-        <Snackbar
+        <LaSnackbar
           visible={snackBarOpen}
           onDismiss={() => {
             setSnackBarOpen(false);
             setSnackBarTimeout(30000);
           }}
-          theme={{
-            ...theme,
-            colors: {
-              ...theme.colors,
-              surface: theme.colors.text,
-              onSurface: theme.dark ? "#171717" : theme.colors.surface,
-            },
-          }}
           duration={snackBarTimeout}>
           {snackBarMessage}
-        </Snackbar>
+        </LaSnackbar>
       )}
     </>
   );

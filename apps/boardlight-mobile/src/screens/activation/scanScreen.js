@@ -8,8 +8,8 @@ import { Camera } from "expo-camera";
 import { Ionicons } from "@expo/vector-icons";
 import { LaButton } from "../../components/content/customized/laButton";
 import { ScreenContainer } from "../../components/screenContainer";
-import { useIsFocused } from "@react-navigation/core";
 import { useBlueboardClient } from "blueboard-client-react";
+import { useIsFocused } from "@react-navigation/core";
 
 // TODO: Finish this once theres a backend for it - Possibly with an other screen for confirmation
 export const ScanScreen = ({ navigation, route }) => {
@@ -110,6 +110,7 @@ export const ScanScreen = ({ navigation, route }) => {
             {isFocused && (
               <Camera
                 style={styles.scanner}
+                ratio="16:9"
                 type={backCamera ? Camera.Constants.Type.back : Camera.Constants.Type.front}
                 barCodeScannerSettings={{
                   barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr],

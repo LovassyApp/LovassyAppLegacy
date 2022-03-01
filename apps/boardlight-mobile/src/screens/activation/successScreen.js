@@ -1,18 +1,15 @@
 import { Headline, Subheading } from "react-native-paper";
 import React, { useEffect, useState } from "react";
-import { ScreenContainer } from "../../components/screenContainer";
-import { View } from "react-native";
-import { LaButton } from "../../components/content/customized/laButton";
+import { StyleSheet, View } from "react-native";
+
 import { Ionicons } from "@expo/vector-icons";
+import { LaButton } from "../../components/content/customized/laButton";
+import { ScreenContainer } from "../../components/screenContainer";
 
 export const SuccessScreen = ({ navigation, route }) => {
   const item = route.params;
 
   const [time, setTime] = useState(90);
-
-  // useEffect(() => {
-  //   setTime(90);
-  // }, []);
 
   useEffect(() => {
     if (time === 0) {
@@ -24,28 +21,40 @@ export const SuccessScreen = ({ navigation, route }) => {
     }, 1000);
 
     return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [time]);
+
+  const styles = StyleSheet.create({
+    container: {
+      justifyContent: "center",
+      alignItems: "center",
+      flex: 1,
+    },
+    info: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      width: "100%",
+    },
+  });
 
   return (
     <ScreenContainer>
-      <View style={{ justifyContent: "center", alignItems: "center", flex: 1 }}>
+      <View style={styles.container}>
         <Ionicons name="checkmark-circle" color="#2e7d32" size={100} />
         <Headline>Sikeres beváltás!</Headline>
         <View
           style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            width: "100%",
+            ...styles.info,
             marginTop: 10,
           }}>
           <Subheading>Termék:</Subheading>
           <Subheading numberOfLines={1}>{item.product.name}</Subheading>
         </View>
-        <View style={{ flexDirection: "row", justifyContent: "space-between", width: "100%" }}>
+        <View style={styles.info}>
           <Subheading>Azonosító:</Subheading>
           <Subheading numberOfLines={1}>{item.id}</Subheading>
         </View>
-        <View style={{ flexDirection: "row", justifyContent: "space-between", width: "100%" }}>
+        <View style={styles.info}>
           <Subheading>Hátralévő idő az oldalon:</Subheading>
           <Subheading numberOfLines={1}>{time}s</Subheading>
         </View>

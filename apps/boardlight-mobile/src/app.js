@@ -83,6 +83,7 @@ const ListenerStack = ({ children }) => {
     dispatch(setStore(products));
   });
 
+  // TODO: this fucks grades in coins (possibly)
   useBlueboardPrivateChannel(`Users.${user.id}`, "LoloAmountUpdated", (data) => {
     dispatch(setCoins(BlueboardLoloResponseFactory.getCoins(data.coins)));
     dispatch(setUserBalance(data.balance));

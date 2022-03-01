@@ -1,25 +1,23 @@
-import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
-
 import { ConfirmScreen } from "../screens/activation/confirmScreen";
 import { HomeScreen } from "../screens/homeScreen";
 import { InventoryScreen } from "../screens/activation/inventoryScreen";
 import { Ionicons } from "@expo/vector-icons";
 import { KretaScreen } from "../screens/kretaScreen";
 import { LoginScreen } from "../screens/loginScreen";
+import { NavigationContainer } from "@react-navigation/native";
 import { ProductsScreen } from "../screens/admin/productsScreen";
 import { QrCodesScreen } from "../screens/admin/qrCodesScreen";
 import React from "react";
 import { RegisterScreen } from "../screens/registerScreen";
 import { RequestsScreen } from "../screens/admin/requestsScreen";
-import { SuccessScreen } from "../screens/activation/successScreen";
 import { ScanScreen } from "../screens/activation/scanScreen";
 import { SettingsScreen } from "../screens/settingsScreen";
 import { StoreScreen } from "../screens/storeScreen";
+import { SuccessScreen } from "../screens/activation/successScreen";
 import { UsersScreen } from "../screens/admin/usersScreen";
 import { View } from "react-native";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { styled } from "styled-components";
 import { useSelector } from "react-redux";
 import { useTheme } from "react-native-paper";
 import { useUser } from "../hooks/controlHooks";
@@ -32,36 +30,6 @@ const MainNavigation = () => {
 
   const admin = useSelector((state) => state.settings.admin);
   const user = useUser();
-
-  //* For testing the scanner
-  // return (
-  //   <Tab.Navigator
-  //     barStyle={{
-  //       backgroundColor: theme.colors.background,
-  //       elevation: 0,
-  //     }}
-  //     activeColor={theme.colors.primary}
-  //   >
-  //     <Tab.Screen
-  //       name="Home"
-  //       options={{
-  //         tabBarIcon: ({ color }) => (
-  //           <Ionicons name="home" size={24} color={color} />
-  //         ),
-  //       }}
-  //       component={HomeScreen}
-  //     />
-  //     <Tab.Screen
-  //       name="Scan"
-  //       options={{
-  //         tabBarIcon: ({ color }) => (
-  //           <Ionicons name="qr-code" size={24} color={color} />
-  //         ),
-  //       }}
-  //       component={ScanScreen}
-  //     />
-  //   </Tab.Navigator>
-  // );
 
   if (admin) {
     return (
@@ -200,12 +168,6 @@ const ActivationNavigation = () => {
 
 export const NavigationDecider = () => {
   const token = useSelector((state) => state.token.value);
-  //* For testing the scanner
-  // return (
-  //   <NavigationContainer>
-  //     <MainNavigation />
-  //   </NavigationContainer>
-  // );
 
   return (
     <NavigationContainer>{token ? <MainNavigation /> : <LoginNavigation />}</NavigationContainer>
