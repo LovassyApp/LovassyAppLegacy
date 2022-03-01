@@ -228,7 +228,7 @@ const Lolo = (): JSX.Element => {
                             <Container fluid={true} style={{ width: '95%' }}>
                                 <Grid.Container justify="center" className="my-2" gap={2}>
                                     {lolo.coins.map((coin) => (
-                                        <>
+                                        <React.Fragment key={coin.id}>
                                             <Grid>
                                                 <Card hoverable={true}>
                                                     <Text className="pb-1" h5={true}>
@@ -262,7 +262,7 @@ const Lolo = (): JSX.Element => {
                                                     <Card.Footer />
                                                 </Card>
                                             </Grid>
-                                        </>
+                                        </React.Fragment>
                                     ))}
                                 </Grid.Container>
                             </Container>

@@ -3,7 +3,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import store from './State';
 import { Provider } from 'react-redux';
-// import register from './Utils/Console';
+import register from './Helpers/Console';
 // import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
@@ -13,7 +13,7 @@ ReactDOM.render(
     document.getElementById('root'),
 );
 
-// register();
+register();
 
 // reportWebVitals(console.log);
 
