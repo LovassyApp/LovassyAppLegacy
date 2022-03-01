@@ -1,6 +1,6 @@
-import * as React from "react";
-import AuthLayout from "../../Layouts/Auth";
-import HeaderCard from "../../Components/HeaderCard";
+import * as React from 'react';
+import AuthLayout from '../../Layouts/Auth';
+import HeaderCard from '../../Components/HeaderCard';
 import {
     Container,
     Grid,
@@ -11,17 +11,17 @@ import {
     Button,
     NextUIThemes,
     useTheme,
-} from "@nextui-org/react";
-import TableLoader from "../../Components/TableLoader";
-import { MdAdd } from "react-icons/md";
-import EmptyTable from "../../Components/EmptyTable";
-import { Popover, PopoverBody, Alert, UncontrolledTooltip } from "reactstrap";
-import deleteModal from "../../Helpers/DeleteModal";
-import toast from "react-hot-toast";
-import { useBlueboardClient } from "blueboard-client-react";
-import { BlueboardQRCode } from "blueboard-client";
-import Center from "../../Components/Center";
-import Middleware from "../../Helpers/Middleware";
+} from '@nextui-org/react';
+import TableLoader from '../../Components/TableLoader';
+import { MdAdd } from 'react-icons/md';
+import EmptyTable from '../../Components/EmptyTable';
+import { Popover, PopoverBody, Alert, UncontrolledTooltip } from 'reactstrap';
+import deleteModal from '../../Helpers/DeleteModal';
+import toast from 'react-hot-toast';
+import { useBlueboardClient } from 'blueboard-client-react';
+import { BlueboardQRCode } from 'blueboard-client';
+import Center from '../../Components/Center';
+import Middleware from '../../Helpers/Middleware';
 
 const QRCard = ({
     code,
@@ -36,9 +36,9 @@ const QRCard = ({
             <Card hoverable={true} clickable={true}>
                 <Card.Body
                     onClick={() => {
-                        const link = document.createElement("a");
+                        const link = document.createElement('a');
                         link.href = code.image;
-                        link.download = "code.png";
+                        link.download = 'code.png';
                         document.body.appendChild(link);
                         link.click();
                     }}
@@ -47,7 +47,7 @@ const QRCard = ({
                         objectFit="cover"
                         autoResize={false}
                         src={code.image}
-                        style={{ height: "200px", width: "200px" }}
+                        style={{ height: '200px', width: '200px' }}
                         // height={200}
                         // width={200}
                         alt="code"
@@ -56,7 +56,7 @@ const QRCard = ({
                 <Card.Footer
                     style={{
                         background:
-                            theme.type === "dark"
+                            theme.type === 'dark'
                                 ? theme.palette.accents_1
                                 : theme.palette.background,
                     }}
@@ -66,7 +66,7 @@ const QRCard = ({
                         <Text
                             b={true}
                             style={{
-                                maxWidth: "100px",
+                                maxWidth: '100px',
                             }}>
                             <span id={`tooltip-${code.id}`}>{code.name}</span>
                             <UncontrolledTooltip placement="bottom" target={`tooltip-${code.id}`}>
@@ -101,16 +101,16 @@ const QRCard = ({
 
 const AddCard = ({ bootstrap }: { bootstrap(): void }): JSX.Element => {
     const [popover, setPopover] = React.useState(false);
-    const [name, setName] = React.useState("");
-    const [email, setEmail] = React.useState("");
+    const [name, setName] = React.useState('');
+    const [email, setEmail] = React.useState('');
     const [errorShow, setErrorShow] = React.useState(false);
     const [errors, setErrors] = React.useState<{ [key: string]: string[] }>({});
     const [savePending, setSavePending] = React.useState(false);
     const client = useBlueboardClient();
 
     const togglePopover = (): void => {
-        setName("");
-        setEmail("");
+        setName('');
+        setEmail('');
         setErrorShow(false);
         setErrors({});
         return setPopover(!popover);
@@ -138,7 +138,7 @@ const AddCard = ({ bootstrap }: { bootstrap(): void }): JSX.Element => {
 
     const getErrors = (inputName: string): string => {
         const error = errors[inputName] ?? [];
-        let str = "";
+        let str = '';
         error.forEach((el: string) => {
             str = `${str + el}\n`;
         });
@@ -154,7 +154,7 @@ const AddCard = ({ bootstrap }: { bootstrap(): void }): JSX.Element => {
                 <PopoverBody
                     style={{
                         background:
-                            theme.type === "dark"
+                            theme.type === 'dark'
                                 ? theme.palette.accents_1
                                 : theme.palette.background,
                     }}>
@@ -164,10 +164,10 @@ const AddCard = ({ bootstrap }: { bootstrap(): void }): JSX.Element => {
                         clearable={true}
                         bordered={true}
                         underlined={true}
-                        color={getErrors("name") === "" ? "primary" : "error"}
-                        status={getErrors("name") === "" ? "default" : "error"}
-                        helperColor={getErrors("name") === "" ? "default" : "error"}
-                        helperText={getErrors("name")}
+                        color={getErrors('name') === '' ? 'primary' : 'error'}
+                        status={getErrors('name') === '' ? 'default' : 'error'}
+                        helperColor={getErrors('name') === '' ? 'default' : 'error'}
+                        helperText={getErrors('name')}
                         shadow={false}
                         onChange={(e) => setName(e.target.value)}
                         labelLeft="Név: "
@@ -180,10 +180,10 @@ const AddCard = ({ bootstrap }: { bootstrap(): void }): JSX.Element => {
                         bordered={true}
                         underlined={true}
                         type="email"
-                        color={getErrors("email") === "" ? "primary" : "error"}
-                        status={getErrors("email") === "" ? "default" : "error"}
-                        helperColor={getErrors("email") === "" ? "default" : "error"}
-                        helperText={getErrors("email")}
+                        color={getErrors('email') === '' ? 'primary' : 'error'}
+                        status={getErrors('email') === '' ? 'default' : 'error'}
+                        helperColor={getErrors('email') === '' ? 'default' : 'error'}
+                        helperText={getErrors('email')}
                         shadow={false}
                         onChange={(e) => setEmail(e.target.value)}
                         labelLeft="E-mail: "
@@ -194,7 +194,7 @@ const AddCard = ({ bootstrap }: { bootstrap(): void }): JSX.Element => {
                         color="danger"
                         isOpen={errorShow}
                         toggle={() => setErrorShow(false)}>
-                        {getErrors("general")}
+                        {getErrors('general')}
                     </Alert>
                     <Center>
                         <Button
@@ -220,7 +220,7 @@ const AddCard = ({ bootstrap }: { bootstrap(): void }): JSX.Element => {
                     <Card.Footer
                         style={{
                             background:
-                                theme.type === "dark"
+                                theme.type === 'dark'
                                     ? theme.palette.accents_1
                                     : theme.palette.background,
                         }}
@@ -259,7 +259,7 @@ const QRCodes = (): JSX.Element => {
 
     const deleteC = async (code: BlueboardQRCode, theme: NextUIThemes): Promise<void> => {
         const res = await deleteModal(
-            "Biztos, hogy törölni szeretnéd ezt a kódot?",
+            'Biztos, hogy törölni szeretnéd ezt a kódot?',
             `Törlés - ${code.name}`,
             theme,
         );
@@ -268,9 +268,9 @@ const QRCodes = (): JSX.Element => {
             toast.promise(
                 client.qrcodes.delete(code.id).then(() => bootstrap()),
                 {
-                    loading: "Törlés...",
-                    success: "Sikeresen törölve!",
-                    error: "Hiba történt!",
+                    loading: 'Törlés...',
+                    success: 'Sikeresen törölve!',
+                    error: 'Hiba történt!',
                 },
             );
         }

@@ -1,19 +1,19 @@
-import ReactDOM from "react-dom";
-import App from "./App";
-import * as serviceWorker from "./serviceWorker";
-import store from "./State";
-import { Provider } from "react-redux";
-// import register from './Utils/Console';
+import ReactDOM from 'react-dom';
+import App from './App';
+import * as serviceWorker from './serviceWorker';
+import store from './State';
+import { Provider } from 'react-redux';
+import register from './Helpers/Console';
 // import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
     <Provider store={store}>
         <App />
     </Provider>,
-    document.getElementById("root"),
+    document.getElementById('root'),
 );
 
-// register();
+register();
 
 // reportWebVitals(console.log);
 

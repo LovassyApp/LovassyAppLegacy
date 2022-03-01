@@ -1,14 +1,14 @@
-import { createContext, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useBlueboardClient } from "blueboard-client-react";
-import useLoaderState from "../Hooks/useLoaderState";
-import useLogout from "../Hooks/useLogout";
-import useRenew from "../Hooks/useRenew";
-import Loading from "../Components/Loading";
-import useToken from "../Hooks/useToken";
-import Swal from "sweetalert2";
-import { BlueboardControlException } from "blueboard-client";
-import useSystemTheme from "../Hooks/useSystemTheme";
+import { createContext, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useBlueboardClient } from 'blueboard-client-react';
+import useLoaderState from '../Hooks/useLoaderState';
+import useLogout from '../Hooks/useLogout';
+import useRenew from '../Hooks/useRenew';
+import Loading from '../Components/Loading';
+import useToken from '../Hooks/useToken';
+import Swal from 'sweetalert2';
+import { BlueboardControlException } from 'blueboard-client';
+import useSystemTheme from '../Hooks/useSystemTheme';
 
 export const AppBootstrapContext = createContext(false);
 
@@ -27,10 +27,10 @@ const AppBootstrapProvider = ({ children }: { children: React.ReactNode }): JSX.
     const startRenew = useRenew();
 
     const fcontrol = async (token: string): Promise<void> => {
-        console.log("DEBUG: Control fetch...");
+        console.log('DEBUG: Control fetch...');
 
         await client.account.control(token).then((res) => {
-            dispatch({ type: "control/setControl", payload: res });
+            dispatch({ type: 'control/setControl', payload: res });
 
             setTimeout(() => setShow(true), 0);
             setTimeout(() => setLoading(false), 300);
@@ -45,17 +45,17 @@ const AppBootstrapProvider = ({ children }: { children: React.ReactNode }): JSX.
             fcontrol(token)
                 .then(() => {
                     startRenew();
-                    dispatch({ type: "loader/removeLoader" });
+                    dispatch({ type: 'loader/removeLoader' });
                     setBootstrapInProgress(false);
                 })
                 .catch((err) => {
                     if (err instanceof BlueboardControlException) {
                         logout().then(() => {
                             Swal.fire({
-                                title: "A Manóba",
-                                text: "Szóval ömm igen... Úgy tűnik valami elszállt, kérlek jelentkezz be újra.",
-                                icon: "error",
-                                confirmButtonText: "Igenis!",
+                                title: 'A Manóba',
+                                text: 'Szóval ömm igen... Úgy tűnik valami elszállt, kérlek jelentkezz be újra.',
+                                icon: 'error',
+                                confirmButtonText: 'Igenis!',
                             });
                         });
                     } else {
@@ -68,8 +68,8 @@ const AppBootstrapProvider = ({ children }: { children: React.ReactNode }): JSX.
                 .then((res) => {
                     fcontrol(res.token).then(() => {
                         startRenew();
-                        dispatch({ type: "token/setToken", payload: res.token });
-                        dispatch({ type: "loader/removeLoader" });
+                        dispatch({ type: 'token/setToken', payload: res.token });
+                        dispatch({ type: 'loader/removeLoader' });
                         setBootstrapInProgress(false);
                     });
                 })

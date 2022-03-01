@@ -1,8 +1,8 @@
-import React, { useCallback } from "react";
+import React, { useCallback } from 'react';
 
-import Five0Three from "../Pages/503";
-import Loading from "../Components/Loading";
-import { useBlueboardClient } from "blueboard-client-react";
+import Five0Three from '../Pages/503';
+import Loading from '../Components/Loading';
+import { useBlueboardClient } from 'blueboard-client-react';
 
 let interval: any;
 

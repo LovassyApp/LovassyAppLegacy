@@ -1,11 +1,12 @@
 node-modules
-dist
+build
 public
 src/Assets
 package.json
 yarn.lock
-vite.config.js
+craco.config.js
 .env
 .env.example
 .prettierignore
 .eslintignore
+.eslintrc.js

@@ -1,8 +1,8 @@
-import Swal, { SweetAlertResult } from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
-import { Button, NextUIThemes } from "@nextui-org/react";
-import { BlueboardInventoryItem } from "blueboard-client";
-import { Badge, Col, Row } from "reactstrap";
+import Swal, { SweetAlertResult } from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+import { Button, NextUIThemes } from '@nextui-org/react';
+import { BlueboardInventoryItem } from 'blueboard-client';
+import { Badge, Col, Row } from 'reactstrap';
 
 const ReactSwal = withReactContent(Swal);
 
@@ -12,8 +12,8 @@ const itemUsedModal = async (
 ): Promise<SweetAlertResult<any>> => {
     return ReactSwal.fire({
         title: `<div class="p-0 m-0" style="color: ${theme.palette.text}">Termék beváltva</div>`,
-        background: theme.type === "dark" ? theme.palette.accents_1 : theme.palette.background,
-        icon: "info",
+        background: theme.type === 'dark' ? theme.palette.accents_1 : theme.palette.background,
+        icon: 'info',
         html: (
             <>
                 <h4 style={{ color: theme.palette.text }}>
@@ -26,26 +26,26 @@ const itemUsedModal = async (
                             className="dropdown-divider"
                             style={{ background: theme.palette.accents_2 }}
                         />
-                        <div className="mt-3" style={{ color: theme.palette.text, width: "95%" }}>
+                        <div className="mt-3" style={{ color: theme.palette.text, width: '95%' }}>
                             {item.product.inputs.map((el, key) => (
                                 // eslint-disable-next-line react/no-array-index-key
                                 <Row key={key} className="mt-2">
                                     <Col md="auto">{el.title}: </Col>
                                     <Col>
-                                        {" "}
-                                        {el.type === "boolean" ? (
+                                        {' '}
+                                        {el.type === 'boolean' ? (
                                             <Badge
                                                 pill={true}
                                                 color={
                                                     (item.itemUse?.values[el.name] as boolean) ===
                                                     true
-                                                        ? "success"
-                                                        : "error"
+                                                        ? 'success'
+                                                        : 'error'
                                                 }>
-                                                {" "}
+                                                {' '}
                                                 {(item.itemUse?.values[el.name] as boolean) === true
-                                                    ? "Igen"
-                                                    : "Nem"}{" "}
+                                                    ? 'Igen'
+                                                    : 'Nem'}{' '}
                                             </Badge>
                                         ) : (
                                             item.itemUse?.values[el.name]

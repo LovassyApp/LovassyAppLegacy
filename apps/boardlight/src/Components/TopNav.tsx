@@ -10,10 +10,10 @@ import {
     DropdownToggle,
     DropdownMenu,
     DropdownItem,
-} from "reactstrap";
-import * as React from "react";
-import { useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+} from 'reactstrap';
+import * as React from 'react';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import {
     MdOutlineSecurity,
     MdOutlineStore,
@@ -26,11 +26,11 @@ import {
     MdOutlineAttachMoney,
     MdOutlineInventory2,
     MdQrCode2,
-} from "react-icons/md";
-import { useTheme } from "@nextui-org/react";
-import useLogout from "../Hooks/useLogout";
-import { RootState } from "../State";
-import Middleware from "../Helpers/Middleware";
+} from 'react-icons/md';
+import { useTheme } from '@nextui-org/react';
+import useLogout from '../Hooks/useLogout';
+import { RootState } from '../State';
+import Middleware from '../Helpers/Middleware';
 
 const TopNav = (): JSX.Element => {
     const history = useHistory();
@@ -45,14 +45,14 @@ const TopNav = (): JSX.Element => {
         <div>
             <Navbar
                 sticky="top"
-                light={theme.type === "light"}
-                dark={theme.type === "dark"}
-                className={theme.type === "dark" ? "blur-dark" : "blur"}
+                light={theme.type === 'light'}
+                dark={theme.type === 'dark'}
+                className={theme.type === 'dark' ? 'blur-dark' : 'blur'}
                 expand="xl">
                 <NavbarBrand
                     href="#"
                     onClick={() => {
-                        history.push("/");
+                        history.push('/');
                     }}>
                     LovassyAPP
                 </NavbarBrand>
@@ -64,9 +64,9 @@ const TopNav = (): JSX.Element => {
                                 <NavItem>
                                     <NavLink
                                         href="#"
-                                        active={history.location.pathname === "/home"}
+                                        active={history.location.pathname === '/home'}
                                         onClick={() => {
-                                            history.push("/home");
+                                            history.push('/home');
                                         }}>
                                         <MdOutlineHome className="mb-1" />
                                         <span className="ml-4"> Home</span>
@@ -82,9 +82,9 @@ const TopNav = (): JSX.Element => {
                                 <NavItem>
                                     <NavLink
                                         href="#"
-                                        active={history.location.pathname === "/grades"}
+                                        active={history.location.pathname === '/grades'}
                                         onClick={() => {
-                                            history.push("/grades");
+                                            history.push('/grades');
                                         }}>
                                         <MdOutlineGrade className="mb-1" />
                                         <span className="ml-4"> Jegyek</span>
@@ -100,9 +100,9 @@ const TopNav = (): JSX.Element => {
                                 <NavItem>
                                     <NavLink
                                         href="#"
-                                        active={history.location.pathname === "/lolo"}
+                                        active={history.location.pathname === '/lolo'}
                                         onClick={() => {
-                                            history.push("/lolo");
+                                            history.push('/lolo');
                                         }}>
                                         <MdOutlineAttachMoney className="mb-1" />
                                         <span className="ml-4"> LoLó</span>
@@ -118,9 +118,9 @@ const TopNav = (): JSX.Element => {
                                 <NavItem>
                                     <NavLink
                                         href="#"
-                                        active={history.location.pathname === "/store"}
+                                        active={history.location.pathname === '/store'}
                                         onClick={() => {
-                                            history.push("/store");
+                                            history.push('/store');
                                         }}>
                                         <MdOutlineStore className="mb-1" />
                                         <span className="ml-4"> Bazár</span>
@@ -136,9 +136,9 @@ const TopNav = (): JSX.Element => {
                                 <NavItem>
                                     <NavLink
                                         href="#"
-                                        active={history.location.pathname === "/inventory"}
+                                        active={history.location.pathname === '/inventory'}
                                         onClick={() => {
-                                            history.push("/inventory");
+                                            history.push('/inventory');
                                         }}>
                                         <MdOutlineInventory2 className="mb-1" />
                                         <span className="ml-4"> Kincstár</span>
@@ -155,9 +155,9 @@ const TopNav = (): JSX.Element => {
                                 <NavItem>
                                     <NavLink
                                         href="#"
-                                        active={history.location.pathname === "/admin/products"}
+                                        active={history.location.pathname === '/admin/products'}
                                         onClick={() => {
-                                            history.push("/admin/products");
+                                            history.push('/admin/products');
                                         }}>
                                         <MdOutlineProductionQuantityLimits className="mb-1" />
                                         <span className="ml-4"> Termékek</span>
@@ -173,9 +173,9 @@ const TopNav = (): JSX.Element => {
                                 <NavItem>
                                     <NavLink
                                         href="#"
-                                        active={history.location.pathname === "/admin/requests"}
+                                        active={history.location.pathname === '/admin/requests'}
                                         onClick={() => {
-                                            history.push("/admin/requests");
+                                            history.push('/admin/requests');
                                         }}>
                                         <MdOutlineRequestPage className="mb-1" />
                                         <span className="ml-4"> Kérvények</span>
@@ -191,9 +191,9 @@ const TopNav = (): JSX.Element => {
                                 <NavItem>
                                     <NavLink
                                         href="#"
-                                        active={history.location.pathname === "/admin/qrcodes"}
+                                        active={history.location.pathname === '/admin/qrcodes'}
                                         onClick={() => {
-                                            history.push("/admin/qrcodes");
+                                            history.push('/admin/qrcodes');
                                         }}>
                                         <MdQrCode2 className="mb-1" />
                                         <span className="ml-4"> QR-kódok</span>
@@ -208,9 +208,9 @@ const TopNav = (): JSX.Element => {
                                 <NavItem>
                                     <NavLink
                                         href="#"
-                                        active={history.location.pathname === "/admin/users"}
+                                        active={history.location.pathname === '/admin/users'}
                                         onClick={() => {
-                                            history.push("/admin/users");
+                                            history.push('/admin/users');
                                         }}>
                                         <MdOutlinePeopleAlt className="mb-1" />
                                         <span className="ml-4"> Felhasználók</span>
@@ -225,9 +225,9 @@ const TopNav = (): JSX.Element => {
                                 <NavItem>
                                     <NavLink
                                         href="#"
-                                        active={history.location.pathname === "/admin/permissions"}
+                                        active={history.location.pathname === '/admin/permissions'}
                                         onClick={() => {
-                                            history.push("/admin/permissions");
+                                            history.push('/admin/permissions');
                                         }}>
                                         <MdOutlineSecurity className="mb-1" />
                                         <span className="ml-4"> Jogosultságok</span>
@@ -256,22 +256,22 @@ const TopNav = (): JSX.Element => {
                             <DropdownToggle caret={true} nav={true}>
                                 {state.control.control.user !== null
                                     ? state.control.control.user.name
-                                    : ""}
+                                    : ''}
                             </DropdownToggle>
                             <DropdownMenu
-                                dark={theme.type === "dark"}
+                                dark={theme.type === 'dark'}
                                 style={{
                                     borderRadius: 10,
                                     background:
-                                        theme.type === "dark"
+                                        theme.type === 'dark'
                                             ? theme.palette.background
                                             : theme.palette.accents_1,
-                                    zIndex: "5",
+                                    zIndex: '5',
                                 }}
                                 end={true}>
                                 <DropdownItem
                                     onClick={() =>
-                                        dispatch({ type: "settingsModal/openSettingsModal" })
+                                        dispatch({ type: 'settingsModal/openSettingsModal' })
                                     }>
                                     Beállítások
                                 </DropdownItem>

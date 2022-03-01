@@ -1,21 +1,21 @@
-import React from "react";
-import AuthLayout from "../../Layouts/Auth";
-import HeaderCard from "../../Components/HeaderCard";
-import DataTable from "react-data-table-component";
-import { Container, Col, Row, Card, CardBody, Badge } from "reactstrap";
-import { Button, useTheme } from "@nextui-org/react";
-import TableLoader from "../../Components/TableLoader";
-import { useHistory } from "react-router";
-import toast from "react-hot-toast";
-import EmptyTable from "../../Components/EmptyTable";
-import deleteModal from "../../Helpers/DeleteModal";
-import { MdClose, MdCheck, MdAdd } from "react-icons/md";
-import MDEditor from "@uiw/react-md-editor";
-import InputRenderer from "../../Components/InputRenderer";
-import { useBlueboardClient } from "blueboard-client-react";
-import { BlueboardProduct } from "blueboard-client";
-import Center from "../../Components/Center";
-import Middleware from "../../Helpers/Middleware";
+import React from 'react';
+import AuthLayout from '../../Layouts/Auth';
+import HeaderCard from '../../Components/HeaderCard';
+import DataTable from 'react-data-table-component';
+import { Container, Col, Row, Card, CardBody, Badge } from 'reactstrap';
+import { Button, useTheme } from '@nextui-org/react';
+import TableLoader from '../../Components/TableLoader';
+import { useHistory } from 'react-router';
+import toast from 'react-hot-toast';
+import EmptyTable from '../../Components/EmptyTable';
+import deleteModal from '../../Helpers/DeleteModal';
+import { MdClose, MdCheck, MdAdd } from 'react-icons/md';
+import MDEditor from '@uiw/react-md-editor';
+import InputRenderer from '../../Components/InputRenderer';
+import { useBlueboardClient } from 'blueboard-client-react';
+import { BlueboardProduct } from 'blueboard-client';
+import Center from '../../Components/Center';
+import Middleware from '../../Helpers/Middleware';
 const Expand = ({ data }: { data: BlueboardProduct }): JSX.Element => {
     return (
         <div className="my-2 mx-2">
@@ -61,7 +61,7 @@ const Products = (): JSX.Element => {
 
     const deleteRow = async (row: BlueboardProduct): Promise<void> => {
         const res = await deleteModal(
-            "Biztos, hogy törölni szeretnéd ezt a terméket?",
+            'Biztos, hogy törölni szeretnéd ezt a terméket?',
             `Törlés - ${row.name}`,
             theme,
         );
@@ -70,9 +70,9 @@ const Products = (): JSX.Element => {
             toast.promise(
                 client.products.delete(row.id as number).then(() => bootstrap()),
                 {
-                    loading: "Törlés...",
-                    success: "Sikeresen törölve!",
-                    error: "Hiba történt!",
+                    loading: 'Törlés...',
+                    success: 'Sikeresen törölve!',
+                    error: 'Hiba történt!',
                 },
             );
         }
@@ -84,44 +84,44 @@ const Products = (): JSX.Element => {
 
     const columns = [
         {
-            name: "ID",
+            name: 'ID',
             selector: (row: BlueboardProduct) => row.id,
-            maxWidth: "10px",
+            maxWidth: '10px',
         },
         {
-            name: "Név",
+            name: 'Név',
             selector: (row: BlueboardProduct) => row.name,
         },
         {
-            name: "Rövid leírás",
+            name: 'Rövid leírás',
             selector: (row: BlueboardProduct) => row.description,
             wrap: true,
         },
         {
-            name: "Kód kell?",
+            name: 'Kód kell?',
             cell: (row: BlueboardProduct) => {
                 return row.codeActivated ? <MdCheck fontSize={20} /> : <MdClose fontSize={20} />;
             },
-            maxWidth: "10px",
+            maxWidth: '10px',
         },
         {
-            name: "Látható a bazárban?",
+            name: 'Látható a bazárban?',
             cell: (row: BlueboardProduct) => {
                 return row.visible ? <MdCheck fontSize={20} /> : <MdClose fontSize={20} />;
             },
         },
         {
-            name: "Ár (LoLó)",
+            name: 'Ár (LoLó)',
             selector: (row: BlueboardProduct) => row.price,
-            maxWidth: "10px",
+            maxWidth: '10px',
         },
         {
-            name: "Mennyiség",
+            name: 'Mennyiség',
             selector: (row: BlueboardProduct) => row.quantity,
-            maxWidth: "10px",
+            maxWidth: '10px',
         },
         {
-            name: "Aktiváló kódok",
+            name: 'Aktiváló kódok',
             cell: (row: BlueboardProduct) => (
                 <div>
                     {row.codes?.length === 0 ? (
@@ -139,7 +139,7 @@ const Products = (): JSX.Element => {
             wrap: true,
         },
         {
-            name: "",
+            name: '',
             cell: (el: BlueboardProduct) => {
                 return (
                     <>
@@ -180,17 +180,17 @@ const Products = (): JSX.Element => {
     return (
         <AuthLayout>
             <HeaderCard title="Termékek" />
-            <Container fluid={true} style={{ width: "95%" }}>
+            <Container fluid={true} style={{ width: '95%' }}>
                 <Row className="ml-2 mr-2">
                     <Col md="12">
                         <Card
                             style={{
                                 background:
-                                    theme.type === "dark"
+                                    theme.type === 'dark'
                                         ? theme.palette.accents_1
                                         : theme.palette.background,
                             }}>
-                            <CardBody style={{ height: "calc(100vh - 320px)" }}>
+                            <CardBody style={{ height: 'calc(100vh - 320px)' }}>
                                 <DataTable
                                     highlightOnHover={true}
                                     pointerOnHover={true}
@@ -218,7 +218,7 @@ const Products = (): JSX.Element => {
                                 <Button
                                     color="gradient"
                                     rounded={true}
-                                    onClick={() => history.push("/admin/products/edit/new")}>
+                                    onClick={() => history.push('/admin/products/edit/new')}>
                                     <MdAdd />
                                     Termék hozzáadása
                                 </Button>

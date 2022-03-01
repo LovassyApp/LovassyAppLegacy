@@ -1,19 +1,19 @@
-import React from "react";
-import AuthLayout from "../../Layouts/Auth";
-import HeaderCard from "../../Components/HeaderCard";
-import DataTable from "react-data-table-component";
-import { Container, Col, Row, Card, CardBody, Badge } from "reactstrap";
-import { Button, useTheme } from "@nextui-org/react";
-import TableLoader from "../../Components/TableLoader";
-import { MdAdd } from "react-icons/md";
-import { useHistory } from "react-router";
-import toast from "react-hot-toast";
-import EmptyTable from "../../Components/EmptyTable";
-import Middleware from "../../Helpers/Middleware";
-import deleteModal from "../../Helpers/DeleteModal";
-import { useBlueboardClient } from "blueboard-client-react";
-import { BlueboardUserGroup } from "blueboard-client";
-import Center from "../../Components/Center";
+import React from 'react';
+import AuthLayout from '../../Layouts/Auth';
+import HeaderCard from '../../Components/HeaderCard';
+import DataTable from 'react-data-table-component';
+import { Container, Col, Row, Card, CardBody, Badge } from 'reactstrap';
+import { Button, useTheme } from '@nextui-org/react';
+import TableLoader from '../../Components/TableLoader';
+import { MdAdd } from 'react-icons/md';
+import { useHistory } from 'react-router';
+import toast from 'react-hot-toast';
+import EmptyTable from '../../Components/EmptyTable';
+import Middleware from '../../Helpers/Middleware';
+import deleteModal from '../../Helpers/DeleteModal';
+import { useBlueboardClient } from 'blueboard-client-react';
+import { BlueboardUserGroup } from 'blueboard-client';
+import Center from '../../Components/Center';
 
 const Groups = (): JSX.Element => {
     const [groups, setGroups] = React.useState<BlueboardUserGroup[]>([]);
@@ -40,7 +40,7 @@ const Groups = (): JSX.Element => {
 
     const deleteRow = async (row: BlueboardUserGroup): Promise<void> => {
         const res = await deleteModal(
-            "Biztos, hogy törölni szeretnéd ezt a csoportot?",
+            'Biztos, hogy törölni szeretnéd ezt a csoportot?',
             `Törlés - ${row.name}`,
             theme,
         );
@@ -49,9 +49,9 @@ const Groups = (): JSX.Element => {
             toast.promise(
                 client.groups.delete(row.id as number).then(() => bootstrap()),
                 {
-                    loading: "Törlés...",
-                    success: "Sikeresen törölve!",
-                    error: "Hiba történt!",
+                    loading: 'Törlés...',
+                    success: 'Sikeresen törölve!',
+                    error: 'Hiba történt!',
                 },
             );
         }
@@ -59,15 +59,15 @@ const Groups = (): JSX.Element => {
 
     const columns = [
         {
-            name: "ID",
+            name: 'ID',
             selector: (row: BlueboardUserGroup) => row.id,
         },
         {
-            name: "Csoportnév",
+            name: 'Csoportnév',
             selector: (row: BlueboardUserGroup) => row.name,
         },
         {
-            name: "Jogok",
+            name: 'Jogok',
             cell: (row: BlueboardUserGroup) => (
                 <div>
                     {row.permissions.map((el, key) => (
@@ -82,7 +82,7 @@ const Groups = (): JSX.Element => {
             wrap: true,
         },
         {
-            name: "",
+            name: '',
             cell: (el: BlueboardUserGroup) => {
                 return (
                     <>
@@ -128,17 +128,17 @@ const Groups = (): JSX.Element => {
     return (
         <AuthLayout>
             <HeaderCard title="Felhasználói csoportok" />
-            <Container fluid={true} style={{ width: "95%" }}>
+            <Container fluid={true} style={{ width: '95%' }}>
                 <Row className="ml-2 mr-2">
                     <Col md="12">
                         <Card
                             style={{
                                 background:
-                                    theme.type === "dark"
+                                    theme.type === 'dark'
                                         ? theme.palette.accents_1
                                         : theme.palette.background,
                             }}>
-                            <CardBody style={{ height: "calc(100vh - 320px)" }}>
+                            <CardBody style={{ height: 'calc(100vh - 320px)' }}>
                                 <DataTable
                                     highlightOnHover={true}
                                     pointerOnHover={true}
@@ -163,7 +163,7 @@ const Groups = (): JSX.Element => {
                                     <Button
                                         color="gradient"
                                         rounded={true}
-                                        onClick={() => history.push("/admin/permissions/edit/new")}>
+                                        onClick={() => history.push('/admin/permissions/edit/new')}>
                                         <MdAdd />
                                         Csoport hozzáadása
                                     </Button>

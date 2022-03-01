@@ -1,7 +1,7 @@
-import * as React from "react";
-import AuthLayout from "../../Layouts/Auth";
-import HeaderCard from "../../Components/HeaderCard";
-import { useHistory, useParams } from "react-router";
+import * as React from 'react';
+import AuthLayout from '../../Layouts/Auth';
+import HeaderCard from '../../Components/HeaderCard';
+import { useHistory, useParams } from 'react-router';
 import {
     Loading,
     Input,
@@ -14,7 +14,7 @@ import {
     Card as NextCard,
     Text,
     Modal,
-} from "@nextui-org/react";
+} from '@nextui-org/react';
 import {
     Row,
     Col,
@@ -24,28 +24,28 @@ import {
     DropdownMenu,
     UncontrolledDropdown,
     Alert,
-} from "reactstrap";
-import toast from "react-hot-toast";
-import TableLoader from "../../Components/TableLoader";
-import Select from "react-select";
-import makeAnimated from "react-select/animated";
-import MDEditor from "@uiw/react-md-editor";
-import EmptyTable from "../../Components/EmptyTable";
-import InputRenderer from "../../Components/InputRenderer";
-import ImageDropzone from "../../Components/ImageDropzone";
-import { BoardlightFile, getDefImg, getImageBase64, importImage } from "../../Helpers/ImageUtils";
-import { useBlueboardClient } from "blueboard-client-react";
+} from 'reactstrap';
+import toast from 'react-hot-toast';
+import TableLoader from '../../Components/TableLoader';
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
+import MDEditor from '@uiw/react-md-editor';
+import EmptyTable from '../../Components/EmptyTable';
+import InputRenderer from '../../Components/InputRenderer';
+import ImageDropzone from '../../Components/ImageDropzone';
+import { BoardlightFile, getDefImg, getImageBase64, importImage } from '../../Helpers/ImageUtils';
+import { useBlueboardClient } from 'blueboard-client-react';
 import {
     BlueboardNotFoundException,
     BlueboardProduct,
     BlueboardProductInput,
     BlueboardQRCode,
-} from "blueboard-client";
-import Center from "../../Components/Center";
-import { FormElement } from "@nextui-org/react/esm/input/input-props";
-import { usePermissions } from "../../Hooks/ControlHooks";
-import Four0Three from "../403";
-import { checkPermission } from "../../Helpers/Middleware";
+} from 'blueboard-client';
+import Center from '../../Components/Center';
+import { FormElement } from '@nextui-org/react/esm/input/input-props';
+import { usePermissions } from '../../Hooks/ControlHooks';
+import Four0Three from '../403';
+import { checkPermission } from '../../Helpers/Middleware';
 
 const animatedComponents = makeAnimated();
 
@@ -55,8 +55,8 @@ const EditProduct = (): JSX.Element => {
     const theme = useTheme();
     const client = useBlueboardClient();
 
-    if (id !== "new" && isNaN(Number(id))) {
-        history.push("/404");
+    if (id !== 'new' && isNaN(Number(id))) {
+        history.push('/404');
     }
 
     type DropGroupArray = Array<{ value: string | number; label: string }>;
@@ -65,16 +65,16 @@ const EditProduct = (): JSX.Element => {
     const [selectedCodes, setSelectedCodes] = React.useState<any[]>([]);
     const [loading, setLoading] = React.useState(true);
     const [savePending, setSavePending] = React.useState(false);
-    const [name, setName] = React.useState("Random kimentés valami izé");
-    const [description, setDescription] = React.useState("Rövid sokatmondó leírás");
+    const [name, setName] = React.useState('Random kimentés valami izé');
+    const [description, setDescription] = React.useState('Rövid sokatmondó leírás');
     const [files, setFiles] = React.useState<BoardlightFile[]>([]);
     const [markdown, setMarkdown] = React.useState(
-        "**Markdown a beváltáshoz / leíráshoz a shopban**<br>jej<br>kúl",
+        '**Markdown a beváltáshoz / leíráshoz a shopban**<br>jej<br>kúl',
     );
     const [codeIsDisabled, setCodeDisabled] = React.useState(true);
     const [price, setPrice] = React.useState(1);
     const [quantity, setQuantity] = React.useState(1);
-    const [emails, setEmails] = React.useState<string>("");
+    const [emails, setEmails] = React.useState<string>('');
     const [allGroups, setAllGroups] = React.useState<DropGroupArray>([]);
     const [groups, setGroups] = React.useState<DropGroupArray>([]);
     const [modalShow, setModalShow] = React.useState(false);
@@ -84,13 +84,13 @@ const EditProduct = (): JSX.Element => {
     const [errors, setErrors] = React.useState<any>({});
 
     const bootstrap = async (): Promise<void> => {
-        if (id !== "new") {
+        if (id !== 'new') {
             let product = {} as BlueboardProduct;
             try {
                 product = (await client.products.get(Number(id))).pop() as BlueboardProduct;
             } catch (e) {
                 if (e instanceof BlueboardNotFoundException) {
-                    history.push("/404");
+                    history.push('/404');
                 } else {
                     toast.error((e as any).message);
                 }
@@ -114,7 +114,7 @@ const EditProduct = (): JSX.Element => {
                     label: el.name as string,
                 })),
             );
-            setEmails(product.notifiedMails ?? "");
+            setEmails(product.notifiedMails ?? '');
             setFiles([image]);
             setVisible(product.visible);
         } else {
@@ -139,7 +139,7 @@ const EditProduct = (): JSX.Element => {
 
     React.useEffect(() => {
         setLoading(true);
-        if (id !== "new" && isNaN(Number(id))) {
+        if (id !== 'new' && isNaN(Number(id))) {
             setFiles([getDefImg()]);
             setLoading(false);
         } else {
@@ -152,9 +152,9 @@ const EditProduct = (): JSX.Element => {
 
     const AddTextbox = (): void => {
         const obj = {
-            name: "semmi",
-            type: "textbox" as const,
-            title: "Cím",
+            name: 'semmi',
+            type: 'textbox' as const,
+            title: 'Cím',
         };
 
         setInputs([...inputs, obj]);
@@ -162,9 +162,9 @@ const EditProduct = (): JSX.Element => {
 
     const addBoolean = (): void => {
         const obj = {
-            name: "semmi",
-            type: "boolean" as const,
-            title: "Cím",
+            name: 'semmi',
+            type: 'boolean' as const,
+            title: 'Cím',
         };
 
         setInputs([...inputs, obj]);
@@ -193,7 +193,7 @@ const EditProduct = (): JSX.Element => {
 
     const getErrors = (name: string): string => {
         const error = errors[name] ?? [];
-        let str = "";
+        let str = '';
         error.forEach((el: string) => {
             str = `${str + el}\n`;
         });
@@ -224,7 +224,7 @@ const EditProduct = (): JSX.Element => {
 
         const checkForInputError = (errObj: any): void => {
             const str = JSON.stringify(errObj);
-            const isset = str.includes("inputs.");
+            const isset = str.includes('inputs.');
             if (isset) {
                 setModalShow(true);
             }
@@ -238,8 +238,8 @@ const EditProduct = (): JSX.Element => {
             .then(() => {
                 setSavePending(false);
                 setErrors({});
-                toast.success("Siker!");
-                history.push("/admin/products");
+                toast.success('Siker!');
+                history.push('/admin/products');
             })
             .catch((err) => {
                 setSavePending(false);
@@ -247,9 +247,9 @@ const EditProduct = (): JSX.Element => {
                     setErrors(err.errors);
                     checkForInputError(err.errors);
                 } else {
-                    if (err.message === "Network Error") {
+                    if (err.message === 'Network Error') {
                         const message =
-                            "Internal networking error. You might have to check your connection.";
+                            'Internal networking error. You might have to check your connection.';
                         setErrors((errors: any) => ({ ...errors, globalErr: message }));
                     } else {
                         setErrors((errors: any) => ({ ...errors, globalErr: err.message }));
@@ -260,14 +260,14 @@ const EditProduct = (): JSX.Element => {
 
     const userPermissions = usePermissions();
 
-    if (id === "new" && !checkPermission("Products.create", userPermissions)) {
+    if (id === 'new' && !checkPermission('Products.create', userPermissions)) {
         return <Four0Three />;
     }
 
     if (
-        id !== "new" &&
+        id !== 'new' &&
         !isNaN(Number(id)) &&
-        !checkPermission("Products.update", userPermissions)
+        !checkPermission('Products.update', userPermissions)
     ) {
         return <Four0Three />;
     }
@@ -284,7 +284,7 @@ const EditProduct = (): JSX.Element => {
                 }}
                 preventClose={true}
                 width="650px">
-                <Modal.Header style={{ border: "none" }}>
+                <Modal.Header style={{ border: 'none' }}>
                     <Text id="modal-title" size={18}>
                         Inputok
                     </Text>
@@ -294,7 +294,7 @@ const EditProduct = (): JSX.Element => {
                     {inputs.map((value, key) => (
                         // eslint-disable-next-line react/no-array-index-key
                         <Row key={key}>
-                            <Text b={true}>{value.type === "textbox" ? "Textbox" : "Switch"}</Text>
+                            <Text b={true}>{value.type === 'textbox' ? 'Textbox' : 'Switch'}</Text>
                             <Col md="5">
                                 <Input
                                     fullWidth={true}
@@ -306,21 +306,21 @@ const EditProduct = (): JSX.Element => {
                                     labelLeft="ValueName: "
                                     initialValue={value.name}
                                     color={
-                                        getErrors(makeInputString(key, "name")) === ""
-                                            ? "primary"
-                                            : "error"
+                                        getErrors(makeInputString(key, 'name')) === ''
+                                            ? 'primary'
+                                            : 'error'
                                     }
                                     status={
-                                        getErrors(makeInputString(key, "name")) === ""
-                                            ? "default"
-                                            : "error"
+                                        getErrors(makeInputString(key, 'name')) === ''
+                                            ? 'default'
+                                            : 'error'
                                     }
                                     helperColor={
-                                        getErrors(makeInputString(key, "name")) === ""
-                                            ? "default"
-                                            : "error"
+                                        getErrors(makeInputString(key, 'name')) === ''
+                                            ? 'default'
+                                            : 'error'
                                     }
-                                    helperText={getErrors(makeInputString(key, "name"))}
+                                    helperText={getErrors(makeInputString(key, 'name'))}
                                 />
                             </Col>
                             <Col md="5">
@@ -334,21 +334,21 @@ const EditProduct = (): JSX.Element => {
                                     labelLeft="Név: "
                                     initialValue={value.title}
                                     color={
-                                        getErrors(makeInputString(key, "title")) === ""
-                                            ? "primary"
-                                            : "error"
+                                        getErrors(makeInputString(key, 'title')) === ''
+                                            ? 'primary'
+                                            : 'error'
                                     }
                                     status={
-                                        getErrors(makeInputString(key, "title")) === ""
-                                            ? "default"
-                                            : "error"
+                                        getErrors(makeInputString(key, 'title')) === ''
+                                            ? 'default'
+                                            : 'error'
                                     }
                                     helperColor={
-                                        getErrors(makeInputString(key, "title")) === ""
-                                            ? "default"
-                                            : "error"
+                                        getErrors(makeInputString(key, 'title')) === ''
+                                            ? 'default'
+                                            : 'error'
                                     }
-                                    helperText={getErrors(makeInputString(key, "title"))}
+                                    helperText={getErrors(makeInputString(key, 'title'))}
                                 />
                             </Col>
                             <Col md="2">
@@ -367,7 +367,7 @@ const EditProduct = (): JSX.Element => {
                         </Row>
                     ))}
                 </Modal.Body>
-                <Modal.Footer style={{ overflow: "visible", border: "none" }}>
+                <Modal.Footer style={{ overflow: 'visible', border: 'none' }}>
                     <UncontrolledDropdown direction="up">
                         <DropdownToggle data-toggle="dropdown" tag="div">
                             <Button auto={true} flat={true} color="success">
@@ -375,12 +375,12 @@ const EditProduct = (): JSX.Element => {
                             </Button>
                         </DropdownToggle>
                         <DropdownMenu
-                            dark={theme.type === "dark"}
+                            dark={theme.type === 'dark'}
                             style={{
                                 marginBottom: 5,
                                 borderRadius: 10,
                                 background:
-                                    theme.type === "dark"
+                                    theme.type === 'dark'
                                         ? theme.palette.background
                                         : theme.palette.accents_1,
                             }}>
@@ -406,7 +406,7 @@ const EditProduct = (): JSX.Element => {
                     <TableLoader />
                 </Center>
             ) : (
-                <Container fluid={true} style={{ width: "95%" }}>
+                <Container fluid={true} style={{ width: '95%' }}>
                     <Alert className="mt-2" color="danger" isOpen={errors.globalErr !== undefined}>
                         Fatal error: {errors.globalErr}
                     </Alert>
@@ -415,7 +415,7 @@ const EditProduct = (): JSX.Element => {
                             <Card
                                 style={{
                                     background:
-                                        theme.type === "dark"
+                                        theme.type === 'dark'
                                             ? theme.palette.accents_1
                                             : theme.palette.background,
                                 }}>
@@ -434,15 +434,15 @@ const EditProduct = (): JSX.Element => {
                                         value={description}
                                         onChange={(e) => setDescription(e.target.value)}
                                         color={
-                                            getErrors("description") === "" ? "primary" : "error"
+                                            getErrors('description') === '' ? 'primary' : 'error'
                                         }
                                         status={
-                                            getErrors("description") === "" ? "default" : "error"
+                                            getErrors('description') === '' ? 'default' : 'error'
                                         }
                                         helperColor={
-                                            getErrors("description") === "" ? "default" : "error"
+                                            getErrors('description') === '' ? 'default' : 'error'
                                         }
-                                        helperText={getErrors("description")}
+                                        helperText={getErrors('description')}
                                     />
                                 </div>
 
@@ -451,8 +451,8 @@ const EditProduct = (): JSX.Element => {
                                     <Alert
                                         className="mt-2 mx-4"
                                         color="danger"
-                                        isOpen={getErrors("image") !== ""}>
-                                        {getErrors("image")}
+                                        isOpen={getErrors('image') !== ''}>
+                                        {getErrors('image')}
                                     </Alert>
                                 </div>
                                 <Row className="mx-2">
@@ -479,15 +479,15 @@ const EditProduct = (): JSX.Element => {
                                                 labelLeft="Név: "
                                                 initialValue={name}
                                                 color={
-                                                    getErrors("name") === "" ? "primary" : "error"
+                                                    getErrors('name') === '' ? 'primary' : 'error'
                                                 }
                                                 status={
-                                                    getErrors("name") === "" ? "default" : "error"
+                                                    getErrors('name') === '' ? 'default' : 'error'
                                                 }
                                                 helperColor={
-                                                    getErrors("name") === "" ? "default" : "error"
+                                                    getErrors('name') === '' ? 'default' : 'error'
                                                 }
-                                                helperText={getErrors("name")}
+                                                helperText={getErrors('name')}
                                             />
                                         </Row>
                                     </Col>
@@ -544,8 +544,8 @@ const EditProduct = (): JSX.Element => {
                                         <Alert
                                             className="mt-2"
                                             color="danger"
-                                            isOpen={getErrors("codes") !== ""}>
-                                            {getErrors("codes")}
+                                            isOpen={getErrors('codes') !== ''}>
+                                            {getErrors('codes')}
                                         </Alert>
                                     </Col>
                                 </Row>
@@ -569,21 +569,21 @@ const EditProduct = (): JSX.Element => {
                                                 labelLeft="E-mailek: "
                                                 initialValue={emails}
                                                 color={
-                                                    getErrors("notified_mails") === ""
-                                                        ? "primary"
-                                                        : "error"
+                                                    getErrors('notified_mails') === ''
+                                                        ? 'primary'
+                                                        : 'error'
                                                 }
                                                 status={
-                                                    getErrors("notified_mails") === ""
-                                                        ? "default"
-                                                        : "error"
+                                                    getErrors('notified_mails') === ''
+                                                        ? 'default'
+                                                        : 'error'
                                                 }
                                                 helperColor={
-                                                    getErrors("notified_mails") === ""
-                                                        ? "default"
-                                                        : "error"
+                                                    getErrors('notified_mails') === ''
+                                                        ? 'default'
+                                                        : 'error'
                                                 }
-                                                helperText={getErrors("notified_mails")}
+                                                helperText={getErrors('notified_mails')}
                                             />
                                         </Row>
                                     </Col>
@@ -633,8 +633,8 @@ const EditProduct = (): JSX.Element => {
                                         <Alert
                                             className="mt-2"
                                             color="danger"
-                                            isOpen={getErrors("notified_groups") !== ""}>
-                                            {getErrors("notified_groups")}
+                                            isOpen={getErrors('notified_groups') !== ''}>
+                                            {getErrors('notified_groups')}
                                         </Alert>
                                     </Col>
                                 </Row>
@@ -653,12 +653,12 @@ const EditProduct = (): JSX.Element => {
                                             labelLeft="Ár: "
                                             labelRight="LoLó"
                                             initialValue={String(price)}
-                                            color={getErrors("price") === "" ? "primary" : "error"}
-                                            status={getErrors("price") === "" ? "default" : "error"}
+                                            color={getErrors('price') === '' ? 'primary' : 'error'}
+                                            status={getErrors('price') === '' ? 'default' : 'error'}
                                             helperColor={
-                                                getErrors("price") === "" ? "default" : "error"
+                                                getErrors('price') === '' ? 'default' : 'error'
                                             }
-                                            helperText={getErrors("price")}
+                                            helperText={getErrors('price')}
                                         />
                                     </Col>
                                     <Col md="6">
@@ -675,15 +675,15 @@ const EditProduct = (): JSX.Element => {
                                             labelLeft="Mennyiség: "
                                             initialValue={String(quantity)}
                                             color={
-                                                getErrors("quantity") === "" ? "primary" : "error"
+                                                getErrors('quantity') === '' ? 'primary' : 'error'
                                             }
                                             status={
-                                                getErrors("quantity") === "" ? "default" : "error"
+                                                getErrors('quantity') === '' ? 'default' : 'error'
                                             }
                                             helperColor={
-                                                getErrors("quantity") === "" ? "default" : "error"
+                                                getErrors('quantity') === '' ? 'default' : 'error'
                                             }
-                                            helperText={getErrors("quantity")}
+                                            helperText={getErrors('quantity')}
                                         />
                                     </Col>
                                 </Row>
@@ -724,10 +724,10 @@ const EditProduct = (): JSX.Element => {
                                     <NextCard width="100%" color="#0f1114" cover={true}>
                                         <NextCard.Header
                                             style={{
-                                                position: "absolute",
+                                                position: 'absolute',
                                                 zIndex: 1,
                                                 top: 5,
-                                                border: "none",
+                                                border: 'none',
                                             }}>
                                             <Col>
                                                 <Text h4={true} weight="bold" color="white">
@@ -754,7 +754,7 @@ const EditProduct = (): JSX.Element => {
                                             blur={true}
                                             border={true}
                                             borderColor="rgba(15, 17, 20, 0.4)"
-                                            style={{ position: "absolute", zIndex: 1, bottom: 0 }}>
+                                            style={{ position: 'absolute', zIndex: 1, bottom: 0 }}>
                                             <Row>
                                                 <Col>
                                                     <Row justify="flex-end">

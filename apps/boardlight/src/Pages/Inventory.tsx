@@ -1,32 +1,32 @@
-import * as React from "react";
+import * as React from 'react';
 
-import { Badge, Col, Container, Row } from "reactstrap";
+import { Badge, Col, Container, Row } from 'reactstrap';
 import {
     BlueboardClient,
     BlueboardInventoryFactory,
     BlueboardInventoryItem,
     BlueboardProduct,
-} from "blueboard-client";
-import { Button, Card, Grid, Input, Modal, Text, useTheme } from "@nextui-org/react";
-import { eventDeclaration, useStatefulEvent, useStatefulListener } from "../Hooks/EventHooks";
-import { useBlueboardClient, useBlueboardPrivateChannel } from "blueboard-client-react";
+} from 'blueboard-client';
+import { Button, Card, Grid, Input, Modal, Text, useTheme } from '@nextui-org/react';
+import { eventDeclaration, useStatefulEvent, useStatefulListener } from '../Hooks/EventHooks';
+import { useBlueboardClient, useBlueboardPrivateChannel } from 'blueboard-client-react';
 
-import AuthLayout from "../Layouts/Auth";
-import Center from "../Components/Center";
-import EmptyTable from "../Components/EmptyTable";
-import HeaderCard from "../Components/HeaderCard";
-import InputRenderer from "../Components/InputRenderer";
-import MDEditor from "@uiw/react-md-editor";
-import ProductCard from "../Components/ProductCard";
-import QrReader from "react-qr-reader";
-import TableLoader from "../Components/TableLoader";
-import itemUsedModal from "../Helpers/ItemUsedModal";
-import itemUsedModalFresh from "../Helpers/ItemUsedModalFresh";
-import { matchSorter } from "match-sorter";
+import AuthLayout from '../Layouts/Auth';
+import Center from '../Components/Center';
+import EmptyTable from '../Components/EmptyTable';
+import HeaderCard from '../Components/HeaderCard';
+import InputRenderer from '../Components/InputRenderer';
+import MDEditor from '@uiw/react-md-editor';
+import ProductCard from '../Components/ProductCard';
+import QrReader from 'react-qr-reader';
+import TableLoader from '../Components/TableLoader';
+import itemUsedModal from '../Helpers/ItemUsedModal';
+import itemUsedModalFresh from '../Helpers/ItemUsedModalFresh';
+import { matchSorter } from 'match-sorter';
 // import { useTheme } from '@nextui-org/react';
 // import { useSelector } from 'react-redux';
-import toast from "react-hot-toast";
-import { useUser } from "../Hooks/ControlHooks";
+import toast from 'react-hot-toast';
+import { useUser } from '../Hooks/ControlHooks';
 
 const defaultItem = {} as BlueboardInventoryItem;
 const defaultProduct = {} as BlueboardProduct;
@@ -53,11 +53,11 @@ const ItemModalContent = ({
         const inputs = product.inputs ?? [];
 
         inputs.forEach((el) => {
-            if (el.type === "textbox") {
-                obj[el.name] = "";
+            if (el.type === 'textbox') {
+                obj[el.name] = '';
             }
 
-            if (el.type === "boolean") {
+            if (el.type === 'boolean') {
                 obj[el.name] = false;
             }
         });
@@ -73,8 +73,8 @@ const ItemModalContent = ({
     const [savePending, setSavePending] = React.useState<boolean>(false);
     const [codeValidated, setCodeValidated] = React.useState<boolean>(false);
     const [buttonLoading, setButtonLoading] = React.useState<boolean>(false);
-    const [qrContent, setQRContent] = React.useState<string>("");
-    const [codeName, setCodeName] = React.useState<string>("");
+    const [qrContent, setQRContent] = React.useState<string>('');
+    const [codeName, setCodeName] = React.useState<string>('');
 
     const sendCallback = React.useCallback(
         (product: BlueboardProduct, item: BlueboardInventoryItem) => {
@@ -102,8 +102,8 @@ const ItemModalContent = ({
         setScan(false);
         setButtonLoading(false);
         setCodeValidated(false);
-        setQRContent("");
-        setCodeName("");
+        setQRContent('');
+        setCodeName('');
     }, []);
 
     const startScan = React.useCallback(() => {
@@ -129,7 +129,7 @@ const ItemModalContent = ({
                         setCodeValidated(true);
                         setButtonLoading(false);
                     } catch (e) {
-                        toast.error("A beolvasott kód nem használható a termék beváltására.");
+                        toast.error('A beolvasott kód nem használható a termék beváltására.');
                         clearScan();
                     }
                 }
@@ -144,7 +144,7 @@ const ItemModalContent = ({
 
     return (
         <>
-            <Modal.Header style={{ border: "none" }}>
+            <Modal.Header style={{ border: 'none' }}>
                 <Text id="modal-title" size={18}>
                     Termékbeváltás - {product.name}
                 </Text>
@@ -198,7 +198,7 @@ const ItemModalContent = ({
                                 <Grid.Container justify="center" className="my-2" gap={2}>
                                     {
                                         <QrReader
-                                            style={{ width: "320px" }}
+                                            style={{ width: '320px' }}
                                             onError={handleError}
                                             onScan={handleScan}
                                             delay={100}
@@ -235,7 +235,7 @@ const ItemModalContent = ({
                     <></>
                 )}
             </Modal.Body>
-            <Modal.Footer style={{ overflow: "visible", border: "none" }}>
+            <Modal.Footer style={{ overflow: 'visible', border: 'none' }}>
                 <Button auto={true} rounded={true} flat={true} color="error" onClick={closeHandler}>
                     Mégsem
                 </Button>
@@ -262,7 +262,7 @@ const Inventory = (): JSX.Element => {
     const client = useBlueboardClient();
     const theme = useTheme();
 
-    useBlueboardPrivateChannel(`Users.${user.id}`, "TestEvent", (data: any) => {
+    useBlueboardPrivateChannel(`Users.${user.id}`, 'TestEvent', (data: any) => {
         toast(data.message);
     });
 
@@ -271,18 +271,18 @@ const Inventory = (): JSX.Element => {
     );
     const itemsRef = React.useRef<BlueboardInventoryItem[]>([] as BlueboardInventoryItem[]);
     const [loading, setLoading] = React.useState<boolean>(true);
-    const [query, setQuery] = React.useState<string>("");
+    const [query, setQuery] = React.useState<string>('');
     const [visible, setVisible] = React.useState<boolean>(false);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [productRef, setProduct, productEventDeclaration] = useStatefulEvent<BlueboardProduct>(
         {} as BlueboardProduct,
-        "inventoryProductEvent",
+        'inventoryProductEvent',
     );
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [itemRef, setItem, itemEventDeclaration] = useStatefulEvent<BlueboardInventoryItem>(
         {} as BlueboardInventoryItem,
-        "inventoryItemEvent",
+        'inventoryItemEvent',
     );
 
     const bootstrap = React.useCallback(() => {
@@ -323,13 +323,13 @@ const Inventory = (): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     React.useEffect(bootstrap, []);
 
-    useBlueboardPrivateChannel(`Users.${user.id}`, "InventoryItemUsed", itemChange);
-    useBlueboardPrivateChannel(`Users.${user.id}`, "InventoryItemCreated", itemChange);
+    useBlueboardPrivateChannel(`Users.${user.id}`, 'InventoryItemUsed', itemChange);
+    useBlueboardPrivateChannel(`Users.${user.id}`, 'InventoryItemCreated', itemChange);
 
     const renderedItems =
-        query === ""
+        query === ''
             ? items
-            : matchSorter(items, query, { keys: ["product.name", "product.description"] });
+            : matchSorter(items, query, { keys: ['product.name', 'product.description'] });
 
     const openUse = React.useCallback(
         (product: BlueboardProduct, item?: BlueboardInventoryItem) => {
@@ -384,7 +384,7 @@ const Inventory = (): JSX.Element => {
                 </Center>
             ) : (
                 <>
-                    <Container fluid={true} style={{ width: "95%" }}>
+                    <Container fluid={true} style={{ width: '95%' }}>
                         <Card hoverable={true}>
                             <Row>
                                 <Col md="4" sm="12">
@@ -417,7 +417,7 @@ const Inventory = (): JSX.Element => {
                         </Center>
                     ) : (
                         <>
-                            <Container fluid={true} style={{ width: "95%" }}>
+                            <Container fluid={true} style={{ width: '95%' }}>
                                 <Row className="mt-4">
                                     {renderedItems.map((item) => (
                                         <Col key={item.id} className="mt-2 mb-3" xl="3" md="6">

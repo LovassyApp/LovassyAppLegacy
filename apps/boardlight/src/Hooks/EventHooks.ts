@@ -4,7 +4,7 @@
         Ezért még egyszer pokolra jutok
             - minigyima, 2021
 */
-import { MutableRefObject, useEffect, useRef, useState } from "react";
+import { MutableRefObject, useEffect, useRef, useState } from 'react';
 
 export interface eventDeclaration<ValueType> {
     eventName: string;

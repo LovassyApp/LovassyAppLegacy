@@ -1,17 +1,17 @@
-import * as React from "react";
-import HeaderCard from "../Components/HeaderCard";
-import EmptyTable from "../Components/EmptyTable";
-import AuthLayout from "../Layouts/Auth";
+import * as React from 'react';
+import HeaderCard from '../Components/HeaderCard';
+import EmptyTable from '../Components/EmptyTable';
+import AuthLayout from '../Layouts/Auth';
 // import { useTheme } from '@nextui-org/react';
 // import { useSelector } from 'react-redux';
-import toast from "react-hot-toast";
-import { useBlueboardPrivateChannel } from "blueboard-client-react";
-import { useUser } from "../Hooks/ControlHooks";
+import toast from 'react-hot-toast';
+import { useBlueboardPrivateChannel } from 'blueboard-client-react';
+import { useUser } from '../Hooks/ControlHooks';
 
 const Home = (): JSX.Element => {
     const user = useUser();
 
-    useBlueboardPrivateChannel(`Users.${user.id}`, "TestEvent", (data: any) => {
+    useBlueboardPrivateChannel(`Users.${user.id}`, 'TestEvent', (data: any) => {
         toast(data.message);
     });
 

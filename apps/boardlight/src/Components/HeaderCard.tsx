@@ -1,5 +1,5 @@
-import React from "react";
-import style from "../CSS/header.module.css";
+import React from 'react';
+import style from '../CSS/header.module.css';
 
 const HeaderCard = ({
     title,
