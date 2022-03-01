@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 /* eslint-disable prefer-template */
 class BoardlightConsole {
     public get msg(): string {
@@ -26,6 +27,7 @@ class BoardlightConsole {
         line('Kópérájt minigyima, Xeretis 2021-2022.');
         lineBreak();
         line('Óll rájtsz rizörvd. Meg a fenét.');
+        lineBreak();
         line('BTW: Ha ezt látod, ajánlom figyelmedbe: https://github.com/LovassyApp/LovassyApp');
 
         console.log(str);
