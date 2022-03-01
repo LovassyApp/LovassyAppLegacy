@@ -2,7 +2,7 @@ import * as React from 'react';
 import { InputGroup, InputGroupText, Input, Alert } from 'reactstrap';
 import { Button, Checkbox, Link } from '@nextui-org/react';
 import BaseLogin from '../Layouts/BaseLogin';
-import { MdOutlineAlternateEmail, MdOutlinePassword } from 'react-icons/md';
+import { MdOutlineAlternateEmail, MdOutlinePassword, MdOutlinePerson } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
 import toast from 'react-hot-toast';
 import getGreeting from '../Helpers/GetGreeting';
@@ -10,7 +10,7 @@ import { useBlueboardClient } from 'blueboard-client-react';
 import useRenew from '../Hooks/useRenew';
 import { useHistory } from 'react-router-dom';
 
-const Login = (): JSX.Element => {
+const Register = (): JSX.Element => {
     const dispatch = useDispatch();
     const client = useBlueboardClient();
     const renew = useRenew();
@@ -18,16 +18,23 @@ const Login = (): JSX.Element => {
     const history = useHistory();
 
     const [username, setUsername] = React.useState('');
+    const [kreta_username, kreta_setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
+    const [kreta_password, kreta_setPassword] = React.useState('');
     const [remember, setRemember] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
 
     const [GLOBERR, setGLOBERR] = React.useState('');
     const [userErr, setUserErr] = React.useState([]);
     const [passwordErr, setPasswordErr] = React.useState([]);
+    const [kretaUsernameErr, setKretaUsernameErr] = React.useState([]);
+    const [kretaPasswordErr, setKretaPassswordErr] = React.useState([]);
+
     const [globIsVisible, globSetVisible] = React.useState(false);
     const [passIsVisible, passSetVisible] = React.useState(false);
     const [userIsVisible, userSetVisible] = React.useState(false);
+    const [kretaUsernameIsVisible, kretaUsernameSetVisible] = React.useState(false);
+    const [kretaPasswordIsVisible, kretaPasswordSetVisible] = React.useState(false);
 
     const onRememberToggle = (): void => {
         const newVal = !remember;
@@ -47,16 +54,37 @@ const Login = (): JSX.Element => {
         setLoading(true);
         setTimeout(() => {
             client.auth
-                .login(username, password, remember)
-                .then((res) => {
-                    const { token } = res;
-                    client.account.control(token).then((res) => {
-                        dispatch({ type: 'control/setControl', payload: res });
-                        const { name } = res.user;
-                        toast.success(`${getGreeting() + (name.split(' ')[1] ?? name)}!`);
-                        dispatch({ type: 'token/setToken', payload: token });
-                        renew();
-                    });
+                .register(username, password, kreta_username, kreta_password)
+                .then(() => {
+                    client.auth
+                        .login(username, password, remember)
+                        .then((res) => {
+                            const { token } = res;
+                            client.account.control(token).then((res) => {
+                                dispatch({ type: 'control/setControl', payload: res });
+                                const { name } = res.user;
+                                toast.success(`${getGreeting() + (name.split(' ')[1] ?? name)}!`);
+                                dispatch({ type: 'token/setToken', payload: token });
+                                renew();
+                            });
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                            setLoading(false);
+                            if (err.errors) {
+                                if (err.errors.email !== undefined) {
+                                    setUserErr(err.errors.email);
+                                    userSetVisible(true);
+                                }
+                                if (err.errors.password !== undefined) {
+                                    setPasswordErr(err.errors.password);
+                                    passSetVisible(true);
+                                }
+                            } else {
+                                setGLOBERR(err.message);
+                                globSetVisible(true);
+                            }
+                        });
                 })
                 .catch((err) => {
                     console.log(err);
@@ -69,6 +97,15 @@ const Login = (): JSX.Element => {
                         if (err.errors.password !== undefined) {
                             setPasswordErr(err.errors.password);
                             passSetVisible(true);
+                        }
+                        if (err.errors.kreta_username !== undefined) {
+                            setKretaUsernameErr(err.errors.password);
+                            kretaUsernameSetVisible(true);
+                        }
+
+                        if (err.errors.kreta_password !== undefined) {
+                            setKretaPassswordErr(err.errors.password);
+                            kretaPasswordSetVisible(true);
                         }
                     } else {
                         setGLOBERR(err.message);
@@ -126,6 +163,59 @@ const Login = (): JSX.Element => {
                     ))}
                 </Alert>
 
+                <InputGroup className="mb-3">
+                    <InputGroupText>
+                        <MdOutlinePerson />
+                    </InputGroupText>
+                    <Input
+                        onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            kreta_setUsername(e.target.value)
+                        }
+                        name="kreta_username"
+                        id="kreta_username"
+                        placeholder="Kréta felhasználónév"
+                    />
+                </InputGroup>
+
+                <Alert
+                    color="danger"
+                    isOpen={kretaUsernameIsVisible}
+                    toggle={() => kretaPasswordSetVisible(false)}>
+                    {kretaUsernameErr.map((el) => (
+                        <span key={el}>
+                            {' '}
+                            {el} <br />{' '}
+                        </span>
+                    ))}
+                </Alert>
+
+                <InputGroup className="mb-3">
+                    <InputGroupText>
+                        <MdOutlinePassword />
+                    </InputGroupText>
+                    <Input
+                        onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            kreta_setPassword(e.target.value)
+                        }
+                        name="kreta_password"
+                        id="kreta_password"
+                        placeholder="Kréta jelszó"
+                        type="password"
+                    />
+                </InputGroup>
+
+                <Alert
+                    color="danger"
+                    isOpen={kretaPasswordIsVisible}
+                    toggle={() => kretaPasswordSetVisible(false)}>
+                    {kretaPasswordErr.map((el) => (
+                        <span key={el}>
+                            {' '}
+                            {el} <br />{' '}
+                        </span>
+                    ))}
+                </Alert>
+
                 <div className="float-start mt-2 ml-1">
                     <Checkbox
                         color="gradient"
@@ -153,11 +243,11 @@ const Login = (): JSX.Element => {
                 href="/register"
                 onClick={(e) => {
                     e.preventDefault();
-                    history.push('/register');
+                    history.push('/login');
                 }}>
-                Még nincs fiókod? - Regisztrálás
+                Már van fiókod? - Bejelentkezés
             </Link>
         </BaseLogin>
     );
 };
-export default Login;
+export default Register;
