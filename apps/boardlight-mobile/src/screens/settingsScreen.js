@@ -22,6 +22,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import BottomSheet from "../components/bottomSheet";
 import { Ionicons } from "@expo/vector-icons";
+import { RestrictedWrapper } from "../components/restrictedWrapper";
 import { ScreenContainer } from "../components/screenContainer";
 import { SettingsItem } from "../components/content/settingsItem";
 import useLogout from "../hooks/useLogout";
@@ -111,18 +112,27 @@ export const SettingsScreen = () => {
           onPress={() => setShowInformation(true)}
           dense={true}
         />
-        <Divider style={styles.devider} />
-        <Caption>Titkos cuccok</Caption>
-        <SettingsItem
-          title="Admin mód"
-          right={
-            <Switch
-              color={theme.colors.primary}
-              value={admin}
-              onValueChange={() => dispatch(setAdmin(!admin))}
-            />
-          }
-        />
+        <RestrictedWrapper
+          permissions={[
+            "Products.index",
+            "Requests.index",
+            "QRCode.view",
+            "Users.view",
+            "Permissions.view",
+          ]}>
+          <Divider style={styles.devider} />
+          <Caption>Titkos cuccok</Caption>
+          <SettingsItem
+            title="Admin mód"
+            right={
+              <Switch
+                color={theme.colors.primary}
+                value={admin}
+                onValueChange={() => dispatch(setAdmin(!admin))}
+              />
+            }
+          />
+        </RestrictedWrapper>
         <Divider style={styles.devider} />
         <Caption>Kinézet</Caption>
         <SettingsItem

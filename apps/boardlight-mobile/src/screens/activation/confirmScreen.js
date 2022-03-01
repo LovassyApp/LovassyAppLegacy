@@ -10,12 +10,14 @@ import { LaSnackbar } from "../../components/content/customized/laSnackbar";
 import Markdown from "react-native-markdown-display";
 import { ScreenContainer } from "../../components/screenContainer";
 import { useBlueboardClient } from "blueboard-client-react";
+import { usePermissions } from "../../hooks/controlHooks";
 
 export const ConfirmScreen = ({ navigation, route }) => {
   const item = route.params;
 
   const theme = useTheme();
   const client = useBlueboardClient();
+  const permissions = usePermissions();
 
   const getInitialInputState = React.useCallback(() => {
     const obj = {};
@@ -193,7 +195,11 @@ export const ConfirmScreen = ({ navigation, route }) => {
               onPress={() => navigation.navigate("Kezdőlap")}>
               Vissza
             </LaButton>
-            <LaButton dense={true} customStyle={{ margin: 10 }} onPress={() => confirm()}>
+            <LaButton
+              dense={true}
+              customStyle={{ margin: 10 }}
+              onPress={() => confirm()}
+              disabled={!permissions.includes("Inventory.use")}>
               Beváltás
             </LaButton>
           </View>

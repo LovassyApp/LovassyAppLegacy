@@ -6,10 +6,12 @@ import { GradeItem } from "../components/content/gradeItem";
 import { Ionicons } from "@expo/vector-icons";
 import { LaCard } from "../components/content/laCard";
 import React from "react";
+import { RestrictedWrapper } from "../components/restrictedWrapper";
 import { ScreenContainer } from "../components/screenContainer";
 import { fetchGrades } from "../utils/api/apiUtils";
 import { useBlueboardClient } from "blueboard-client-react";
 import { useLoading } from "../hooks/useLoading";
+import { usePermissions } from "../hooks/controlHooks";
 import { useSelector } from "react-redux";
 
 export const KretaScreen = () => {
@@ -20,6 +22,7 @@ export const KretaScreen = () => {
 
   const theme = useTheme();
   const loading = useLoading();
+  const permissions = usePermissions();
 
   const gradesData = useSelector((state) => state.kreta.gradesValue);
 
@@ -44,6 +47,10 @@ export const KretaScreen = () => {
       padding: 0,
       marginVertical: 5,
       borderRadius: theme.roundness,
+    },
+    noPremContainer: {
+      justifyContent: "center",
+      flex: 1,
     },
   });
 
@@ -110,71 +117,79 @@ export const KretaScreen = () => {
   };
 
   return (
-    <ScreenContainer scrollable={true}>
+    <ScreenContainer scrollable={permissions.includes("General.grades")}>
       <Headline>Kréta</Headline>
-      {showSubjects ? (
-        <LaCard title="Tantárgyak" error={gradesData === null} retry={() => tryAgain()}>
-          <View style={{ paddingTop: 5 }}>{getSubjects()}</View>
-        </LaCard>
-      ) : (
-        <LaCard
-          title={`${currentSubjectData.subject} - ${calculateAverage()}`}
-          actionIcon="arrow-back"
-          onPress={() => setShowSubjects(true)}>
-          <View style={{ paddingTop: 5 }}>{getGrades()}</View>
-        </LaCard>
-      )}
+      <RestrictedWrapper
+        permission="General.grades"
+        fallback={
+          <View style={styles.noPremContainer}>
+            <Text style={{ textAlign: "center" }}>Nincs hozzáférésed ehhez az oldalhoz</Text>
+          </View>
+        }>
+        {showSubjects ? (
+          <LaCard title="Tantárgyak" error={gradesData === null} retry={() => tryAgain()}>
+            <View style={{ paddingTop: 5 }}>{getSubjects()}</View>
+          </LaCard>
+        ) : (
+          <LaCard
+            title={`${currentSubjectData.subject} - ${calculateAverage()}`}
+            actionIcon="arrow-back"
+            onPress={() => setShowSubjects(true)}>
+            <View style={{ paddingTop: 5 }}>{getGrades()}</View>
+          </LaCard>
+        )}
 
-      <BottomSheet
-        backgroundColor={theme.colors.backdrop}
-        sheetBackgroundColor={theme.dark ? "#1e1e1e" : theme.colors.surface}
-        radius={theme.roundness}
-        ref={bottomSheetRef}
-        height={220}>
-        <View style={styles.sheetContainer}>
-          <View style={styles.dataContainer}>
-            <View style={{ width: "80%" }}>
-              <Title style={styles.title} numberOfLines={1}>
-                {currentGrade?.type}
-              </Title>
-              <Text style={styles.subTitle} numberOfLines={1}>
-                {currentGrade?.name}
+        <BottomSheet
+          backgroundColor={theme.colors.backdrop}
+          sheetBackgroundColor={theme.dark ? "#1e1e1e" : theme.colors.surface}
+          radius={theme.roundness}
+          ref={bottomSheetRef}
+          height={220}>
+          <View style={styles.sheetContainer}>
+            <View style={styles.dataContainer}>
+              <View style={{ width: "80%" }}>
+                <Title style={styles.title} numberOfLines={1}>
+                  {currentGrade?.type}
+                </Title>
+                <Text style={styles.subTitle} numberOfLines={1}>
+                  {currentGrade?.name}
+                </Text>
+              </View>
+              <Avatar.Text
+                style={{ backgroundColor: colors[currentGrade?.grade], margin: 8 }}
+                size={56}
+                color="#000000"
+                label={currentGrade?.grade}
+              />
+            </View>
+            <View style={{ ...styles.dataContainer, paddingTop: 4 }}>
+              <Text>Tantárgy:</Text>
+              <Text>{currentGrade?.subject}</Text>
+            </View>
+            <View style={styles.dataContainer}>
+              <Text>Tanár:</Text>
+              <Text>{currentGrade?.teacher}</Text>
+            </View>
+            <View style={styles.dataContainer}>
+              <Text>Dátum:</Text>
+              <Text>
+                {
+                  // Budget inline formatting let's go
+                  currentGrade?.date
+                    .replace("-", ". ")
+                    .replace("-", ". ")
+                    .replace("T", ". ")
+                    .replace("Z", "")
+                }
               </Text>
             </View>
-            <Avatar.Text
-              style={{ backgroundColor: colors[currentGrade?.grade], margin: 8 }}
-              size={56}
-              color="#000000"
-              label={currentGrade?.grade}
-            />
+            <View style={styles.dataContainer}>
+              <Text>Súly:</Text>
+              <Text>{currentGrade?.weight}%</Text>
+            </View>
           </View>
-          <View style={{ ...styles.dataContainer, paddingTop: 4 }}>
-            <Text>Tantárgy:</Text>
-            <Text>{currentGrade?.subject}</Text>
-          </View>
-          <View style={styles.dataContainer}>
-            <Text>Tanár:</Text>
-            <Text>{currentGrade?.teacher}</Text>
-          </View>
-          <View style={styles.dataContainer}>
-            <Text>Dátum:</Text>
-            <Text>
-              {
-                // Budget inline formatting let's go
-                currentGrade?.date
-                  .replace("-", ". ")
-                  .replace("-", ". ")
-                  .replace("T", ". ")
-                  .replace("Z", "")
-              }
-            </Text>
-          </View>
-          <View style={styles.dataContainer}>
-            <Text>Súly:</Text>
-            <Text>{currentGrade?.weight}%</Text>
-          </View>
-        </View>
-      </BottomSheet>
+        </BottomSheet>
+      </RestrictedWrapper>
     </ScreenContainer>
   );
 };

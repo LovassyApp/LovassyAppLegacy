@@ -5,11 +5,13 @@ import { StyleSheet, View } from "react-native";
 
 import { InventoryItem } from "../../components/content/inventoryItem";
 import { LaInput } from "../../components/content/customized/laInput";
+import { RestrictedWrapper } from "../../components/restrictedWrapper";
 import { ScreenContainer } from "../../components/screenContainer";
 import { fetchInventory } from "../../utils/api/apiUtils";
 import { matchSorter } from "match-sorter";
 import { useBlueboardClient } from "blueboard-client-react";
 import { useLoading } from "../../hooks/useLoading";
+import { usePermissions } from "../../hooks/controlHooks";
 import { useSelector } from "react-redux";
 
 export const InventoryScreen = ({ navigation }) => {
@@ -31,11 +33,16 @@ export const InventoryScreen = ({ navigation }) => {
 
   const client = useBlueboardClient();
   const loading = useLoading();
+  const permissions = usePermissions();
 
   const styles = StyleSheet.create({
     failedContainer: {
       flex: 1,
       alignItems: "center",
+      justifyContent: "center",
+    },
+    noPermContainer: {
+      flex: 1,
       justifyContent: "center",
     },
   });
@@ -63,7 +70,7 @@ export const InventoryScreen = ({ navigation }) => {
     loading(false);
   };
 
-  if (!items) {
+  if (!items && permissions.includes("Inventory.view")) {
     return (
       <ScreenContainer>
         <Headline>Áruház</Headline>
@@ -76,29 +83,41 @@ export const InventoryScreen = ({ navigation }) => {
   }
 
   return (
-    <ScreenContainer scrollable={true}>
+    <ScreenContainer scrollable={permissions.includes("Inventory.view")}>
       <Headline>Kincstár</Headline>
-      <LaInput
-        style={{ marginBottom: 5 }}
-        value={query}
-        onChangeText={(text) => setQuery(text)}
-        dense={true}
-        right={
-          query !== "" && (
-            <TextInput.Icon name="close" onPress={() => setQuery("")} forceTextInputFocus={false} />
-          )
-        }
-        error={renderedItems.length === 0 && items.length !== 0}
-        blurOnSubmit={true}
-        returnKeyType="search"
-        placeholder="Keresés"
-      />
-      {renderedItems.length === 0 && items.length !== 0 && (
-        <HelperText style={{ marginTop: -5 }} type="error">
-          Nem található ilyen termék
-        </HelperText>
-      )}
-      {getItems()}
+      <RestrictedWrapper
+        permission="Inventory.view"
+        fallback={
+          <View style={styles.noPermContainer}>
+            <Text style={{ textAlign: "center" }}>Nincs hozzáférésed ehhez az oldalhoz</Text>
+          </View>
+        }>
+        <LaInput
+          style={{ marginBottom: 5 }}
+          value={query}
+          onChangeText={(text) => setQuery(text)}
+          dense={true}
+          right={
+            query !== "" && (
+              <TextInput.Icon
+                name="close"
+                onPress={() => setQuery("")}
+                forceTextInputFocus={false}
+              />
+            )
+          }
+          error={renderedItems.length === 0 && items.length !== 0}
+          blurOnSubmit={true}
+          returnKeyType="search"
+          placeholder="Keresés"
+        />
+        {renderedItems.length === 0 && items.length !== 0 && (
+          <HelperText style={{ marginTop: -5 }} type="error">
+            Nem található ilyen termék
+          </HelperText>
+        )}
+        {getItems()}
+      </RestrictedWrapper>
     </ScreenContainer>
   );
 };

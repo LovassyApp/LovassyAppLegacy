@@ -8,7 +8,7 @@ export const RestrictedWrapper = (props) => {
     return props.children;
   } else if (
     props.permissions &&
-    control.permission.some((item) => props.permissions.includes(item))
+    control.permissions.some((item) => props.permissions.includes(item))
   ) {
     return props.children;
   }
