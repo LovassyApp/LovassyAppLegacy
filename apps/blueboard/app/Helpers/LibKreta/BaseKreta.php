@@ -2,13 +2,11 @@
 
 namespace App\Helpers\LibKreta;
 
-use App\Exceptions\APIException;
 use App\Exceptions\ExceptionRenderer;
 use App\Exceptions\LibKreta\KretaCredentialException;
 use App\Exceptions\LibKreta\KretaGeneralException;
 use App\Helpers\LibKreta\KretaTokenHelper;
 use Illuminate\Http\Client\ConnectionException;
-//use App\Jobs\SyncHttpRequest;
 use Illuminate\Support\Facades\Http;
 
 class BaseKreta
@@ -48,7 +46,7 @@ class BaseKreta
         'clark',
     ];
 
-    protected string $userAgent = 'com.llg.app';
+    protected string $userAgent = 'com.llgapp.blueboard';
 
     protected Endpoints $endpoints;
 
