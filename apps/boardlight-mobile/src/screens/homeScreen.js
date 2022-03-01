@@ -5,7 +5,6 @@ import {
   Headline,
   HelperText,
   Portal,
-  Snackbar,
   Subheading,
   Text,
   useTheme,
@@ -20,6 +19,7 @@ import {
 
 import { LaCard } from "../components/content/laCard";
 import { LaInput } from "../components/content/customized/laInput";
+import { LaSnackbar } from "../components/content/customized/laSnackbar";
 import { LoloCoin } from "../components/content/loloCoin";
 import { RequestItem } from "../components/content/requestItem";
 import { ScreenContainer } from "../components/screenContainer";
@@ -198,23 +198,15 @@ export const HomeScreen = () => {
         </Portal>
       </ScreenContainer>
       {snackBarOpen && (
-        <Snackbar
+        <LaSnackbar
           visible={snackBarOpen}
           onDismiss={() => {
             setSnackBarOpen(false);
             setSnackBarTimeout(30000);
           }}
-          theme={{
-            ...theme,
-            colors: {
-              ...theme.colors,
-              surface: theme.colors.text,
-              onSurface: theme.dark ? "#171717" : theme.colors.surface,
-            },
-          }}
           duration={snackBarTimeout}>
           {snackBarMessage}
-        </Snackbar>
+        </LaSnackbar>
       )}
     </>
   );

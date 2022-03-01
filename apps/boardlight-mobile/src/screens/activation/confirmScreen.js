@@ -1,12 +1,13 @@
-import { Divider, Headline, Snackbar, Subheading, Text, useTheme } from "react-native-paper";
+import { Divider, Headline, Subheading, Text, useTheme } from "react-native-paper";
+import React, { useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 
 import { InputRenderer } from "../../components/inputRenderer";
 import { Ionicons } from "@expo/vector-icons";
 import { LaButton } from "../../components/content/customized/laButton";
 import { LaCard } from "../../components/content/laCard";
+import { LaSnackbar } from "../../components/content/customized/laSnackbar";
 import Markdown from "react-native-markdown-display";
-import React, { useCallback, useEffect, useRef, useState } from "react";
 import { ScreenContainer } from "../../components/screenContainer";
 import { useBlueboardClient } from "blueboard-client-react";
 
@@ -49,6 +50,14 @@ export const ConfirmScreen = ({ navigation, route }) => {
     buttonContainer: {
       flexDirection: "row",
       justifyContent: "space-between",
+    },
+    usedContainer: {
+      justifyContent: "center",
+      flex: 1,
+    },
+    divider: {
+      width: "100%",
+      marginVertical: 5,
     },
   });
 
@@ -117,7 +126,7 @@ export const ConfirmScreen = ({ navigation, route }) => {
     return (
       <ScreenContainer>
         <Headline>{item.product.name}</Headline>
-        <View style={{ justifyContent: "center", flex: 1 }}>
+        <View style={styles.usedContainer}>
           <Text style={{ textAlign: "center" }}>Termék azonosító: {item.id}</Text>
           <Text style={{ textAlign: "center" }}>
             Ezt a termáket már beváltottad ekkor: {item.usedAt}
@@ -140,12 +149,12 @@ export const ConfirmScreen = ({ navigation, route }) => {
         <View style={styles.container}>
           <View style={{ marginVertical: 5 }}>
             <LaCard title="Leírás">
-              <Divider style={{ width: "100%", marginVertical: 5 }} />
+              <Divider style={styles.divider} />
               <Markdown style={markdownStyle}>{item.product.markdownContent}</Markdown>
             </LaCard>
             {item.product.inputs.length !== 0 && (
               <LaCard title="Inputok">
-                <Divider style={{ width: "100%", marginVertical: 5 }} />
+                <Divider style={styles.divider} />
                 <InputRenderer
                   inputs={item.product.inputs}
                   onChange={(input, value) => {
@@ -159,7 +168,7 @@ export const ConfirmScreen = ({ navigation, route }) => {
               </LaCard>
             )}
             <LaCard title="Beváltás">
-              <Divider style={{ width: "100%", marginVertical: 5 }} />
+              <Divider style={styles.divider} />
               <View
                 style={{
                   flexDirection: "row",
@@ -191,23 +200,15 @@ export const ConfirmScreen = ({ navigation, route }) => {
         </View>
       </ScreenContainer>
       {snackBarOpen && (
-        <Snackbar
+        <LaSnackbar
           visible={snackBarOpen}
           onDismiss={() => {
             setSnackBarOpen(false);
             setSnackBarTimeout(30000);
           }}
-          theme={{
-            ...theme,
-            colors: {
-              ...theme.colors,
-              surface: theme.colors.text,
-              onSurface: theme.dark ? "#171717" : theme.colors.surface,
-            },
-          }}
           duration={snackBarTimeout}>
           {snackBarMessage}
-        </Snackbar>
+        </LaSnackbar>
       )}
     </>
   );

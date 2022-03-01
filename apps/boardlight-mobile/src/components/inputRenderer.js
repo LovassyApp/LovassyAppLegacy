@@ -1,22 +1,32 @@
 import { HelperText, Subheading, Switch, useTheme } from "react-native-paper";
+import { StyleSheet, View } from "react-native";
 
 import { LaInput } from "./content/customized/laInput";
 /* eslint-disable indent */
 import React from "react";
-import { View } from "react-native";
 
 export const InputRenderer = (props) => {
   const theme = useTheme();
-
-  const renderedInputs = props.inputs.sort((a, b) => {
-    return a.type === "boolean" && b.type !== "boolean" ? 1 : 0;
-  });
 
   const getError = (inputName) => {
     const err = props.errors ?? {};
 
     return err[inputName] ?? "";
   };
+
+  const styles = StyleSheet.create({
+    switchContainer: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      marginVertical: 5,
+      alignItems: "center",
+      paddingLeft: 5,
+    },
+  });
+
+  const renderedInputs = props.inputs.sort((a, b) => {
+    return a.type === "boolean" && b.type !== "boolean" ? 1 : 0;
+  });
 
   const state = props.inputState ?? {};
 
@@ -47,15 +57,7 @@ export const InputRenderer = (props) => {
           );
         default:
           return (
-            <View
-              key={input.name}
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                marginVertical: 5,
-                alignItems: "center",
-                paddingLeft: 5,
-              }}>
+            <View key={input.name} style={styles.switchContainer}>
               <Subheading>{input.title}</Subheading>
               <Switch
                 color={theme.colors.primary}
