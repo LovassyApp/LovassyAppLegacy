@@ -9,18 +9,16 @@ import {
   Portal,
   Subheading,
   Switch,
-  Text,
   Title,
   useTheme,
 } from "react-native-paper";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { darkTheme, lightTheme } from "../../utils/theme/themes";
 import { loadData, saveData } from "../../utils/misc/storageUtils";
 import { setAdmin, setPredictiveLoad, setTheme } from "../../store/slices/settingsSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-import BottomSheet from "../../components/bottomSheet";
 import { Ionicons } from "@expo/vector-icons";
 import { RestrictedWrapper } from "../../components/restrictedWrapper";
 import { ScreenContainer } from "../../components/screenContainer";
@@ -73,6 +71,9 @@ export const SettingsScreen = ({ navigation }) => {
     devider: {
       width: "100%",
       marginVertical: 5,
+    },
+    space: {
+      height: 50,
     },
   });
 
@@ -173,6 +174,8 @@ export const SettingsScreen = ({ navigation }) => {
             />
           }
         />
+
+        <View style={styles.space} />
 
         <Portal>
           <Dialog visible={showInformation} dismissable={false}>

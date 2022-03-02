@@ -52,6 +52,9 @@ export const KretaScreen = () => {
       justifyContent: "center",
       flex: 1,
     },
+    space: {
+      height: 50,
+    },
   });
 
   const colors = {
@@ -138,6 +141,7 @@ export const KretaScreen = () => {
             <View style={{ paddingTop: 5 }}>{getGrades()}</View>
           </LaCard>
         )}
+        <View style={styles.space} />
 
         <BottomSheet
           backgroundColor={theme.colors.backdrop}

@@ -59,6 +59,9 @@ export const HomeScreen = () => {
       justifyContent: "space-between",
       marginVertical: 5,
     },
+    space: {
+      height: 50,
+    },
   });
 
   const tryAgainCoins = async () => {
@@ -176,6 +179,8 @@ export const HomeScreen = () => {
             )}
           </RestrictedWrapper>
         </LaCard>
+
+        <View style={styles.space} />
 
         <Portal>
           {showNewRequest && (
