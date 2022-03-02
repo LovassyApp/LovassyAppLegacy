@@ -23,13 +23,13 @@ export interface ProtectedRoute {
 const protectedRoutes: ProtectedRoute[] = [
     // { path: '/test', component: <Protected />, exact: true },
     // User routes
-    {
+    /* {
         path: '/home',
         component: (
             <Middleware permission="General.home" displayError={true} component={<Home />} />
         ),
         exact: true,
-    },
+    }, */
 
     {
         path: '/grades',
@@ -54,7 +54,7 @@ const protectedRoutes: ProtectedRoute[] = [
     },
 
     {
-        path: '/inventory',
+        path: '/homel',
         component: (
             <Middleware permission="Inventory.view" displayError={true} component={<Inventory />} />
         ),

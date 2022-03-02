@@ -59,7 +59,7 @@ const TopNav = (): JSX.Element => {
                 <NavbarToggler onClick={() => setIsOpen(!isOpen)} />
                 <Collapse isOpen={isOpen} navbar={true}>
                     <Nav className="me-auto" navbar={true}>
-                        <Middleware
+                        {/* <Middleware
                             component={
                                 <NavItem>
                                     <NavLink
@@ -74,6 +74,24 @@ const TopNav = (): JSX.Element => {
                                 </NavItem>
                             }
                             permission="General.home"
+                            displayError={false}
+                        /> */}
+
+                        <Middleware
+                            component={
+                                <NavItem>
+                                    <NavLink
+                                        href="#"
+                                        active={history.location.pathname === '/home'}
+                                        onClick={() => {
+                                            history.push('/home');
+                                        }}>
+                                        <MdOutlineInventory2 className="mb-1" />
+                                        <span className="ml-4"> Kincstár</span>
+                                    </NavLink>
+                                </NavItem>
+                            }
+                            permission="Inventory.view"
                             displayError={false}
                         />
 
@@ -128,24 +146,6 @@ const TopNav = (): JSX.Element => {
                                 </NavItem>
                             }
                             permission="Store.view"
-                            displayError={false}
-                        />
-
-                        <Middleware
-                            component={
-                                <NavItem>
-                                    <NavLink
-                                        href="#"
-                                        active={history.location.pathname === '/inventory'}
-                                        onClick={() => {
-                                            history.push('/inventory');
-                                        }}>
-                                        <MdOutlineInventory2 className="mb-1" />
-                                        <span className="ml-4"> Kincstár</span>
-                                    </NavLink>
-                                </NavItem>
-                            }
-                            permission="Inventory.view"
                             displayError={false}
                         />
 
