@@ -51,9 +51,12 @@ class LoloHelper
             throw new InsufficientFundsException();
         }
 
+        $coins = $this->getAllCoins();
+        $balance = $coins->where('isSpent', 0)->count();
+
         Lolo::whereIn('id', $ids)->update(['isSpent' => true]);
         $this->balance = $this->getBalance();
-        LoloAmountUpdated::dispatch($this->user, $this->balance);
+        LoloAmountUpdated::dispatch($this->user, $balance, $coins->toArray());
     }
 
     private function getAllCoins()

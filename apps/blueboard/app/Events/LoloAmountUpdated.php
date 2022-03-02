@@ -17,23 +17,25 @@ class LoloAmountUpdated implements ShouldBroadcast
 
     private User $user;
     private int $newAmount;
+    private array $coins;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(User $user, int $amount)
+    public function __construct(User $user, int $amount, array $coins)
     {
         $this->user = $user;
         $this->newAmount = $amount;
+        $this->coins = $coins;
     }
 
     public function broadcastWith()
     {
         return [
             'balance' => $this->newAmount,
-            'coins' => $this->user->lolo()->with('grades')->get(),
+            'coins' => $this->coins,
         ];
     }
 

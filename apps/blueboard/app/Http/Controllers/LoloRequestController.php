@@ -81,7 +81,16 @@ class LoloRequestController extends Controller
                 $loloRequest->accepted_at = Carbon::now();
                 $loloRequest->save();
                 LoloGenerator::saveRequest($data['loloAmount'], $loloRequest);
-                LoloAmountUpdated::dispatch($loloRequest->user, $loloRequest->user->balance);
+
+                LoloAmountUpdated::dispatch(
+                    $loloRequest->user,
+                    $loloRequest->user->balance,
+                    $loloRequest->user
+                        ->lolo()
+                        ->with('grades')
+                        ->get()
+                        ->toArray()
+                );
                 break;
 
             default:

@@ -25,7 +25,7 @@ class LoloGetController extends Controller
         $gen->generate();
 
         $helper = LoloHelper::getLolo();
-        LoloAmountUpdated::dispatch($helper->user, $helper->balance);
+        LoloAmountUpdated::dispatch($helper->user, $helper->balance, $helper->coins->toArray());
 
         return ResponseMaker::generate($helper);
     }
