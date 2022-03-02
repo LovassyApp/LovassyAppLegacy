@@ -22,7 +22,7 @@ import {
     // MdOutlineSettings,
     MdOutlineRequestPage,
     MdOutlinePeopleAlt,
-    MdOutlineHome,
+    // MdOutlineHome,
     MdOutlineAttachMoney,
     MdOutlineInventory2,
     MdQrCode2,

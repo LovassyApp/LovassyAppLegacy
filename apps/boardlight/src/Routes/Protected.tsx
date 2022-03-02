@@ -1,5 +1,5 @@
 import React from 'react';
-import Home from '../Pages/Home';
+// import Home from '../Pages/Home';
 import Users from '../Pages/Admin/Users';
 import Permissions from '../Pages/Admin/Groups';
 import EditGroup from '../Pages/Admin/EditGroup';
@@ -54,7 +54,7 @@ const protectedRoutes: ProtectedRoute[] = [
     },
 
     {
-        path: '/homel',
+        path: '/home',
         component: (
             <Middleware permission="Inventory.view" displayError={true} component={<Inventory />} />
         ),
