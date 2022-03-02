@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserGroupsChanged;
 use App\Exceptions\APIException;
 use App\Helpers\ResponseMaker;
 use Illuminate\Http\Request;
@@ -63,6 +64,8 @@ class UserController extends Controller
         }
 
         $user->groups()->sync($data['groups']);
+        $groups = $user->groups()->get();
+        UserGroupsChanged::dispatch($groups, $user);
 
         return ResponseMaker::generate([], 200, 'User updated successfully!');
     }

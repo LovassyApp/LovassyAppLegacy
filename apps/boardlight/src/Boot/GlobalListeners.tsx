@@ -46,6 +46,9 @@ const AuthedListeners = ({
         const newUser = { ...user, balance: res.balance } as BlueboardUser;
         dispatch(setUser(newUser));
     });
+    useBlueboardPrivateChannel(`Users.${user.id}`, 'UserGroupsChanged', (res: any) => {
+        dispatch(setGroups(res.groups));
+    });
 
     return <></>;
 };
