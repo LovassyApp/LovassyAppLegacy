@@ -46,13 +46,13 @@ const useStyles = createStyles((theme) => ({
         marginBottom: theme.spacing.sm,
     },
     pwInput: {
-        marginBottom: theme.spacing.md,
+        marginBottom: theme.spacing.lg,
     },
     buttonContainer: {
         width: "100%",
         display: "flex",
         justifyContent: "space-between",
-        alignItems: "center",
+        alignItems: "flex-start",
     },
 }));
 
@@ -146,7 +146,6 @@ export const Login = (): JSX.Element => {
                         className={classes.emailInput}
                         onChange={setEmail}
                     />
-                    {/* required prop doesn't work rn, waiting on mantine to fix this */}
                     <PasswordInput
                         label="Jelszó"
                         variant="filled"

@@ -1,10 +1,15 @@
 import { combineReducers, createStore } from "@reduxjs/toolkit";
 
+import coinsReducer from "./slices/coinsSlice";
 import controlReducer from "./slices/controlSlice";
+import inventoryReducer from "./slices/inventorySlice";
+import kretaReducer from "./slices/kretaSlice";
 import loadingReducer from "./slices/loadingSlice";
 import { persistReducer } from "redux-persist";
+import requestsReducer from "./slices/requestsSlice";
 import settingsReducer from "./slices/settingsSlice";
 import storage from "redux-persist/lib/storage";
+import storeReducer from "./slices/storeSlice";
 import tokenReducer from "./slices/tokenSlice";
 
 const persistConfig = {
@@ -18,6 +23,11 @@ const rootReducer = combineReducers({
     settings: settingsReducer,
     control: controlReducer,
     loading: loadingReducer,
+    requests: requestsReducer,
+    invetory: inventoryReducer,
+    store: storeReducer,
+    kreta: kretaReducer,
+    coins: coinsReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

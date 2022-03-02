@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { BlueboardControl, BlueboardUser, BlueboardUserGroup } from "blueboard-client";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 export interface ControlState {
     value: BlueboardControl;
@@ -40,6 +40,16 @@ const controlSlice = createSlice({
                 state.value.groups,
             );
 
+            state.value = newControl;
+        },
+        setUserBalance: (state: ControlState, action: PayloadAction<number>) => {
+            const newControl = {
+                ...state.value,
+                user: {
+                    ...state.value.user,
+                    balance: action.payload,
+                },
+            };
             state.value = newControl;
         },
     },
