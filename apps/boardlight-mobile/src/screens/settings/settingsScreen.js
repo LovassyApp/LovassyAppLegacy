@@ -144,7 +144,7 @@ export const SettingsScreen = ({ navigation }) => {
             />
           }
         />
-        <Divider style={styles.devider} />
+        {/* <Divider style={styles.devider} />
         <Caption>Kísérleti</Caption>
         <SettingsItem
           title="Prediktív betöltés"
@@ -155,7 +155,7 @@ export const SettingsScreen = ({ navigation }) => {
               onValueChange={() => togglePredictiveLoad()}
             />
           }
-        />
+        /> */}
         <Divider style={styles.devider} />
         <Caption>Névjegy</Caption>
         <SettingsItem
