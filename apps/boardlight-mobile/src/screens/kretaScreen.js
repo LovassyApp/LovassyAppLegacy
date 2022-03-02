@@ -163,7 +163,7 @@ export const KretaScreen = () => {
                 style={{ backgroundColor: colors[currentGrade?.grade], margin: 8 }}
                 size={56}
                 color="#000000"
-                label={currentGrade?.grade}
+                label={currentGrade?.grade === 0 ? "-" : currentGrade?.grade}
               />
             </View>
             <View style={{ ...styles.dataContainer, paddingTop: 4 }}>

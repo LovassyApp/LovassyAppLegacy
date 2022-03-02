@@ -27,10 +27,15 @@ export const GradeItem = (props) => {
       left={(props) => (
         <Avatar.Text
           {...props}
-          style={{ backgroundColor: colors[grade], margin: 8 }}
+          style={{
+            backgroundColor: colors[grade],
+            margin: 8,
+            padding: 1,
+            paddingLeft: 2, // low budget weird centering cuz flexbox doesn't work here for some reason
+          }}
           size={40}
           color="#000000"
-          label={grade}
+          label={grade === 0 ? "-" : grade}
         />
       )}
       descriptionNumberOfLines={1}
