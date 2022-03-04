@@ -43,6 +43,7 @@ const AuthedListeners = ({
     user: BlueboardUser;
 }): JSX.Element => {
     useBlueboardPrivateChannel(`Users.${user.id}`, 'LoloAmountUpdated', (res: any) => {
+        console.log(res);
         const newUser = { ...user, balance: res.balance } as BlueboardUser;
         dispatch(setUser(newUser));
     });
