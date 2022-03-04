@@ -55,6 +55,7 @@ const controlSlice = createSlice({
     },
 });
 
-export const { setControl, removeControl, setGroups, setUser } = controlSlice.actions;
+export const { setControl, removeControl, setGroups, setUser, setUserBalance } =
+    controlSlice.actions;
 
 export default controlSlice.reducer;

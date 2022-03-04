@@ -10,6 +10,7 @@ import {
 } from "@mantine/core";
 import { Lock, Mail } from "tabler-icons-react";
 
+import { eagerLoad } from "../../utils/api/eagerLoad";
 import { setControl } from "../../store/slices/controlSlice";
 import { setToken } from "../../store/slices/tokenSlice";
 import { useBlueboardClient } from "blueboard-client-react";
@@ -18,6 +19,7 @@ import { useInputState } from "@mantine/hooks";
 import { useLoading } from "../../hooks/useLoading";
 import { useNavigate } from "react-router-dom";
 import { useNotifications } from "@mantine/notifications";
+import { useRenew } from "../../hooks/useRenew";
 
 const useStyles = createStyles((theme) => ({
     center: {
@@ -68,6 +70,7 @@ export const Login = (): JSX.Element => {
 
     const loading = useLoading();
     const client = useBlueboardClient();
+    const renew = useRenew();
 
     const notifications = useNotifications();
     const navigate = useNavigate();
@@ -93,10 +96,21 @@ export const Login = (): JSX.Element => {
 
                 dispatch(setControl(control));
 
-                loading(false, "");
-
-                dispatch(setToken(res.token));
-                navigate("/home");
+                try {
+                    await eagerLoad(client, res.token);
+                    dispatch(setToken(res.token));
+                    renew();
+                    navigate("/home");
+                } catch (err) {
+                    notifications.showNotification({
+                        title: "Hiba történt",
+                        message: "A betöltés sikertelen",
+                        color: "red",
+                        autoClose: 5000,
+                    });
+                } finally {
+                    loading(false, "");
+                }
             } catch (err) {
                 loading(false, "");
                 notifications.showNotification({

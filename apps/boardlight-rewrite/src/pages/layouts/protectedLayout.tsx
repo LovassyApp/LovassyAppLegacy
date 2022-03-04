@@ -2,18 +2,19 @@ import {
     AppShell,
     Box,
     Center,
-    createStyles,
     Drawer,
     Header,
     MediaQuery,
     Tabs,
     Text,
     UnstyledButton,
+    createStyles,
 } from "@mantine/core";
+import { Book, Home, Menu2 } from "tabler-icons-react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { Menu2, Home, Book } from "tabler-icons-react";
+
 import { ColorSwitch } from "../../components/colorSwitch";
+import { useState } from "react";
 
 const useStyles = createStyles((theme) => ({
     header: {
