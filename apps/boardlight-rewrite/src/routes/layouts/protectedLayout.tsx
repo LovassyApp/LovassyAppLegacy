@@ -16,9 +16,10 @@ import {
 } from "@mantine/core";
 import { Book, Coin, Home, InfoCircle, Logout, Menu2, Paint } from "tabler-icons-react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useRef, useState } from "react";
 
 import { useLogout } from "../../hooks/useLogout";
-import { useState } from "react";
+import { useModals } from "@mantine/modals";
 import { useUser } from "../../hooks/controlHooks";
 
 const useStyles = createStyles((theme) => ({
@@ -84,13 +85,27 @@ const NavbarLinks = ({ drawer }: { drawer?: boolean }): JSX.Element => {
 
 export const ProtectedLayout = ({ children }: { children: React.ReactNode }): JSX.Element => {
     const [opened, setOpened] = useState(false);
+    const [menuOpened, setMenuOpened] = useState(false);
 
     const user = useUser();
     const logout = useLogout();
     const theme = useMantineTheme();
+    const modals = useModals();
     const { toggleColorScheme } = useMantineColorScheme();
 
     const { classes } = useStyles();
+
+    const openAccountInformation = (): void => {
+        setMenuOpened(false);
+        modals.openModal({
+            title: "Fiók információk",
+            children: (
+                <>
+                    <Text>Azonosító: {user.id}</Text>
+                </>
+            ),
+        });
+    };
 
     return (
         <AppShell
@@ -139,6 +154,9 @@ export const ProtectedLayout = ({ children }: { children: React.ReactNode }): JS
                             </Box>
                             <Menu
                                 closeOnItemClick={false}
+                                opened={menuOpened}
+                                onOpen={() => setMenuOpened(true)}
+                                onClose={() => setMenuOpened(false)}
                                 control={
                                     <Avatar radius="xl" color={theme.primaryColor}>
                                         {user.name
@@ -152,8 +170,11 @@ export const ProtectedLayout = ({ children }: { children: React.ReactNode }): JS
                                     Téma váltás
                                 </Menu.Item>
                                 <Menu.Label>Fiók</Menu.Label>
-                                <Menu.Item icon={<InfoCircle />} color="blue">
-                                    Fiók információ
+                                <Menu.Item
+                                    icon={<InfoCircle />}
+                                    color="blue"
+                                    onClick={() => openAccountInformation()}>
+                                    Fiók információk
                                 </Menu.Item>
                                 <Menu.Item icon={<Logout />} color="red" onClick={() => logout()}>
                                     Kijelentkezés
@@ -188,8 +209,9 @@ export const ProtectedLayout = ({ children }: { children: React.ReactNode }): JS
                         <Menu.Item
                             icon={<InfoCircle />}
                             color="blue"
+                            onClick={() => openAccountInformation()}
                             className={classes.drawerItem}>
-                            Fiók információ
+                            Fiók információk
                         </Menu.Item>
                         <Menu.Item
                             icon={<Logout />}
