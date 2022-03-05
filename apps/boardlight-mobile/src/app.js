@@ -34,6 +34,8 @@ const [BlueboardProvider] = BlueboardClientInit(
 );
 
 const ProviderStack = ({ children }) => {
+  // console.log(BLUEBOARD_URL);
+
   const token = useSelector((state) => state.token.value);
   const theme = useSelector((state) => state.settings.theme);
   const loading = useSelector((state) => state.loading.value);
@@ -49,6 +51,7 @@ const ProviderStack = ({ children }) => {
         dispatch(setTheme(Appearance.getColorScheme() === "dark" ? darkTheme : lightTheme));
       }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -83,7 +86,6 @@ const ListenerStack = ({ children }) => {
     dispatch(setStore(products));
   });
 
-  // TODO: this fucks grades in coins (possibly)
   useBlueboardPrivateChannel(`Users.${user.id}`, "LoloAmountUpdated", (data) => {
     dispatch(setCoins(BlueboardLoloResponseFactory.getCoins(data.coins)));
     dispatch(setUserBalance(data.balance));
