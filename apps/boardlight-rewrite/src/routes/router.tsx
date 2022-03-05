@@ -14,6 +14,7 @@ export const Router = (): JSX.Element => {
             <Route path="*" element={<Four0Four />} />
             <Route path="/" element={<LayoutDecider />}>
                 <Route path="login" element={<Login />} />
+                <Route index={true} element={<Navigate to="/home" />} />
 
                 {/* -----Protected Routes-----*/}
                 <Route
