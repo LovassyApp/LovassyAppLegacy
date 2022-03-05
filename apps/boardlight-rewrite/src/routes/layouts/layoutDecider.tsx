@@ -1,3 +1,4 @@
+import { AppBootstrapProvider } from "../../boot/appBootstrapProvider";
 import { AuthorizedWrapper } from "../../components/authorizedWrapper";
 import { NormalLayout } from "./normalLayout";
 import { Outlet } from "react-router-dom";
@@ -5,15 +6,17 @@ import { ProtectedLayout } from "./protectedLayout";
 
 export const LayoutDecider = (): JSX.Element => {
     return (
-        <AuthorizedWrapper
-            fallback={
-                <NormalLayout>
+        <AppBootstrapProvider>
+            <AuthorizedWrapper
+                fallback={
+                    <NormalLayout>
+                        <Outlet />
+                    </NormalLayout>
+                }>
+                <ProtectedLayout>
                     <Outlet />
-                </NormalLayout>
-            }>
-            <ProtectedLayout>
-                <Outlet />
-            </ProtectedLayout>
-        </AuthorizedWrapper>
+                </ProtectedLayout>
+            </AuthorizedWrapper>
+        </AppBootstrapProvider>
     );
 };

@@ -52,9 +52,7 @@ const ProviderStack = (): JSX.Element => {
                     withGlobalStyles={true}>
                     <ModalsProvider>
                         <NotificationsProvider>
-                            <AppBootstrapProvider>
-                                <Router />
-                            </AppBootstrapProvider>
+                            <Router />
                         </NotificationsProvider>
                     </ModalsProvider>
                 </MantineProvider>

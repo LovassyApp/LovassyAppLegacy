@@ -8,7 +8,6 @@ import { setControl } from "../store/slices/controlSlice";
 import { setToken } from "../store/slices/tokenSlice";
 import { useBlueboardClient } from "blueboard-client-react";
 import { useLoading } from "../hooks/useLoading";
-import { useNavigate } from "react-router-dom";
 import { useNotifications } from "@mantine/notifications";
 import { useRenew } from "../hooks/useRenew";
 
@@ -18,7 +17,6 @@ export const AppBootstrapProvider = ({ children }: { children: React.ReactNode }
     const renew = useRenew();
 
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     const notifications = useNotifications();
 
