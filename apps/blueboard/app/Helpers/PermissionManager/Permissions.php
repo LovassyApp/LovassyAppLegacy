@@ -133,7 +133,7 @@ class Permissions
             'permission' => 'getpermissions',
             'displayName' => 'Jogosultságok lekérése',
             'description' =>
-                'A rendszerben lévő összes jogosultság lekérése (Boardlight beépített szerkesztőjéhez kell!)',
+            'A rendszerben lévő összes jogosultság lekérése (Boardlight beépített szerkesztőjéhez kell!)',
             'errorMessage' => self::PAGE_DENIED,
         ],
         'update' => [
@@ -216,7 +216,7 @@ class Permissions
         ],
         'update' => [
             'permission' => 'update',
-            'displayName' => 'Hozzáadás',
+            'displayName' => 'Szerkesztés',
             'description' => 'Egy adott termék szerkesztése',
             'errorMessage' => self::PAGE_DENIED,
         ],
