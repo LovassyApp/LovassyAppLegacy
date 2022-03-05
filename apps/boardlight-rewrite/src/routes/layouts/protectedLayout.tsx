@@ -14,7 +14,7 @@ import {
     useMantineColorScheme,
     useMantineTheme,
 } from "@mantine/core";
-import { Book, Cash, Coin, Home, InfoCircle, Logout, Menu2, Paint } from "tabler-icons-react";
+import { Book, Coin, Home, InfoCircle, Logout, Menu2, Paint } from "tabler-icons-react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { useLogout } from "../../hooks/useLogout";
@@ -108,11 +108,16 @@ export const ProtectedLayout = ({ children }: { children: React.ReactNode }): JS
                     </Text>
                     <MediaQuery largerThan="sm" styles={{ display: "none" }}>
                         <Box className={classes.navBarRight}>
-                            <Text size="sm" color="yellow" weight="bolder" mr={3} mt={-3.5}>
+                            <Text
+                                size="sm"
+                                color={theme.colors.yellow[6]}
+                                weight="bolder"
+                                mr={3}
+                                mt={-3.5}>
                                 {user.balance}
                             </Text>
                             <Box mr={10} mt={3.5}>
-                                <Coin color={theme.colors.yellow[5]} />
+                                <Coin color={theme.colors.yellow[6]} />
                             </Box>
                             <UnstyledButton onClick={() => setOpened(!opened)}>
                                 <Menu2 size={32} />
@@ -126,11 +131,11 @@ export const ProtectedLayout = ({ children }: { children: React.ReactNode }): JS
                     </MediaQuery>
                     <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
                         <Box className={classes.navBarRight}>
-                            <Text size="sm" color="yellow" weight="bolder" mr={3}>
+                            <Text size="sm" color={theme.colors.yellow[6]} weight="bolder" mr={3}>
                                 {user.balance}
                             </Text>
                             <Box mr={10} mt={7}>
-                                <Coin color={theme.colors.yellow[5]} />
+                                <Coin color={theme.colors.yellow[6]} />
                             </Box>
                             <Menu
                                 closeOnItemClick={false}
