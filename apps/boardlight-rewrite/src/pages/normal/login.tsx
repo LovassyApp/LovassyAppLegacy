@@ -40,7 +40,7 @@ const useStyles = createStyles((theme) => ({
             width: "65vw",
         },
 
-        [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
+        [`@media (max-width: ${theme.breakpoints.xs}px)`]: {
             width: "75vw",
         },
     },
