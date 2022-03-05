@@ -14,7 +14,7 @@ import {
     useMantineColorScheme,
     useMantineTheme,
 } from "@mantine/core";
-import { Book, Home, InfoCircle, Logout, Menu2, Paint } from "tabler-icons-react";
+import { Book, Cash, Coin, Home, InfoCircle, Logout, Menu2, Paint } from "tabler-icons-react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { useLogout } from "../../hooks/useLogout";
@@ -40,8 +40,11 @@ const useStyles = createStyles((theme) => ({
         transform: "translateX(-50%)",
     },
     navBarRight: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
         position: "absolute",
-        margin: 10,
+        marginRight: 10,
         right: 0,
     },
     drawerItem: {
@@ -104,11 +107,17 @@ export const ProtectedLayout = ({ children }: { children: React.ReactNode }): JS
                         LovassyApp
                     </Text>
                     <MediaQuery largerThan="sm" styles={{ display: "none" }}>
-                        <UnstyledButton
-                            onClick={() => setOpened(!opened)}
-                            className={classes.navBarRight}>
-                            <Menu2 size={24} />
-                        </UnstyledButton>
+                        <Box className={classes.navBarRight}>
+                            <Text size="sm" color="yellow" weight="bolder" mr={3} mt={-3.5}>
+                                {user.balance}
+                            </Text>
+                            <Box mr={10} mt={3.5}>
+                                <Coin color={theme.colors.yellow[5]} />
+                            </Box>
+                            <UnstyledButton onClick={() => setOpened(!opened)}>
+                                <Menu2 size={32} />
+                            </UnstyledButton>
+                        </Box>
                     </MediaQuery>
                     <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
                         <Box className={classes.navBarCenter}>
@@ -117,6 +126,12 @@ export const ProtectedLayout = ({ children }: { children: React.ReactNode }): JS
                     </MediaQuery>
                     <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
                         <Box className={classes.navBarRight}>
+                            <Text size="sm" color="yellow" weight="bolder" mr={3}>
+                                {user.balance}
+                            </Text>
+                            <Box mr={10} mt={7}>
+                                <Coin color={theme.colors.yellow[5]} />
+                            </Box>
                             <Menu
                                 closeOnItemClick={false}
                                 control={
