@@ -23,10 +23,16 @@ class BlueboardTokenRefresher extends BlueboardBaseClient {
         return (expiry - Math.floor(Date.now() / 1000) - 2) * 1000;
     };
 
-    public async start(refreshCallback: any, errorCallback: any, refreshToken?: string) {
+    public async start(
+        refreshCallback: any,
+        errorCallback: any,
+        refreshToken?: string
+    ) {
         clearTimeout(this.timeout);
         const timeout = await this.getTimeout();
-        console.log('DEBUG: Token expiry thread sleep: ' + timeout / 1000 + ' seconds.');
+        console.log(
+            'DEBUG: Token expiry thread sleep: ' + timeout / 1000 + ' seconds.'
+        );
 
         const cb = () => {
             this.timeoutCallback(refreshCallback, errorCallback, refreshToken);
@@ -39,7 +45,11 @@ class BlueboardTokenRefresher extends BlueboardBaseClient {
         clearTimeout(this.timeout);
     };
 
-    private timeoutCallback = async (refreshCallback: any, errorCallback: any, refreshToken?: string) => {
+    private timeoutCallback = async (
+        refreshCallback: any,
+        errorCallback: any,
+        refreshToken?: string
+    ) => {
         console.log('DEBUG: Renewing token...');
         try {
             await this.auth

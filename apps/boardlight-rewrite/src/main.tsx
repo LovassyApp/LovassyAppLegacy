@@ -4,6 +4,7 @@ import { Provider, useDispatch, useSelector } from "react-redux";
 import React, { FC } from "react";
 import { RootState, store } from "./store/store";
 
+import { AppBootstrapProvider } from "./boot/appBootstrapProvider";
 import { BlueboardClientInit } from "blueboard-client-react";
 import { BrowserRouter } from "react-router-dom";
 import { FullScreenLoading } from "./components/fullScreenLoading";
@@ -51,10 +52,12 @@ const ProviderStack = (): JSX.Element => {
                     withGlobalStyles={true}>
                     <ModalsProvider>
                         <NotificationsProvider>
-                            <LayoutDecider>
-                                {loading && <FullScreenLoading />}
-                                <Router />
-                            </LayoutDecider>
+                            <AppBootstrapProvider>
+                                <LayoutDecider>
+                                    {loading && <FullScreenLoading />}
+                                    <Router />
+                                </LayoutDecider>
+                            </AppBootstrapProvider>
                         </NotificationsProvider>
                     </ModalsProvider>
                 </MantineProvider>
