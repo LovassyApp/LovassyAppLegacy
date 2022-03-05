@@ -27,7 +27,7 @@ export const useLogout = (): (() => Promise<void>) => {
 
             notifications.showNotification({
                 title: "Hiba történt",
-                message: "Kijelentkezés sikertelen",
+                message: "Kijelentkezés sikertelen (probléma a szerverrel)",
                 color: "red",
                 autoClose: 5000,
             });

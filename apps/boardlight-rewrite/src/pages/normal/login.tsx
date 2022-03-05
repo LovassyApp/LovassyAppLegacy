@@ -100,7 +100,7 @@ export const Login = (): JSX.Element => {
                     await eagerLoad(client, res.token);
                     dispatch(setToken(res.token));
                     renew();
-                    navigate("/home");
+                    navigate("/home", { replace: true });
                 } catch (err) {
                     notifications.showNotification({
                         title: "Hiba történt",

@@ -1,9 +1,12 @@
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+
+import { FullScreenLoading } from "../components/fullScreenLoading";
+import { RootState } from "../store/store";
 import { eagerLoad } from "../utils/api/eagerLoad";
 import { setControl } from "../store/slices/controlSlice";
 import { setToken } from "../store/slices/tokenSlice";
 import { useBlueboardClient } from "blueboard-client-react";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
 import { useLoading } from "../hooks/useLoading";
 import { useNavigate } from "react-router-dom";
 import { useNotifications } from "@mantine/notifications";
@@ -18,6 +21,10 @@ export const AppBootstrapProvider = ({ children }: { children: React.ReactNode }
     const navigate = useNavigate();
 
     const notifications = useNotifications();
+
+    const reduxLoading = useSelector((state: RootState) => state.loading.value);
+
+    const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
         (async () => {
@@ -35,7 +42,6 @@ export const AppBootstrapProvider = ({ children }: { children: React.ReactNode }
                         await eagerLoad(client, res.token);
                         dispatch(setToken(res.token));
                         renew();
-                        navigate("/home");
                     } catch (err) {
                         notifications.showNotification({
                             title: "Hiba történt",
@@ -43,11 +49,8 @@ export const AppBootstrapProvider = ({ children }: { children: React.ReactNode }
                             color: "red",
                             autoClose: 5000,
                         });
-                    } finally {
-                        loading(false, "");
                     }
                 } catch (err) {
-                    loading(false, "");
                     notifications.showNotification({
                         title: "Hiba történt",
                         message: "A control lekérése sikertelen",
@@ -56,11 +59,22 @@ export const AppBootstrapProvider = ({ children }: { children: React.ReactNode }
                     });
                 }
             } catch (err) {
-                loading(false, "");
                 console.log(err);
             }
+
+            loading(false, "");
+            setLoaded(true);
         })();
     }, []);
 
-    return <>{children}</>;
+    if (!loaded) {
+        return <FullScreenLoading />;
+    }
+
+    return (
+        <>
+            {reduxLoading && <FullScreenLoading />}
+            {children}
+        </>
+    );
 };
