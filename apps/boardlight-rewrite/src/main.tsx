@@ -40,7 +40,6 @@ const ProviderStack = (): JSX.Element => {
 
     useHotkeys([["mod+J", () => toggleColorScheme()]]);
 
-    const loading = useSelector((state: RootState) => state.loading.value);
     const token = useSelector((state: RootState) => state.token.value);
 
     return (

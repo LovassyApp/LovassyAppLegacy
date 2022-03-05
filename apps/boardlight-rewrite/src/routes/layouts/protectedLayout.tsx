@@ -1,20 +1,25 @@
 import {
     AppShell,
+    Avatar,
     Box,
     Center,
     Drawer,
     Header,
     MediaQuery,
+    Menu,
     Tabs,
     Text,
     UnstyledButton,
     createStyles,
+    useMantineColorScheme,
+    useMantineTheme,
 } from "@mantine/core";
-import { Book, Home, Menu2 } from "tabler-icons-react";
+import { Book, Home, InfoCircle, Logout, Menu2, Paint } from "tabler-icons-react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { ColorSwitch } from "../../components/colorSwitch";
+import { useLogout } from "../../hooks/useLogout";
 import { useState } from "react";
+import { useUser } from "../../hooks/controlHooks";
 
 const useStyles = createStyles((theme) => ({
     header: {
@@ -23,12 +28,11 @@ const useStyles = createStyles((theme) => ({
     },
     drawerLowerPortion: {
         display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
+        flexDirection: "column",
         position: "absolute",
         bottom: 0,
         padding: theme.spacing.xl,
-        width: "80%",
+        width: "100%",
     },
     navBarCenter: {
         position: "absolute",
@@ -39,6 +43,10 @@ const useStyles = createStyles((theme) => ({
         position: "absolute",
         margin: 10,
         right: 0,
+    },
+    drawerItem: {
+        display: "flex",
+        justifyContent: "center",
     },
 }));
 
@@ -74,6 +82,11 @@ const NavbarLinks = ({ drawer }: { drawer?: boolean }): JSX.Element => {
 export const ProtectedLayout = ({ children }: { children: React.ReactNode }): JSX.Element => {
     const [opened, setOpened] = useState(false);
 
+    const user = useUser();
+    const logout = useLogout();
+    const theme = useMantineTheme();
+    const { toggleColorScheme } = useMantineColorScheme();
+
     const { classes } = useStyles();
 
     return (
@@ -104,7 +117,28 @@ export const ProtectedLayout = ({ children }: { children: React.ReactNode }): JS
                     </MediaQuery>
                     <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
                         <Box className={classes.navBarRight}>
-                            <ColorSwitch />
+                            <Menu
+                                closeOnItemClick={false}
+                                control={
+                                    <Avatar radius="xl" color={theme.primaryColor}>
+                                        {user.name
+                                            .split(" ")
+                                            .map((item) => item[0])
+                                            .join("")}
+                                    </Avatar>
+                                }>
+                                <Menu.Label>Kinézet</Menu.Label>
+                                <Menu.Item icon={<Paint />} onClick={() => toggleColorScheme()}>
+                                    Téma váltás
+                                </Menu.Item>
+                                <Menu.Label>Fiók</Menu.Label>
+                                <Menu.Item icon={<InfoCircle />} color="blue">
+                                    Fiók információ
+                                </Menu.Item>
+                                <Menu.Item icon={<Logout />} color="red" onClick={() => logout()}>
+                                    Kijelentkezés
+                                </Menu.Item>
+                            </Menu>
                         </Box>
                     </MediaQuery>
                 </Header>
@@ -125,8 +159,25 @@ export const ProtectedLayout = ({ children }: { children: React.ReactNode }): JS
                 <Center>
                     <NavbarLinks drawer={true} />
                     <Box className={classes.drawerLowerPortion}>
-                        <Text>Téma</Text>
-                        <ColorSwitch />
+                        <Menu.Item
+                            icon={<Paint />}
+                            onClick={() => toggleColorScheme()}
+                            className={classes.drawerItem}>
+                            Téma váltás
+                        </Menu.Item>
+                        <Menu.Item
+                            icon={<InfoCircle />}
+                            color="blue"
+                            className={classes.drawerItem}>
+                            Fiók információ
+                        </Menu.Item>
+                        <Menu.Item
+                            icon={<Logout />}
+                            color="red"
+                            onClick={() => logout()}
+                            className={classes.drawerItem}>
+                            Kijelentkezés
+                        </Menu.Item>
                     </Box>
                 </Center>
             </Drawer>

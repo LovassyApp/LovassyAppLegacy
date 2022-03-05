@@ -1,4 +1,4 @@
-import { Box, Button, Center, Text, createStyles } from "@mantine/core";
+import { Button, Center, Text, createStyles } from "@mantine/core";
 
 import { useNavigate } from "react-router-dom";
 
