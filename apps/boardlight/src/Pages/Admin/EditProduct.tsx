@@ -1,51 +1,53 @@
 import * as React from 'react';
-import AuthLayout from '../../Layouts/Auth';
-import HeaderCard from '../../Components/HeaderCard';
-import { useHistory, useParams } from 'react-router';
+
 import {
-    Loading,
-    Input,
-    Button,
-    Switch,
-    Textarea,
-    useTheme,
-    Container,
-    Grid,
-    Card as NextCard,
-    Text,
-    Modal,
-} from '@nextui-org/react';
-import {
-    Row,
-    Col,
-    Card,
-    DropdownItem,
-    DropdownToggle,
-    DropdownMenu,
-    UncontrolledDropdown,
     Alert,
+    Card,
+    Col,
+    DropdownItem,
+    DropdownMenu,
+    DropdownToggle,
+    Row,
+    UncontrolledDropdown,
 } from 'reactstrap';
-import toast from 'react-hot-toast';
-import TableLoader from '../../Components/TableLoader';
-import Select from 'react-select';
-import makeAnimated from 'react-select/animated';
-import MDEditor from '@uiw/react-md-editor';
-import EmptyTable from '../../Components/EmptyTable';
-import InputRenderer from '../../Components/InputRenderer';
-import ImageDropzone from '../../Components/ImageDropzone';
-import { BoardlightFile, getDefImg, getImageBase64, importImage } from '../../Helpers/ImageUtils';
-import { useBlueboardClient } from 'blueboard-client-react';
 import {
     BlueboardNotFoundException,
     BlueboardProduct,
     BlueboardProductInput,
     BlueboardQRCode,
 } from 'blueboard-client';
+import { BoardlightFile, getDefImg, getImageBase64, importImage } from '../../Helpers/ImageUtils';
+import {
+    Button,
+    Container,
+    Grid,
+    Input,
+    Loading,
+    Modal,
+    Card as NextCard,
+    Switch,
+    Text,
+    Textarea,
+    useTheme,
+} from '@nextui-org/react';
+import { useHistory, useParams } from 'react-router';
+
+import AuthLayout from '../../Layouts/Auth';
 import Center from '../../Components/Center';
+import EmptyTable from '../../Components/EmptyTable';
 import { FormElement } from '@nextui-org/react/esm/input/input-props';
-import { usePermissions } from '../../Hooks/ControlHooks';
 import Four0Three from '../403';
+import HeaderCard from '../../Components/HeaderCard';
+import ImageDropzone from '../../Components/ImageDropzone';
+import InputRenderer from '../../Components/InputRenderer';
+import MDEditor from '@uiw/react-md-editor';
+import Select from 'react-select';
+import TableLoader from '../../Components/TableLoader';
 import { checkPermission } from '../../Helpers/Middleware';
+import makeAnimated from 'react-select/animated';
+import toast from 'react-hot-toast';
+import { useBlueboardClient } from 'blueboard-client-react';
+import { usePermissions } from '../../Hooks/ControlHooks';
 
 const animatedComponents = makeAnimated();
 
@@ -65,11 +67,11 @@ const EditProduct = (): JSX.Element => {
     const [selectedCodes, setSelectedCodes] = React.useState<any[]>([]);
     const [loading, setLoading] = React.useState(true);
     const [savePending, setSavePending] = React.useState(false);
-    const [name, setName] = React.useState('Random kimentés valami izé');
+    const [name, setName] = React.useState('Termék neve');
     const [description, setDescription] = React.useState('Rövid sokatmondó leírás');
     const [files, setFiles] = React.useState<BoardlightFile[]>([]);
     const [markdown, setMarkdown] = React.useState(
-        '**Markdown a beváltáshoz / leíráshoz a shopban**<br>jej<br>kúl',
+        '## Részletes **formázható** leírás\n - felsorolással\n - *dőlt szöveggel*\n - és sok [mással](https://www.youtube.com/watch?v=dQw4w9WgXcQ)',
     );
     const [codeIsDisabled, setCodeDisabled] = React.useState(true);
     const [price, setPrice] = React.useState(1);
@@ -152,7 +154,7 @@ const EditProduct = (): JSX.Element => {
 
     const AddTextbox = (): void => {
         const obj = {
-            name: 'semmi',
+            name: 'val1',
             type: 'textbox' as const,
             title: 'Cím',
         };
@@ -162,7 +164,7 @@ const EditProduct = (): JSX.Element => {
 
     const addBoolean = (): void => {
         const obj = {
-            name: 'semmi',
+            name: 'val1',
             type: 'boolean' as const,
             title: 'Cím',
         };
@@ -294,7 +296,9 @@ const EditProduct = (): JSX.Element => {
                     {inputs.map((value, key) => (
                         // eslint-disable-next-line react/no-array-index-key
                         <Row key={key}>
-                            <Text b={true}>{value.type === 'textbox' ? 'Textbox' : 'Switch'}</Text>
+                            <Text b={true}>
+                                {value.type === 'textbox' ? 'Szövegdoboz' : 'Igen/Nem'}
+                            </Text>
                             <Col md="5">
                                 <Input
                                     fullWidth={true}
@@ -303,7 +307,7 @@ const EditProduct = (): JSX.Element => {
                                     min="1"
                                     shadow={false}
                                     onChange={(e) => setInputValName(e.target.value, key)}
-                                    labelLeft="ValueName: "
+                                    labelLeft="Érték neve: "
                                     initialValue={value.name}
                                     color={
                                         getErrors(makeInputString(key, 'name')) === ''
@@ -386,7 +390,7 @@ const EditProduct = (): JSX.Element => {
                             }}>
                             <DropdownItem header={true}>Input típusok</DropdownItem>
                             <DropdownItem onClick={AddTextbox}>Szövegdoboz</DropdownItem>
-                            <DropdownItem onClick={addBoolean}>Búlín</DropdownItem>
+                            <DropdownItem onClick={addBoolean}>Igen/Nem</DropdownItem>
                         </DropdownMenu>
                     </UncontrolledDropdown>
                     <Button
@@ -396,7 +400,7 @@ const EditProduct = (): JSX.Element => {
                         onClick={() => {
                             setModalShow(false);
                         }}>
-                        klóz
+                        Bezárás
                     </Button>
                 </Modal.Footer>
             </Modal>

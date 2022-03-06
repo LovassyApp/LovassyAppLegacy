@@ -59,8 +59,8 @@ class Permissions
     public const MISC = [
         'home' => [
             'permission' => 'home',
-            'displayName' => 'Home',
-            'description' => 'Home oldal megtekintése',
+            'displayName' => 'Kezdőlap',
+            'description' => 'Kezdőlap megtekintése',
             'errorMessage' => self::PAGE_DENIED,
         ],
         'grades' => [
@@ -78,7 +78,7 @@ class Permissions
         'control' => [
             'permission' => 'control',
             'displayName' => 'Control',
-            'description' => 'ÉN EZT NEM VENNÉM EL, MEGBÉNÍTJA AZ ADOTT CSOPORT MINDEN USERÉT!',
+            'description' => 'Én ezt nem venném el. Megbénítja az adott csoport minden felhasználóját.',
             'errorMessage' => self::PAGE_DENIED,
         ],
     ];

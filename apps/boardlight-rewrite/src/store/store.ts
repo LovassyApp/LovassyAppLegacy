@@ -15,7 +15,7 @@ import tokenReducer from "./slices/tokenSlice";
 const persistConfig = {
     key: "boardlight_rewrite",
     storage,
-    blacklist: ["control", "loading", "token"],
+    blacklist: ["control", "loading", "token", "requests", "store", "coins", "kreta", "inventory"],
 };
 
 const rootReducer = combineReducers({
