@@ -1,7 +1,8 @@
+import { BlueboardUnavailableException, BlueboardUserFactory } from '..';
+
 import BlueboardBaseClient from '../BlueboardBaseClient';
 import BlueboardControl from '../models/BlueboardControl';
 import BlueboardControlException from '../errors/BlueboardControlException';
-import { BlueboardUnavailableException } from '..';
 
 class BlueboardAccountClient extends BlueboardBaseClient {
     public async control(forcedToken?: string) {
@@ -20,7 +21,12 @@ class BlueboardAccountClient extends BlueboardBaseClient {
             throw new BlueboardControlException('Control fetching error.');
         });
 
-        const cObj = new BlueboardControl(res.user, res.session, res.permissions, res.groups);
+        const cObj = new BlueboardControl(
+            BlueboardUserFactory.getUser(res.user),
+            res.session,
+            res.permissions,
+            res.groups
+        );
 
         this.state.control = cObj;
 
@@ -30,7 +36,12 @@ class BlueboardAccountClient extends BlueboardBaseClient {
     public async ping() {
         const url = this.endpoints.ping;
 
-        const res = await this.stdGetRequest(url, {}, {}, { Accept: 'application/json' }).catch(() => {
+        const res = await this.stdGetRequest(
+            url,
+            {},
+            {},
+            { Accept: 'application/json' }
+        ).catch(() => {
             throw new BlueboardUnavailableException('Blueboard is down');
         });
 

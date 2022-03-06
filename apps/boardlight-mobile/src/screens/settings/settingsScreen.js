@@ -192,11 +192,11 @@ export const SettingsScreen = ({ navigation }) => {
               </Paragraph>
               <Paragraph>
                 Készült: {"\n"}
-                {control.user.created_at.split(".")[0].split("T").join(" ")}
+                {control.user.timestamps.createdAt.split(".")[0].split("T").join(" ")}
               </Paragraph>
               <Paragraph>
                 Utoljára frissítve: {"\n"}
-                {control.user.updated_at.split(".")[0].split("T").join(" ")}
+                {control.user.timestamps.updatedAt.split(".")[0].split("T").join(" ")}
               </Paragraph>
               <Paragraph>
                 Engedélyek: {"\n"}

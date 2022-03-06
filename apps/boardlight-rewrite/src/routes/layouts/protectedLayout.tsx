@@ -3,10 +3,12 @@ import {
     Avatar,
     Box,
     Center,
+    Divider,
     Drawer,
     Header,
     MediaQuery,
     Menu,
+    Space,
     Tabs,
     Text,
     UnstyledButton,
@@ -16,11 +18,11 @@ import {
 } from "@mantine/core";
 import { Book, Coin, Home, InfoCircle, Logout, Menu2, Paint } from "tabler-icons-react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useRef, useState } from "react";
+import { usePermissions, useUser } from "../../hooks/controlHooks";
 
 import { useLogout } from "../../hooks/useLogout";
 import { useModals } from "@mantine/modals";
-import { useUser } from "../../hooks/controlHooks";
+import { useState } from "react";
 
 const useStyles = createStyles((theme) => ({
     header: {
@@ -88,6 +90,7 @@ export const ProtectedLayout = ({ children }: { children: React.ReactNode }): JS
     const [menuOpened, setMenuOpened] = useState(false);
 
     const user = useUser();
+    const permissions = usePermissions();
     const logout = useLogout();
     const theme = useMantineTheme();
     const modals = useModals();
@@ -97,11 +100,24 @@ export const ProtectedLayout = ({ children }: { children: React.ReactNode }): JS
 
     const openAccountInformation = (): void => {
         setMenuOpened(false);
+        setOpened(false);
         modals.openModal({
             title: "Fiók információk",
             children: (
                 <>
                     <Text>Azonosító: {user.id}</Text>
+                    <Text>Név: {user.name}</Text>
+                    <Text>Email: {user.email}</Text>
+                    <Space h="sm" />
+                    <Text>
+                        Készült: {user.timestamps.createdAt.split(".")[0].split("T").join(" ")}
+                    </Text>
+                    <Text>
+                        Utoljára frissítve:{" "}
+                        {user.timestamps.updatedAt.split(".")[0].split("T").join(" ")}
+                    </Text>
+                    <Space h="sm" />
+                    <Text>Engedélyek: {permissions.join(", ")}</Text>
                 </>
             ),
         });
