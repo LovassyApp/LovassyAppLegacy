@@ -1,10 +1,13 @@
-import { BlueboardUserFactory } from ".";
-import { BlueboardLoloRequest, BlueboardTimestamps } from "../models";
-import { checkIterable } from "../BlueboardClientUtils";
+import { BlueboardLoloRequest, BlueboardTimestamps } from '../models';
+
+import { BlueboardUserFactory } from '.';
+import { checkIterable } from '../BlueboardClientUtils';
 
 class BlueboardLoloRequestFactory {
     static getItem(obj: any) {
-        const user = obj.user ? BlueboardUserFactory.getUser(obj.user) : null;
+        const user = obj.user
+            ? BlueboardUserFactory.getUser(obj.user)
+            : undefined;
 
         return new BlueboardLoloRequest(
             obj.id,

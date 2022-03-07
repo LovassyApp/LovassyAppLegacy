@@ -1,6 +1,6 @@
-import BlueboardBaseClient from "../BlueboardBaseClient";
-import { BlueboardCodeValidationResponse } from "..";
-import BlueboardInventoryFactory from "../factories/BlueboardInventoryFactory";
+import BlueboardBaseClient from '../BlueboardBaseClient';
+import { BlueboardCodeValidationResponse } from '..';
+import BlueboardInventoryFactory from '../factories/BlueboardInventoryFactory';
 
 class BlueboardInventoryClient extends BlueboardBaseClient {
     public items = async (forcedToken?: string) => {
@@ -8,13 +8,13 @@ class BlueboardInventoryClient extends BlueboardBaseClient {
 
         const res = BlueboardInventoryFactory.getResponse(
             forcedToken
-                ? this.stdGetRequest(
+                ? await this.stdGetRequest(
                       url,
                       {},
                       {},
                       {
-                          Authorization: "Bearer " + forcedToken,
-                          Accept: "application/json",
+                          Authorization: 'Bearer ' + forcedToken,
+                          Accept: 'application/json',
                       }
                   )
                 : await this.stdGetRequest(url)
@@ -40,14 +40,14 @@ class BlueboardInventoryClient extends BlueboardBaseClient {
 
     public useItem = async (
         itemID: number,
-        codeData: string = "",
+        codeData: string = '',
         inputs: { [key: string]: string | boolean } = {}
     ) => {
         const url = this.endpoints.inventory;
 
         const res = BlueboardInventoryFactory.getItem(
             await this.stdPatchRequest(url, {
-                code: codeData ?? "",
+                code: codeData ?? '',
                 itemID: itemID,
                 inputs: inputs,
             })
