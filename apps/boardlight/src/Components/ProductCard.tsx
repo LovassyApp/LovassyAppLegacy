@@ -1,6 +1,7 @@
 import { Badge, Col, Row } from 'reactstrap';
-import { Button, Card, Text } from '@nextui-org/react';
 import { BlueboardInventoryItem, BlueboardProduct } from 'blueboard-client';
+import { Button, Card, Text } from '@nextui-org/react';
+
 import Middleware from '../Helpers/Middleware';
 
 const ProductCard = ({
@@ -148,7 +149,7 @@ const ProductFooter = ({
                                 rounded={true}
                                 color="#94f9f0">
                                 <Text size={12} weight="bold" transform="uppercase">
-                                    Get
+                                    Megveszem
                                 </Text>
                             </Button>
                         }
