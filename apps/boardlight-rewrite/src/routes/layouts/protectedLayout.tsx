@@ -3,7 +3,6 @@ import {
     Avatar,
     Box,
     Center,
-    Divider,
     Drawer,
     Header,
     MediaQuery,
@@ -17,12 +16,12 @@ import {
     useMantineTheme,
 } from "@mantine/core";
 import { Book, Coin, Home, InfoCircle, Logout, Menu2, Paint } from "tabler-icons-react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { usePermissions, useUser } from "../../hooks/controlHooks";
 
 import { useLogout } from "../../hooks/useLogout";
 import { useModals } from "@mantine/modals";
-import { useState } from "react";
 
 const useStyles = createStyles((theme) => ({
     header: {
@@ -59,10 +58,16 @@ const useStyles = createStyles((theme) => ({
 const NavbarLinks = ({ drawer }: { drawer?: boolean }): JSX.Element => {
     const navigate = useNavigate();
     const location = useLocation();
+    const [activeTab, setActiveTab] = useState(0);
 
     const linksArray: string[] = ["/home", "/kreta"];
 
+    useEffect(() => {
+        setActiveTab(linksArray.indexOf(location.pathname));
+    }, [location]);
+
     const tabChangeCallback = (index: number): void => {
+        setActiveTab(index);
         navigate(linksArray[index]);
     };
 
@@ -71,7 +76,7 @@ const NavbarLinks = ({ drawer }: { drawer?: boolean }): JSX.Element => {
             onTabChange={(index) => tabChangeCallback(index)}
             variant="pills"
             orientation={drawer ? "vertical" : "horizontal"}
-            initialTab={linksArray.indexOf(location.pathname)}
+            active={activeTab}
             styles={{
                 tabControl: {
                     display: "flex",
@@ -128,7 +133,7 @@ export const ProtectedLayout = ({ children }: { children: React.ReactNode }): JS
             padding="md"
             fixed={true}
             header={
-                <Header height={60} padding="xs" className={classes.header}>
+                <Header height={60} p="xs" className={classes.header}>
                     <Text
                         variant="gradient"
                         gradient={{ from: "indigo", to: "cyan", deg: 45 }}
