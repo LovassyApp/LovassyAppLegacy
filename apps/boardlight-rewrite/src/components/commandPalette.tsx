@@ -12,6 +12,7 @@ export const CommandPalette = ({ children }: { children: React.ReactNode }): JSX
             title: "Kezdőlap",
             description: "Ugrás a kezdőlapra",
             group: "Navigáció",
+            keywords: "home",
             onTrigger: () => navigate("/home"),
         },
         {
@@ -19,6 +20,7 @@ export const CommandPalette = ({ children }: { children: React.ReactNode }): JSX
             title: "Kréta",
             description: "Ugrás a kréta oldalra",
             group: "Navigáció",
+            keywords: "kreta",
             onTrigger: () => navigate("/kreta"),
         },
     ];
