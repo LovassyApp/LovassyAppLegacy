@@ -12,7 +12,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Blueboard'),
 
     /*
     |--------------------------------------------------------------------------
@@ -24,7 +24,7 @@ return [
     |
     */
 
-    'supermails' => (array) explode(',', env('SUPER_ADMIN_EMAILS', 'ex.ex@ex.com')),
+    'supermails' => (array)explode(',', env('SUPER_ADMIN_EMAILS', 'ex.ex@ex.com')),
 
     /*
     |--------------------------------------------------------------------------
@@ -50,7 +50,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool)env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -137,24 +137,13 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Kreta Institute
-    |--------------------------------------------------------------------------
-    |
-    | This variable is used to set the institute that the API queries for information via LibKreta
-    |
-    */
-    // Lovassy
-    'institute_code' => env('KRETA_INSTITUTE', 'klik037169001'),
-
-    /*
-    |--------------------------------------------------------------------------
     | Blueboard version
     |--------------------------------------------------------------------------
     |
     | The version of the currently running Blueboard server
     |
     */
-    'blueboard_version' => env('BLUEBOARD_VERSION', '0.1'),
+    'blueboard_version' => '2.1.1',
 
     /*
     |--------------------------------------------------------------------------

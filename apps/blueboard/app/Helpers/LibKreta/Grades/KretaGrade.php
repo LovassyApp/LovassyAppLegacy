@@ -2,17 +2,15 @@
 
 namespace App\Helpers\LibKreta\Grades;
 
-/*
-    Hát... Inkább nem kommentálnám.
-
-    Kibaszott gusztustalan.
-    De ez a kréta emberek.
-*/
-
 use App\Helpers\StrClean;
 use Carbon\Carbon;
-use stdClass;
 
+/**
+ * Hát... Inkább nem kommentálnám.
+ *
+ * Kibaszott gusztustalan.
+ * De ez a kréta emberek.
+ */
 class KretaGrade
 {
     public string $uid;
@@ -30,7 +28,10 @@ class KretaGrade
     public int $evaluationType;
     public string $evaluationTypeDescription;
 
-    // Lookup table for parsing text grade values
+    /**
+     * @var array|int[]
+     * Lookup table for parsing text grade values
+     */
     private array $textGradeLookup = [
         'peldas' => 5,
         'jo' => 4,
@@ -39,31 +40,14 @@ class KretaGrade
         'hanyag' => 2,
     ];
 
-    private function convertValueToInteger(string $grade): int
-    {
-        try {
-            $textSan = strtolower(StrClean::clean($grade));
-            $value = $this->textGradeLookup[$textSan];
-        } catch (\Exception $e) {
-            return 0;
-        }
-        if ($value) {
-            return $value;
-        } else {
-            return 0;
-        }
-    }
-
-    private function convertTextGrade(string $grade): string
-    {
-        $arr = explode('(', $grade);
-        $first = $arr[array_key_first($arr)];
-
-        return $first;
-    }
-
-    // Ouch.
-    public function __construct(stdClass $gradeJson, array $additionalAttributes = [])
+    /**
+     * @param object $gradeJson
+     * @param array $additionalAttributes
+     *
+     * Parsing begins...
+     * Hát igen. Ez is kicsit fájdalmas.
+     */
+    public function __construct(object $gradeJson, array $additionalAttributes = [])
     {
         $this->uid = $gradeJson->Uid;
         $this->date = Carbon::parse($gradeJson->RogzitesDatuma)->format('Y-m-d H:i:s');
@@ -85,10 +69,50 @@ class KretaGrade
         }
     }
 
-    public function toArray()
+    /**
+     * @param string $grade
+     * @return string
+     *
+     * Jegyet textbe bele abba
+     */
+    private function convertTextGrade(string $grade): string
     {
-        $sanetized = json_encode($this);
-        $array = json_decode($sanetized);
+        $arr = explode('(', $grade);
+        return $arr[array_key_first($arr)];
+    }
+
+    // Ouch.
+
+    /**
+     * @param string $grade
+     * @return int
+     *
+     * Jegyet vissza számba bele abba
+     */
+    private function convertValueToInteger(string $grade): int
+    {
+        try {
+            $textSan = strtolower(StrClean::clean($grade));
+            $value = $this->textGradeLookup[$textSan];
+        } catch (\Exception $e) {
+            return 0;
+        }
+        if ($value) {
+            return $value;
+        } else {
+            return 0;
+        }
+    }
+
+    /**
+     * @return array
+     *
+     * Tömb a classból
+     */
+    public function toArray(): array
+    {
+        $sanitized = json_encode($this);
+        $array = json_decode($sanitized);
 
         return (array) $array;
     }

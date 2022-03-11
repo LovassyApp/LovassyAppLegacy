@@ -2,17 +2,40 @@
 
 namespace App\Helpers\LibKreta;
 
+use App\Exceptions\ExceptionRenderer;
+use App\Exceptions\LibKreta\KretaCredentialException;
+use App\Exceptions\LibKreta\KretaGeneralException;
+use App\Exceptions\LibKreta\KretaTokenException;
 use App\Helpers\LibKreta\Grades\KretaGrade;
-use Carbon\Carbon;
-use stdClass;
 
+/**
+ * Krétás jegyeket kezelő izébizé (ismertebb nevén biszbasz)
+ */
 class Evaluations extends BaseKreta
 {
-    private $token;
-    private $decodedToken;
-    private $institute;
-    public $evaluations;
+    /**
+     * @var array
+     */
+    public array $evaluations;
+    /**
+     * @var string
+     */
+    private string $token;
+    /**
+     * @var object
+     */
+    private object $decodedToken;
+    /**
+     * @var string
+     */
+    private string $institute;
 
+    /**
+     * @throws KretaGeneralException
+     * @throws ExceptionRenderer
+     * @throws KretaCredentialException
+     * @throws KretaTokenException
+     */
     public function __construct($token)
     {
         parent::__construct();
@@ -23,6 +46,14 @@ class Evaluations extends BaseKreta
         $this->getData();
     }
 
+    /**
+     * @throws KretaCredentialException
+     * @throws KretaGeneralException
+     * @throws ExceptionRenderer
+     * @throws KretaTokenException
+     *
+     * API hívás
+     */
     private function getData()
     {
         $url = $this->url($this->institute, 'api', $this->endpoints->kreta->evaluations);
@@ -31,10 +62,13 @@ class Evaluations extends BaseKreta
         $this->evaluations = $body;
     }
 
-    /*
-        Jej gusztustalan kreta response parser
-    */
-    public function parse(array $additionalAttributes = [])
+    /**
+     * @param array $additionalAttributes
+     * @return array
+     *
+     * Jej gusztustalan kreta response parser
+     */
+    public function parse(array $additionalAttributes = []): array
     {
         //dd($this);
         $arr = [];
@@ -42,7 +76,7 @@ class Evaluations extends BaseKreta
         foreach ($data as $grade) {
             // Mostmár ez gusztustalan
             $gradeObj = new KretaGrade($grade, $additionalAttributes);
-            array_push($arr, $gradeObj->toArray());
+            $arr[] = $gradeObj->toArray();
         }
 
         return $arr;

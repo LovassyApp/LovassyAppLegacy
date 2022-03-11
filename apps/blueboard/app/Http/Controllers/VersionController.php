@@ -6,13 +6,11 @@ use App\Helpers\ResponseMaker;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Redis;
 
 class VersionController extends Controller
 {
-    const BLUEBOARD_VERSION = '2.1.1';
-
     // Don't @ me :)
     const MOTDS = [
         'Hát... Ez meg mi?',
@@ -34,9 +32,9 @@ class VersionController extends Controller
                 'whoami' => 'Blueboard - Server for LovassyApp',
                 'php_version' => PHP_VERSION,
                 'laravel_version' => Application::VERSION,
-                'blueboard_version' => self::BLUEBOARD_VERSION,
+                'blueboard_version' => config('app.blueboard_version'),
                 'contributors' => ['minigyima', 'Xeretis'],
-                'repository' => ['https://github.com/LovassyApp/LovassyApp/tree/master/apps/blueboard'],
+                'repository' => 'https://github.com/LovassyApp/LovassyApp/tree/master/apps/blueboard',
                 'motd' => self::MOTDS[array_rand(self::MOTDS, 1)],
             ],
             418,

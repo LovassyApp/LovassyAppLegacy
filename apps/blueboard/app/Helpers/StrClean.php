@@ -2,8 +2,17 @@
 
 namespace App\Helpers;
 
+/**
+ * StackOverflow-ról lopva.
+ * Köszönjük Emese! (ne. xd)
+ */
 class StrClean
 {
+    /**
+     * Ékezeteket, egyéb gonoszságokat eltűntetjük
+     * @param string $input
+     * @return string
+     */
     public static function clean(string $input): string
     {
         $utf8 = [

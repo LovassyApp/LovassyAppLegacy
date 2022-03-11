@@ -2,16 +2,16 @@
 
 namespace App\Helpers\LibSession;
 
-use App\Exceptions\LibSession\UserNotLoggedInException;
 use App\Exceptions\LibSession\SessionAlreadyStartedException;
+use App\Exceptions\LibSession\SessionNotFoundException;
 use App\Exceptions\LibSession\TokenMissingException;
-use Exception;
-use Illuminate\Support\Facades\Auth;
-use App\Helpers\LibSession\Session;
-use Illuminate\Support\Str;
+use App\Exceptions\LibSession\UserNotLoggedInException;
 use App\Helpers\LibKreta\KretaEncrypter;
 use App\Models\PersonalAccessToken;
 use App\Models\User;
+use Exception;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 /**
  * Session kezelő helper
@@ -27,7 +27,7 @@ class SessionManager
      */
     private string|null $token = null;
     /**
-     * @var \App\Helpers\LibSession\Session|null
+     * @var Session|null
      */
     private Session|null $session = null;
     /**
@@ -42,32 +42,6 @@ class SessionManager
      * @var string|null
      */
     private string|null $userHash = null;
-
-    /**
-     * @return string|null
-     * Ha van AuthToken a header-ben, akkor kiszedi
-     */
-    private function getAuthToken(): string|null
-    {
-        $request = request();
-        $arr = explode(' ', $request->header('Authorization') ?? '');
-        return $arr[1] ?? null;
-    }
-
-    /**
-     * @throws TokenMissingException
-     * Visszatölti a meglévő sessiont. Ha valami hiba van, azt a Session automatikusan dobja.
-     */
-    private function init()
-    {
-        $hash = Crypter::makeTokenHash($this->token);
-
-        if (!PersonalAccessToken::where('token', $hash)->exists()) {
-            throw new TokenMissingException('Unauthorized.');
-        }
-
-        $this->session = new Session($hash);
-    }
 
     /**
      * @throws TokenMissingException
@@ -86,55 +60,35 @@ class SessionManager
     }
 
     /**
-     * @throws Exception
-     * Betölti a KRÉTA titkosítót, hogy ne kelljen többször
+     * @return string|null
+     * Ha van AuthToken a header-ben, akkor kiszedi
      */
-    private function loadKretaCredHelper()
+    private function getAuthToken(): string|null
     {
-        $this->encrypter = new KretaEncrypter($this->key);
+        $request = request();
+        $arr = explode(' ', $request->header('Authorization') ?? '');
+        return $arr[1] ?? null;
     }
 
     /**
-     * @return string|null
-     * Token-t generál, session-t a Tokenhez.
+     * @throws TokenMissingException
+     * @throws SessionNotFoundException
+     * Visszatölti a meglévő sessiont. Ha valami hiba van, azt a Session automatikusan dobja.
      */
-    private function startSession(): string
+    private function init(): void
     {
-        $name = Str::random(6);
-        $user = self::user();
-        $tokenObj = $user->createToken($name);
-        $this->token = $tokenObj->plainTextToken;
-        $expiry = strtotime('+30 minutes', strtotime($tokenObj->accessToken->created_at));
-
         $hash = Crypter::makeTokenHash($this->token);
 
-        $this->session = Session::start($hash);
-        $this->session->expiry = $expiry;
-        $this->session->salt = Crypter::generateSalt();
-        $this->session->userSalt = Crypter::getUserSalt($user->id);
-
-        return $this->token;
-    }
-
-    /**
-     * @param string $password
-     * @throws Exception
-     * Jelszó titkosítva a sessionben
-     * Biztonság miatt csak a jelenlegi session token-je oldja, ez csak hashelt formában tárolt -> Chain of trust
-     */
-    private function setSessionKey(string $password)
-    {
-        if ($this->session == null) {
-            throw new Exception('Session not set.');
+        if (!PersonalAccessToken::where('token', $hash)->exists()) {
+            throw new TokenMissingException('Unauthorized.');
         }
 
-        $this->session->password = Crypter::makeEncryptedPassword($password, $this->token, $this->session->salt);
+        $this->session = new Session($hash);
     }
 
     /**
-     * @return string
-     * @throws Exception
-     * Jelszót kiszedi a sessionből, ebből lesz a kulcs, ami oldja a krétás adatokat
+     * @return void
+     * @throws Exception Jelszót kiszedi a sessionből, ebből lesz a kulcs, ami oldja a krétás adatokat
      */
     private function cacheKey(): void
     {
@@ -157,7 +111,14 @@ class SessionManager
         $this->userHash = hash('sha512', "$this->key.$id");
     }
 
-    // Innentől Statikus accessorok, Singleton-t használnak
+    /**
+     * @throws Exception
+     * Betölti a KRÉTA titkosítót, hogy ne kelljen többször
+     */
+    private function loadKretaCredHelper(): void
+    {
+        $this->encrypter = new KretaEncrypter($this->key);
+    }
 
     /**
      * @return mixed
@@ -179,6 +140,36 @@ class SessionManager
     }
 
     /**
+     * @return string
+     * Token-t generál, session-t a Tokenhez.
+     * @throws SessionNotFoundException
+     */
+    private function startSession(): string
+    {
+        $name = Str::random(6);
+        $user = self::user();
+        $tokenObj = $user->createToken($name);
+        $this->token = $tokenObj->plainTextToken;
+        $expiry = strtotime('+30 minutes', strtotime($tokenObj->accessToken->created_at));
+
+        $hash = Crypter::makeTokenHash($this->token);
+
+        $this->session = Session::start($hash);
+        $this->session->expiry = $expiry;
+        $this->session->salt = Crypter::generateSalt();
+        $this->session->userSalt = Crypter::getUserSalt($user->id);
+
+        return $this->token;
+    }
+
+    // Innentől Statikus accessorok, Singleton-t használnak
+
+    public static function user(): User|null
+    {
+        return Auth::user();
+    }
+
+    /**
      * @param string $password
      */
     public static function setKey(string $password)
@@ -186,6 +177,21 @@ class SessionManager
         $sesman = app(SessionManager::class);
 
         $sesman->setSessionKey($password);
+    }
+
+    /**
+     * @param string $password
+     * @throws Exception
+     * Jelszó titkosítva a sessionben
+     * Biztonság miatt csak a jelenlegi session token-je oldja, ez csak hashelt formában tárolt -> Chain of trust
+     */
+    private function setSessionKey(string $password): void
+    {
+        if ($this->session == null) {
+            throw new Exception('Session not set.');
+        }
+
+        $this->session->password = Crypter::makeEncryptedPassword($password, $this->token, $this->session->salt);
     }
 
     /**
@@ -242,10 +248,5 @@ class SessionManager
         }
 
         return $sesman->encrypter;
-    }
-
-    public static function user(): User|null
-    {
-        return Auth::user();
     }
 }

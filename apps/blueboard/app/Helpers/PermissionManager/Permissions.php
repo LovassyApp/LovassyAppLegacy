@@ -7,38 +7,25 @@ namespace App\Helpers\PermissionManager;
  * Constant arrays define the lists, with one additional array for Scopes.
  * Simply put: Basically a weird access-control-list thing
  * Class Permissions
+ *
  * @package App\Helpers\PermissionManager
  *
  */
 class Permissions
 {
-    public static function getAllPermissions()
-    {
-        $arr = [];
-
-        foreach (self::SCOPES as $key => $scopeName) {
-            $scope = eval("return App\Helpers\PermissionManager\Permissions::$scopeName;");
-            foreach ($scope as $permission) {
-                $permString = "$key.{$permission['permission']}";
-                array_push($arr, $permString);
-            }
-        }
-
-        return $arr;
-    }
-
     /**
      *
      * Default denied message
+     *
      * @var string
      *
      */
     private const PAGE_DENIED = "You don't have permission to use this object.";
-
     /**
      *
      * A place for Permission Scopes
      * All constants MUST have a corresponding scope and vice-versa.
+     *
      * @var string[]
      */
     public const SCOPES = [
@@ -52,7 +39,6 @@ class Permissions
         'Users' => 'USERS',
         'Permissions' => 'PERMISSIONS',
     ];
-
     /**
      *
      */
@@ -82,7 +68,6 @@ class Permissions
             'errorMessage' => self::PAGE_DENIED,
         ],
     ];
-
     /**
      *
      */
@@ -112,7 +97,6 @@ class Permissions
             'errorMessage' => self::PAGE_DENIED,
         ],
     ];
-
     /**
      *
      */
@@ -133,7 +117,7 @@ class Permissions
             'permission' => 'getpermissions',
             'displayName' => 'Jogosultságok lekérése',
             'description' =>
-            'A rendszerben lévő összes jogosultság lekérése (Boardlight beépített szerkesztőjéhez kell!)',
+                'A rendszerben lévő összes jogosultság lekérése (Boardlight beépített szerkesztőjéhez kell!)',
             'errorMessage' => self::PAGE_DENIED,
         ],
         'update' => [
@@ -155,7 +139,6 @@ class Permissions
             'errorMessage' => self::PAGE_DENIED,
         ],
     ];
-
     /**
      *
      */
@@ -191,7 +174,6 @@ class Permissions
             'errorMessage' => self::PAGE_DENIED,
         ],
     ];
-
     /**
      *
      */
@@ -227,7 +209,6 @@ class Permissions
             'errorMessage' => self::PAGE_DENIED,
         ],
     ];
-
     /**
      *
      */
@@ -257,7 +238,6 @@ class Permissions
             'errorMessage' => self::PAGE_DENIED,
         ],
     ];
-
     /**
      *
      */
@@ -275,7 +255,6 @@ class Permissions
             'errorMessage' => self::PAGE_DENIED,
         ],
     ];
-
     /**
      *
      */
@@ -293,4 +272,19 @@ class Permissions
             'errorMessage' => self::PAGE_DENIED,
         ],
     ];
+
+    public static function getAllPermissions(): array
+    {
+        $arr = [];
+
+        foreach (self::SCOPES as $key => $scopeName) {
+            $scope = eval("return App\Helpers\PermissionManager\Permissions::$scopeName;");
+            foreach ($scope as $permission) {
+                $permString = "$key.{$permission['permission']}";
+                $arr[] = $permString;
+            }
+        }
+
+        return $arr;
+    }
 }

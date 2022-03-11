@@ -1,13 +1,12 @@
 <?php
 
-/*
-    Bullshit kréta jegy kategóriák
-
-    Full disclosure: A lookupTable a Filces típusokból van
-*/
-
 namespace App\Helpers\LibKreta\Grades;
 
+/**
+ * Bullshit kréta jegy kategóriák
+ *
+ * Full disclosure: A lookupTable a Filces típusokból van
+ */
 class KretaGradeCategory
 {
     public const interim = 1;
@@ -31,6 +30,12 @@ class KretaGradeCategory
         'osztalyozo_vizsga' => self::levelExam,
     ];
 
+    /**
+     * @param string $cat
+     * @return int
+     *
+     * Kategóriát szöveges kréta szar alapján
+     */
     public static function parseCategory(string $cat): int
     {
         try {

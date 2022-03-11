@@ -3,8 +3,9 @@
 namespace App\Helpers\LibKreta;
 
 use App\Exceptions\LibKreta\KretaCredentialException;
-use Illuminate\Encryption\Encrypter;
 use App\Models\KretaCred;
+use App\Models\User;
+use Illuminate\Encryption\Encrypter;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -18,9 +19,9 @@ class KretaEncrypter
      */
     private Encrypter $encrypter;
     /**
-     * @var \Illuminate\Contracts\Auth\Authenticatable|mixed|null
+     * @var User
      */
-    private mixed $user;
+    private User $user;
 
     /**
      * @param string $key
@@ -33,8 +34,6 @@ class KretaEncrypter
         }
         $this->encrypter = new Encrypter($key, 'aes-256-gcm');
         $this->user = $user;
-
-        $this->creds = $user->kreta;
     }
 
     /**
@@ -47,6 +46,7 @@ class KretaEncrypter
     public function getCreds(): object
     {
         $creds = $this->user->kreta()->first();
+
         if ($creds == null) {
             throw new KretaCredentialException();
         }

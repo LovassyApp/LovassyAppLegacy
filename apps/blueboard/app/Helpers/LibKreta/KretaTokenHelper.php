@@ -2,22 +2,36 @@
 
 namespace App\Helpers\LibKreta;
 
+use App\Exceptions\LibKreta\KretaCredentialException;
+use App\Exceptions\LibKreta\KretaGeneralException;
+use App\Exceptions\LibKreta\KretaTokenException;
 use App\Exceptions\LibKreta\NotAStudentException;
 use App\Helpers\LibSession\SessionManager;
-use App\Helpers\LibKreta\Auth;
 use App\Models\User;
-use App\Helpers\LibKreta\KretaEncrypter;
+use Exception;
 
+/**
+ * Random kicsi függvények, tokenekkel való szenvedést egyszerűsítik meg (kicsit)
+ */
 class KretaTokenHelper
 {
+    /**
+     * @var string
+     */
     private static string $studentRole = 'Tanulo';
 
+    /**
+     * @throws KretaTokenException
+     * @throws KretaGeneralException
+     * @throws KretaCredentialException
+     * @throws Exception
+     */
     public static function renewToken()
     {
         $crypt = SessionManager::getKretaEncrypter();
         $creds = $crypt->getCreds();
 
-        $auth = new Auth(config('app.institute_code'), $creds->username, $creds->password);
+        $auth = new Auth(config('kreta.institute_code'), $creds->username, $creds->password);
         $res = $auth->login();
 
         $crypt->update(
@@ -29,6 +43,10 @@ class KretaTokenHelper
         return $res->access_token;
     }
 
+    /**
+     * @throws KretaCredentialException
+     * @throws Exception
+     */
     public static function getCurrentToken()
     {
         $crypt = SessionManager::getKretaEncrypter();
@@ -37,10 +55,15 @@ class KretaTokenHelper
         return $creds->token;
     }
 
-    /*
-        Túlkomplikált fos. Need I say more?
-    */
-
+    /**
+     * @throws KretaTokenException
+     * @throws KretaCredentialException
+     * @throws NotAStudentException
+     * @throws KretaGeneralException
+     *
+     * Túlkomplikált fos. Need I say more?
+     *
+     */
     public static function registerUserKreta(
         User $user,
         string $username,

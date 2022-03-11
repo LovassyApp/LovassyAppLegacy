@@ -5,14 +5,30 @@ namespace App\Helpers\LibKreta;
 use App\Exceptions\ExceptionRenderer;
 use App\Exceptions\LibKreta\KretaCredentialException;
 use App\Exceptions\LibKreta\KretaGeneralException;
-use App\Helpers\LibKreta\KretaTokenHelper;
+use App\Exceptions\LibKreta\KretaTokenException;
+use Exception;
 use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
+use JetBrains\PhpStorm\Pure;
 
+/**
+ * BaseClass a LibKréta nevű csodához.
+ * Minden kréta api hívásokhoz szükséges függvényt tartalmaz
+ */
 class BaseKreta
 {
+    /**
+     * @var string
+     */
     protected string $apiKey = '7856d350-1fda-45f5-822d-e1a2f3f1acf0';
+    /**
+     * @var string
+     */
     protected string $clientID = 'kreta-ellenorzo-mobile';
+    /**
+     * @var array|string[]
+     */
     protected array $codeNames = [
         'a3xelte',
         'a5xelte',
@@ -46,38 +62,43 @@ class BaseKreta
         'clark',
     ];
 
-    protected string $userAgent = 'com.llgapp.blueboard';
-
+    /**
+     * @var Endpoints
+     */
     protected Endpoints $endpoints;
 
+    /**
+     * @var int
+     */
     private int $timeout = 10;
 
+    /**
+     *
+     */
+    #[Pure]
     protected function __construct()
     {
         $this->endpoints = new Endpoints();
     }
 
-    protected function getUserAgent()
-    {
-        $codename = $this->codeNames[array_rand($this->codeNames)];
-        $rand = [rand(5, 10), rand(0, 2)];
-        $verNum = "$rand[0].$rand[1]";
-        $userAgent = "$this->userAgent (Android; $codename $verNum)";
-        return $userAgent;
-    }
-
-    protected function decodeToken($token)
+    /**
+     * @param $token
+     * @return object
+     */
+    protected function decodeToken($token): object
     {
         $tokenArray = explode('.', $token);
-        $token = (object) [
+        return (object) [
             'header' => json_decode(base64_decode($tokenArray[0])),
             'attributes' => json_decode(base64_decode($tokenArray[1])),
             'signature' => $tokenArray[2],
         ];
-        return $token;
     }
 
-    protected function url($instituteCode = null, $urlType = null, $path = '')
+    /**
+     * @throws Exception
+     */
+    protected function url($instituteCode = null, $urlType = null, $path = ''): string
     {
         // BTW: Egy érdekes KRÉTA bug:
         // ha az URL bárhol tartalmazza a // karaktereket, akkor behal az API
@@ -91,12 +112,15 @@ class BaseKreta
             case 'institutes':
                 return "https://kretaglobalmobileapi.ekreta.hu/api/v1/Institute/$path";
             default:
-                throw new \Exception('No urlType specified');
+                throw new Exception('No urlType specified');
                 break;
         }
     }
 
-    protected function getNonceReq(string $url)
+    /**
+     * @throws KretaGeneralException
+     */
+    protected function getNonceReq(string $url): string
     {
         try {
             return Http::withUserAgent($this->getUserAgent())
@@ -108,24 +132,22 @@ class BaseKreta
         }
     }
 
-    private function getRequest(string $url, array $headers = [])
+    /**
+     * @return string
+     */
+    protected function getUserAgent(): string
     {
-        /*$job = new SyncHttpRequest($url, $headers);
-         dispatch($job);*/
-        $req = Http::withUserAgent($this->getUserAgent())
-            ->withHeaders($headers)
-            ->timeout($this->timeout)
-            ->get($url);
-        $body = $req->body();
-
-        if ($body == 'invalid_grant') {
-            throw new KretaCredentialException($req->body());
-        }
-
-        return $body;
+        $base = config('kreta.user_agent');
+        $codename = $this->codeNames[array_rand($this->codeNames)];
+        $rand = [rand(5, 10), rand(0, 2)];
+        $verNum = "$rand[0].$rand[1]";
+        return "$base (Android; $codename $verNum)";
     }
 
-    protected function makePostRequest(string $url, array $form, array $headers = [])
+    /**
+     * @throws KretaGeneralException
+     */
+    protected function makePostRequest(string $url, array $form, array $headers = []): Response
     {
         try {
             return Http::withUserAgent($this->getUserAgent())
@@ -138,10 +160,13 @@ class BaseKreta
         }
     }
 
-    // Váááá automata token megújítáááás
-    // Meg krétás hibakezelés izé
-
-    protected function makeGetRequest(string $url, array $headers = [], bool $auth = false, bool $retry = false)
+    /**
+     * @throws KretaCredentialException
+     * @throws KretaGeneralException
+     * @throws ExceptionRenderer
+     * @throws KretaTokenException
+     */
+    protected function makeGetRequest(string $url, array $headers = [], bool $auth = false, bool $retry = false): string
     {
         if ($auth) {
             $token = KretaTokenHelper::getCurrentToken();
@@ -158,11 +183,34 @@ class BaseKreta
                 return $this->makeGetRequest($url, $headers, $auth, true);
             } catch (ConnectionException $e) {
                 throw new KretaGeneralException($e->getMessage(), 'KRETA connection error. Likely maintenance mode.');
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 throw new ExceptionRenderer($e);
             }
         } else {
             return $this->getRequest($url, $headers);
         }
+    }
+
+    // Váááá automata token megújítáááás
+    // Meg krétás hibakezelés izé
+
+    /**
+     * @throws KretaCredentialException
+     */
+    private function getRequest(string $url, array $headers = []): string
+    {
+        /*$job = new SyncHttpRequest($url, $headers);
+         dispatch($job);*/
+        $req = Http::withUserAgent($this->getUserAgent())
+            ->withHeaders($headers)
+            ->timeout($this->timeout)
+            ->get($url);
+        $body = $req->body();
+
+        if ($body == 'invalid_grant') {
+            throw new KretaCredentialException($req->body());
+        }
+
+        return $body;
     }
 }

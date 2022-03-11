@@ -11,7 +11,7 @@ use Illuminate\Encryption\Encrypter;
 class Crypter
 {
     /**
-     * @return false|string
+     * @return string
      * Új salt generálás
      * _ Só (trédmárk) _
      */
@@ -21,7 +21,8 @@ class Crypter
     }
 
     /**
-     * @return false|string
+     * @param int $userID
+     * @return string
      * Felhasználóhoz kapcsolódó salt
      */
     public static function getUserSalt(int $userID): string
@@ -31,10 +32,12 @@ class Crypter
     }
 
     /**
-     * @return false|string
+     * @param string $salt
+     * @param int $userID
+     * @return true
      * Salt mentése a DB-be
      */
-    public static function saveSalt(string $salt, int $userID)
+    public static function saveSalt(string $salt, int $userID): bool
     {
         $saltRecord = new Salt();
         $saltRecord->value = $salt;
@@ -46,7 +49,8 @@ class Crypter
 
     /**
      * @param string $token
-     * @return false|string
+     * @return string
+     *
      * Hasheli az AuthToken-t, később kulcsként van használva
      */
     public static function makeTokenHash(string $token): string
@@ -56,20 +60,9 @@ class Crypter
     }
 
     /**
-     * @param string $string
-     * @return string
-     *
-     * 32 karakteres kulcs generálás stringből
-     * _Konkrétan csak egy fancy hash_
-     */
-    public static function generateKey(string $string, string $salt): string
-    {
-        return hash_pbkdf2('sha3-256', $string, $salt, 1000, 32);
-    }
-
-    /**
      * @param string $password
      * @param string $token
+     * @param string $salt
      * @return string
      *
      * Jelszó titkosítása
@@ -83,8 +76,23 @@ class Crypter
     }
 
     /**
+     * @param string $string
+     * @param string $salt
+     * @return string
+     *
+     * 32 karakteres kulcs generálás stringből
+     * _Konkrétan csak egy fancy hash_
+     */
+    public static function generateKey(string $string, string $salt): string
+    {
+        return hash_pbkdf2('sha3-256', $string, $salt, 1000, 32);
+    }
+
+    /**
      * @param string $str
-     * @param $token
+     * @param string $token
+     * @param string $salt
+     * @param string $userSalt
      * @return string
      *
      * Kulcs, ami oldja a KRÉTÁS titkosított adatokat
