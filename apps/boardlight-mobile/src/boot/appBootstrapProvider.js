@@ -20,7 +20,7 @@ import { secureLoadData } from "../utils/misc/storageUtils";
 import { useBlueboardClient } from "blueboard-client-react";
 import useRenew from "../hooks/useRenew";
 
-const AppBootstrapProvider = ({ children }) => {
+export const AppBootstrapProvider = ({ children }) => {
   const [isReady, setIsReady] = useState(false);
   const [canContinue, setContinue] = useState(false);
 
@@ -127,5 +127,3 @@ const AppBootstrapProvider = ({ children }) => {
 
   return children;
 };
-
-export default AppBootstrapProvider;

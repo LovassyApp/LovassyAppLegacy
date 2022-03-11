@@ -7,13 +7,11 @@ import { useTheme } from "react-native-paper";
 export const ScreenContainer = (props) => {
   const theme = useTheme();
 
-  const insets = useSafeAreaInsets();
-
   const styles = StyleSheet.create({
     container: {
       margin: 10,
       height: "100%",
-      paddingBottom: Platform.OS === "android" ? insets.bottom + 25 : 0,
+      paddingBottom: Platform.OS === "android" ? 25 : 0,
     },
   });
 

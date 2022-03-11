@@ -11,8 +11,9 @@ import { addItem, updateItem } from "./store/slices/inventorySlice";
 import { darkTheme, lightTheme } from "./utils/theme/themes";
 import { setState, setTheme } from "./store/slices/settingsSlice";
 
-import AppBootstrapProvider from "./bootstrap/appBootstrapProvider";
+import { AppBootstrapProvider } from "./boot/appBootstrapProvider";
 import { Appearance } from "react-native";
+import { CheckBlueboard } from "./boot/checkBlueboard";
 import { FullScreenLoading } from "./components/fullScreenLoading";
 import { Ionicons } from "@expo/vector-icons";
 import { NavigationDecider } from "./navigation/navigation";
@@ -65,9 +66,11 @@ const ProviderStack = ({ children }) => {
                 icon: (props) => <Ionicons {...props} />,
               }}
               theme={theme}>
-              {/* This is here because it needs the theme and I didn't want to make a new provider for it */}
-              {loading && <FullScreenLoading />}
-              {children}
+              <CheckBlueboard>
+                {/* This is here because it needs the theme and I didn't want to make a new provider for it */}
+                {loading && <FullScreenLoading />}
+                {children}
+              </CheckBlueboard>
             </PaperProvider>
           </ListenerStack>
         </AppBootstrapProvider>
