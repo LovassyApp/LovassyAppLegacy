@@ -23,3 +23,4 @@ export { default as BlueboardCodeValidationResponse } from './BlueboardCodeValid
 export { default as BlueboardItemUse } from './BlueboardItemUse';
 export { default as BlueboardLoloRequest } from './BlueboardLoloRequest';
 export { default as BlueboardLoloRequestAction } from './BlueboardLoloRequestAction';
+export { default as BlueboardBootResponse } from './BlueboardBootResponse';

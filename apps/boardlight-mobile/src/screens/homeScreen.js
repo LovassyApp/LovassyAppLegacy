@@ -131,7 +131,11 @@ export const HomeScreen = () => {
         <LaCard
           title={displayCoins ? "Érmék" : "Egyenleg"}
           actionIcon={
-            permissions.includes("General.lolo") && displayCoins ? "arrow-back" : "arrow-forward"
+            permissions.includes("General.lolo")
+              ? displayCoins
+                ? "arrow-back"
+                : "arrow-forward"
+              : null
           }
           onPress={() => setDisplayCoins(!displayCoins)}
           error={coins === null && permissions.includes("General.lolo")}
@@ -145,8 +149,8 @@ export const HomeScreen = () => {
                 <Subheading>{user.balance}</Subheading>
               </View>
 
-              <Divider style={{ width: "100%", marginVertical: 5 }} />
               <RestrictedWrapper permission="General.lolo">
+                <Divider style={{ width: "100%", marginVertical: 5 }} />
                 <View style={styles.balanceView}>
                   <Text>Összes loló jegyekből:</Text>
                   <Text>{getCoinsFromGrades(coins)}</Text>
@@ -155,11 +159,11 @@ export const HomeScreen = () => {
                   <Text>Összes loló kérvényekből:</Text>
                   <Text>{getCoinsFromRequests(coins)}</Text>
                 </View>
+                <View style={styles.balanceView}>
+                  <Text>Összes elköltött loló:</Text>
+                  <Text>{getTotalSpendings(coins)}</Text>
+                </View>
               </RestrictedWrapper>
-              <View style={styles.balanceView}>
-                <Text>Összes elköltött loló:</Text>
-                <Text>{getTotalSpendings(coins)}</Text>
-              </View>
             </>
           )}
         </LaCard>

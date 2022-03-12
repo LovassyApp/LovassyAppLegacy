@@ -6,3 +6,4 @@ export { default as BlueboardLoginResponseFactory } from './BlueboardLoginRespon
 export { default as BlueboardUserFactory } from './BlueboardUserFactory';
 export { default as BlueboardInventoryFactory } from './BlueboardInventoryFactory';
 export { default as BlueboardLoloRequestFactory } from './BlueboardLoloRequestFactory';
+export { default as BlueboardBootResponseFactory } from './BlueboardBootResponseFactory';

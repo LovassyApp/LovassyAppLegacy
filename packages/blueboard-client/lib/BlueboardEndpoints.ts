@@ -2,7 +2,12 @@ class BlueboardEndpoints {
     public readonly base: string | null = null;
     public readonly apiBase: string = '/api';
     public readonly version: string = '';
-    public readonly auth: { register: string; login: string; logout: string; socket: string };
+    public readonly auth: {
+        register: string;
+        login: string;
+        logout: string;
+        socket: string;
+    };
     public readonly admin: {
         qrcodes: string;
         products: string;
@@ -16,6 +21,7 @@ class BlueboardEndpoints {
     public readonly store: string = '';
     public readonly ping: string = '';
     public readonly inventory: string = '';
+    public readonly boot: string = '';
     public readonly requests: {
         base: string;
         all: string;
@@ -53,9 +59,13 @@ class BlueboardEndpoints {
         this.lolo = this.base + '/lolo';
         this.store = this.base + '/store';
         this.inventory = this.base + '/inventory';
-        this.requests = { base: this.base + '/lolo/requests', all: this.base + '/lolo/requests/all' };
+        this.requests = {
+            base: this.base + '/lolo/requests',
+            all: this.base + '/lolo/requests/all',
+        };
 
         this.ping = this.base + '/status';
+        this.boot = this.base + '/boot';
     }
 }
 

@@ -101,10 +101,10 @@ class EagerLoadController extends Controller
         $id = $user->id;
 
         $ret = Octane::concurrently([
-            fn() => self::getGrades($helper, $hash),
-            fn() => self::getStore($helper),
-            fn() => self::getInventory($helper, $id),
-            fn() => self::getRequests($helper, $id),
+            fn () => self::getGrades($helper, $hash),
+            fn () => self::getStore($helper),
+            fn () => self::getInventory($helper, $id),
+            fn () => self::getRequests($helper, $id),
         ]);
 
         [$grades, $store, $inventory, $requests] = $ret;
@@ -113,8 +113,9 @@ class EagerLoadController extends Controller
             $gen = new LoloGenerator(SessionManager::user());
             $gen->generate();
 
-            $lolo = LoloHelper::getLolo();
-            LoloAmountUpdated::dispatch($lolo->user, $lolo->balance, $lolo->coins->toArray());
+            $loloRaw = LoloHelper::getLolo();
+            LoloAmountUpdated::dispatch($loloRaw->user, $loloRaw->balance, $loloRaw->coins->toArray());
+            $lolo = self::makeFrame($loloRaw);
         } else {
             $lolo = self::makeFrame([], true, 'Unauthorized');
         }
@@ -122,7 +123,7 @@ class EagerLoadController extends Controller
         return ResponseMaker::generate(
             (object) [
                 'grades' => $grades,
-                // 'lolo' => $lolo,
+                'lolo' => $lolo,
                 'store' => $store,
                 'inventory' => $inventory,
                 'requests' => $requests,

@@ -1,15 +1,17 @@
+import React, { useState } from "react";
+
 import AppLoading from "expo-app-loading";
 import { Five0Three } from "../screens/five0Three";
-import React from "react";
 import { useBlueboardClient } from "blueboard-client-react";
 
+// TODO: Fix memory leak and unneccessary calls
 let interval;
 
 export const CheckBlueboard = ({ children }) => {
   const client = useBlueboardClient();
 
-  const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   const readyCallback = (res) => {
     if (res?.ready) {
@@ -46,5 +48,6 @@ export const CheckBlueboard = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // TODO: Fix loading screen not showing for a while
   return <>{loading ? <AppLoading /> : <>{error ? <Five0Three /> : children}</>}</>;
 };
