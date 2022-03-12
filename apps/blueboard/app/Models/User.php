@@ -56,7 +56,7 @@ class User extends Authenticatable
      */
     public function receivesBroadcastNotificationsOn()
     {
-        return 'Users.' . $this->id;
+        return 'Users.' . $this?->id;
     }
 
     public function grades(): HasMany
@@ -96,7 +96,7 @@ class User extends Authenticatable
 
     public function getHashAttribute()
     {
-        if ($this->id === SessionManager::user()->id) {
+        if ($this?->id === SessionManager::user()?->id) {
             return SessionManager::getUserHash();
         } else {
             return '';

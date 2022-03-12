@@ -36,6 +36,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Frontend control
     Route::get('/control', 'FrontendControlController@index');
 
+    // Eager loading stuff
+    Route::get('/boot', 'EagerLoadController@index');
+
     // Kretás cuccok
     Route::get('/kreta/grades', 'GradeController@index');
     Route::get('/lolo', 'LoloGetController@index');
@@ -78,7 +81,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Requests
     Route::get('/lolo/requests', 'LoloRequestController@show');
     Route::put('/lolo/requests', 'LoloRequestController@create');
-
     Route::get('/lolo/requests/all', 'LoloRequestController@index');
     Route::patch('/lolo/requests/all', 'LoloRequestController@update');
 });
