@@ -12,7 +12,7 @@ import useThemePrefs from './Hooks/useThemePrefs';
 import GlobalListeners from './Boot/GlobalListeners';
 import AppBootstrapProvider, { AppBootstrapContext } from './Boot/AppBootstrapProvider';
 import { BlueboardClientInit } from 'blueboard-client-react';
-import CheckBlueboard from './Boot/CheckBluaboard';
+import CheckBlueboard from './Boot/CheckBlueboard';
 
 const [BlueboardProvider] = BlueboardClientInit(
     process.env.REACT_APP_BLUEBOARD_URL as string,
