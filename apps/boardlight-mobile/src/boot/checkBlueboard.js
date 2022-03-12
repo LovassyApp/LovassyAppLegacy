@@ -40,7 +40,7 @@ export const CheckBlueboard = ({ children }) => {
       } catch (err) {
         setError(true);
         setLoading(false);
-        interval.curren = setInterval(intervalCallback, 5000);
+        interval.current = setInterval(intervalCallback, 5000);
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
