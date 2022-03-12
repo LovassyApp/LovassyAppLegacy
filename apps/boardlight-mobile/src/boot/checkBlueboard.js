@@ -1,21 +1,19 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 import AppLoading from "expo-app-loading";
 import { Five0Three } from "../screens/five0Three";
 import { useBlueboardClient } from "blueboard-client-react";
-
-// TODO: Fix memory leak and unneccessary calls
-let interval;
 
 export const CheckBlueboard = ({ children }) => {
   const client = useBlueboardClient();
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const interval = useRef(null);
 
   const readyCallback = (res) => {
     if (res?.ready) {
-      clearInterval(interval);
+      clearInterval(interval.current);
       setError(false);
       setLoading(false);
     }
@@ -42,7 +40,7 @@ export const CheckBlueboard = ({ children }) => {
       } catch (err) {
         setError(true);
         setLoading(false);
-        interval = setInterval(intervalCallback, 5000);
+        interval.curren = setInterval(intervalCallback, 5000);
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
