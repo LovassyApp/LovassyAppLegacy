@@ -19,9 +19,6 @@ use Illuminate\Support\Facades\Cache;
  */
 class LoloGenerator
 {
-    // Ezt amúgy nem tervezem hardcode-olni chill.
-    // Csaaaak előtte kéne egy globális config kezelő
-    // Majd lösz az is
     /**
      * @var int
      */
