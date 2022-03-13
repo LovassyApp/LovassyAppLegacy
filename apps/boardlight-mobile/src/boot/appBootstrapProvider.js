@@ -4,7 +4,7 @@ import { removeRefreshToken, setRefreshToken } from "../store/slices/refreshToke
 import { removeToken, setToken } from "../store/slices/tokenSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-import AppLoading from "expo-app-loading";
+import { FullScreenLoading } from "../components/fullScreenLoading";
 import { eagerLoad } from "../utils/api/eagerLoad";
 import { secureLoadData } from "../utils/misc/storageUtils";
 import { useBlueboardClient } from "blueboard-client-react";
@@ -104,7 +104,7 @@ export const AppBootstrapProvider = ({ children }) => {
   }, [stateToken, canContinue, client, isReady]);
 
   if (!isReady) {
-    return <AppLoading />;
+    return <FullScreenLoading />;
   }
 
   return children;

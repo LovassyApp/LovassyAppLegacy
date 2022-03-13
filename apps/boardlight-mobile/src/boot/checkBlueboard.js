@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 
 import AppLoading from "expo-app-loading";
 import { Five0Three } from "../screens/five0Three";
+import { FullScreenLoading } from "../components/fullScreenLoading";
 import { useBlueboardClient } from "blueboard-client-react";
 
 export const CheckBlueboard = ({ children }) => {
@@ -54,7 +55,7 @@ export const CheckBlueboard = ({ children }) => {
   }, []);
 
   if (loading) {
-    return <AppLoading />;
+    return <FullScreenLoading />;
   }
 
   // TODO: Fix loading screen not showing for a while
