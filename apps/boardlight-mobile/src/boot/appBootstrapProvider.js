@@ -88,9 +88,10 @@ export const AppBootstrapProvider = ({ children }) => {
       if (canContinue) {
         try {
           if (stateToken !== null && !isReady) {
+            console.log("DEBUG: Start of blank screen!");
             await eagerLoad(client);
+            console.log("DEBUG: End of blank screen!");
             setIsReady(true);
-            console.log("DEBUG: Bootstrapping complete!");
           } else {
             setIsReady(true);
           }
