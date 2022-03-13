@@ -1,10 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+export const inventoryInitialState = {
+  value: null,
+};
+
 export const inventorySlice = createSlice({
   name: "inventory",
-  initialState: {
-    value: null,
-  },
+  initialState: inventoryInitialState,
   reducers: {
     setInventory: (state, action) => {
       state.value = action.payload;

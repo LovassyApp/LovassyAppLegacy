@@ -1,10 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+export const controlInitialState = {
+  value: null,
+};
+
 export const controlSlice = createSlice({
   name: "control",
-  initialState: {
-    value: null,
-  },
+  initialState: controlInitialState,
   reducers: {
     setControl: (state, action) => {
       state.value = action.payload;

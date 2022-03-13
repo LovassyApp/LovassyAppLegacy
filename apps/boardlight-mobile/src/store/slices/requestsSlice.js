@@ -1,10 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+export const requestsInitialState = {
+  value: null,
+};
+
 export const requestsSlice = createSlice({
   name: "requests",
-  initialState: {
-    value: null,
-  },
+  initialState: requestsInitialState,
   reducers: {
     setRequests: (state, action) => {
       state.value = action.payload;

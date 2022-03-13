@@ -1,16 +1,16 @@
+import controlReducer, { controlInitialState } from "./slices/controlSlice";
+import refreshTokenReducer, { refreshTokenInitialState } from "./slices/refreshTokenSlice";
 import { saveData, secureSaveData } from "../utils/misc/storageUtils";
+import settingsReducer, { settingsInitialState } from "./slices/settingsSlice";
+import tokenReducer, { tokenInitialState } from "./slices/tokenSlice";
 
 import coinsReducer from "./slices/coinsSlice";
 import { configureStore } from "@reduxjs/toolkit";
-import controlReducer from "./slices/controlSlice";
 import inventoryReducer from "./slices/inventorySlice";
 import kretaReducer from "./slices/kretaSlice";
 import loadingReducer from "./slices/loadingSlice";
-import refreshTokenReducer from "./slices/refreshTokenSlice";
-import settingsReducer from "./slices/settingsSlice";
 import requestsReducer from "./slices/requestsSlice";
 import storeReducer from "./slices/storeSlice";
-import tokenReducer from "./slices/tokenSlice";
 
 const store = configureStore({
   reducer: {
@@ -34,8 +34,16 @@ const store = configureStore({
 export default store;
 
 store.subscribe(async () => {
-  saveData("settings", store.getState().settings);
-  secureSaveData("token", store.getState().token);
-  secureSaveData("refreshToken", store.getState().refreshToken);
-  saveData("control", store.getState().control);
+  if (store.getState().settings !== settingsInitialState) {
+    saveData("settings", store.getState().settings);
+  }
+  if (store.getState().token !== tokenInitialState) {
+    secureSaveData("token", store.getState().token);
+  }
+  if (store.getState().refreshToken !== refreshTokenInitialState) {
+    secureSaveData("refreshToken", store.getState().refreshToken);
+  }
+  if (store.getState().control !== controlInitialState) {
+    secureSaveData("control", store.getState().control);
+  }
 });

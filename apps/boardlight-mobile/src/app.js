@@ -9,6 +9,7 @@ import { Provider, useDispatch, useSelector } from "react-redux";
 import React, { useEffect } from "react";
 import { addItem, updateItem } from "./store/slices/inventorySlice";
 import { darkTheme, lightTheme } from "./utils/theme/themes";
+import { loadData, secureLoadData } from "./utils/misc/storageUtils";
 import { setState, setTheme } from "./store/slices/settingsSlice";
 
 import { AppBootstrapProvider } from "./boot/appBootstrapProvider";
@@ -18,8 +19,8 @@ import { FullScreenLoading } from "./components/fullScreenLoading";
 import { Ionicons } from "@expo/vector-icons";
 import { NavigationDecider } from "./navigation/navigation";
 import { Provider as PaperProvider } from "react-native-paper";
+import { StaticAssetLoader } from "./boot/staticAssetLoader";
 import { StatusBar } from "expo-status-bar";
-import { loadData } from "./utils/misc/storageUtils";
 import { registerRootComponent } from "expo";
 import { setCoins } from "./store/slices/coinsSlice";
 import { setRequests } from "./store/slices/requestsSlice";
@@ -59,21 +60,23 @@ const ProviderStack = ({ children }) => {
     <>
       <StatusBar style={theme.dark ? "light" : "dark"} />
       <BlueboardProvider token={token}>
-        <AppBootstrapProvider>
-          <ListenerStack>
-            <PaperProvider
-              settings={{
-                icon: (props) => <Ionicons {...props} />,
-              }}
-              theme={theme}>
-              <CheckBlueboard>
-                {/* This is here because it needs the theme and I didn't want to make a new provider for it */}
-                {loading && <FullScreenLoading />}
-                {children}
-              </CheckBlueboard>
-            </PaperProvider>
-          </ListenerStack>
-        </AppBootstrapProvider>
+        <StaticAssetLoader>
+          <PaperProvider
+            settings={{
+              icon: (props) => <Ionicons {...props} />,
+            }}
+            theme={theme}>
+            <CheckBlueboard>
+              <AppBootstrapProvider>
+                <ListenerStack>
+                  {/* This is here because it needs the theme and I didn't want to make a new provider for it */}
+                  {loading && <FullScreenLoading />}
+                  {children}
+                </ListenerStack>
+              </AppBootstrapProvider>
+            </CheckBlueboard>
+          </PaperProvider>
+        </StaticAssetLoader>
       </BlueboardProvider>
     </>
   );

@@ -1,10 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+export const refreshTokenInitialState = {
+  value: null,
+};
+
 export const refreshTokenSlice = createSlice({
   name: "refreshToken",
-  initialState: {
-    value: null,
-  },
+  initialState: refreshTokenInitialState,
   reducers: {
     setRefreshToken: (state, action) => {
       state.value = action.payload;

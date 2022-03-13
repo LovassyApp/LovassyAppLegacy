@@ -1,13 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { lightTheme } from "../../utils/theme/themes";
 
+export const settingsInitialState = {
+  theme: lightTheme,
+  predictiveLoad: false,
+  admin: false,
+};
+
 export const settingsSlice = createSlice({
   name: "settings",
-  initialState: {
-    theme: lightTheme,
-    predictiveLoad: false,
-    admin: false,
-  },
+  initialState: settingsInitialState,
   reducers: {
     setAdmin: (state, action) => {
       state.admin = action.payload;

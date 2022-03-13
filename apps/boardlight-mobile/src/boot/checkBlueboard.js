@@ -13,6 +13,7 @@ export const CheckBlueboard = ({ children }) => {
 
   const readyCallback = (res) => {
     if (res?.ready) {
+      console.log("DEBUG: Blueboard ready!");
       clearInterval(interval.current);
       setError(false);
       setLoading(false);
@@ -25,6 +26,7 @@ export const CheckBlueboard = ({ children }) => {
     try {
       res = await client.account.ping();
     } catch (err) {
+      console.log("DEBUG: Blueboard check failed, retrying in 5 seconds");
       setError(true);
       setLoading(false);
     }
@@ -34,8 +36,13 @@ export const CheckBlueboard = ({ children }) => {
 
   React.useEffect(() => {
     (async () => {
+      console.log("DEBUG: Checking blueboard...");
+
       try {
         const res = await client.account.ping();
+        if (!res.ready) {
+          throw Error();
+        }
         readyCallback(res);
       } catch (err) {
         setError(true);
@@ -46,6 +53,10 @@ export const CheckBlueboard = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  if (loading) {
+    return <AppLoading />;
+  }
+
   // TODO: Fix loading screen not showing for a while
-  return <>{loading ? <AppLoading /> : <>{error ? <Five0Three /> : children}</>}</>;
+  return <>{error ? <Five0Three /> : children}</>;
 };

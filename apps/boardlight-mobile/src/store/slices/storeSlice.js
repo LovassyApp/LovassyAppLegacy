@@ -1,10 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+export const storeInitialState = {
+  value: null,
+};
+
 export const storeSlice = createSlice({
   name: "store",
-  initialState: {
-    value: null,
-  },
+  initialState: storeInitialState,
   reducers: {
     setStore: (state, action) => {
       state.value = action.payload;

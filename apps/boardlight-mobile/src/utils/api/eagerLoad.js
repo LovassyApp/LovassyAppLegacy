@@ -16,7 +16,7 @@ export const eagerLoad = async (client, token) => {
     if (res.lolo) {
       dispatch({
         type: "control/setUserBalance",
-        payload: res.lolo?.balance,
+        payload: res.lolo.balance,
       });
     }
 

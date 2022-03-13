@@ -1,12 +1,3 @@
-import {
-  Poppins_100Thin,
-  Poppins_300Light,
-  Poppins_400Regular,
-  Poppins_400Regular_Italic,
-  Poppins_500Medium,
-  Poppins_700Bold,
-  useFonts,
-} from "@expo-google-fonts/poppins";
 import React, { useEffect, useState } from "react";
 import { removeControl, setControl } from "../store/slices/controlSlice";
 import { removeRefreshToken, setRefreshToken } from "../store/slices/refreshTokenSlice";
@@ -14,7 +5,6 @@ import { removeToken, setToken } from "../store/slices/tokenSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 import AppLoading from "expo-app-loading";
-import { CourierPrime_400Regular } from "@expo-google-fonts/courier-prime";
 import { eagerLoad } from "../utils/api/eagerLoad";
 import { secureLoadData } from "../utils/misc/storageUtils";
 import { useBlueboardClient } from "blueboard-client-react";
@@ -29,16 +19,6 @@ export const AppBootstrapProvider = ({ children }) => {
 
   const client = useBlueboardClient();
   const renew = useRenew();
-
-  const [fontsLoaded] = useFonts({
-    Poppins_400Regular,
-    Poppins_500Medium,
-    Poppins_300Light,
-    Poppins_100Thin,
-    Poppins_400Regular_Italic,
-    Poppins_700Bold,
-    CourierPrime_400Regular,
-  });
 
   const fetchControl = async (token, refreshToken) => {
     console.log("DEBUG: Control fetch...");
@@ -110,6 +90,7 @@ export const AppBootstrapProvider = ({ children }) => {
           if (stateToken !== null && !isReady) {
             await eagerLoad(client);
             setIsReady(true);
+            console.log("DEBUG: Bootstrapping complete!");
           } else {
             setIsReady(true);
           }
@@ -121,7 +102,7 @@ export const AppBootstrapProvider = ({ children }) => {
     })();
   }, [stateToken, canContinue, client, isReady]);
 
-  if (!(isReady && fontsLoaded)) {
+  if (!isReady) {
     return <AppLoading />;
   }
 
