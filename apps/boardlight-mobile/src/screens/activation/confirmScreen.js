@@ -146,7 +146,7 @@ export const ConfirmScreen = ({ navigation, route }) => {
 
   return (
     <>
-      <ScreenContainer>
+      <ScreenContainer scrollable={true}>
         <Headline>{item.product.name}</Headline>
         <View style={styles.container}>
           <View style={{ marginVertical: 5 }}>

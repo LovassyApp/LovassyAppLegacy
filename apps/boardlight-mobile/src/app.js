@@ -41,20 +41,6 @@ const ProviderStack = ({ children }) => {
   const token = useSelector((state) => state.token.value);
   const theme = useSelector((state) => state.settings.theme);
   const loading = useSelector((state) => state.loading.value);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    (async () => {
-      const savedSettings = await loadData("settings");
-
-      if (savedSettings !== null) {
-        dispatch(setState(savedSettings));
-      } else {
-        dispatch(setTheme(Appearance.getColorScheme() === "dark" ? darkTheme : lightTheme));
-      }
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <>
