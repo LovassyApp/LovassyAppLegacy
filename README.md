@@ -21,7 +21,7 @@ lerna bootstap
 
 3. lépés: Konfigurációs fájlok kitöltése (A `.env` fájlok létrehozása azokban a mappákban, ahol van `.env.example` és kitöltése a `.env.example` fájl alapján. Ilyen fájlokra az `apps/` mappában lévő almappákban van szükség)
 
-4. lépés: A Docker környezet felállítása (A Docker elindítása ez előtt szükséges. Ha valamikor problémák lépnek fel ezzel a jövőben a megoldás általában `yarn docker-down` és utána `yarn docker-start`)
+4. lépés: A Docker környezet felállítása (A Docker elindítása ez előtt szükséges. Ha valamikor problémák lépnek fel ezzel a jövőben a megoldás általában `yarn docker-down` és utána `yarn docker-start`) és a [Docker Compose V2](https://docs.docker.com/compose/cli-command/) bekapcsolása.
 ```
 yarn docker-build
 yarn docker-start
