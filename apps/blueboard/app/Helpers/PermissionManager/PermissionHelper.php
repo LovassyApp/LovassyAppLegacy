@@ -3,14 +3,15 @@
 namespace App\Helpers\PermissionManager;
 
 use App\Exceptions\AuthErrorException;
+use App\Helpers\LibSession\SessionManager;
 use App\Models\User;
-use Auth;
 use Exception;
 use Illuminate\Support\Collection;
 
 /**
- * Class PermissionHelper
  * A small helper for permission / user group management
+ * * Jelen személyem: Ezt egy elég másik projekthez írtam -> sok fícsör van benne, amit nem használunk és a kommenteket pedig lusta voltam átírni.
+ * * Szóval: Itten leledzik.
  *
  * @package App\Helpers\PermissionManager
  *
@@ -192,7 +193,7 @@ class PermissionHelper
     private function cacheUser()
     {
         if (!$this->userIsCached) {
-            $this->user = Auth::user();
+            $this->user = SessionManager::user();
             $this->groups = $this->user->groups()->get();
             $permissions_column = $this->groups->pluck('permissions')->toArray();
             $this->allPermissions = array_merge(...$permissions_column);

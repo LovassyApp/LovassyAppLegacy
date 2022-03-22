@@ -17,10 +17,7 @@ class Evaluations extends BaseKreta
      * @var array
      */
     public array $evaluations;
-    /**
-     * @var string
-     */
-    private string $token;
+
     /**
      * @var object
      */
@@ -36,10 +33,9 @@ class Evaluations extends BaseKreta
      * @throws KretaCredentialException
      * @throws KretaTokenException
      */
-    public function __construct($token)
+    public function __construct(string $token)
     {
         parent::__construct();
-        $this->token = $token;
         $this->decodedToken = $this->decodeToken($token);
         //dd($token);
         $this->institute = $this->decodedToken->attributes->{"kreta:institute_code"};
@@ -63,10 +59,12 @@ class Evaluations extends BaseKreta
     }
 
     /**
+     * Jej gusztustalan KRÉTA response parser
+     * * Needless to say, not my finest work...
+     *
      * @param array $additionalAttributes
      * @return array
      *
-     * Jej gusztustalan kreta response parser
      */
     public function parse(array $additionalAttributes = []): array
     {

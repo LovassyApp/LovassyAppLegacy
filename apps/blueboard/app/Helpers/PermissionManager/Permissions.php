@@ -6,8 +6,8 @@ namespace App\Helpers\PermissionManager;
  * Container class for permissions
  * Constant arrays define the lists, with one additional array for Scopes.
  * Simply put: Basically a weird access-control-list thing
- * Class Permissions
  *
+ * * Ugyanazt ide, mint a PermissionHelper-hez :D
  * @package App\Helpers\PermissionManager
  *
  */

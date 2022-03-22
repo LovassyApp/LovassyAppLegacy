@@ -44,9 +44,10 @@ class SessionManager
     private string|null $userHash = null;
 
     /**
+     * Konsztráktor (kell a humor ide kérem)
+     *
      * @throws TokenMissingException
      * @throws Exception
-     * Konsztráktor (kell a humor ide kérem)
      */
     public function __construct()
     {
@@ -60,8 +61,8 @@ class SessionManager
     }
 
     /**
-     * @return string|null
      * Ha van AuthToken a header-ben, akkor kiszedi
+     * @return string|null
      */
     private function getAuthToken(): string|null
     {
@@ -71,9 +72,10 @@ class SessionManager
     }
 
     /**
+     * Visszatölti a meglévő sessiont. Ha valami hiba van, azt a Session automatikusan dobja.
+     *
      * @throws TokenMissingException
      * @throws SessionNotFoundException
-     * Visszatölti a meglévő sessiont. Ha valami hiba van, azt a Session automatikusan dobja.
      */
     private function init(): void
     {
@@ -87,8 +89,10 @@ class SessionManager
     }
 
     /**
+     * Jelszót kiszedi a sessionből, ebből lesz a kulcs, ami oldja a krétás adatokat
+     *
      * @return void
-     * @throws Exception Jelszót kiszedi a sessionből, ebből lesz a kulcs, ami oldja a krétás adatokat
+     * @throws Exception
      */
     private function cacheKey(): void
     {
@@ -112,8 +116,8 @@ class SessionManager
     }
 
     /**
-     * @throws Exception
      * Betölti a KRÉTA titkosítót, hogy ne kelljen többször
+     * @throws Exception
      */
     private function loadKretaCredHelper(): void
     {
@@ -140,8 +144,9 @@ class SessionManager
     }
 
     /**
-     * @return string
      * Token-t generál, session-t a Tokenhez.
+     *
+     * @return string
      * @throws SessionNotFoundException
      */
     private function startSession(): string
@@ -180,10 +185,11 @@ class SessionManager
     }
 
     /**
+     * Jelszó titkosítva a sessionben
+     * Biztonság miatt csak a jelenlegi session token-je oldja, ez csak hashelt formában tárolt -> AES két *ízben*
+     *
      * @param string $password
      * @throws Exception
-     * Jelszó titkosítva a sessionben
-     * Biztonság miatt csak a jelenlegi session token-je oldja, ez csak hashelt formában tárolt -> Chain of trust
      */
     private function setSessionKey(string $password): void
     {

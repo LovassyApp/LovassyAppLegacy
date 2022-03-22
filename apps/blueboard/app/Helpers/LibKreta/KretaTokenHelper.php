@@ -21,6 +21,8 @@ class KretaTokenHelper
     private static string $studentRole = 'Tanulo';
 
     /**
+     * Megújítja a KRÉTA access tokent, majd titkosítja és elmenti
+     *
      * @throws KretaTokenException
      * @throws KretaGeneralException
      * @throws KretaCredentialException
@@ -44,6 +46,8 @@ class KretaTokenHelper
     }
 
     /**
+     * Jelenlegi érvényes KRÉTA access token
+     *
      * @throws KretaCredentialException
      * @throws Exception
      */
@@ -56,20 +60,18 @@ class KretaTokenHelper
     }
 
     /**
+     * Túlkomplikált fos. Need I say more?
+     *
      * @throws KretaTokenException
      * @throws KretaCredentialException
      * @throws NotAStudentException
      * @throws KretaGeneralException
-     *
-     * Túlkomplikált fos. Need I say more?
-     *
      */
     public static function registerUserKreta(
         User $user,
         string $username,
         string $password,
         string $encryptionKey,
-        string $salt
     ) {
         $auth = Auth::verifyCredentials($username, $password);
         $tokenAttributes = $auth->decoded->attributes;

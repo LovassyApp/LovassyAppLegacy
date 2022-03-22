@@ -37,11 +37,12 @@ class KretaEncrypter
     }
 
     /**
+     * Az adatbázisban eltárolt titkosított hitelesító adatokat feloldja, visszaadja
+     * Ha bebasz a gebasz (értsd: Nincs krétás adat elrárolva) akkor exceptiont dob
+     *
      * @return object
      * @throws KretaCredentialException
      *
-     *  Az adatbázisban eltárolt titkosított hitelesító adatokat feloldja, visszaadja
-     *  Ha bebasz a gebasz (értsd: Nincs krétás adat elrárolva) akkor exceptiont dob
      */
     public function getCreds(): object
     {
@@ -50,8 +51,8 @@ class KretaEncrypter
         if ($creds == null) {
             throw new KretaCredentialException();
         }
-        // Tovább tovább tovább...
 
+        // Tovább tovább tovább...
         return (object) [
             'username' => $this->encrypter->decrypt($creds->username),
             'password' => $this->encrypter->decrypt($creds->password),
@@ -61,11 +62,11 @@ class KretaEncrypter
     }
 
     /**
+     * Letitkosítja, majd eltárolja a felhasználónév / jelszó kombót
+     *
      * @param string $username
      * @param string $password
      * @throws KretaCredentialException
-     *
-     * Letitkosítja, majd eltárolja a felhasználónév / jelszó kombót
      *
      */
     public function store(string $username, string $password)
@@ -82,11 +83,10 @@ class KretaEncrypter
     }
 
     /**
+     * Gusztustalan fostalicska
+     * * A célnak megfelel, de pfuj
+     *
      * @param object $creds
-     *
-     * Gusztustalan, túl sok shorthandet használó fostalicska
-     * A célnak megfelel, de pfuj
-     *
      */
     public function update(object $creds)
     {

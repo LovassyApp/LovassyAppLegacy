@@ -9,7 +9,8 @@ use Carbon\Carbon;
  * Hát... Inkább nem kommentálnám.
  *
  * Kibaszott gusztustalan.
- * De ez a kréta emberek.
+ * * Én meg nemtom miért írtam ezt.
+ *
  */
 class KretaGrade
 {
@@ -41,11 +42,11 @@ class KretaGrade
     ];
 
     /**
-     * @param object $gradeJson
-     * @param array $additionalAttributes
-     *
      * Parsing begins...
      * Hát igen. Ez is kicsit fájdalmas.
+     *
+     * @param object $gradeJson
+     * @param array $additionalAttributes
      */
     public function __construct(object $gradeJson, array $additionalAttributes = [])
     {
@@ -70,10 +71,10 @@ class KretaGrade
     }
 
     /**
+     * Jegyet textbe bele abba
+     *
      * @param string $grade
      * @return string
-     *
-     * Jegyet textbe bele abba
      */
     private function convertTextGrade(string $grade): string
     {
@@ -81,13 +82,11 @@ class KretaGrade
         return $arr[array_key_first($arr)];
     }
 
-    // Ouch.
-
     /**
+     * Jegyet vissza számba bele abba
+     *
      * @param string $grade
      * @return int
-     *
-     * Jegyet vissza számba bele abba
      */
     private function convertValueToInteger(string $grade): int
     {
@@ -105,9 +104,10 @@ class KretaGrade
     }
 
     /**
+     * Tömbötideeeeee
+     *
      * @return array
      *
-     * Tömb a classból
      */
     public function toArray(): array
     {

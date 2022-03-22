@@ -50,14 +50,14 @@ class Auth extends BaseKreta
     }
 
     /**
+     * Ellenőrzi a megadott felhasználónév / jelszó páros helyességét a Kréta szervereken
+     *
      * @param string $username
      * @param string $password
      * @return stdClass
      * @throws KretaCredentialException
      * @throws KretaTokenException
      * @throws KretaGeneralException
-     *
-     * Ellenőrzi a megadott felhasználónév / jelszó páros helyességét a Kréta szervereken
      */
     public static function verifyCredentials(string $username, string $password): stdClass
     {
@@ -72,11 +72,11 @@ class Auth extends BaseKreta
     }
 
     /**
+     * Login request
+     *
      * @return mixed
      * @throws KretaTokenException
      * @throws KretaGeneralException
-     *
-     * Login request
      */
     public function login(): stdClass
     {
@@ -103,12 +103,12 @@ class Auth extends BaseKreta
     }
 
     /**
+     * Nyers login request.
+     *
      * @param array $form
      * @return array
      * @throws KretaGeneralException
      * @throws Exception
-     *
-     * Nyers login request.
      */
     private function makeLoginRequest(array $form): array
     {
@@ -121,18 +121,14 @@ class Auth extends BaseKreta
         return [$req, $body];
     }
 
-    /*
-       Ez nem megy, IDK miert, de most nem fogok vele szenvedni
-       TODO: Ezt actually működésre bírni
-   */
-
     /**
+     * KRÉTA Nonce generátor.
+     * khm. nemszép.
+     *
      * @param $username
      * @param $instituteCode
      * @return array
      * @throws KretaGeneralException
-     *
-     * Ez nem szép. Köszönjük Kréta.
      */
     #[
         ArrayShape([
@@ -145,14 +141,15 @@ class Auth extends BaseKreta
         // Normál GET request minden nélkül
         $nonce = $this->getNonceReq($this->url($this->instituteCode, 'auth', $this->endpoints->idp->nonce));
 
-        // Pfujgec
+        // Enkódoolt meszidzs
         $message = strtolower($username) . strtolower($instituteCode) . $nonce;
 
         // ezt át kellene rakni valahova máshova lol
         // Thx filc
         $key = '5Kmpmgd5fJ';
 
-        // La elbaszott hmac hash
+        // La *érdekes* hmac hash
+        // Miért?
         $sign = hash_hmac('sha512', $message, $key, true);
         $base64 = base64_encode($sign);
 
@@ -168,11 +165,17 @@ class Auth extends BaseKreta
         ];
     }
 
+    /*
+       Ez nem megy, IDK miert, de most nem fogok vele szenvedni
+       TODO: Ezt actually működésre bírni
+    */
+
     /**
+     * Token refresh thing
+     *
      * @param string $refreshToken
      * @return mixed
      * @throws KretaGeneralException
-     * Token refresh thing
      */
     public function refreshToken(string $refreshToken): stdClass
     {

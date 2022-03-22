@@ -3,7 +3,7 @@
 namespace App\Helpers\LibKreta;
 
 /**
- *
+ * Nagyon kevés KRÉTA végpontot tartalmazó *valami*
  */
 class Endpoints
 {

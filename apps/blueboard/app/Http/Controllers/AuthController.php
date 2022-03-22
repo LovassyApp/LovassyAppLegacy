@@ -97,7 +97,7 @@ class AuthController extends Controller
         $user = new User($data);
 
         // Krétát veriFIKÁlni, és elmenteni titkosítva -> AES
-        KretaTokenHelper::registerUserKreta($user, $data['kreta_username'], $data['kreta_password'], $key, $salt);
+        KretaTokenHelper::registerUserKreta($user, $data['kreta_username'], $data['kreta_password'], $key);
 
         $user->groups()->sync([1]);
 

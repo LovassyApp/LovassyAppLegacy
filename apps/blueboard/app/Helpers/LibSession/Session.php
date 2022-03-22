@@ -37,9 +37,9 @@ class Session
     }
 
     /**
-     * @throws SessionNotFoundException
-     *
      * Próbálkozik (hehe) a session-t visszatölteni, ha nem sikerül, (az szopó jami) akkor hiba
+     *
+     * @throws SessionNotFoundException
      */
     private function tryResume(): void
     {
@@ -51,9 +51,10 @@ class Session
     }
 
     /**
+     * Új üres session
+     *
      * @param string $hash
      * @return Session
-     * Új üres session
      * @throws SessionNotFoundException
      */
     public static function start(string $hash): Session
@@ -65,9 +66,10 @@ class Session
     }
 
     /**
+     * Megint csak medzsik.
+     *
      * @param $name
      * @return mixed
-     * Megint csak medzsik.
      */
     public function __get($name)
     {
@@ -75,9 +77,10 @@ class Session
     }
 
     /**
+     * Varázslaaaaaat.
+     *
      * @param $name
      * @param $value
-     * Varázslaaaaaat.
      */
     public function __set($name, $value)
     {
@@ -86,9 +89,10 @@ class Session
     }
 
     /**
-     * @return string
      * Session JSON-ban rediszbe
      * Egy-két plusz infóval
+     *
+     * @return string
      */
     public function toJson(): string
     {
@@ -100,8 +104,9 @@ class Session
     }
 
     /**
-     * @return object
      * Összes adat ami a sessionben van
+     *
+     * @return object
      */
     public function all(): object
     {
@@ -109,8 +114,9 @@ class Session
     }
 
     /**
-     * @param $name
      * Harmadik Varázslatos remekséges izé
+     *
+     * @param $name
      */
     public function __unset($name)
     {
