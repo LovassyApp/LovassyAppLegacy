@@ -21,4 +21,14 @@ return [
     |
     */
     'user_agent' => env('KRETA_USER_AGENT', 'com.llgapp.blueboard'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Rate limit: Órák száma
+    |--------------------------------------------------------------------------
+    |
+    | A RétiLimit (trédmárk) ennyi időnként engedi a Blueboard számára a KRÉTA API hívásokat
+    |
+    */
+    'rate_limit_hours' => (int) env('KRETA_RATE_LIMIT_HOURS', 12),
 ];

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\LibKreta\Grades\KretaGradeCategory;
+use App\Helpers\LibKreta\RetiLimit;
 use Illuminate\Http\Request;
 use App\Helpers\LibLolo\LoloHelper;
 use App\Helpers\LibSession\SessionManager;
@@ -17,9 +18,13 @@ class GradeController extends Controller
         $this->checkPermission('grades');
 
         $refresh = (bool) $request->query('refresh', false);
-        if ($refresh == true) {
-            LoloHelper::updateGrades();
-        }
+
+        RetiLimit::useRateLimit(function () use ($refresh) {
+            if ($refresh == true) {
+                LoloHelper::updateGrades();
+            }
+        });
+
 
         $allGrades = SessionManager::user()
             ->grades()

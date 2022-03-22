@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\LoloAmountUpdated;
 use App\Helpers\LibKreta\Grades\KretaGradeCategory;
+use App\Helpers\LibKreta\RetiLimit;
 use App\Helpers\LibLolo\LoloGenerator;
 use App\Helpers\LibLolo\LoloHelper;
 use App\Helpers\LibSession\SessionManager;
@@ -87,14 +88,13 @@ class EagerLoadController extends Controller
     public function index(Request $request)
     {
         $refresh = (bool) $request->query('refresh', false);
-        if ($refresh == true) {
-            LoloHelper::updateGrades();
-        }
-
         $helper = app(PermissionHelper::class);
-        if (($helper->authorize('General.grades', true) || $helper->authorize('General.lolo', true)) && $refresh) {
-            LoloHelper::updateGrades();
-        }
+
+        RetiLimit::useRateLimit(function() use ($helper, $refresh) {
+            if (($helper->authorize('General.grades', true) || $helper->authorize('General.lolo', true)) && $refresh) {
+                LoloHelper::updateGrades();
+            }
+        });
 
         $user = SessionManager::user();
         $hash = $user->hash;
