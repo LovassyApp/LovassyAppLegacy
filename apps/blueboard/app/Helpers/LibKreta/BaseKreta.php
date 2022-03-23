@@ -14,20 +14,18 @@ use JetBrains\PhpStorm\Pure;
 
 /**
  * BaseClass a LibKréta nevű csodához.
- * Minden kréta api hívásokhoz szükséges függvényt tartalmaz
+ * Minden KRÉTA API hívásokhoz szükséges függvényt tartalmaz
  */
 class BaseKreta
 {
     /**
      * @var string
-     */
-    protected string $apiKey = '7856d350-1fda-45f5-822d-e1a2f3f1acf0';
-    /**
-     * @var string
+     * OAuth Client ID
      */
     protected string $clientID = 'kreta-ellenorzo-mobile';
     /**
      * @var array|string[]
+     * Egy csomó random Androidos telefon kódneve
      */
     protected array $codeNames = [
         'a3xelte',
@@ -64,11 +62,13 @@ class BaseKreta
 
     /**
      * @var Endpoints
+     * Kréta végpontok listája
      */
     protected Endpoints $endpoints;
 
     /**
      * @var int
+     * Timeout másodpercben
      */
     private int $timeout = 10;
 
@@ -84,6 +84,7 @@ class BaseKreta
     /**
      * @param $token
      * @return object
+     * JWT dekóder
      */
     protected function decodeToken($token): object
     {
@@ -97,13 +98,12 @@ class BaseKreta
 
     /**
      * @throws Exception
+     * Ezt egyszer újra kellene írni, elég régi
+     * De még jó
+     * Hangsúly: MÉG
      */
     protected function url($instituteCode = null, $urlType = null, $path = ''): string
     {
-        // BTW: Egy érdekes KRÉTA bug:
-        // ha az URL bárhol tartalmazza a // karaktereket, akkor behal az API
-        // Jó tudni
-        // Madzsar szoftver
         switch ($urlType) {
             case 'api':
                 return "https://$instituteCode.e-kreta.hu$path";
@@ -118,6 +118,8 @@ class BaseKreta
     }
 
     /**
+     * GET Request, minden header nélkül (nonce-hoz)
+     *
      * @throws KretaGeneralException
      */
     protected function getNonceReq(string $url): string
@@ -133,6 +135,8 @@ class BaseKreta
     }
 
     /**
+     * Egy random Android verzió / user agent páros
+     *
      * @return string
      */
     protected function getUserAgent(): string
@@ -145,6 +149,8 @@ class BaseKreta
     }
 
     /**
+     * Csak egy sima post request (auhentikációhoz)
+     *
      * @throws KretaGeneralException
      */
     protected function makePostRequest(string $url, array $form, array $headers = []): Response
@@ -161,6 +167,8 @@ class BaseKreta
     }
 
     /**
+     * GET Request, tokennel mindennel (is) + egy kis hibakezelés
+     *
      * @throws KretaCredentialException
      * @throws KretaGeneralException
      * @throws ExceptionRenderer
@@ -191,10 +199,10 @@ class BaseKreta
         }
     }
 
-    // Váááá automata token megújítáááás
-    // Meg krétás hibakezelés izé
-
     /**
+     * Váááá automata token megújítáááás.
+     * Meg krétás hibakezelés izé (ha tudnám, hogy ezt miért is így csináltam anno...)
+     *
      * @throws KretaCredentialException
      */
     private function getRequest(string $url, array $headers = []): string

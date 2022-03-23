@@ -21,9 +21,9 @@ class Crypter
     }
 
     /**
+     * Felhasználóhoz kapcsolódó salt
      * @param int $userID
      * @return string
-     * Felhasználóhoz kapcsolódó salt
      */
     public static function getUserSalt(int $userID): string
     {
@@ -32,10 +32,11 @@ class Crypter
     }
 
     /**
+     * Salt mentése a DB-be
+     *
      * @param string $salt
      * @param int $userID
      * @return true
-     * Salt mentése a DB-be
      */
     public static function saveSalt(string $salt, int $userID): bool
     {
@@ -48,10 +49,10 @@ class Crypter
     }
 
     /**
+     * Hasheli az AuthToken-t, később kulcsként van használva
+     *
      * @param string $token
      * @return string
-     *
-     * Hasheli az AuthToken-t, később kulcsként van használva
      */
     public static function makeTokenHash(string $token): string
     {
@@ -60,12 +61,12 @@ class Crypter
     }
 
     /**
+     * Jelszó titkosítása
+     *
      * @param string $password
      * @param string $token
      * @param string $salt
      * @return string
-     *
-     * Jelszó titkosítása
      */
     public static function makeEncryptedPassword(string $password, string $token, string $salt): string
     {
@@ -76,12 +77,13 @@ class Crypter
     }
 
     /**
+     * 32 karakteres kulcs generálás stringből
+     * * _Konkrétan csak egy fancy hash_
+     *
      * @param string $string
      * @param string $salt
      * @return string
      *
-     * 32 karakteres kulcs generálás stringből
-     * _Konkrétan csak egy fancy hash_
      */
     public static function generateKey(string $string, string $salt): string
     {
@@ -89,14 +91,14 @@ class Crypter
     }
 
     /**
+     * Kulcs, ami oldja a KRÉTÁS titkosított adatokat
+     * * _Vagy éppenséggel NEM lol_
+     *
      * @param string $str
      * @param string $token
      * @param string $salt
      * @param string $userSalt
      * @return string
-     *
-     * Kulcs, ami oldja a KRÉTÁS titkosított adatokat
-     * Vagy éppenséggel NEM lol
      */
     public static function getUserKey(string $str, string $token, string $salt, string $userSalt): string
     {

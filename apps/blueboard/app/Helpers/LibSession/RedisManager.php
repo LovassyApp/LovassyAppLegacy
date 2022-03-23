@@ -32,8 +32,9 @@ class RedisManager
     }
 
     /**
-     * @param Session $session
      * Redis bejegyzést hoz létre egy adott session-ből
+     *
+     * @param Session $session
      */
     public function write(Session $session)
     {
@@ -52,9 +53,10 @@ class RedisManager
     }
 
     /**
+     * Session visszatöltés, oszt ha nincs, akkó' exception
+     *
      * @return mixed
      * @throws SessionNotFoundException
-     * Session visszatöltés, oszt ha nincs, akkó' exception
      */
     public function read(): object
     {
@@ -78,8 +80,9 @@ class RedisManager
     }
 
     /**
-     * @return mixed
      * Az a nyomoronc session vajon létezik-e?
+     *
+     * @return mixed
      */
     public function exists(): bool
     {

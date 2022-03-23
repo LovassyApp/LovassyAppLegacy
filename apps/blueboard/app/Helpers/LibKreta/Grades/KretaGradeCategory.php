@@ -31,10 +31,10 @@ class KretaGradeCategory
     ];
 
     /**
+     * Kategóriát KRÉTÁS szöveges szar alapján (mert így wat)
+     *
      * @param string $cat
      * @return int
-     *
-     * Kategóriát szöveges kréta szar alapján
      */
     public static function parseCategory(string $cat): int
     {

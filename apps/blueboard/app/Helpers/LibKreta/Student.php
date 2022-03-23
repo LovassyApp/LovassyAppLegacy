@@ -5,6 +5,9 @@ namespace App\Helpers\LibKreta;
 use App\Exceptions\LibKreta\KretaCredentialException;
 use Laravel\Octane\Exceptions\DdException;
 
+/**
+ * Nem kommentálom. Nem használjuk. Nincs. Nem és kész.
+ */
 class Student extends BaseKreta
 {
     private string $token;

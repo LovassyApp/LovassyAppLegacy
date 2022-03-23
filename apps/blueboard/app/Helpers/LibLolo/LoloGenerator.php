@@ -195,7 +195,7 @@ class LoloGenerator
     }
 
     /**
-     *
+     * Medzsik, csak leadja a lokkot (igen kétkáááá)
      */
     public function __destruct()
     {
