@@ -2,6 +2,7 @@ import {
     AppShell,
     Avatar,
     Box,
+    Button,
     Center,
     Drawer,
     Header,
@@ -61,8 +62,13 @@ const useStyles = createStyles((theme) => ({
         right: 0,
     },
     drawerItem: {
-        display: "flex",
-        justifyContent: "center",
+        backgroundColor: "transparent",
+        "&:hover": {
+            backgroundColor: "transparent",
+        },
+        marginTop: theme.spacing.sm,
+        fontWeight: "normal",
+        fontSize: theme.fontSizes.sm,
     },
     balanceContainer: {
         backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
@@ -164,7 +170,9 @@ export const ProtectedLayout = ({ children }: { children: React.ReactNode }): JS
                     </Text>
                     <MediaQuery largerThan="sm" styles={{ display: "none" }}>
                         <Box className={classes.navBarRight}>
-                            <Box className={classes.balanceContainer}>{`${user.balance} Loló`}</Box>
+                            <Box className={classes.balanceContainer}>
+                                <Text size="sm">{`${user.balance} Loló`}</Text>
+                            </Box>
                             <UnstyledButton onClick={() => setOpened(!opened)}>
                                 <Menu2 size={32} />
                             </UnstyledButton>
@@ -177,7 +185,9 @@ export const ProtectedLayout = ({ children }: { children: React.ReactNode }): JS
                     </MediaQuery>
                     <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
                         <Box className={classes.navBarRight}>
-                            <Box className={classes.balanceContainer}>{`${user.balance} Loló`}</Box>
+                            <Box className={classes.balanceContainer}>
+                                <Text size="sm">{`${user.balance} Loló`}</Text>
+                            </Box>
                             <Menu
                                 closeOnItemClick={false}
                                 opened={menuOpened}
@@ -226,7 +236,52 @@ export const ProtectedLayout = ({ children }: { children: React.ReactNode }): JS
                 <Center>
                     <NavbarLinks drawer={true} />
                     <Box className={classes.drawerLowerPortion}>
-                        <Menu.Item
+                        <Button
+                            leftIcon={
+                                <Paint
+                                    size={theme.fontSizes.lg}
+                                    color={theme.colorScheme === "dark" ? theme.white : theme.black}
+                                />
+                            }
+                            className={classes.drawerItem}
+                            onClick={() => toggleColorScheme()}
+                            styles={{
+                                label: {
+                                    color: theme.colorScheme === "dark" ? theme.white : theme.black,
+                                },
+                            }}>
+                            Téma váltás
+                        </Button>
+                        <Button
+                            leftIcon={
+                                <InfoCircle
+                                    size={theme.fontSizes.lg}
+                                    color={theme.colors.blue[5]}
+                                />
+                            }
+                            className={classes.drawerItem}
+                            onClick={() => openAccountInformation()}
+                            styles={{
+                                label: {
+                                    color: theme.colors.blue[5],
+                                },
+                            }}>
+                            Fiók információk
+                        </Button>
+                        <Button
+                            leftIcon={
+                                <Logout size={theme.fontSizes.lg} color={theme.colors.red[5]} />
+                            }
+                            onClick={() => logout()}
+                            styles={{
+                                label: {
+                                    color: theme.colors.red[5],
+                                },
+                            }}
+                            className={classes.drawerItem}>
+                            Kijelentkezés
+                        </Button>
+                        {/* <Menu.Item
                             icon={<Paint />}
                             onClick={() => toggleColorScheme()}
                             className={classes.drawerItem}>
@@ -245,7 +300,7 @@ export const ProtectedLayout = ({ children }: { children: React.ReactNode }): JS
                             onClick={() => logout()}
                             className={classes.drawerItem}>
                             Kijelentkezés
-                        </Menu.Item>
+                        </Menu.Item> */}
                     </Box>
                 </Center>
             </Drawer>
