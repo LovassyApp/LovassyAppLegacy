@@ -7,6 +7,7 @@ import {
     Header,
     MediaQuery,
     Menu,
+    Paper,
     Space,
     Tabs,
     Text,
@@ -15,7 +16,16 @@ import {
     useMantineColorScheme,
     useMantineTheme,
 } from "@mantine/core";
-import { Book, Coin, Home, InfoCircle, Logout, Menu2, Paint } from "tabler-icons-react";
+import {
+    Book,
+    Businessplan,
+    Coin,
+    Home,
+    InfoCircle,
+    Logout,
+    Menu2,
+    Paint,
+} from "tabler-icons-react";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { usePermissions, useUser } from "../../hooks/controlHooks";
@@ -27,6 +37,7 @@ const useStyles = createStyles((theme) => ({
     header: {
         display: "flex",
         alignItems: "center",
+        borderBottom: 0,
     },
     drawerLowerPortion: {
         display: "flex",
@@ -53,6 +64,14 @@ const useStyles = createStyles((theme) => ({
         display: "flex",
         justifyContent: "center",
     },
+    balanceContainer: {
+        backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
+        marginRight: 10,
+        padding: "4px 12px",
+        borderRadius: theme.radius.md,
+        display: "flex",
+        alignItems: "center",
+    },
 }));
 
 const NavbarLinks = ({ drawer }: { drawer?: boolean }): JSX.Element => {
@@ -64,6 +83,7 @@ const NavbarLinks = ({ drawer }: { drawer?: boolean }): JSX.Element => {
 
     useEffect(() => {
         setActiveTab(linksArray.indexOf(location.pathname));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [location]);
 
     const tabChangeCallback = (index: number): void => {
@@ -144,17 +164,7 @@ export const ProtectedLayout = ({ children }: { children: React.ReactNode }): JS
                     </Text>
                     <MediaQuery largerThan="sm" styles={{ display: "none" }}>
                         <Box className={classes.navBarRight}>
-                            <Text
-                                size="sm"
-                                color={theme.colors.yellow[6]}
-                                weight="bolder"
-                                mr={3}
-                                mt={-3.5}>
-                                {user.balance}
-                            </Text>
-                            <Box mr={10} mt={3.5}>
-                                <Coin color={theme.colors.yellow[6]} />
-                            </Box>
+                            <Box className={classes.balanceContainer}>{`${user.balance} Loló`}</Box>
                             <UnstyledButton onClick={() => setOpened(!opened)}>
                                 <Menu2 size={32} />
                             </UnstyledButton>
@@ -167,12 +177,7 @@ export const ProtectedLayout = ({ children }: { children: React.ReactNode }): JS
                     </MediaQuery>
                     <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
                         <Box className={classes.navBarRight}>
-                            <Text size="sm" color={theme.colors.yellow[6]} weight="bolder" mr={3}>
-                                {user.balance}
-                            </Text>
-                            <Box mr={10} mt={7}>
-                                <Coin color={theme.colors.yellow[6]} />
-                            </Box>
+                            <Box className={classes.balanceContainer}>{`${user.balance} Loló`}</Box>
                             <Menu
                                 closeOnItemClick={false}
                                 opened={menuOpened}

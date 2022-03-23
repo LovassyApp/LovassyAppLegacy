@@ -13,7 +13,6 @@ import { useViewportSize } from "@mantine/hooks";
 
 export const Home = (): JSX.Element => {
     const theme = useMantineTheme();
-    const { colorScheme } = useMantineColorScheme();
     const { height } = useViewportSize();
 
     return (
@@ -26,7 +25,7 @@ export const Home = (): JSX.Element => {
                     sx={{
                         height: height - 92,
                         backgroundColor:
-                            colorScheme === "dark" ? theme.colors.dark[7] : theme.colors.gray[1],
+                            theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
                         borderRadius: theme.radius.md,
                     }}>
                     <Timeline active={1} bulletSize={32} lineWidth={2}>
