@@ -18,7 +18,6 @@
     "@mantine/spotlight": "^4.1.4",
     "@reduxjs/toolkit": "^1.8.1",
     "@types/redux-persist": "^4.3.1",
-    "@typescript-eslint/parser": "^5.12.1",
     "blueboard-client": "*",
     "blueboard-client-react": "*",
     "dayjs": "^1.11.1",

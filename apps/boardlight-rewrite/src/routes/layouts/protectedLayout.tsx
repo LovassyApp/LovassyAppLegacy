@@ -8,7 +8,6 @@ import {
     Header,
     MediaQuery,
     Menu,
-    Paper,
     Space,
     Tabs,
     Text,
@@ -17,16 +16,7 @@ import {
     useMantineColorScheme,
     useMantineTheme,
 } from "@mantine/core";
-import {
-    Book,
-    Businessplan,
-    Coin,
-    Home,
-    InfoCircle,
-    Logout,
-    Menu2,
-    Paint,
-} from "tabler-icons-react";
+import { Book, Home, InfoCircle, Logout, Menu2, Paint } from "tabler-icons-react";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { usePermissions, useUser } from "../../hooks/controlHooks";
