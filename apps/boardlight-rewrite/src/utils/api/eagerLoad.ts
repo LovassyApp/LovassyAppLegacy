@@ -1,5 +1,3 @@
-import { fetchGrades, fetchInventory, fetchLolo, fetchRequests, fetchStore } from "./apiUtils";
-
 import { BlueboardClient } from "blueboard-client";
 import { store } from "../../store/store";
 
@@ -8,36 +6,42 @@ export const eagerLoad = async (client: BlueboardClient, token?: string): Promis
 
     dispatch({
         type: "loading/setMessage",
-        payload: "Loló betöltése...",
+        payload: "Adatok betöltése...",
     });
 
-    await fetchLolo(client, true, token);
+    try {
+        const res = await client.account.boot(true, token);
 
-    dispatch({
-        type: "loading/setMessage",
-        payload: "Jegyek betöltése...",
-    });
+        dispatch({
+            type: "coins/setCoins",
+            payload: res.lolo?.coins,
+        });
 
-    await fetchGrades(client, false, token);
+        dispatch({
+            type: "control/setUserBalance",
+            payload: res.lolo.balance,
+        });
 
-    dispatch({
-        type: "loading/setMessage",
-        payload: "Áruház betöltése...",
-    });
+        dispatch({
+            type: "kreta/setGrades",
+            payload: res.grades ?? [],
+        });
 
-    await fetchStore(client, token);
+        dispatch({
+            type: "store/setStore",
+            payload: res.store ?? [],
+        });
 
-    dispatch({
-        type: "loading/setMessage",
-        payload: "Kincstár betöltése...",
-    });
+        dispatch({
+            type: "inventory/setInventory",
+            payload: res.inventory ?? [],
+        });
 
-    await fetchInventory(client, token);
-
-    dispatch({
-        type: "loading/setMessage",
-        payload: "Kérvények betöltése...",
-    });
-
-    await fetchRequests(client, token);
+        dispatch({
+            type: "requests/setRequests",
+            payload: res.requests ?? [],
+        });
+    } catch (err) {
+        console.log(err);
+    }
 };
