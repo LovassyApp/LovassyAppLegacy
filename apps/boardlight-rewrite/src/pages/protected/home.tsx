@@ -7,6 +7,7 @@ import {
     ScrollArea,
     Select,
     SimpleGrid,
+    Stack,
     createStyles,
     useMantineTheme,
 } from "@mantine/core";
@@ -15,6 +16,7 @@ import React, { Suspense } from "react";
 import { useInputState, useViewportSize } from "@mantine/hooks";
 
 import { DateRangePicker } from "@mantine/dates";
+import { HomeStats } from "../../components/content/homeStats";
 import { ViewMode } from "../../components/content/homeTimeline";
 import dayjs from "dayjs";
 
@@ -60,6 +62,11 @@ const useStyles = createStyles((theme, height: number) => ({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+    },
+    statsContainer: {
+        backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
+        borderRadius: theme.radius.md,
+        padding: theme.spacing.xs,
     },
 }));
 
@@ -136,7 +143,12 @@ export const Home = (): JSX.Element => {
                         </Suspense>
                     )}
                 </Box>
-                <Box />
+                <Stack>
+                    <Box className={classes.statsContainer}>
+                        <HomeStats />
+                    </Box>
+                    <Box />
+                </Stack>
             </SimpleGrid>
         </Box>
     );
