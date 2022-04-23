@@ -16,7 +16,6 @@ import React, { Suspense } from "react";
 import { useInputState, useViewportSize } from "@mantine/hooks";
 
 import { DateRangePicker } from "@mantine/dates";
-import { HomeStats } from "../../components/content/homeStats";
 import { ViewMode } from "../../components/content/homeTimeline";
 import dayjs from "dayjs";
 
@@ -27,7 +26,7 @@ const viewModeData = [
     },
     {
         value: ViewMode.Details,
-        label: "Részletek",
+        label: "Részletes",
     },
 ];
 
@@ -63,6 +62,12 @@ const useStyles = createStyles((theme, height: number) => ({
         alignItems: "center",
         justifyContent: "center",
     },
+    statsFallbackContainer: {
+        height: 200,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+    },
     statsContainer: {
         backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
         borderRadius: theme.radius.md,
@@ -82,6 +87,7 @@ export const Home = (): JSX.Element => {
     const [viewMode, setViewMode] = useInputState<ViewMode>(ViewMode.Summary);
 
     const HomeTimeline = React.lazy(() => import("../../components/content/homeTimeline"));
+    const HomeStats = React.lazy(() => import("../../components/content/homeStats"));
 
     return (
         <Box>
@@ -145,7 +151,14 @@ export const Home = (): JSX.Element => {
                 </Box>
                 <Stack>
                     <Box className={classes.statsContainer}>
-                        <HomeStats />
+                        <Suspense
+                            fallback={
+                                <Box className={classes.statsFallbackContainer}>
+                                    <Loader />
+                                </Box>
+                            }>
+                            <HomeStats />
+                        </Suspense>
                     </Box>
                     <Box />
                 </Stack>

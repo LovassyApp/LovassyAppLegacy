@@ -12,7 +12,7 @@ const useStyles = createStyles((theme) => ({
     },
 }));
 
-export const HomeStats = (): JSX.Element => {
+const HomeStats = (): JSX.Element => {
     const { classes } = useStyles();
 
     const coins = useSelector((state: RootState) => state.coins.value);
@@ -114,3 +114,5 @@ export const HomeStats = (): JSX.Element => {
         </>
     );
 };
+
+export default HomeStats;
