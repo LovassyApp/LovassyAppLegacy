@@ -1,14 +1,11 @@
-import { BlueboardInventoryItem, BlueboardKretaGrade, BlueboardLoloCoin } from "blueboard-client";
 import {
     BoxModel2,
     Businessplan,
-    Calendar,
     CalendarEvent,
     CircleCheck,
     Microscope,
 } from "tabler-icons-react";
-import { ScrollArea, Text, Timeline, useMantineTheme } from "@mantine/core";
-import { useEffect, useState } from "react";
+import { Text, Timeline, useMantineTheme } from "@mantine/core";
 
 import { RootState } from "../../store/store";
 import customParseFormat from "dayjs/plugin/customParseFormat";
@@ -23,6 +20,7 @@ export enum ViewMode {
 interface DatedEvent {
     date: Date;
     event: string;
+    id: any;
 }
 
 class GradeReceive implements DatedEvent {
@@ -103,18 +101,22 @@ const HomeTimeline = ({
             return date >= range[0] && date <= range[1];
         });
 
-        const filteredItemsBought = items.filter((item) => {
-            const date = new Date(item.timestamps.createdAt);
-            return date >= range[0] && date <= range[1];
-        });
+        const filteredItemsBought = [];
+        const filteredItemsUsed = [];
 
-        const filteredItemsUsed = items.filter((item) => {
-            if (item.usedAt) {
-                const date = new Date(item.usedAt);
-                return date >= range[0] && date <= range[1];
+        for (const item of items) {
+            const buyDate = new Date(item.timestamps.createdAt);
+            if (buyDate >= range[0] && buyDate <= range[1]) {
+                filteredItemsBought.push(item);
             }
-            return false;
-        });
+
+            if (item.usedAt) {
+                const useDate = new Date(item.usedAt);
+                if (useDate >= range[0] && useDate <= range[1]) {
+                    filteredItemsUsed.push(item);
+                }
+            }
+        }
 
         return (
             <Timeline active={1} bulletSize={32} lineWidth={2} m={10}>

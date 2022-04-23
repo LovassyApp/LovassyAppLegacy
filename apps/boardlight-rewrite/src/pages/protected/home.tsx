@@ -4,11 +4,9 @@ import {
     Box,
     Center,
     Loader,
-    LoadingOverlay,
     ScrollArea,
     Select,
     SimpleGrid,
-    Skeleton,
     createStyles,
     useMantineTheme,
 } from "@mantine/core";
@@ -85,37 +83,37 @@ export const Home = (): JSX.Element => {
                 spacing="md"
                 breakpoints={[{ maxWidth: theme.breakpoints.md, cols: 1 }]}>
                 <Box className={classes.timelineContainer}>
-                    <Suspense
-                        fallback={
-                            <Box className={classes.timelineFallbackContainer}>
-                                <Loader />
-                            </Box>
-                        }>
-                        <Box className={classes.timelinePickerContainer}>
-                            <DateRangePicker
-                                label="Időszak"
-                                value={range}
-                                onChange={setRange}
-                                locale="hu"
-                                clearable={false}
-                                icon={<Calendar size={18} />}
-                                variant="filled"
-                                p={10}
-                                sx={{ flexGrow: 3 }}
-                                classNames={{ weekday: classes.rangePickerDays }}
-                            />
-                            <Select
-                                label="Nézet"
-                                value={viewMode}
-                                onChange={(value) => setViewMode(value as ViewMode)}
-                                data={viewModeData}
-                                icon={<Eye size={18} />}
-                                variant="filled"
-                                sx={{ flexGrow: 1 }}
-                                p={10}
-                            />
-                        </Box>
-                        {viewMode === ViewMode.Details ? (
+                    <Box className={classes.timelinePickerContainer}>
+                        <DateRangePicker
+                            label="Időszak"
+                            value={range}
+                            onChange={setRange}
+                            locale="hu"
+                            clearable={false}
+                            icon={<Calendar size={18} />}
+                            variant="filled"
+                            p={10}
+                            sx={{ flexGrow: 3 }}
+                            classNames={{ weekday: classes.rangePickerDays }}
+                        />
+                        <Select
+                            label="Nézet"
+                            value={viewMode}
+                            onChange={(value) => setViewMode(value as ViewMode)}
+                            data={viewModeData}
+                            icon={<Eye size={18} />}
+                            variant="filled"
+                            sx={{ flexGrow: 1 }}
+                            p={10}
+                        />
+                    </Box>
+                    {viewMode === ViewMode.Details ? (
+                        <Suspense
+                            fallback={
+                                <Box className={classes.timelineFallbackContainer}>
+                                    <Loader />
+                                </Box>
+                            }>
                             <ScrollArea
                                 type="hover"
                                 scrollbarSize={6}
@@ -124,12 +122,19 @@ export const Home = (): JSX.Element => {
                                     <HomeTimeline viewMode={viewMode} range={range} />
                                 </Center>
                             </ScrollArea>
-                        ) : (
+                        </Suspense>
+                    ) : (
+                        <Suspense
+                            fallback={
+                                <Box className={classes.timelineFallbackContainer}>
+                                    <Loader />
+                                </Box>
+                            }>
                             <Center className={classes.timelineCenter}>
                                 <HomeTimeline viewMode={viewMode} range={range} />
                             </Center>
-                        )}
-                    </Suspense>
+                        </Suspense>
+                    )}
                 </Box>
                 <Box />
             </SimpleGrid>
