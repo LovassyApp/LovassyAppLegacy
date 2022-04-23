@@ -99,7 +99,7 @@ export const Login = (): JSX.Element => {
                 try {
                     await eagerLoad(client, res.token);
                     dispatch(setToken(res.token));
-                    renew();
+                    await renew();
                     navigate("/home", { replace: true });
                 } catch (err) {
                     notifications.showNotification({
@@ -108,9 +108,8 @@ export const Login = (): JSX.Element => {
                         color: "red",
                         autoClose: 5000,
                     });
-                } finally {
-                    loading(false, "");
                 }
+                loading(false, "");
             } catch (err) {
                 loading(false, "");
                 notifications.showNotification({

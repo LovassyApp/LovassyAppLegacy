@@ -1,11 +1,23 @@
 import "dayjs/locale/hu";
 
-import { Box, Center, Select, SimpleGrid, createStyles, useMantineTheme } from "@mantine/core";
+import {
+    Box,
+    Center,
+    Loader,
+    LoadingOverlay,
+    ScrollArea,
+    Select,
+    SimpleGrid,
+    Skeleton,
+    createStyles,
+    useMantineTheme,
+} from "@mantine/core";
 import { Calendar, Eye } from "tabler-icons-react";
-import { HomeTimeline, ViewMode } from "../../components/content/homeTimeline";
+import React, { Suspense } from "react";
 import { useInputState, useViewportSize } from "@mantine/hooks";
 
 import { DateRangePicker } from "@mantine/dates";
+import { ViewMode } from "../../components/content/homeTimeline";
 import dayjs from "dayjs";
 
 const viewModeData = [
@@ -29,6 +41,8 @@ const useStyles = createStyles((theme, height: number) => ({
     },
     timelineCenter: {
         flex: "1 1 auto",
+        paddingTop: 20,
+        paddingBottom: 20,
     },
     timelinePickerContainer: {
         flex: "0 1 auto",
@@ -36,8 +50,18 @@ const useStyles = createStyles((theme, height: number) => ({
         flexDirection: "row",
         flexWrap: "wrap",
     },
+    timelineScrollview: {
+        flex: "1 1 auto",
+        margin: 10,
+    },
     rangePickerDays: {
         textTransform: "lowercase",
+    },
+    timelineFallbackContainer: {
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
     },
 }));
 
@@ -52,6 +76,8 @@ export const Home = (): JSX.Element => {
     ]);
     const [viewMode, setViewMode] = useInputState<ViewMode>(ViewMode.Summary);
 
+    const HomeTimeline = React.lazy(() => import("../../components/content/homeTimeline"));
+
     return (
         <Box>
             <SimpleGrid
@@ -59,31 +85,51 @@ export const Home = (): JSX.Element => {
                 spacing="md"
                 breakpoints={[{ maxWidth: theme.breakpoints.md, cols: 1 }]}>
                 <Box className={classes.timelineContainer}>
-                    <Box className={classes.timelinePickerContainer}>
-                        <DateRangePicker
-                            label="Időszak"
-                            value={range}
-                            onChange={setRange}
-                            locale="hu"
-                            clearable={false}
-                            icon={<Calendar size={18} />}
-                            p={10}
-                            sx={{ flexGrow: 3 }}
-                            classNames={{ weekday: classes.rangePickerDays }}
-                        />
-                        <Select
-                            label="Nézet"
-                            value={viewMode}
-                            onChange={(value) => setViewMode(value as ViewMode)}
-                            data={viewModeData}
-                            icon={<Eye size={18} />}
-                            sx={{ flexGrow: 1 }}
-                            p={10}
-                        />
-                    </Box>
-                    <Center className={classes.timelineCenter}>
-                        <HomeTimeline data={null} viewMode={viewMode} range={range} />
-                    </Center>
+                    <Suspense
+                        fallback={
+                            <Box className={classes.timelineFallbackContainer}>
+                                <Loader />
+                            </Box>
+                        }>
+                        <Box className={classes.timelinePickerContainer}>
+                            <DateRangePicker
+                                label="Időszak"
+                                value={range}
+                                onChange={setRange}
+                                locale="hu"
+                                clearable={false}
+                                icon={<Calendar size={18} />}
+                                variant="filled"
+                                p={10}
+                                sx={{ flexGrow: 3 }}
+                                classNames={{ weekday: classes.rangePickerDays }}
+                            />
+                            <Select
+                                label="Nézet"
+                                value={viewMode}
+                                onChange={(value) => setViewMode(value as ViewMode)}
+                                data={viewModeData}
+                                icon={<Eye size={18} />}
+                                variant="filled"
+                                sx={{ flexGrow: 1 }}
+                                p={10}
+                            />
+                        </Box>
+                        {viewMode === ViewMode.Details ? (
+                            <ScrollArea
+                                type="hover"
+                                scrollbarSize={6}
+                                className={classes.timelineScrollview}>
+                                <Center className={classes.timelineCenter}>
+                                    <HomeTimeline viewMode={viewMode} range={range} />
+                                </Center>
+                            </ScrollArea>
+                        ) : (
+                            <Center className={classes.timelineCenter}>
+                                <HomeTimeline viewMode={viewMode} range={range} />
+                            </Center>
+                        )}
+                    </Suspense>
                 </Box>
                 <Box />
             </SimpleGrid>

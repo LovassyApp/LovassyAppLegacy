@@ -26,7 +26,7 @@ const rootReducer = combineReducers({
     control: controlReducer,
     loading: loadingReducer,
     requests: requestsReducer,
-    invetory: inventoryReducer,
+    inventory: inventoryReducer,
     store: storeReducer,
     kreta: kretaReducer,
     coins: coinsReducer,

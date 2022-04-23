@@ -4,7 +4,9 @@ import {
     Box,
     Button,
     Center,
+    ColorSwatch,
     Drawer,
+    Group,
     Header,
     MediaQuery,
     Menu,
@@ -16,11 +18,13 @@ import {
     useMantineColorScheme,
     useMantineTheme,
 } from "@mantine/core";
-import { Book, Home, InfoCircle, Logout, Menu2, Paint } from "tabler-icons-react";
+import { Book, Check, Home, InfoCircle, Logout, Menu2, Paint, Palette } from "tabler-icons-react";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { usePermissions, useUser } from "../../hooks/controlHooks";
 
+import { setPrimaryColor } from "../../store/slices/settingsSlice";
+import { useDispatch } from "react-redux";
 import { useLogout } from "../../hooks/useLogout";
 import { useModals } from "@mantine/modals";
 
@@ -117,7 +121,14 @@ export const ProtectedLayout = ({ children }: { children: React.ReactNode }): JS
     const modals = useModals();
     const { toggleColorScheme } = useMantineColorScheme();
 
+    const dispatch = useDispatch();
+
     const { classes } = useStyles();
+
+    const colors = Object.keys(theme.colors).map((color) => ({
+        swatch: theme.colors[color][6],
+        color,
+    }));
 
     const openAccountInformation = (): void => {
         setMenuOpened(false);
@@ -144,18 +155,42 @@ export const ProtectedLayout = ({ children }: { children: React.ReactNode }): JS
         });
     };
 
+    const openColorSelector = (): void => {
+        setMenuOpened(false);
+        setOpened(false);
+        const id = modals.openModal({
+            title: "Elsődleges szín",
+            children: (
+                <>
+                    <Group spacing="xs">
+                        {colors.map(({ color, swatch }) => (
+                            <ColorSwatch
+                                component="button"
+                                type="button"
+                                onClick={() => {
+                                    dispatch(setPrimaryColor(color));
+                                    modals.closeModal(id);
+                                }}
+                                key={color}
+                                color={swatch}
+                                size={22}
+                                style={{ color: theme.white, cursor: "pointer" }}>
+                                {theme.primaryColor === color && <Check size={10} />}
+                            </ColorSwatch>
+                        ))}
+                    </Group>
+                </>
+            ),
+        });
+    };
+
     return (
         <AppShell
             padding="md"
             fixed={true}
             header={
                 <Header height={60} p="xs" className={classes.header}>
-                    <Text
-                        variant="gradient"
-                        gradient={{ from: "indigo", to: "cyan", deg: 45 }}
-                        weight="bold"
-                        size="xl"
-                        mr={10}>
+                    <Text color={theme.primaryColor} weight="bold" size="xl" mr={10}>
                         LovassyApp
                     </Text>
                     <MediaQuery largerThan="sm" styles={{ display: "none" }}>
@@ -194,6 +229,9 @@ export const ProtectedLayout = ({ children }: { children: React.ReactNode }): JS
                                 <Menu.Label>Kinézet</Menu.Label>
                                 <Menu.Item icon={<Paint />} onClick={() => toggleColorScheme()}>
                                     Téma váltás
+                                </Menu.Item>
+                                <Menu.Item icon={<Palette />} onClick={() => openColorSelector()}>
+                                    Elsődleges szín
                                 </Menu.Item>
                                 <Menu.Label>Fiók</Menu.Label>
                                 <Menu.Item
@@ -241,6 +279,22 @@ export const ProtectedLayout = ({ children }: { children: React.ReactNode }): JS
                                 },
                             }}>
                             Téma váltás
+                        </Button>
+                        <Button
+                            leftIcon={
+                                <Palette
+                                    size={theme.fontSizes.lg}
+                                    color={theme.colorScheme === "dark" ? theme.white : theme.black}
+                                />
+                            }
+                            className={classes.drawerItem}
+                            onClick={() => openColorSelector()}
+                            styles={{
+                                label: {
+                                    color: theme.colorScheme === "dark" ? theme.white : theme.black,
+                                },
+                            }}>
+                            Elsődleges szín
                         </Button>
                         <Button
                             leftIcon={

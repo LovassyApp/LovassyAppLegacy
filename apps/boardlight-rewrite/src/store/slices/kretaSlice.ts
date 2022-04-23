@@ -1,25 +1,25 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-import { BlueboardKretaGrade } from "blueboard-client";
+import { BlueboardKretaGradeData } from "blueboard-client";
 
 export interface KretaState {
-    grades: BlueboardKretaGrade[];
+    gradeData: BlueboardKretaGradeData[];
 }
 
 const initialState: KretaState = {
-    grades: null,
+    gradeData: null,
 };
 
 export const kretaSlice = createSlice({
     name: "kreta",
     initialState,
     reducers: {
-        setGrades: (state: KretaState, action: PayloadAction<BlueboardKretaGrade[]>) => {
-            state.grades = action.payload;
+        setGradeData: (state: KretaState, action: PayloadAction<BlueboardKretaGradeData[]>) => {
+            state.gradeData = action.payload;
         },
     },
 });
 
-export const { setGrades } = kretaSlice.actions;
+export const { setGradeData } = kretaSlice.actions;
 
 export default kretaSlice.reducer;

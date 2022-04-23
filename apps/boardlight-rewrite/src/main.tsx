@@ -8,8 +8,8 @@ import { ModalsProvider } from "@mantine/modals";
 import { NotificationsProvider } from "@mantine/notifications";
 import { PersistGate } from "redux-persist/es/integration/react";
 import React from "react";
-import ReactDOM from "react-dom";
 import { Router } from "./routes/router";
+import { createRoot } from "react-dom/client";
 import { persistStore } from "redux-persist";
 import { setColorScheme } from "./store/slices/settingsSlice";
 import { useHotkeys } from "@mantine/hooks";
@@ -29,6 +29,7 @@ const [BlueboardProvider] = BlueboardClientInit(
 
 const ProviderStack = (): JSX.Element => {
     const colorScheme = useSelector((state: RootState) => state.settings.colorScheme);
+    const primaryColor = useSelector((state: RootState) => state.settings.primaryColor);
     const dispatch = useDispatch();
 
     const toggleColorScheme = (value?: ColorScheme): void => {
@@ -43,7 +44,7 @@ const ProviderStack = (): JSX.Element => {
         <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
             <BlueboardProvider token={token}>
                 <MantineProvider
-                    theme={{ colorScheme }}
+                    theme={{ colorScheme, primaryColor }}
                     withNormalizeCSS={true}
                     withGlobalStyles={true}>
                     <ModalsProvider>
@@ -57,7 +58,8 @@ const ProviderStack = (): JSX.Element => {
     );
 };
 
-ReactDOM.render(
+const root = createRoot(document.getElementById("root"));
+root.render(
     <React.StrictMode>
         <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
@@ -67,5 +69,4 @@ ReactDOM.render(
             </PersistGate>
         </Provider>
     </React.StrictMode>,
-    document.getElementById("root"),
 );

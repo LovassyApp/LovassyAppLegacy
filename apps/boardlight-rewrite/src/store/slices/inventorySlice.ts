@@ -3,11 +3,11 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { BlueboardInventoryItem } from "blueboard-client";
 
 export interface InventoryState {
-    value: BlueboardInventoryItem[];
+    items: BlueboardInventoryItem[];
 }
 
 const initialState: InventoryState = {
-    value: null,
+    items: null,
 };
 
 export const inventorySlice = createSlice({
@@ -15,7 +15,7 @@ export const inventorySlice = createSlice({
     initialState,
     reducers: {
         setInventory: (state: InventoryState, action: PayloadAction<BlueboardInventoryItem[]>) => {
-            state.value = action.payload;
+            state.items = action.payload;
         },
     },
 });

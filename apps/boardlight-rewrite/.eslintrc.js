@@ -32,7 +32,6 @@ module.exports = {
         "prefer-spread": "warn",
         "arrow-spacing": "warn",
         "no-confusing-arrow": "warn",
-        "no-useless-constructor": "error",
         "no-dupe-class-members": "error",
         "no-duplicate-imports": "warn",
         "dot-notation": "warn",

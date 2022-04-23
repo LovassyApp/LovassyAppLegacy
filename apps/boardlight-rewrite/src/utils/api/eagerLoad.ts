@@ -23,7 +23,7 @@ export const eagerLoad = async (client: BlueboardClient, token?: string): Promis
         });
 
         dispatch({
-            type: "kreta/setGrades",
+            type: "kreta/setGradeData",
             payload: res.grades ?? [],
         });
 
