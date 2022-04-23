@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 
-import { AuthorizedWrapper } from "../components/authorizedWrapper";
+import { AuthorizedWrapper } from "../components/util/authorizedWrapper";
 import { Four0Four } from "../pages/error/four0Four";
 import { Home } from "../pages/protected/home";
 import { Kreta } from "../pages/protected/kreta";

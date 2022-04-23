@@ -1,6 +1,6 @@
 import { AppBootstrapProvider } from "../../boot/appBootstrapProvider";
-import { AuthorizedWrapper } from "../../components/authorizedWrapper";
-import { CommandPalette } from "../../components/commandPalette";
+import { AuthorizedWrapper } from "../../components/util/authorizedWrapper";
+import { CommandPalette } from "../../components/content/commandPalette";
 import { NormalLayout } from "./normalLayout";
 import { Outlet } from "react-router-dom";
 import { ProtectedLayout } from "./protectedLayout";

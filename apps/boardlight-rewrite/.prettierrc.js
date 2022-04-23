@@ -5,5 +5,5 @@ module.exports = {
     semi: true,
     quoteProps: "as-needed",
     bracketSpacing: true,
-    tabWidth: 4, // We use eslint to handle this
+    tabWidth: 4,
 };

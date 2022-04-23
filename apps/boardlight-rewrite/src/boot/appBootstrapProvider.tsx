@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
-import { FullScreenLoading } from "../components/fullScreenLoading";
+import { FullScreenLoading } from "../components/content/fullScreenLoading";
 import { RootState } from "../store/store";
 import { eagerLoad } from "../utils/api/eagerLoad";
 import { setControl } from "../store/slices/controlSlice";

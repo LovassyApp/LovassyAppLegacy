@@ -8,7 +8,7 @@ import {
     useMantineColorScheme,
 } from "@mantine/core";
 
-import { RootState } from "../store/store";
+import { RootState } from "../../store/store";
 import { useSelector } from "react-redux";
 
 const useStyles = createStyles((theme, colorScheme: ColorScheme) => ({
