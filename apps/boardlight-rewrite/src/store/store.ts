@@ -9,19 +9,25 @@ import kretaReducer from "./slices/kretaSlice";
 import loadingReducer from "./slices/loadingSlice";
 import { persistReducer } from "redux-persist";
 import requestsReducer from "./slices/requestsSlice";
+import sessionStorage from "redux-persist/es/storage/session";
 import settingsReducer from "./slices/settingsSlice";
 import storage from "redux-persist/lib/storage";
 import storeReducer from "./slices/storeSlice";
 import tokenReducer from "./slices/tokenSlice";
 
-const persistConfig = {
-    key: "boardlight_rewrite",
+const localPersistConfig = {
+    key: "boardlight_rewrite_local",
     storage,
     blacklist: ["control", "loading", "token", "requests", "store", "coins", "kreta", "inventory"],
 };
 
+const sessionPersistConfig = {
+    key: "boardlight_rewrite_session",
+    storage: sessionStorage,
+};
+
 const rootReducer = combineReducers({
-    token: tokenReducer,
+    token: persistReducer(sessionPersistConfig, tokenReducer),
     settings: settingsReducer,
     control: controlReducer,
     loading: loadingReducer,
@@ -32,7 +38,7 @@ const rootReducer = combineReducers({
     coins: coinsReducer,
 });
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+const persistedReducer = persistReducer(localPersistConfig, rootReducer);
 
 export const store = createStore(
     persistedReducer,

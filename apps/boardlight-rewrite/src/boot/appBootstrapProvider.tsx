@@ -21,6 +21,7 @@ export const AppBootstrapProvider = ({ children }: { children: React.ReactNode }
     const notifications = useNotifications();
 
     const reduxLoading = useSelector((state: RootState) => state.loading.value);
+    const reduxToken = useSelector((state: RootState) => state.token.value);
 
     const [loaded, setLoaded] = useState(false);
 
@@ -28,17 +29,28 @@ export const AppBootstrapProvider = ({ children }: { children: React.ReactNode }
         (async () => {
             loading(true, "");
 
-            try {
-                const res = await client.auth.loginWithCookie();
+            let token: string;
+
+            if (reduxToken) {
+                token = reduxToken;
+            } else {
+                try {
+                    token = await (await client.auth.loginWithCookie()).token;
+                } catch (e) {
+                    console.warn(e);
+                }
+            }
+
+            if (token) {
                 try {
                     loading(true, "Control lekérése...");
-                    const control = await client.account.control(res.token);
+                    const control = await client.account.control(token);
 
                     dispatch(setControl(control));
 
                     try {
-                        await eagerLoad(client, res.token);
-                        dispatch(setToken(res.token));
+                        await eagerLoad(client, token);
+                        dispatch(setToken(token));
                         renew();
                     } catch (err) {
                         notifications.showNotification({
@@ -56,8 +68,6 @@ export const AppBootstrapProvider = ({ children }: { children: React.ReactNode }
                         autoClose: 5000,
                     });
                 }
-            } catch (err) {
-                console.log(err);
             }
 
             loading(false, "");
