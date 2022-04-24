@@ -1,5 +1,5 @@
 import { Badge, Progress, Stack, Text, createStyles } from "@mantine/core";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 
 import { BlueboardLoloReason } from "blueboard-client";
 import { RootState } from "../../store/store";
@@ -14,7 +14,7 @@ class CoinOrigins {
     ) {}
 }
 
-const useStyles = createStyles((theme) => ({
+const useStyles = createStyles(() => ({
     progressBadgeDot: {
         borderWidth: 0,
     },
