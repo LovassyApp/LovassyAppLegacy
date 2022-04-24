@@ -109,9 +109,7 @@ export const Login = (): JSX.Element => {
                         autoClose: 5000,
                     });
                 }
-                setTimeout(() => {
-                    loading(false, "");
-                }, 200);
+                loading(false, "");
             } catch (err) {
                 loading(false, "");
                 notifications.showNotification({
