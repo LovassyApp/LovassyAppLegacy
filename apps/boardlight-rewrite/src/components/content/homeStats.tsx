@@ -1,8 +1,20 @@
-import { Badge, Progress, Stack, Text, createStyles } from "@mantine/core";
-import { useMemo } from "react";
+import {
+    Badge,
+    Box,
+    Center,
+    Group,
+    Progress,
+    RingProgress,
+    Stack,
+    Text,
+    Title,
+    createStyles,
+    useMantineTheme,
+} from "@mantine/core";
 
 import { BlueboardLoloReason } from "blueboard-client";
 import { RootState } from "../../store/store";
+import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { useUser } from "../../hooks/controlHooks";
 
@@ -22,8 +34,10 @@ const useStyles = createStyles(() => ({
 
 const HomeStats = (): JSX.Element => {
     const { classes } = useStyles();
+    const theme = useMantineTheme();
 
     const coins = useSelector((state: RootState) => state.coins.value);
+    const gradeData = useSelector((state: RootState) => state.kreta.gradeData);
     const user = useUser();
 
     const coinOrigins = useMemo(() => {
@@ -48,9 +62,22 @@ const HomeStats = (): JSX.Element => {
         return new CoinOrigins(fiveCount, fourCount, requestCount);
     }, [coins]);
 
+    const avg = useMemo(() => {
+        let sum = 0;
+        let num = 0;
+        for (const subject of gradeData) {
+            for (const grade of subject.grades) {
+                num++;
+                sum += grade.grade;
+            }
+        }
+
+        return sum / num;
+    }, [gradeData]);
+
     return (
         <>
-            <Text size="md">Statisztikák</Text>
+            <Title order={3}>Statisztikák</Title>
 
             <Progress
                 size="xl"
@@ -113,6 +140,21 @@ const HomeStats = (): JSX.Element => {
                     Érmék kérvényekből ({coinOrigins.fromRequest})
                 </Badge>
             </Stack>
+            <Center>
+                <Group>
+                    <Title order={4}>Tanulmányi átlag</Title>
+
+                    <RingProgress
+                        sections={[{ value: (avg / 5) * 100, color: theme.primaryColor }]}
+                        roundCaps={true}
+                        label={
+                            <Text align="center" weight="bold" color={theme.primaryColor}>
+                                {Math.round(avg * 100) / 100}
+                            </Text>
+                        }
+                    />
+                </Group>
+            </Center>
         </>
     );
 };
