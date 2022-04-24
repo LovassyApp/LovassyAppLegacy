@@ -1,10 +1,18 @@
 import { Badge, Progress, Stack, Text, createStyles } from "@mantine/core";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { BlueboardLoloReason } from "blueboard-client";
 import { RootState } from "../../store/store";
 import { useSelector } from "react-redux";
 import { useUser } from "../../hooks/controlHooks";
+
+class CoinOrigins {
+    public constructor(
+        public fromFive: number,
+        public fromFour: number,
+        public fromRequest: number,
+    ) {}
+}
 
 const useStyles = createStyles((theme) => ({
     progressBadgeDot: {
@@ -18,11 +26,7 @@ const HomeStats = (): JSX.Element => {
     const coins = useSelector((state: RootState) => state.coins.value);
     const user = useUser();
 
-    const [fromFive, setFromFive] = useState(0);
-    const [fromFour, setFromFour] = useState(0);
-    const [fromRequest, setFromRequest] = useState(0);
-
-    useEffect(() => {
+    const coinOrigins = useMemo(() => {
         let fiveCount = 0;
         let fourCount = 0;
         let requestCount = 0;
@@ -41,9 +45,7 @@ const HomeStats = (): JSX.Element => {
             }
         }
 
-        setFromFive(fiveCount);
-        setFromFour(fourCount);
-        setFromRequest(requestCount);
+        return new CoinOrigins(fiveCount, fourCount, requestCount);
     }, [coins]);
 
     return (
@@ -81,18 +83,18 @@ const HomeStats = (): JSX.Element => {
                 size="xl"
                 sections={[
                     {
-                        value: Math.round((fromFive / coins.length) * 100),
-                        label: `${fromFive}`,
+                        value: Math.round((coinOrigins.fromFive / coins.length) * 100),
+                        label: `${coinOrigins.fromFive}`,
                         color: "pink",
                     },
                     {
-                        value: Math.round((fromFour / coins.length) * 100),
-                        label: `${fromFour}`,
+                        value: Math.round((coinOrigins.fromFour / coins.length) * 100),
+                        label: `${coinOrigins.fromFour}`,
                         color: "grape",
                     },
                     {
-                        value: Math.round((fromRequest / coins.length) * 100),
-                        label: `${fromRequest}`,
+                        value: Math.round((coinOrigins.fromRequest / coins.length) * 100),
+                        label: `${coinOrigins.fromRequest}`,
                         color: "violet",
                     },
                 ]}
@@ -102,13 +104,13 @@ const HomeStats = (): JSX.Element => {
 
             <Stack align="flex-start" spacing={0}>
                 <Badge variant="dot" color="pink" classNames={{ dot: classes.progressBadgeDot }}>
-                    Érmék ötösökből ({fromFive})
+                    Érmék ötösökből ({coinOrigins.fromFive})
                 </Badge>
                 <Badge variant="dot" color="grape" classNames={{ dot: classes.progressBadgeDot }}>
-                    Érmék négyesekből ({fromFour})
+                    Érmék négyesekből ({coinOrigins.fromFour})
                 </Badge>
                 <Badge variant="dot" color="violet" classNames={{ dot: classes.progressBadgeDot }}>
-                    Érmék kérvényekből ({fromRequest})
+                    Érmék kérvényekből ({coinOrigins.fromRequest})
                 </Badge>
             </Stack>
         </>
