@@ -7,11 +7,11 @@ import { ViewMode } from "../homeTimeline";
 import dayjs from "dayjs";
 import { useInputState } from "@mantine/hooks";
 
-const useStyles = createStyles(() => ({
+const useStyles = createStyles((theme) => ({
     timelineCenter: {
         flex: "1 1 auto",
-        paddingTop: 20,
-        paddingBottom: 20,
+        paddingTop: theme.spacing.md,
+        paddingBottom: theme.spacing.md,
     },
     timelinePickerContainer: {
         flex: "0 1 auto",
@@ -21,7 +21,7 @@ const useStyles = createStyles(() => ({
     },
     timelineScrollview: {
         flex: "1 1 auto",
-        margin: 10,
+        margin: theme.spacing.sm,
     },
     rangePickerDays: {
         textTransform: "lowercase",

@@ -35,7 +35,8 @@ export const AppBootstrapProvider = ({ children }: { children: React.ReactNode }
                 token = reduxToken;
             } else {
                 try {
-                    token = await (await client.auth.loginWithCookie()).token;
+                    // eslint-disable-next-line prefer-destructuring
+                    token = (await client.auth.loginWithCookie()).token;
                 } catch (e) {
                     console.warn(e);
                 }
@@ -73,6 +74,7 @@ export const AppBootstrapProvider = ({ children }: { children: React.ReactNode }
             loading(false, "");
             setLoaded(true);
         })();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     if (!loaded) {

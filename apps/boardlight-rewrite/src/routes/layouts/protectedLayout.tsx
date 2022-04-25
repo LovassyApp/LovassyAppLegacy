@@ -325,26 +325,6 @@ export const ProtectedLayout = ({ children }: { children: React.ReactNode }): JS
                             className={classes.drawerItem}>
                             Kijelentkezés
                         </Button>
-                        {/* <Menu.Item
-                            icon={<Paint />}
-                            onClick={() => toggleColorScheme()}
-                            className={classes.drawerItem}>
-                            Téma váltás
-                        </Menu.Item>
-                        <Menu.Item
-                            icon={<InfoCircle />}
-                            color="blue"
-                            onClick={() => openAccountInformation()}
-                            className={classes.drawerItem}>
-                            Fiók információk
-                        </Menu.Item>
-                        <Menu.Item
-                            icon={<Logout />}
-                            color="red"
-                            onClick={() => logout()}
-                            className={classes.drawerItem}>
-                            Kijelentkezés
-                        </Menu.Item> */}
                     </Box>
                 </Center>
             </Drawer>
