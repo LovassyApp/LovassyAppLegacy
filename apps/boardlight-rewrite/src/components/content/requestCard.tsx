@@ -5,7 +5,7 @@ import { useModals } from "@mantine/modals";
 
 const useStyles = createStyles((theme) => ({
     container: {
-        backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[1],
+        backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
         marginTop: theme.spacing.sm,
         marginBottom: theme.spacing.sm,
         borderRadius: theme.radius.md,
