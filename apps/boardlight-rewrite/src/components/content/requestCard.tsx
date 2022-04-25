@@ -27,16 +27,24 @@ export const RequestCard = ({ request }: { request: BlueboardLoloRequest }): JSX
     const modals = useModals();
 
     const openDetails = (): void => {
-        const id = modals.openModal({
+        modals.openModal({
             title: "Részletek",
             children: (
                 <>
                     <Text>Cím: {request.title}</Text>
                     <Text>Törzsszöveg: {request.body}</Text>
                     <Text>
-                        Állapot: {request.acceptedAt && "Elfogadva"}
-                        {request.deniedAt && "Elutasítva"}
-                        {!request.acceptedAt && !request.deniedAt && "Függőben"}
+                        Állapot:{" "}
+                        <Text
+                            color={
+                                request.acceptedAt ? "green" : request.deniedAt ? "red" : "yellow"
+                            }
+                            inherit={true}
+                            component="span">
+                            {request.acceptedAt && "Elfogadva"}
+                            {request.deniedAt && "Elutasítva"}
+                            {!request.acceptedAt && !request.deniedAt && "Függőben"}
+                        </Text>
                     </Text>
                 </>
             ),

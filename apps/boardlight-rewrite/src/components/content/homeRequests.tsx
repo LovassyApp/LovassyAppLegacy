@@ -1,11 +1,9 @@
 import {
     ActionIcon,
-    Anchor,
     Button,
     Group,
     ScrollArea,
     Space,
-    Text,
     TextInput,
     Textarea,
     Title,
@@ -94,7 +92,7 @@ const HomeRequests = (): JSX.Element => {
     };
 
     const openNewModal = (): void => {
-        const id = modals.openModal({
+        modals.openModal({
             title: "Új kérvény létrehozása",
             children: <NewModalContent notifications={notifications} client={client} />,
         });
