@@ -124,17 +124,17 @@ services:
     container_name: blueboard-soketi
     hostname: blueboard-soketi
     environment:
-      DEBUG: '0'
-      METRICS_SERVER_PORT: '9601'
-      DB_MYSQL_HOST: '172.128.3.4'
-      DB_MYSQL_PORT: '3306'
-      DB_MYSQL_USERNAME: 'lovassyapp'
-      DB_MYSQL_PASSWORD: 'lOvAsSyApP!2021'
-      DB_MYSQL_DATABASE: 'lovassyapp'
-      APP_MANAGER_DRIVER: 'mysql'
-      APP_MANAGER_MYSQL_TABLE: 'soketi_apps'
-      APP_MANAGER_MYSQL_VERSION: '10'
-      APP_MANAGER_MYSQL_USE_V2: 'false'
+      SOKETI_DEBUG: '0'
+      SOKETI_METRICS_SERVER_PORT: '9601'
+      SOKETI_DB_MYSQL_HOST: '172.128.3.4'
+      SOKETI_DB_MYSQL_PORT: '3306'
+      SOKETI_DB_MYSQL_USERNAME: 'lovassyapp'
+      SOKETI_DB_MYSQL_PASSWORD: 'lOvAsSyApP!2021'
+      SOKETI_DB_MYSQL_DATABASE: 'lovassyapp'
+      SOKETI_APP_MANAGER_DRIVER: 'mysql'
+      SOKETI_APP_MANAGER_MYSQL_TABLE: 'soketi_apps'
+      SOKETI_APP_MANAGER_MYSQL_VERSION: '10'
+      SOKETI_APP_MANAGER_MYSQL_USE_V2: 'false'
     depends_on:
       - mysql
     ports:

@@ -49,10 +49,11 @@ class RetiLimit
      */
     private function checkExpiry()
     {
-        $lastTime = $this->user->kreta_update_timestamp;
+        /* $lastTime = $this->user->kreta_update_timestamp;
         $currentTime = Carbon::now();
         $added = $lastTime->addUnit('hour', $this->hourCount);
-        return $currentTime->gte($added);
+        return $currentTime->gte($added); */
+        return false;
     }
 
     /**

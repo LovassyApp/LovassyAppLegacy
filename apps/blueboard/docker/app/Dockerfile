@@ -46,11 +46,12 @@ RUN docker-php-ext-configure gd && \
     docker-php-ext-install -j8 sysvsem sysvshm
 
 # PECL extensions
-RUN pecl install xdebug && \
-    pecl install redis && \
+RUN pecl install redis && \
+    # pecl install xdebug && \
     pecl install imagick && \
     pecl install swoole && \
-    docker-php-ext-enable xdebug swoole imagick redis
+    # docker-php-ext-enable xdebug swoole imagick redis
+    docker-php-ext-enable swoole imagick redis
 
 # Composer
 RUN echo "export COMPOSER_ALLOW_SUPERUSER=1" > /etc/profile.d/composer.sh && \

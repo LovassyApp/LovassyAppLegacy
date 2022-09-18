@@ -14,7 +14,7 @@ const ProductCard = ({
     item?: BlueboardInventoryItem;
 }): JSX.Element => {
     return (
-        <Card width="100%" hoverable={true} color="#0f1114" cover={true}>
+        <Card width="100%" hoverable={true} shadow={true} color="#0f1114" cover={true}>
             <Card.Header
                 style={{
                     position: 'absolute',
