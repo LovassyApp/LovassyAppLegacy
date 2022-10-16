@@ -6,6 +6,7 @@ WORKDIR /var/www/api/
 
 COPY crontabs /var/spool/cron/crontabs/
 
+RUN apt-get update
 RUN apt-get install -y cron
 RUN touch /var/log/cron.log
 
