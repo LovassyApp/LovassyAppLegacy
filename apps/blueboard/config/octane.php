@@ -1,5 +1,6 @@
 <?php
 
+use App\Helpers\LibCrypto\Services\EncryptionManager;
 use Laravel\Octane\Contracts\OperationTerminated;
 use Laravel\Octane\Events\RequestHandled;
 use Laravel\Octane\Events\RequestReceived;
@@ -13,7 +14,7 @@ use Laravel\Octane\Events\WorkerStarting;
 use Laravel\Octane\Events\WorkerStopping;
 use Laravel\Octane\Listeners\CollectGarbage;
 use Laravel\Octane\Listeners\DisconnectFromDatabases;
-use App\Helpers\LibSession\SessionManager;
+use App\Helpers\LibSession\Services\SessionManager;
 use App\Helpers\PermissionManager\PermissionHelper;
 use Laravel\Octane\Listeners\EnsureUploadedFilesAreValid;
 use Laravel\Octane\Listeners\EnsureUploadedFilesCanBeMoved;
@@ -123,7 +124,7 @@ return [
 
     'warm' => [...Octane::defaultServicesToWarm()],
 
-    'flush' => [SessionManager::class, PermissionHelper::class],
+    'flush' => [SessionManager::class, EncryptionManager::class, PermissionHelper::class],
 
     /*
     |--------------------------------------------------------------------------

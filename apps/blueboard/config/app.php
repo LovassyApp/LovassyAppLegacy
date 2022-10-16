@@ -24,7 +24,7 @@ return [
     |
     */
 
-    'supermails' => (array)explode(',', env('SUPER_ADMIN_EMAILS', 'ex.ex@ex.com')),
+    'supermails' => (array) explode(',', env('SUPER_ADMIN_EMAILS', 'ex.ex@ex.com')),
 
     /*
     |--------------------------------------------------------------------------
@@ -50,7 +50,7 @@ return [
     |
     */
 
-    'debug' => (bool)env('APP_DEBUG', false),
+    'debug' => (bool) env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -186,11 +186,13 @@ return [
         /*
          * Package Service Providers...
          */
+        Ejarnutowski\LaravelApiKey\Providers\ApiKeyServiceProvider::class,
 
         /*
          * Application Service Providers...
          */
-        App\Providers\SessionServiceProvider::class,
+        App\Helpers\LibSession\Providers\SessionServiceProvider::class,
+        App\Helpers\LibCrypto\Providers\EncryptionServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         App\Providers\BroadcastServiceProvider::class,

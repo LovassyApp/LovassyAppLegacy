@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\AuthErrorException;
+use App\Helpers\LibCrypto\Services\EncryptionManager;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Helpers\LibSession\Crypter;
-use App\Helpers\LibSession\SessionManager;
 use App\Helpers\LibKreta\KretaTokenHelper;
 use App\Helpers\LibSession\AuthCookie;
+use App\Helpers\LibSession\Services\SessionManager;
 use Validator;
 
 class AuthController extends Controller
@@ -34,7 +35,7 @@ class AuthController extends Controller
     {
         if (Auth::attempt($data)) {
             $token = SessionManager::start();
-            SessionManager::setKey($data['password']);
+            EncryptionManager::use()->setMasterKey($data['password']);
 
             if ($remember) {
                 $authCookie = AuthCookie::make($data['email'], $data['password']);
@@ -87,8 +88,8 @@ class AuthController extends Controller
 
         // kíjdzsen hax klikbéjt jutúb tutoriál ikszdé
         $password = $data['password'];
-        $salt = Crypter::generateSalt();
-        $key = Crypter::generateKey($password, $salt);
+        $salt = EncryptionManager::generateSalt();
+        $key = EncryptionManager::generateBasicKey($password, $salt);
 
         // wut? hes?
         $data['password'] = Hash::make($password);
@@ -101,7 +102,7 @@ class AuthController extends Controller
 
         $user->groups()->sync([1]);
 
-        Crypter::saveSalt($salt, $user->id);
+        EncryptionManager::saveSalt($salt, $user->id);
 
         //Crypter::saveSalt($salt, $user->id);
 

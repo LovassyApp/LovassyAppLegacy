@@ -5,8 +5,8 @@ namespace App\Helpers\LibLolo;
 use App\Events\LoloAmountUpdated;
 use App\Exceptions\InsufficientFundsException;
 use App\Exceptions\LibKreta\KretaCredentialException;
+use App\Helpers\LibKreta\KretaEncrypter;
 use App\Helpers\LibKreta\Evaluations;
-use App\Helpers\LibSession\SessionManager;
 use App\Models\Grade;
 use App\Models\Lolo;
 use App\Models\User;
@@ -72,7 +72,7 @@ class LoloHelper
     {
         $userID = Auth::user()->hash;
 
-        $credentials = SessionManager::getKretaEncrypter()->getCreds();
+        $credentials = KretaEncrypter::use()->getCreds();
         $grades = new Evaluations($credentials->token);
         $allGrades = $grades->parse(['user_id' => $userID]);
 

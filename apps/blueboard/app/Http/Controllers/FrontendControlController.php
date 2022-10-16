@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\LibSession\Services\SessionManager;
 use Illuminate\Http\Request;
-use App\Helpers\LibSession\SessionManager;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
@@ -18,7 +18,7 @@ class FrontendControlController extends Controller
         $user = User::where('id', Auth::user()->id)
             ->setEagerLoads([])
             ->first();
-        $sessionData = SessionManager::getSession()->all();
+        $sessionData = SessionManager::session()->all();
         //$crypt = SessionManager::getKretaEncrypter();
 
         //dd($locale = app()->getLocale());

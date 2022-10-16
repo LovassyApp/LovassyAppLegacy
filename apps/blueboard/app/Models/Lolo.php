@@ -16,6 +16,8 @@ class Lolo extends Model
     use HasFactory;
     use HasHashedID;
 
+    private string $prefix = 'lolo';
+
     protected $guarded = [];
 
     protected $appends = ['hash'];

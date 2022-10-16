@@ -6,7 +6,7 @@ use App\Helpers\LibKreta\Grades\KretaGradeCategory;
 use App\Helpers\LibKreta\RetiLimit;
 use Illuminate\Http\Request;
 use App\Helpers\LibLolo\LoloHelper;
-use App\Helpers\LibSession\SessionManager;
+use App\Helpers\LibSession\Services\SessionManager;
 use App\Helpers\ResponseMaker;
 
 class GradeController extends Controller
@@ -24,7 +24,6 @@ class GradeController extends Controller
                 LoloHelper::updateGrades();
             }
         });
-
 
         $allGrades = SessionManager::user()
             ->grades()

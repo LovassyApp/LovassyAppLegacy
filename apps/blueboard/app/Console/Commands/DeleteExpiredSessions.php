@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Helpers\LibSession\Helpers\RedisManager;
 use Illuminate\Console\Command;
-use App\Helpers\LibSession\RedisManager;
 use App\Models\PersonalAccessToken;
 
 class DeleteExpiredSessions extends Command

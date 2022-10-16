@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use App\Helpers\LibSession\SessionManager;
+use App\Helpers\LibCrypto\Services\EncryptionManager;
+use App\Helpers\LibSession\Services\SessionManager;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -98,7 +99,7 @@ class User extends Authenticatable
     public function getHashAttribute()
     {
         if ($this?->id === SessionManager::user()?->id) {
-            return SessionManager::getUserHash();
+            return EncryptionManager::use()->hash((string) $this?->id, 'user');
         } else {
             return '';
         }

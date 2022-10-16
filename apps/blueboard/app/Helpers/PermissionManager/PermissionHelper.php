@@ -3,7 +3,7 @@
 namespace App\Helpers\PermissionManager;
 
 use App\Exceptions\AuthErrorException;
-use App\Helpers\LibSession\SessionManager;
+use App\Helpers\LibSession\Services\SessionManager;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Collection;

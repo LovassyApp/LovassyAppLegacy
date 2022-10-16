@@ -7,7 +7,7 @@ use App\Helpers\LibKreta\Grades\KretaGradeCategory;
 use App\Helpers\LibKreta\RetiLimit;
 use App\Helpers\LibLolo\LoloGenerator;
 use App\Helpers\LibLolo\LoloHelper;
-use App\Helpers\LibSession\SessionManager;
+use App\Helpers\LibSession\Services\SessionManager;
 use App\Helpers\PermissionManager\PermissionHelper;
 use App\Helpers\ResponseMaker;
 use App\Models\Grade;
@@ -91,7 +91,7 @@ class EagerLoadController extends Controller
         $helper = app(PermissionHelper::class);
 
         if (($helper->authorize('General.grades', true) || $helper->authorize('General.lolo', true)) && $refresh) {
-            RetiLimit::useRateLimit(function() use ($helper, $refresh) {
+            RetiLimit::useRateLimit(function () use ($helper, $refresh) {
                 LoloHelper::updateGrades();
             });
         }
@@ -101,10 +101,10 @@ class EagerLoadController extends Controller
         $id = $user->id;
 
         $ret = Octane::concurrently([
-            fn () => self::getGrades($helper, $hash),
-            fn () => self::getStore($helper),
-            fn () => self::getInventory($helper, $id),
-            fn () => self::getRequests($helper, $id),
+            fn() => self::getGrades($helper, $hash),
+            fn() => self::getStore($helper),
+            fn() => self::getInventory($helper, $id),
+            fn() => self::getRequests($helper, $id),
         ]);
 
         [$grades, $store, $inventory, $requests] = $ret;

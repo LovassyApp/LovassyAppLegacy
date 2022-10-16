@@ -7,7 +7,7 @@ use App\Exceptions\APIException;
 use App\Exceptions\InvalidCodeException;
 use App\Exceptions\ItemAlreadyUsedException;
 use App\Exceptions\NotYourItemException;
-use App\Helpers\LibSession\SessionManager;
+use App\Helpers\LibSession\Services\SessionManager;
 use App\Helpers\ResponseMaker;
 use App\Jobs\ItemUseNotifier;
 use App\Models\QRCode;

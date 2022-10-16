@@ -3,6 +3,7 @@
 namespace App\Helpers\LibKreta;
 
 use App\Exceptions\LibKreta\KretaCredentialException;
+use App\Helpers\LibCrypto\Services\EncryptionManager;
 use App\Models\KretaCred;
 use App\Models\User;
 use Illuminate\Encryption\Encrypter;
@@ -100,5 +101,11 @@ class KretaEncrypter
             : $cred->refreshToken;
 
         $cred->save();
+    }
+
+    public static function use(): self
+    {
+        $encryption_manager = EncryptionManager::use();
+        return new self($encryption_manager->getKey());
     }
 }

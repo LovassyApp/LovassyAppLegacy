@@ -6,7 +6,6 @@ use App\Exceptions\LibKreta\KretaCredentialException;
 use App\Exceptions\LibKreta\KretaGeneralException;
 use App\Exceptions\LibKreta\KretaTokenException;
 use App\Exceptions\LibKreta\NotAStudentException;
-use App\Helpers\LibSession\SessionManager;
 use App\Models\User;
 use Exception;
 
@@ -30,7 +29,7 @@ class KretaTokenHelper
      */
     public static function renewToken()
     {
-        $crypt = SessionManager::getKretaEncrypter();
+        $crypt = KretaEncrypter::use();
         $creds = $crypt->getCreds();
 
         $auth = new Auth(config('kreta.institute_code'), $creds->username, $creds->password);
@@ -53,7 +52,7 @@ class KretaTokenHelper
      */
     public static function getCurrentToken()
     {
-        $crypt = SessionManager::getKretaEncrypter();
+        $crypt = KretaEncrypter::use();
         $creds = $crypt->getCreds();
 
         return $creds->token;
@@ -67,12 +66,8 @@ class KretaTokenHelper
      * @throws NotAStudentException
      * @throws KretaGeneralException
      */
-    public static function registerUserKreta(
-        User $user,
-        string $username,
-        string $password,
-        string $encryptionKey,
-    ) {
+    public static function registerUserKreta(User $user, string $username, string $password, string $encryptionKey)
+    {
         $auth = Auth::verifyCredentials($username, $password);
         $tokenAttributes = $auth->decoded->attributes;
         //dd($auth);

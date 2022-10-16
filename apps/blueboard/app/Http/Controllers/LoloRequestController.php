@@ -7,7 +7,7 @@ use App\Exceptions\APIException;
 use App\Exceptions\RequestOverruleException;
 use App\Helpers\LibLolo\LoloGenerator;
 use App\Helpers\LibLolo\LoloHelper;
-use App\Helpers\LibSession\SessionManager;
+use App\Helpers\LibSession\Services\SessionManager;
 use App\Helpers\ResponseMaker;
 use App\Models\LoloRequest;
 use Carbon\Carbon;

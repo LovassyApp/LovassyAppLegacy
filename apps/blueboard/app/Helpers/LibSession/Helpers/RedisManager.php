@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Helpers\LibSession;
+namespace App\Helpers\LibSession\Helpers;
 
-use App\Exceptions\LibSession\SessionNotFoundException;
+use App\Helpers\LibSession\Errors\SessionNotFoundException;
+use App\Helpers\LibSession\Models\Session;
 use Illuminate\Support\Facades\Redis;
 
 /**
@@ -21,7 +22,7 @@ class RedisManager
      * Ez így miért
      *  - Én a jövőből
      */
-    private string $prefix = 'Session-';
+    private static string $prefix = 'Session-';
 
     /**
      * @param string $hash
@@ -36,7 +37,7 @@ class RedisManager
      *
      * @param Session $session
      */
-    public function write(Session $session)
+    public function write(Session $session): void
     {
         $data = $session->toJson();
         $id = $this->getSessionIdentifier();
@@ -45,11 +46,22 @@ class RedisManager
     }
 
     /**
+     * Redis bejegyzést hoz létre egy adott objektumból
+     *
+     * @param object $data
+     */
+    public function writeRaw(object $data): void
+    {
+        $id = $this->getSessionIdentifier();
+        Redis::set($id, json_encode($data));
+    }
+
+    /**
      * @return string
      */
     private function getSessionIdentifier(): string
     {
-        return $this->prefix . $this->hash;
+        return self::$prefix . $this->hash;
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace App\Helpers\LibKreta;
 
-use App\Helpers\LibSession\SessionManager;
+use App\Helpers\LibSession\Services\SessionManager;
 use App\Models\User;
 use Carbon\Carbon;
 
