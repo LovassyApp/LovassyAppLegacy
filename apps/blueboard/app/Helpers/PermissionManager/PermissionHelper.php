@@ -190,7 +190,7 @@ class PermissionHelper
         return $this->allPermissions;
     }
 
-    private function cacheUser()
+    public function cacheUser()
     {
         if (!$this->userIsCached) {
             $this->user = SessionManager::user();

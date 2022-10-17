@@ -89,6 +89,7 @@ class EagerLoadController extends Controller
     {
         $refresh = (bool) $request->query('refresh', false);
         $helper = app(PermissionHelper::class);
+        $helper->cacheUser();
 
         /*  if (($helper->authorize('General.grades', true) || $helper->authorize('General.lolo', true)) && $refresh) {
             RetiLimit::useRateLimit(function () use ($helper, $refresh) {
