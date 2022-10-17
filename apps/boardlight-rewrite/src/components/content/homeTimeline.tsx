@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
     BoxModel2,
     Businessplan,
@@ -32,7 +33,7 @@ class GradeReceive implements DatedEvent {
         public readonly grade: number,
         public readonly teacher: string,
         public readonly weight: number,
-        public readonly id: number,
+        public readonly id: number
     ) {}
 }
 
@@ -43,7 +44,7 @@ class LoloReceive implements DatedEvent {
         public readonly date: Date,
         public readonly reasonText: string,
         public readonly reasonBody: string,
-        public readonly id: number,
+        public readonly id: number
     ) {}
 }
 
@@ -53,7 +54,7 @@ class ItemBuy implements DatedEvent {
     public constructor(
         public readonly date: Date,
         public readonly name: string,
-        public readonly id: number,
+        public readonly id: number
     ) {}
 }
 
@@ -63,7 +64,7 @@ class ItemUse implements DatedEvent {
     public constructor(
         public readonly date: Date,
         public readonly name: string,
-        public readonly id: number,
+        public readonly id: number
     ) {}
 }
 
@@ -123,7 +124,11 @@ const HomeTimeline = ({
                 <Timeline.Item bullet={<Microscope size={18} />} title="Jegyek">
                     <Text color="dimmed" size="sm">
                         A kijelölt időszakban{" "}
-                        <Text color={theme.primaryColor} inherit={true} component="span">
+                        <Text
+                            color={theme.primaryColor}
+                            inherit={true}
+                            component="span"
+                        >
                             {filteredGrades.length}
                         </Text>{" "}
                         új jegyet kaptál
@@ -133,10 +138,15 @@ const HomeTimeline = ({
                 <Timeline.Item
                     bullet={<Businessplan size={18} />}
                     lineVariant="dashed"
-                    title="Loló">
+                    title="Loló"
+                >
                     <Text color="dimmed" size="sm">
                         A kijelölt időszakban{" "}
-                        <Text color={theme.primaryColor} inherit={true} component="span">
+                        <Text
+                            color={theme.primaryColor}
+                            inherit={true}
+                            component="span"
+                        >
                             {filteredCoins.length}
                         </Text>{" "}
                         új loló érmét kaptál
@@ -146,17 +156,28 @@ const HomeTimeline = ({
                 <Timeline.Item title="Tárgyak" bullet={<BoxModel2 size={18} />}>
                     <Text color="dimmed" size="sm">
                         A kijelölt időszakban{" "}
-                        <Text color={theme.primaryColor} inherit={true} component="span">
+                        <Text
+                            color={theme.primaryColor}
+                            inherit={true}
+                            component="span"
+                        >
                             {filteredItemsBought.length}
                         </Text>{" "}
                         tárgyat vásároltál
                     </Text>
                 </Timeline.Item>
 
-                <Timeline.Item title="Aktiválások" bullet={<CircleCheck size={18} />}>
+                <Timeline.Item
+                    title="Aktiválások"
+                    bullet={<CircleCheck size={18} />}
+                >
                     <Text color="dimmed" size="sm">
                         A kijelölt időszakban{" "}
-                        <Text color={theme.primaryColor} inherit={true} component="span">
+                        <Text
+                            color={theme.primaryColor}
+                            inherit={true}
+                            component="span"
+                        >
                             {filteredItemsUsed.length}
                         </Text>{" "}
                         tárgyat aktiváltál
@@ -173,14 +194,15 @@ const HomeTimeline = ({
             const date = dayjs(grade.date, "YYYY-MM-DD HH:mm:ss").toDate();
             if (date >= range[0] && date <= range[1]) {
                 data.push(
+                    // @ts-ignore
                     new GradeReceive(
                         date,
                         grade.subject,
                         grade.grade,
                         grade.teacher,
                         grade.weight,
-                        grade.id,
-                    ),
+                        grade.id
+                    )
                 );
             }
         }
@@ -189,7 +211,9 @@ const HomeTimeline = ({
     for (const coin of coins) {
         const date = new Date(coin.timestamps.createdAt);
         if (date >= range[0] && date <= range[1]) {
-            data.push(new LoloReceive(date, coin.reasonText, coin.reasonBody, coin.id));
+            data.push(
+                new LoloReceive(date, coin.reasonText, coin.reasonBody, coin.id)
+            );
         }
     }
 
@@ -229,7 +253,11 @@ const HomeTimeline = ({
     dayjs.extend(customParseFormat);
 
     formattedGroupedData.sort((e1, e2) => {
-        if (dayjs(e1.date, "YYYY.MM.DD.").isBefore(dayjs(e2.date, "YYYY.MM.DD."))) {
+        if (
+            dayjs(e1.date, "YYYY.MM.DD.").isBefore(
+                dayjs(e2.date, "YYYY.MM.DD.")
+            )
+        ) {
             return 1;
         }
         return -1;
@@ -243,15 +271,32 @@ const HomeTimeline = ({
                         return (
                             <Text color="dimmed" size="sm" key={e.id}>
                                 Kaptál egy új{` ${e.subject.toLowerCase()} `}
-                                <Text color={theme.primaryColor} inherit={true} component="span">
+                                <Text
+                                    color={theme.primaryColor}
+                                    inherit={true}
+                                    component="span"
+                                >
                                     {e.grade}
                                 </Text>
-                                -{e.grade === 5 ? "öst " : e.grade === 3 ? "ast " : "est "}
-                                <Text color={theme.primaryColor} inherit={true} component="span">
+                                -
+                                {e.grade === 5
+                                    ? "öst "
+                                    : e.grade === 3
+                                    ? "ast "
+                                    : "est "}
+                                <Text
+                                    color={theme.primaryColor}
+                                    inherit={true}
+                                    component="span"
+                                >
                                     {e.teacher}
                                 </Text>
                                 -tól/től ami{" "}
-                                <Text color={theme.primaryColor} inherit={true} component="span">
+                                <Text
+                                    color={theme.primaryColor}
+                                    inherit={true}
+                                    component="span"
+                                >
                                     {`${e.weight}%`}
                                 </Text>{" "}
                                 súlyú
@@ -261,12 +306,20 @@ const HomeTimeline = ({
                         return (
                             <Text color="dimmed" size="sm" key={e.id}>
                                 Kaptál egy új Loló érmét ezzel az okkal:{" "}
-                                <Text color={theme.primaryColor} inherit={true} component="span">
+                                <Text
+                                    color={theme.primaryColor}
+                                    inherit={true}
+                                    component="span"
+                                >
                                     {e.reasonBody
-                                        ? `${e.reasonText.substr(0, e.reasonText.length - 1)} (${
-                                              e.reasonBody
-                                          })`
-                                        : e.reasonText.substr(0, e.reasonText.length - 1)}
+                                        ? `${e.reasonText.substr(
+                                              0,
+                                              e.reasonText.length - 1
+                                          )} (${e.reasonBody})`
+                                        : e.reasonText.substr(
+                                              0,
+                                              e.reasonText.length - 1
+                                          )}
                                 </Text>{" "}
                             </Text>
                         );
@@ -274,7 +327,11 @@ const HomeTimeline = ({
                         return (
                             <Text color="dimmed" size="sm" key={`${e.id}buy`}>
                                 Vettél egy{" "}
-                                <Text color={theme.primaryColor} inherit={true} component="span">
+                                <Text
+                                    color={theme.primaryColor}
+                                    inherit={true}
+                                    component="span"
+                                >
                                     {e.name}
                                 </Text>
                                 -t
@@ -284,7 +341,11 @@ const HomeTimeline = ({
                         return (
                             <Text color="dimmed" size="sm" key={`${e.id}use`}>
                                 Aktiváltál egy{" "}
-                                <Text color={theme.primaryColor} inherit={true} component="span">
+                                <Text
+                                    color={theme.primaryColor}
+                                    inherit={true}
+                                    component="span"
+                                >
                                     {e.name}
                                 </Text>
                                 -t
@@ -296,7 +357,11 @@ const HomeTimeline = ({
 
         return formattedGroupedData.map((e) => {
             return (
-                <Timeline.Item bullet={<CalendarEvent size={18} />} title={e.date} key={e.date}>
+                <Timeline.Item
+                    bullet={<CalendarEvent size={18} />}
+                    title={e.date}
+                    key={e.date}
+                >
                     {getRenderedEvents(e.events)}
                 </Timeline.Item>
             );
