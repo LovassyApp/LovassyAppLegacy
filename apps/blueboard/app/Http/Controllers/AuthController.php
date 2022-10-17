@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\AuthErrorException;
+use App\Helpers\LibCrypto\Models\SodiumKeypair;
 use App\Helpers\LibCrypto\Services\EncryptionManager;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -77,8 +78,8 @@ class AuthController extends Controller
                 'password' => ['required', 'max:255', 'string'],
 
                 // La kréta
-                'kreta_username' => ['required', 'string', 'max:255'],
-                'kreta_password' => ['required', 'string', 'max:255'],
+                'name' => ['required', 'string', 'max:255'],
+                'om_code' => ['required', 'string', 'max:20'],
                 // Nem volt jobb üzenet ötletem. Don't @ me.
             ],
             [
@@ -87,24 +88,24 @@ class AuthController extends Controller
         );
 
         // kíjdzsen hax klikbéjt jutúb tutoriál ikszdé
-        $password = $data['password'];
         $salt = EncryptionManager::generateSalt();
-        $key = EncryptionManager::generateBasicKey($password, $salt);
-
-        // wut? hes?
-        $data['password'] = Hash::make($password);
+        $man = EncryptionManager::boot_register($data['password'], $salt);
+        $keys = new SodiumKeypair(null);
 
         // Akkor ez most egy júzer???? Igen.
-        $user = new User($data);
-
-        // Krétát veriFIKÁlni, és elmenteni titkosítva -> AES
-        KretaTokenHelper::registerUserKreta($user, $data['kreta_username'], $data['kreta_password'], $key);
-
+        $user = new User([
+            'name' => $data['name'],
+            'password' => Hash::make($data['password']),
+            'email' => $data['email'],
+            'om_code_hashed' => EncryptionManager::hash_general($data['om_code']),
+            'om_code_encrypted' => $man->encrypt($data['om_code']),
+            'public_key_hex' => $keys->publicKey_hex,
+            'private_key_encrypted' => $man->encrypt($keys->privateKey),
+        ]);
+        $user->save();
         $user->groups()->sync([1]);
 
         EncryptionManager::saveSalt($salt, $user->id);
-
-        //Crypter::saveSalt($salt, $user->id);
 
         // Szépségességes dzséjszon response
         return response()->json(

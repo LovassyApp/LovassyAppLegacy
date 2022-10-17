@@ -5,8 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class KretaCred extends Model
+class GradeImport extends Model
 {
-    use \Spiritix\LadaCache\Database\LadaCacheTrait;
     use HasFactory;
 }

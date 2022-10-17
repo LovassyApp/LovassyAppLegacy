@@ -96,3 +96,7 @@ Route::get('/products/image/{productID}', 'ProductController@view')
 Route::get('/status', 'VersionController@status');
 
 Route::get('/version', 'VersionController@index');
+
+Route::middleware(['auth.apikey'])->group(function () {
+    Route::get('/import', 'ImportController@index');
+});
