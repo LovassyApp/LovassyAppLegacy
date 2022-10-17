@@ -6,7 +6,6 @@ export const eagerLoad = async (client, token) => {
 
   try {
     const res = await client.account.boot(true, token);
-    console.log("ahh", res);
 
     dispatch({
       type: "coins/setCoins",
