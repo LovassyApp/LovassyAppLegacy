@@ -110,9 +110,16 @@ namespace Backboard
                 }
 
                 List<Grade> parsed_grades = MakeGradeList(grades);
-                string student_class =
+                string student_class;
+                try {
+                    student_class =
                     grades.Select(s => s[Constants.FieldMappings["school_class"]]).ToList().FindAll(s => s != "")
                         .Distinct().First();
+                } catch(Exception ex)
+                {
+                    student_class = String.Empty;
+                }
+                 
                 string student_name =
                     grades.Select(s => s[Constants.FieldMappings["student_name"]]).Distinct().First();
 
