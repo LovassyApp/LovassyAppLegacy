@@ -99,8 +99,8 @@ class KretaGrade
     {
         $date1 = $this->fixDate($gradeJson->recordDate);
         $date2 = $this->fixDate($gradeJson->createDate);
-        $this->date = Carbon::createFromDate($date1[0], $date1[1], $date1[2])->format('Y-m-d H:i:s');
-        $this->create_date = Carbon::createFromDate($date2[0], $date2[1], $date2[2])->format('Y-m-d H:i:s');
+        $this->date = Carbon::createFromDate($date1[0], $date1[1], $date1[2])->format('Y-m-d');
+        $this->create_date = Carbon::createFromDate($date2[0], $date2[1], $date2[2])->format('Y-m-d');
 
         $this->subject = ucfirst($gradeJson->subject);
         $this->subject_category = ucfirst($gradeJson->subject_category);
