@@ -17,8 +17,8 @@ namespace App\Models{
  * @property int $id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property int $user_id
- * @property int|null $lolo_id
+ * @property string $user_id
+ * @property string|null $lolo_id
  * @property string $uid
  * @property string $bounds
  * @property string $subject
@@ -57,6 +57,29 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Grade whereWeight($value)
  */
 	class Grade extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\GradeImport
+ *
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int $user_id
+ * @property string $encryption_key
+ * @property string $json_encrypted
+ * @method static \Illuminate\Database\Eloquent\Builder|GradeImport newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|GradeImport newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|GradeImport query()
+ * @method static \Illuminate\Database\Eloquent\Builder|GradeImport whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GradeImport whereEncryptionKey($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GradeImport whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GradeImport whereJsonEncrypted($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GradeImport whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GradeImport whereUserId($value)
+ */
+	class GradeImport extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -111,33 +134,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\KretaCred
- *
- * @property int $id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property int $user_id
- * @property string $username
- * @property string $password
- * @property string|null $token
- * @property string|null $refreshToken
- * @method static \Illuminate\Database\Eloquent\Builder|KretaCred newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|KretaCred newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|KretaCred query()
- * @method static \Illuminate\Database\Eloquent\Builder|KretaCred whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|KretaCred whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|KretaCred wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder|KretaCred whereRefreshToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|KretaCred whereToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|KretaCred whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|KretaCred whereUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|KretaCred whereUsername($value)
- */
-	class KretaCred extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
  * App\Models\Lolo
  *
  * @property int $id
@@ -147,6 +143,7 @@ namespace App\Models{
  * @property int|null $history_id
  * @property int $isSpent
  * @property mixed $reason
+ * @property-read mixed $hash
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Grade[] $grades
  * @property-read int|null $grades_count
  * @property-read \App\Models\User|null $user
@@ -162,6 +159,34 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Lolo whereUserId($value)
  */
 	class Lolo extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\LoloRequest
+ *
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string $body
+ * @property string $title
+ * @property int $user_id
+ * @property string|null $accepted_at
+ * @property string|null $denied_at
+ * @property-read \App\Models\User|null $user
+ * @method static \Illuminate\Database\Eloquent\Builder|LoloRequest newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|LoloRequest newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|LoloRequest query()
+ * @method static \Illuminate\Database\Eloquent\Builder|LoloRequest whereAcceptedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|LoloRequest whereBody($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|LoloRequest whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|LoloRequest whereDeniedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|LoloRequest whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|LoloRequest whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|LoloRequest whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|LoloRequest whereUserId($value)
+ */
+	class LoloRequest extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -210,12 +235,15 @@ namespace App\Models{
  * @property mixed $inputs
  * @property string $imageName
  * @property int $visible
+ * @property string $notified_mails
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\QRCode[] $codes
  * @property-read int|null $codes_count
  * @property-read mixed $code_names
  * @property-read mixed $image_url
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\InventoryItem[] $items
  * @property-read int|null $items_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserGroup[] $notifiedGroups
+ * @property-read int|null $notified_groups_count
  * @method static \Illuminate\Database\Eloquent\Builder|Product newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Product newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Product query()
@@ -227,6 +255,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereInputs($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereMarkdownContent($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereNotifiedMails($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product wherePrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereQuantity($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereUpdatedAt($value)
@@ -312,38 +341,50 @@ namespace App\Models{
  * App\Models\User
  *
  * @property int $id
- * @property string|null $name
+ * @property string $name
  * @property string $email
- * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
- * @property string|null $remember_token
+ * @property string $public_key_hex
+ * @property string $private_key_encrypted
+ * @property string $om_code_encrypted
+ * @property string $om_code_hashed
+ * @property string|null $class
+ * @property int $import_available
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read mixed $balance
+ * @property-read mixed $hash
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Grade[] $grades
  * @property-read int|null $grades_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserGroup[] $groups
  * @property-read int|null $groups_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\GradeImport[] $imports
+ * @property-read int|null $imports_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\InventoryItem[] $items
  * @property-read int|null $items_count
- * @property-read \App\Models\KretaCred|null $kreta
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Lolo[] $lolo
  * @property-read int|null $lolo_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\LoloRequest[] $requests
+ * @property-read int|null $requests_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
  * @property-read int|null $tokens_count
  * @method static \Database\Factories\UserFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User query()
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereClass($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereImportAvailable($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereOmCodeEncrypted($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereOmCodeHashed($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePrivateKeyEncrypted($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePublicKeyHex($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  */
 	class User extends \Eloquent {}
@@ -358,6 +399,8 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string $name
  * @property mixed $permissions
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
+ * @property-read int|null $users_count
  * @method static \Illuminate\Database\Eloquent\Builder|UserGroup newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|UserGroup newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|UserGroup query()

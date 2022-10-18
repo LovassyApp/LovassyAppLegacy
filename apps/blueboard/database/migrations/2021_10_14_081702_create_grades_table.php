@@ -19,14 +19,16 @@ class CreateGradesTable extends Migration
             $table->string('user_id');
             $table->string('lolo_id')->nullable();
             $table->string('uid')->unique();
-            $table->string('bounds');
             $table->string('subject');
+            $table->string('subject_category');
             $table->string('teacher');
+            $table->string('group');
             $table->integer('grade');
             $table->string('textGrade');
             $table->string('shortTextGrade');
             $table->integer('weight');
             $table->string('date');
+            $table->string('create_date');
             $table->string('name');
             $table->string('type');
             $table->string('gradeType');

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Helpers\LibKreta\Grades;
+namespace App\Helpers\LibBackboard;
 
 /**
  * Bullshit kréta jegy kategóriák

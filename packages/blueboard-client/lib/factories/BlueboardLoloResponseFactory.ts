@@ -1,9 +1,9 @@
-import BlueboardKretaGrade from "../models/BlueboardKretaGrade";
-import BlueboardLoloCoin from "../models/BlueboardLoloCoin";
-import BlueboardLoloReason from "../models/BlueboardLoloReason";
-import BlueboardLoloResponse from "../models/BlueboardLoloResponse";
-import BlueboardTimestamps from "../models/BlueboardTimestamps";
-import { checkIterable } from "../BlueboardClientUtils";
+import BlueboardKretaGrade from '../models/BlueboardKretaGrade';
+import BlueboardLoloCoin from '../models/BlueboardLoloCoin';
+import BlueboardLoloReason from '../models/BlueboardLoloReason';
+import BlueboardLoloResponse from '../models/BlueboardLoloResponse';
+import BlueboardTimestamps from '../models/BlueboardTimestamps';
+import { checkIterable } from '../BlueboardClientUtils';
 
 class BlueboardLoloResponseFactory {
     static getResponse(obj: any) {
@@ -19,10 +19,7 @@ class BlueboardLoloResponseFactory {
         if (checkIterable(obj)) {
             for (const coin of obj) {
                 const id = coin.id;
-                const timestamps = new BlueboardTimestamps(
-                    coin.created_at,
-                    coin.updated_at
-                );
+                const timestamps = new BlueboardTimestamps(coin.created_at, coin.updated_at);
                 const userId = coin.user_id;
                 const historyId = coin.history_id;
                 const isSpent = Boolean(coin.isSpent);
@@ -31,10 +28,10 @@ class BlueboardLoloResponseFactory {
                 const reasonBody = coin.reason.body ?? undefined;
 
                 switch (coin.reason.message) {
-                    case "Ötösökből automatikusan generálva.":
+                    case 'Ötösökből automatikusan generálva.':
                         reason = BlueboardLoloReason.FromFive;
                         break;
-                    case "Négyesekből automatikusan generálva.":
+                    case 'Négyesekből automatikusan generálva.':
                         reason = BlueboardLoloReason.FromFour;
                         break;
                     default:
@@ -48,16 +45,14 @@ class BlueboardLoloResponseFactory {
                     grades.push(
                         new BlueboardKretaGrade(
                             grade.id,
-                            new BlueboardTimestamps(
-                                grade.created_at,
-                                grade.updated_at
-                            ),
+                            new BlueboardTimestamps(grade.created_at, grade.updated_at),
                             grade.user_id,
                             grade.lolo_id,
                             grade.uid,
-                            grade.bounds,
                             grade.subject,
+                            grade.subject_category,
                             grade.teacher,
+                            grade.group,
                             grade.name,
                             grade.grade,
                             grade.textGrade,

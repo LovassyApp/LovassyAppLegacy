@@ -1,7 +1,7 @@
-import BlueboardKretaGrade from "../models/BlueboardKretaGrade";
-import BlueboardKretaGradeData from "../models/BlueboardKretaGradeData";
-import BlueboardTimestamps from "../models/BlueboardTimestamps";
-import { checkIterable } from "../BlueboardClientUtils";
+import BlueboardKretaGrade from '../models/BlueboardKretaGrade';
+import BlueboardKretaGradeData from '../models/BlueboardKretaGradeData';
+import BlueboardTimestamps from '../models/BlueboardTimestamps';
+import { checkIterable } from '../BlueboardClientUtils';
 
 class BlueboardKretaGradeDataFactory {
     static getResponse(obj: any) {
@@ -16,16 +16,14 @@ class BlueboardKretaGradeDataFactory {
                     grades.push(
                         new BlueboardKretaGrade(
                             grade.id,
-                            new BlueboardTimestamps(
-                                grade.created_at,
-                                grade.updated_at
-                            ),
+                            new BlueboardTimestamps(grade.created_at, grade.updated_at),
                             grade.user_id,
                             grade.lolo_id,
                             grade.uid,
-                            grade.bounds,
                             grade.subject,
+                            grade.subject_category,
                             grade.teacher,
+                            grade.group,
                             grade.name,
                             grade.grade,
                             grade.textGrade,

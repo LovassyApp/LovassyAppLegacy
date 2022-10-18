@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\LoloAmountUpdated;
-use App\Helpers\LibKreta\Grades\KretaGradeCategory;
+use App\Helpers\LibBackboard\KretaGradeCategory;
 //use App\Helpers\LibKreta\RetiLimit;
 use App\Helpers\LibLolo\LoloGenerator;
 use App\Helpers\LibLolo\LoloHelper;
