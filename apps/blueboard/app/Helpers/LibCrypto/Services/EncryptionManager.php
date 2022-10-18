@@ -12,6 +12,7 @@ class EncryptionManager
     public const DEFAULT_CIPHER = 'aes-256-gcm';
     private const KEYGEN_HASH_ALGO = 'sha3-256';
     private const DEFAULT_HASH_ALGO = 'sha512';
+    private const GENERAL_HASH_ALGO = 'sha256';
     private const MASTERKEY_KEY = 'master_key';
 
     use InteractsWithSalts;
@@ -22,13 +23,25 @@ class EncryptionManager
 
     private array $hash_cache = [];
 
-    public function __construct(SessionManager $session_manager)
+    public function __construct(SessionManager $session_manager, string|null $master_key = null)
     {
         $this->session_manager = $session_manager;
-        if ($this->session_manager->active()) {
+
+        if (!is_null($master_key)) {
+            $this->master_key = $master_key;
+            $this->bootEncrypter();
+        }
+
+        if ($this->session_manager->active() && is_null($master_key)) {
             $this->master_key = $this->session_manager->decrypt(self::MASTERKEY_KEY);
             $this->bootEncrypter();
         }
+    }
+
+    public static function boot_register(string $user_password, string $salt): self
+    {
+        $master_key = self::generateBasicKey($user_password, $salt);
+        return new self(SessionManager::use(), $master_key);
     }
 
     private function bootEncrypter(): void
@@ -40,9 +53,11 @@ class EncryptionManager
 
     public function setMasterKey(string $user_password): void
     {
-        $this->master_key = self::generateBasicKey($user_password, $this->session_manager->session()->user_salt);
-        $this->session_manager->encrypt(self::MASTERKEY_KEY, $this->master_key);
-        $this->bootEncrypter();
+        if ($this->session_manager->active()) {
+            $this->master_key = self::generateBasicKey($user_password, $this->session_manager->session()->user_salt);
+            $this->session_manager->encrypt(self::MASTERKEY_KEY, $this->master_key);
+            $this->bootEncrypter();
+        }
     }
 
     public function encrypt(mixed $value, bool $serialize = true): string
@@ -87,6 +102,11 @@ class EncryptionManager
             $this->hash_cache[$prefix . '_' . $payload] = $hashed;
             return $hashed;
         }
+    }
+
+    public static function hash_general(string $payload): string
+    {
+        return hash(self::GENERAL_HASH_ALGO, $payload);
     }
 
     public function getKey(): string

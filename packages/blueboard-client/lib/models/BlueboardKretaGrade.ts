@@ -10,9 +10,10 @@ class BlueboardKretaGrade {
 
         // AU.
         public readonly uid: string,
-        public readonly bounds: string,
         public readonly subject: string,
+        public readonly subjectCategory: string,
         public readonly teacher: string,
+        public readonly group: string,
         public readonly name: string,
         public readonly grade: number,
         public readonly textGrade: string,

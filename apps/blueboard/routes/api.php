@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\Route;
     return view('welcome');
 });
 */
-Route::get('/test', 'TestController@index');
 
 // Authentikáció
 Route::post('/login', 'AuthController@login');
@@ -29,6 +28,8 @@ Route::post('/register', 'AuthController@register');
 
 // Csak session-nel
 Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/test', 'TestController@index');
+
     // Socket auth
     Route::get('/broadcasting/auth', [BroadcastController::class, 'authenticate']);
     Route::post('/broadcasting/auth', [BroadcastController::class, 'authenticate']);
@@ -96,3 +97,8 @@ Route::get('/products/image/{productID}', 'ProductController@view')
 Route::get('/status', 'VersionController@status');
 
 Route::get('/version', 'VersionController@index');
+
+Route::middleware(['auth.apikey'])->group(function () {
+    Route::get('/import', 'ImportController@index');
+    Route::post('/import', 'ImportController@save');
+});

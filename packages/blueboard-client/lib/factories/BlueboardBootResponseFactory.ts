@@ -10,21 +10,11 @@ import BlueboardUserFactory from './BlueboardUserFactory';
 class BlueboardBootResponseFactory {
     static getResponse(obj: any) {
         return new BlueboardBootResponse(
-            obj.requests.status === 'Success'
-                ? BlueboardLoloRequestFactory.getResponse(obj.requests.data)
-                : null,
-            obj.inventory.status === 'Success'
-                ? BlueboardInventoryFactory.getResponse(obj.inventory.data)
-                : null,
-            obj.grades.status === 'Success'
-                ? BlueboardKretaGradeDataFactory.getResponse(obj.grades.data)
-                : null,
-            obj.store.status === 'Success'
-                ? BlueboardProductFactory.getResponse(obj.store.data)
-                : null,
-            obj.lolo.status === 'Success'
-                ? BlueboardLoloResponseFactory.getResponse(obj.lolo.data)
-                : null
+            obj.requests.status === 'Success' ? BlueboardLoloRequestFactory.getResponse(obj.requests.data) : null,
+            obj.inventory.status === 'Success' ? BlueboardInventoryFactory.getResponse(obj.inventory.data) : null,
+            obj.grades.status === 'Success' ? BlueboardKretaGradeDataFactory.getResponse(obj.grades.data) : null,
+            obj.store.status === 'Success' ? BlueboardProductFactory.getResponse(obj.store.data) : null,
+            obj.lolo.status === 'Success' ? BlueboardLoloResponseFactory.getResponse(obj.lolo.data) : null
         );
     }
 }

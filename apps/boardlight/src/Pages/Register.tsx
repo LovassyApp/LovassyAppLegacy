@@ -2,7 +2,12 @@ import * as React from 'react';
 import { InputGroup, InputGroupText, Input, Alert } from 'reactstrap';
 import { Button, Checkbox, Link } from '@nextui-org/react';
 import BaseLogin from '../Layouts/BaseLogin';
-import { MdOutlineAlternateEmail, MdOutlinePassword, MdOutlinePerson } from 'react-icons/md';
+import {
+    MdOutlineAlternateEmail,
+    MdOutlineCardMembership,
+    MdOutlinePassword,
+    MdOutlinePerson,
+} from 'react-icons/md';
 import { useDispatch } from 'react-redux';
 import toast from 'react-hot-toast';
 import getGreeting from '../Helpers/GetGreeting';
@@ -18,23 +23,23 @@ const Register = (): JSX.Element => {
     const history = useHistory();
 
     const [username, setUsername] = React.useState('');
-    const [kreta_username, kreta_setUsername] = React.useState('');
+    const [name, setName] = React.useState('');
     const [password, setPassword] = React.useState('');
-    const [kreta_password, kreta_setPassword] = React.useState('');
+    const [om_code, setOm_code] = React.useState('');
     const [remember, setRemember] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
 
     const [GLOBERR, setGLOBERR] = React.useState('');
     const [userErr, setUserErr] = React.useState([]);
     const [passwordErr, setPasswordErr] = React.useState([]);
-    const [kretaUsernameErr, setKretaUsernameErr] = React.useState([]);
-    const [kretaPasswordErr, setKretaPassswordErr] = React.useState([]);
+    const [nameErr, setNameErr] = React.useState([]);
+    const [omCodeErr, setOmCodeErr] = React.useState([]);
 
     const [globIsVisible, globSetVisible] = React.useState(false);
     const [passIsVisible, passSetVisible] = React.useState(false);
     const [userIsVisible, userSetVisible] = React.useState(false);
-    const [kretaUsernameIsVisible, kretaUsernameSetVisible] = React.useState(false);
-    const [kretaPasswordIsVisible, kretaPasswordSetVisible] = React.useState(false);
+    const [nameIsVisible, nameSetVisible] = React.useState(false);
+    const [omCodeIsVisible, omCodeSetVisible] = React.useState(false);
 
     const onRememberToggle = (): void => {
         const newVal = !remember;
@@ -54,7 +59,7 @@ const Register = (): JSX.Element => {
         setLoading(true);
         setTimeout(() => {
             client.auth
-                .register(username, password, kreta_username, kreta_password)
+                .register(username, password, name, om_code)
                 .then(() => {
                     client.auth
                         .login(username, password, remember)
@@ -98,14 +103,14 @@ const Register = (): JSX.Element => {
                             setPasswordErr(err.errors.password);
                             passSetVisible(true);
                         }
-                        if (err.errors.kreta_username !== undefined) {
-                            setKretaUsernameErr(err.errors.password);
-                            kretaUsernameSetVisible(true);
+                        if (err.errors.name !== undefined) {
+                            setNameErr(err.errors.name);
+                            nameSetVisible(true);
                         }
 
-                        if (err.errors.kreta_password !== undefined) {
-                            setKretaPassswordErr(err.errors.password);
-                            kretaPasswordSetVisible(true);
+                        if (err.errors.om_code !== undefined) {
+                            setOmCodeErr(err.errors.om_code);
+                            omCodeSetVisible(true);
                         }
                     } else {
                         setGLOBERR(err.message);
@@ -118,6 +123,27 @@ const Register = (): JSX.Element => {
     return (
         <BaseLogin>
             <form onSubmit={(e) => handleClick(e)}>
+                <InputGroup className="mb-3">
+                    <InputGroupText>
+                        <MdOutlinePerson />
+                    </InputGroupText>
+                    <Input
+                        onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            setName(e.target.value)
+                        }
+                        name="name"
+                        id="name"
+                        placeholder="Név"
+                    />
+                </InputGroup>
+                <Alert color="danger" isOpen={nameIsVisible} toggle={() => nameSetVisible(false)}>
+                    {nameErr.map((el) => (
+                        <span key={el}>
+                            {' '}
+                            {el} <br />{' '}
+                        </span>
+                    ))}
+                </Alert>
                 <InputGroup className="mb-3">
                     <InputGroupText>
                         <MdOutlineAlternateEmail />
@@ -165,50 +191,23 @@ const Register = (): JSX.Element => {
 
                 <InputGroup className="mb-3">
                     <InputGroupText>
-                        <MdOutlinePerson />
+                        <MdOutlineCardMembership />
                     </InputGroupText>
                     <Input
                         onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            kreta_setUsername(e.target.value)
+                            setOm_code(e.target.value)
                         }
-                        name="kreta_username"
-                        id="kreta_username"
-                        placeholder="Kréta felhasználónév"
+                        name="om_code"
+                        id="om_code"
+                        placeholder="OM Azonosító"
                     />
                 </InputGroup>
 
                 <Alert
                     color="danger"
-                    isOpen={kretaUsernameIsVisible}
-                    toggle={() => kretaPasswordSetVisible(false)}>
-                    {kretaUsernameErr.map((el) => (
-                        <span key={el}>
-                            {' '}
-                            {el} <br />{' '}
-                        </span>
-                    ))}
-                </Alert>
-
-                <InputGroup className="mb-3">
-                    <InputGroupText>
-                        <MdOutlinePassword />
-                    </InputGroupText>
-                    <Input
-                        onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            kreta_setPassword(e.target.value)
-                        }
-                        name="kreta_password"
-                        id="kreta_password"
-                        placeholder="Kréta jelszó"
-                        type="password"
-                    />
-                </InputGroup>
-
-                <Alert
-                    color="danger"
-                    isOpen={kretaPasswordIsVisible}
-                    toggle={() => kretaPasswordSetVisible(false)}>
-                    {kretaPasswordErr.map((el) => (
+                    isOpen={omCodeIsVisible}
+                    toggle={() => omCodeSetVisible(false)}>
+                    {omCodeErr.map((el) => (
                         <span key={el}>
                             {' '}
                             {el} <br />{' '}

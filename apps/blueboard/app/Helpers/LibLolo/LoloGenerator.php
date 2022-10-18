@@ -3,7 +3,7 @@
 namespace App\Helpers\LibLolo;
 
 use App\Exceptions\LibLolo\GenerationInProgressException;
-use App\Helpers\LibKreta\Grades\KretaGradeCategory;
+use App\Helpers\LibBackboard\KretaGradeCategory as LibBackboardKretaGradeCategory;
 use App\Models\Lolo;
 use App\Models\LoloRequest;
 use App\Models\User;
@@ -128,7 +128,7 @@ class LoloGenerator
         $grades = $this->user
             ->grades()
             ->where('lolo_id', null)
-            ->where('evaluationType', KretaGradeCategory::interim)
+            ->where('evaluationType', LibBackboardKretaGradeCategory::interim)
             ->where('grade', 5)
             ->get()
             ->chunk($this->fiveLimit);
@@ -181,7 +181,7 @@ class LoloGenerator
         $grades = $this->user
             ->grades()
             ->where('lolo_id', null)
-            ->where('evaluationType', KretaGradeCategory::interim)
+            ->where('evaluationType', LibBackboardKretaGradeCategory::interim)
             ->where('grade', 4)
             ->get()
             ->chunk($this->fourLimit);

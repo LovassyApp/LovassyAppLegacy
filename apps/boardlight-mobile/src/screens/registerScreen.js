@@ -35,11 +35,11 @@ export const RegisterScreen = ({ navigation }) => {
 
   const [stageTwo, setStageTwo] = useState(false);
 
-  const [kretaUsername, setKretaUsername] = useState("");
-  const [kretaPassword, setKretaPassword] = useState("");
+  const [name, setName] = useState("");
+  const [omId, setOmId] = useState("");
 
-  const [kretaUsernameError, setKretaUsernameError] = useState("");
-  const [kretaPasswordError, setKretaPasswordError] = useState("");
+  const [nameError, setNameError] = useState("");
+  const [omIdError, setOmIdError] = useState("");
 
   const [generalError, setGeneralError] = useState("");
 
@@ -107,37 +107,34 @@ export const RegisterScreen = ({ navigation }) => {
   };
 
   const finish = async () => {
-    if (kretaUsername === "") {
-      setKretaUsernameError("A kréta felhasználónév mező kitöltése kötelező");
-      setKretaPasswordError("");
+    if (name === "") {
+      setNameError("A név mező kitöltése kötelező");
+      setOmIdError("");
       return;
-    } else if (kretaPassword === "") {
-      setKretaUsernameError("");
-      setKretaPasswordError("A kréta jelszó mező kitöltése kötelező");
+    } else if (omId === "") {
+      setNameError("");
+      setOmIdError("Az OM azonosító mező kitöltése kötelező");
       return;
     }
 
-    setKretaUsernameError("");
-    setKretaPasswordError("");
+    setNameError("");
+    setOmIdError("");
 
     loading(true);
 
     try {
-      await client.auth.register(`${email}@lovassy.edu.hu`, password, kretaUsername, kretaPassword);
+      await client.auth.register(`${email}@lovassy.edu.hu`, password, name, omId);
     } catch (err) {
       // I love working with ts stuff inside js
       if (err.errors && Object.keys(err.errors).length !== 0) {
         setEmailError(err.errors.email ?? "");
         setPasswordError(err.errors.password ?? "");
-
-        // To get rid of previous errors with kreta stuff
-        setKretaUsernameError("");
-        setKretaPasswordError("");
+        setNameError(err.errors.name ?? "");
+        setOmIdError(err.errors.om_code ?? "");
 
         setStageTwo(false);
-      } else if (err.isKretaError) {
-        setGeneralError("Hibás kréta adatok");
       } else {
+        console.log(err);
         setGeneralError("Egy ismeretlen hiba történt");
       }
 
@@ -233,30 +230,24 @@ export const RegisterScreen = ({ navigation }) => {
           ) : (
             <>
               <LaInput
-                label="Kréta felhasználónév"
+                label="Név"
                 autoCorrect={false}
-                style={kretaUsernameError === "" ? styles.input : null}
-                value={kretaUsername}
-                error={kretaUsernameError !== ""}
+                style={nameError === "" ? styles.input : null}
+                value={name}
+                error={nameError !== ""}
                 textContentType="username"
-                onChangeText={(text) => setKretaUsername(text)}
+                onChangeText={(text) => setName(text)}
               />
-              {kretaUsernameError !== "" && (
-                <HelperText type="error">{kretaUsernameError}</HelperText>
-              )}
+              {nameError !== "" && <HelperText type="error">{nameError}</HelperText>}
               <LaInput
-                label="Kréta jelszó"
+                label="OM Azonosító"
                 autoCorrect={false}
-                style={kretaPasswordError === "" ? styles.input : null}
-                value={kretaPassword}
-                error={kretaPasswordError !== ""}
-                secureTextEntry={true}
-                textContentType="password"
-                onChangeText={(text) => setKretaPassword(text)}
+                style={omIdError === "" ? styles.input : null}
+                value={omId}
+                error={omIdError !== ""}
+                onChangeText={(text) => setOmId(text)}
               />
-              {kretaPasswordError !== "" && (
-                <HelperText type="error">{kretaPasswordError}</HelperText>
-              )}
+              {omIdError !== "" && <HelperText type="error">{omIdError}</HelperText>}
               <View style={styles.buttonRow}>
                 <LaButton customStyle={styles.rowBackButton} onPress={() => setStageTwo(false)}>
                   <Ionicons name="arrow-back" size={16} />

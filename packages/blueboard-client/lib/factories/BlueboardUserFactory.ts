@@ -9,7 +9,8 @@ class BlueboardUserFactory {
             obj.email,
             obj.groups,
             new BlueboardTimestamps(obj.created_at, obj.updated_at),
-            obj.balance
+            obj.balance,
+            obj.class
         );
     }
 }

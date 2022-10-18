@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\LibKreta\Grades\KretaGradeCategory;
-use App\Helpers\LibKreta\RetiLimit;
+use App\Helpers\LibBackboard\BackboardAdapter;
+use App\Helpers\LibBackboard\KretaGradeCategory;
+use App\Helpers\LibCrypto\Services\EncryptionManager;
+//use App\Helpers\LibKreta\RetiLimit;
 use Illuminate\Http\Request;
-use App\Helpers\LibLolo\LoloHelper;
 use App\Helpers\LibSession\Services\SessionManager;
 use App\Helpers\ResponseMaker;
 
@@ -19,13 +20,19 @@ class GradeController extends Controller
 
         $refresh = (bool) $request->query('refresh', false);
 
-        RetiLimit::useRateLimit(function () use ($refresh) {
+        /* RetiLimit::useRateLimit(function () use ($refresh) {
             if ($refresh == true) {
                 LoloHelper::updateGrades();
             }
-        });
+        }); */
 
-        $allGrades = SessionManager::user()
+        $user = SessionManager::user();
+        $encryption_manager = EncryptionManager::use();
+
+        $adapter = new BackboardAdapter($user, $encryption_manager);
+        $adapter->tryUpdating();
+
+        $allGrades = $user
             ->grades()
             ->where('evaluationType', KretaGradeCategory::interim)
             ->orderBy('date', 'desc')

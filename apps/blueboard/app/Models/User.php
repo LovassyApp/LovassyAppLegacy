@@ -8,9 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use App\Models\KretaCred;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class User extends Authenticatable
 {
@@ -22,7 +20,15 @@ class User extends Authenticatable
      *
      * @var string[]
      */
-    protected $fillable = ['name', 'email', 'password'];
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'om_code_hashed',
+        'om_code_encrypted',
+        'public_key_hex',
+        'private_key_encrypted',
+    ];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -42,16 +48,6 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the KretaCred associated with the User
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function kreta(): HasOne
-    {
-        return $this->hasOne(KretaCred::class, 'user_id', 'id');
-    }
-
-    /**
      * The channels the user receives notification broadcasts on.
      *
      * @return string
@@ -69,6 +65,11 @@ class User extends Authenticatable
     public function lolo(): HasMany
     {
         return $this->hasMany(Lolo::class, 'user_id', 'id');
+    }
+
+    public function imports(): HasMany
+    {
+        return $this->hasMany(GradeImport::class, 'user_id', 'id');
     }
 
     public function groups()
