@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\AuthErrorException;
+use App\Helpers\LibCrypto\Models\MasterKey;
 use App\Helpers\LibCrypto\Models\SodiumKeypair;
 use App\Helpers\LibCrypto\Services\EncryptionManager;
 use Illuminate\Http\Request;
@@ -35,8 +36,15 @@ class AuthController extends Controller
     private function doLogin(bool $remember, array $data)
     {
         if (Auth::attempt($data)) {
+            $user = User::where('id', Auth::user()->id)
+                ->setEagerLoads([])
+                ->first();
             $token = SessionManager::start();
-            EncryptionManager::use()->setMasterKey($data['password']);
+
+            $key = new MasterKey($user->master_key_encrypted);
+            $key->unlock($data['password'], SessionManager::use()->session()->user_salt);
+
+            EncryptionManager::use()->setMasterKey($key);
 
             if ($remember) {
                 $authCookie = AuthCookie::make($data['email'], $data['password']);
@@ -50,9 +58,7 @@ class AuthController extends Controller
                         'result' => 'success',
                         'status' => 200,
                         'message' => 'Login successful',
-                        'user' => User::where('id', Auth::user()->id)
-                            ->setEagerLoads([])
-                            ->first(),
+                        'user' => $user,
                         'token' => $token,
                         'remember_token' => $authCookie->rawBody ?? '',
                     ],
@@ -89,7 +95,9 @@ class AuthController extends Controller
 
         // kíjdzsen hax klikbéjt jutúb tutoriál ikszdé
         $salt = EncryptionManager::generateSalt();
-        $man = EncryptionManager::boot_register($data['password'], $salt);
+        $key = new MasterKey();
+        $stored_key = $key->lock($data['password'], $salt);
+        $man = EncryptionManager::boot_register($key);
         $keys = new SodiumKeypair(null);
 
         // Akkor ez most egy júzer???? Igen.
@@ -100,6 +108,7 @@ class AuthController extends Controller
             'om_code_hashed' => EncryptionManager::hash_general($data['om_code']),
             'om_code_encrypted' => $man->encrypt($data['om_code']),
             'public_key_hex' => $keys->publicKey_hex,
+            'master_key_encrypted' => $stored_key,
             'private_key_encrypted' => $man->encrypt($keys->privateKey),
         ]);
         $user->save();

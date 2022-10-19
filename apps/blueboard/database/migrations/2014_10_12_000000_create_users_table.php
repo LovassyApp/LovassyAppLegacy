@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('public_key_hex');
             $table->string('private_key_encrypted');
+            $table->string('master_key_encrypted');
             $table->string('om_code_encrypted');
             $table->string('om_code_hashed')->unique();
             $table->string('class')->nullable();

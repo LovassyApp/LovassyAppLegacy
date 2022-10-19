@@ -4,6 +4,7 @@ namespace App\Helpers\LibCrypto\Services;
 
 use App\Helpers\LibCrypto\Contracts\InteractsWithSalts;
 use App\Helpers\LibCrypto\Errors\NoMasterKeySetException;
+use App\Helpers\LibCrypto\Models\MasterKey;
 use App\Helpers\LibSession\Services\SessionManager;
 use Illuminate\Encryption\Encrypter;
 
@@ -23,25 +24,24 @@ class EncryptionManager
 
     private array $hash_cache = [];
 
-    public function __construct(SessionManager $session_manager, string|null $master_key = null)
+    public function __construct(SessionManager $session_manager, MasterKey|null $key = null)
     {
         $this->session_manager = $session_manager;
 
-        if (!is_null($master_key)) {
-            $this->master_key = $master_key;
+        if (!is_null($key)) {
+            $this->master_key = $key->key();
             $this->bootEncrypter();
         }
 
-        if ($this->session_manager->active() && is_null($master_key)) {
+        if ($this->session_manager->active() && is_null($key)) {
             $this->master_key = $this->session_manager->decrypt(self::MASTERKEY_KEY);
             $this->bootEncrypter();
         }
     }
 
-    public static function boot_register(string $user_password, string $salt): self
+    public static function boot_register(MasterKey $key): self
     {
-        $master_key = self::generateBasicKey($user_password, $salt);
-        return new self(SessionManager::use(), $master_key);
+        return new self(SessionManager::use(), $key);
     }
 
     private function bootEncrypter(): void
@@ -51,10 +51,10 @@ class EncryptionManager
         }
     }
 
-    public function setMasterKey(string $user_password): void
+    public function setMasterKey(MasterKey $key): void
     {
         if ($this->session_manager->active()) {
-            $this->master_key = self::generateBasicKey($user_password, $this->session_manager->session()->user_salt);
+            $this->master_key = $key->key();
             $this->session_manager->encrypt(self::MASTERKEY_KEY, $this->master_key);
             $this->bootEncrypter();
         }
