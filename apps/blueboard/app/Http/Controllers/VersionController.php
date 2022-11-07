@@ -54,7 +54,7 @@ class VersionController extends Controller
 
         $dbOnline = false;
         try {
-            if (DB::connection()->getPdo()) {
+            if (DB::getPdo()) {
                 $dbOnline = true;
             }
         } catch (\Exception $e) {

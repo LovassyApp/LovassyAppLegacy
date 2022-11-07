@@ -7,9 +7,10 @@ use App\Models\Salt;
 trait InteractsWithSalts
 {
     /**
-     * @return string
      * Új salt generálás
-     * _ Só (trédmárk) _
+     *
+     * *Só (trédmárk)*
+     * @return string
      */
     public static function generateSalt(): string
     {
@@ -29,7 +30,6 @@ trait InteractsWithSalts
 
     /**
      * Salt mentése a DB-be
-     *
      * @param string $salt
      * @param int $userID
      * @return true

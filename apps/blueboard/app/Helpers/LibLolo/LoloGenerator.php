@@ -20,36 +20,44 @@ use Illuminate\Support\Facades\Cache;
 class LoloGenerator
 {
     /**
+     * A limit amit elérve ötösökből LoLó-t generál a cucc
      * @var int
      */
     private int $fiveLimit;
     /**
+     * A limit amit elérve négyesekből LoLó-t generál a cucc
      * @var int
      */
     private int $fourLimit;
     /**
+     * Ötösökből generált LoLó-k miértbaszki-üzenete
      * @var string
      */
     private string $messageFive;
     /**
+     * Négyesekből generált LoLó-k demiért üzenete
      * @var string
      */
     private string $messageFour;
     /**
+     * Lock, mégpedig a csalások elkerülése végett
      * @var Lock
      */
     private Lock $lock;
     /**
+     * Lock prefix izé
      * @var string
      */
     private string $lockPre;
 
     /**
+     * Jelenlegi Júzer (tm)
      * @var User|null
      */
     private User|null $user = null;
 
     /**
+     * Új generátor instance, Exception-t dob, ha lockolva van a generátor
      * @throws GenerationInProgressException
      * @var User
      */
@@ -66,6 +74,7 @@ class LoloGenerator
     }
 
     /**
+     * Config betöltése a lolo.php-ból
      * @return void
      */
     private function loadConfig(): void
@@ -78,6 +87,7 @@ class LoloGenerator
     }
 
     /**
+     * lakatnévgenerátor
      * @param int $id
      * @return string
      */
@@ -87,11 +97,12 @@ class LoloGenerator
     }
 
     /**
+     * LoLó kérvényből származó LoLó-kat generálja, majd menti a DB-be
      * @param int $amount
      * @param LoloRequest $request
      * @return void
      */
-    public static function saveRequest(int $amount, LoloRequest $request)
+    public static function saveRequest(int $amount, LoloRequest $request): void
     {
         $attributes = [
             'user_id' => $request->user->id,
@@ -111,19 +122,21 @@ class LoloGenerator
     }
 
     /**
+     * Generáljá' mán
      * @return void
      * @throws Exception
      */
-    public function generate()
+    public function generate(): void
     {
         $this->fiveGenerate();
         $this->fourGenerate();
     }
 
     /**
+     * Ötösökből *próbálkozik* LoLó-t generálni
      * @throws Exception
      */
-    private function fiveGenerate()
+    private function fiveGenerate(): void
     {
         $grades = $this->user
             ->grades()
@@ -142,12 +155,13 @@ class LoloGenerator
     }
 
     /**
+     * LoLó-t csinál megadott jegyekből
      * @param Collection $grades
      * @param string $message
      * @return void
      * @throws Exception
      */
-    private function save(Collection $grades, string $message)
+    private function save(Collection $grades, string $message): void
     {
         $lolo = new Lolo();
         $lolo->fill([
@@ -173,10 +187,11 @@ class LoloGenerator
     }
 
     /**
+     * Négyesekből *próbálkozik* LoLó-t generálni
      * @return void
      * @throws Exception
      */
-    private function fourGenerate()
+    private function fourGenerate(): void
     {
         $grades = $this->user
             ->grades()

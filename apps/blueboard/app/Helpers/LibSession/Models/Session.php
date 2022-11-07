@@ -13,21 +13,43 @@ use App\Helpers\LibSession\Helpers\RedisManager as LibSessionRedisManager;
 class Session implements SessionInterface
 {
     /**
+     * Session-ben tárolt adatok stdClass objektumként
      * @var object
      */
     private object $data;
     /**
+     * RedisManager instance
      * @var RedisManager
      */
     private LibSessionRedisManager $man;
     /**
+     * Session hash
      * @var string
      */
     private string $hash;
-
+    /**
+     * Session salt
+     *
+     * @var string
+     */
     public readonly string $salt;
+    /**
+     * Lejárati dátum (unixtime)
+     *
+     * @var integer
+     */
     public readonly int $expiry;
+    /**
+     * Az adott felhasználóhoz tartozó salt
+     *
+     * @var string
+     */
     public readonly string $user_salt;
+    /**
+     * Az utolsó Redis commit dátuma (unixtime)
+     *
+     * @var integer
+     */
     private int $last_written = 0;
 
     /**
@@ -49,6 +71,7 @@ class Session implements SessionInterface
         $this->expiry = $obj->expiry;
         $this->salt = $obj->salt;
         $this->user_salt = $obj->user_salt;
+        $this->last_written = $obj->last_written;
     }
 
     /**
@@ -65,7 +88,7 @@ class Session implements SessionInterface
 
         $man->writeRaw(
             (object) [
-                'lastWritten' => time(),
+                'last_written' => time(),
                 'hash' => $hash,
                 'expiry' => $expiry,
                 'salt' => $salt,
@@ -96,6 +119,7 @@ class Session implements SessionInterface
     public function __set(string $name, mixed $value): void
     {
         $this->data->{$name} = $value;
+        $this->last_written = time();
         $this->man->write($this);
     }
 
@@ -108,7 +132,7 @@ class Session implements SessionInterface
     public function toJson(): string
     {
         return json_encode([
-            'last_written' => time(),
+            'last_written' => $this->last_written,
             'hash' => $this->hash,
             'data' => $this->data,
             'expiry' => $this->expiry,
@@ -145,6 +169,11 @@ class Session implements SessionInterface
         $this->man->write($this);
     }
 
+    /**
+     * Az utolsó *kommit* dátuma (unixtime)
+     *
+     * @return integer
+     */
     public function lastWritten(): int
     {
         return $this->last_written;

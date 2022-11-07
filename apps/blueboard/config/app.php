@@ -143,7 +143,7 @@ return [
     | The version of the currently running Blueboard server
     |
     */
-    'blueboard_version' => '2.1.2',
+    'blueboard_version' => '3.0.1',
 
     /*
     |--------------------------------------------------------------------------

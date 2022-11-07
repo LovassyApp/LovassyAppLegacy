@@ -36,12 +36,29 @@ class SessionManager
         return hash('sha256', $arr[1]);
     }
 
+    /**
+     * Authentikációs token. Globális request-ből lopva btw
+     *
+     * @var string|null
+     */
     private string|null $token = null;
-
+    /**
+     * Beépített titkosító (Illuminate Encrypter instance)
+     *
+     * @var Encrypter|null
+     */
     private Encrypter|null $encrypter = null;
-
+    /**
+     * Session instance
+     *
+     * @var Session|null
+     */
     private Session|null $session = null;
-
+    /**
+     * Van -e jelenleg Session amit kezelünk
+     *
+     * @var boolean
+     */
     private bool $active = false;
 
     /**
@@ -89,6 +106,11 @@ class SessionManager
         $this->session = new Session($hash);
     }
 
+    /**
+     * Titkosítás bootstrapizé
+     *
+     * @return void
+     */
     private function bootEncrypter(): void
     {
         $this->encrypter = new Encrypter(
@@ -126,11 +148,23 @@ class SessionManager
         return $this->token;
     }
 
+    /**
+     * Aktív -e ez a SessionManager instance
+     *
+     * @return boolean
+     */
     public function active(): bool
     {
         return $this->active;
     }
 
+    /**
+     * Titkosítás Session specifikus kulccsal
+     *
+     * @param string $name
+     * @param mixed $value
+     * @return void
+     */
     public function encrypt(string $name, mixed $value): void
     {
         if ($this->encrypter === null) {
@@ -140,6 +174,12 @@ class SessionManager
         $this->session->$name = $this->encrypter->encrypt($value, true);
     }
 
+    /**
+     * Visszafejtés Session specifikus kulccsal
+     *
+     * @param string $name
+     * @return mixed
+     */
     public function decrypt(string $name): mixed
     {
         if ($this->encrypter === null) {
@@ -156,17 +196,30 @@ class SessionManager
 
     // Innentől Statikus accessorok, Singleton-t használnak
 
+    /**
+     * Bejelentkeztetett júzer
+     *
+     * *kell a kurva strict tájpolás*
+     *
+     * @return User|null
+     */
     public static function user(): User|null
     {
         return Auth::user();
     }
 
+    /**
+     * Jelenleg regisztrált SessionManager Singleton
+     *
+     * @return self
+     */
     public static function use(): self
     {
         return app(self::class);
     }
 
     /**
+     * Új Session-t indít, üresen
      *
      * @throws SessionAlreadyStartedException
      * @throws UserNotLoggedInException
@@ -185,6 +238,11 @@ class SessionManager
         return $sesman->startSession();
     }
 
+    /**
+     * Jelenleg regisztrált Singleton-hoz tartozó Session
+     *
+     * @return Session
+     */
     public static function session(): Session
     {
         $sesman = app(SessionManager::class);

@@ -11,6 +11,8 @@ use Illuminate\Cookie\CookieJar;
  * Csak egy (kis) helper class
  *
  * KÉREK. SÜTIT. MOST. :)
+ *
+ * TODO: Ez az implementáció gusztustalan. Gecire újra kéne írnom.
  */
 class AuthCookie
 {

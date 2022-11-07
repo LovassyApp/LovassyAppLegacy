@@ -35,6 +35,7 @@ class KretaGradeCategory
      *
      * @param string $cat
      * @return int
+     * @deprecated 3.0.0 (BB V2-ben volt utoljára haszna, amikor még volt mit parseolni)
      */
     public static function parseCategory(string $cat): int
     {

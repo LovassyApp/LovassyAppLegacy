@@ -5,7 +5,9 @@ namespace App\Helpers\LibCrypto\Providers;
 use App\Helpers\LibCrypto\Services\EncryptionManager;
 use App\Helpers\LibSession\Services\SessionManager;
 use Illuminate\Support\ServiceProvider;
-
+/**
+ * A titkosító Providere
+ */
 class EncryptionServiceProvider extends ServiceProvider
 {
     /**

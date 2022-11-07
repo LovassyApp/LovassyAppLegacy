@@ -20,20 +20,21 @@ use Illuminate\Support\Facades\Auth;
 class LoloHelper
 {
     /**
+     * Drága Júzerünk egyenlege
      * @var int
      */
-    public int $balance = 0;
+    public readonly int $balance;
     /**
-     * @var Collection|null
+     * Eme *kolleksön* az "érméket" tartalmazza
      */
-    public Collection|null $coins = null;
+    public readonly Collection|null $coins;
     /**
-     * @var User|\Illuminate\Contracts\Auth\Authenticatable|null
+     * User, akire a generálás történt
      */
-    public User|null $user = null;
+    public readonly User|null $user;
 
     /**
-     *
+     * Új class instance, feltölti az attributumokat
      */
     public function __construct()
     {
@@ -43,6 +44,7 @@ class LoloHelper
     }
 
     /**
+     * Lekéri az összes az adott felhasználóhoz tartozó LoLó-t
      * @return Collection
      */
     private function getAllCoins(): Collection
@@ -54,6 +56,7 @@ class LoloHelper
     }
 
     /**
+     * Lekéri az adott felhasználó egyenlegét
      * @return int
      */
     private function getBalance(): int
@@ -65,21 +68,11 @@ class LoloHelper
     }
 
     /**
-     * @throws KretaCredentialException
-     * @throws Exception
-     */
-    public static function updateGrades()
-    {
-        $userID = Auth::user()->hash;
-
-        $credentials = KretaEncrypter::use()->getCreds();
-        $grades = new Evaluations($credentials->token);
-        $allGrades = $grades->parse(['user_id' => $userID]);
-
-        Grade::upsert($allGrades, ['uid']);
-    }
-
-    /**
+     * WTF... Ez a szerencsétlen class igazából csak magát adja vissza.
+     *
+     * Szép volt, kedves múltbéli énem.
+     *
+     * *Nembaj. lórnak jólösz*
      * @return LoloHelper
      */
     public static function getLolo(): LoloHelper
@@ -88,6 +81,11 @@ class LoloHelper
     }
 
     /**
+     * Adott mennyiségű LoLó-t elkölt.
+     *
+     * Ha nincs elég LoLó-ja az adott usernek, akkor Exception-t dob.
+     *
+     * *Szórjuk a pénzt mint a rakéta...*
      * @param int $amount
      * @return void
      * @throws InsufficientFundsException

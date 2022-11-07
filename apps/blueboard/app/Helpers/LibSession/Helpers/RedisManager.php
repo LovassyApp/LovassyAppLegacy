@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Redis;
 class RedisManager
 {
     /**
+     * Session hash
      * @var string
      */
     private string $hash;
@@ -25,6 +26,7 @@ class RedisManager
     private static string $prefix = 'Session-';
 
     /**
+     * *Csakegyhestlécci*
      * @param string $hash
      */
     public function __construct(string $hash)
@@ -105,7 +107,7 @@ class RedisManager
     /**
      * Üres session
      */
-    public function init()
+    public function init(): void
     {
         $id = $this->getSessionIdentifier();
         Redis::set($id, json_encode([]));

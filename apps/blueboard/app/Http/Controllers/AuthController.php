@@ -10,17 +10,12 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Helpers\LibSession\Crypter;
-use App\Helpers\LibKreta\KretaTokenHelper;
 use App\Helpers\LibSession\AuthCookie;
 use App\Helpers\LibSession\Services\SessionManager;
 use Validator;
 
 class AuthController extends Controller
 {
-    /*
-        Bejelentkezősdi
-    */
     public function login(Request $request)
     {
         $data = $request->validate([

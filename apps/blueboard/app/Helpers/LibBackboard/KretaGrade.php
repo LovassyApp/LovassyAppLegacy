@@ -14,21 +14,101 @@ use Carbon\Carbon;
  */
 class KretaGrade
 {
+    /**
+     * Jegy UID-ja, Minden jegynek eltér
+     *
+     * @var string
+     */
     public readonly string $uid;
+    /**
+     * Tantárgy
+     *
+     * @var string
+     */
     public readonly string $subject;
+    /**
+     * Tantárgy kategória --> Melyik általános tárgynak felel meg a Kréta adatbázisában
+     *
+     * @var string
+     */
     public readonly string $subject_category;
+    /**
+     * Tanár neve
+     *
+     * @var string
+     */
     public readonly string $teacher;
+    /**
+     * Jegy (számként)
+     *
+     * @var integer
+     */
     public readonly int $grade;
+    /**
+     * Szöveges értékelés
+     *
+     * @var string
+     */
     public readonly string $textGrade;
+    /**
+     * Szöveges értékelés, röviden
+     *
+     * @var string
+     */
     public readonly string $shortTextGrade;
+    /**
+     * Jegy súlya
+     *
+     * @var integer
+     */
     public readonly int $weight;
+    /**
+     * Jegy rögzítésének dátuma - Alias mikor tudja adiák megnézni
+     *
+     * @var string
+     */
     public readonly string $date;
+    /**
+     * Jegy létrehozásának dátuma
+     *
+     * @var string
+     */
     public readonly string $create_date;
+    /**
+     * Jegy neve
+     *
+     * @var string
+     */
     public readonly string $name;
+    /**
+     * Értékelés típusa (dolgozat, felelés, tézé, stb.)
+     *
+     * @var string
+     */
     public readonly string $type;
+    /**
+     * Jegytípus (Magatartás, Szorgalom, Osztályzat)
+     *
+     * @var string
+     */
     public readonly string $gradeType;
+    /**
+     * Értékelés típusa, de amúgy bullshit, mert inkább azt határozza meg, hogy mikori jegy (Féléves, Évközi, stb.)
+     *
+     * @var integer
+     */
     public readonly int $evaluationType;
+    /**
+     * Értéklés típusa emberi nyelven
+     *
+     * @var string
+     */
     public readonly string $evaluationTypeDescription;
+    /**
+     * A csoport akiknek ezt a jegyet adták
+     *
+     * @var string
+     */
     public readonly string $group;
 
     /**
@@ -70,6 +150,12 @@ class KretaGrade
         }
     }
 
+    /**
+     * Kréta-féle semmilyen szabványt nem követő, elbaszott dátumok kijavítása
+     *
+     * @param string $fuckedUpDate
+     * @return array
+     */
     private function fixDate(string $fuckedUpDate): array
     {
         $elements = explode('.', $fuckedUpDate);
@@ -77,6 +163,12 @@ class KretaGrade
         return $elements;
     }
 
+    /**
+     * Egy feldolgozatlan jegyből megmondja a szöveges értékelést
+     *
+     * @param object $gradeJson
+     * @return string
+     */
     private function getTextGrade(object $gradeJson): string
     {
         if ($gradeJson->behaviourGrade !== ' - ') {
