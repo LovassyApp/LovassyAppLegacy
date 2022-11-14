@@ -2,7 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Helpers\LibCrypto\Models\MasterKey;
+use App\Helpers\LibCrypto\Models\SodiumKeypair;
+use App\Helpers\LibCrypto\Services\EncryptionManager;
 use App\Models\User;
+use Hash;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -15,6 +19,8 @@ class UserFactory extends Factory
      */
     protected $model = User::class;
 
+    private static string $password = 'password';
+
     /**
      * Define the model's default state.
      *
@@ -24,11 +30,36 @@ class UserFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
+            'password' => Hash::make(self::$password),
             'email' => $this->faker->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token' => Str::random(10),
+            'om_code_hashed' => Str::random(30),
+            'om_code_encrypted' => '',
+            'public_key_hex' => '',
+            'master_key_encrypted' => '',
+            'private_key_encrypted' => '',
         ];
+    }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (User $user) {
+            $salt = EncryptionManager::generateSalt();
+            $key = new MasterKey();
+            $stored_key = $key->lock(self::$password, $salt);
+            $man = EncryptionManager::boot_register($key);
+            $keys = new SodiumKeypair(null);
+            $omcode = Str::random(20);
+
+            $user->om_code_hashed = EncryptionManager::hash_general($omcode);
+            $user->om_code_encrypted = $man->encrypt($omcode);
+            $user->public_key_hex = $keys->publicKey_hex;
+            $user->master_key_encrypted = $stored_key;
+            $user->private_key_encrypted = $man->encrypt($keys->privateKey);
+            $user->save();
+
+            $user->groups()->sync([1]);
+            EncryptionManager::saveSalt($salt, $user->id);
+        });
     }
 
     /**
