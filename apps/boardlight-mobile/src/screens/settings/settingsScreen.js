@@ -174,6 +174,18 @@ export const SettingsScreen = ({ navigation }) => {
             />
           }
         />
+        <SettingsItem
+          title="Adatvédelmi tájékoztató"
+          onPress={() => navigation.navigate("AdatvédelmiTájékoztató")}
+          right={
+            <Ionicons
+              style={{ marginRight: 2 }}
+              name="lock-closed"
+              size={20}
+              color={theme.colors.text}
+            />
+          }
+        />
 
         <View style={styles.space} />
 

@@ -13,6 +13,7 @@ import GlobalListeners from './Boot/GlobalListeners';
 import AppBootstrapProvider, { AppBootstrapContext } from './Boot/AppBootstrapProvider';
 import { BlueboardClientInit } from 'blueboard-client-react';
 import CheckBlueboard from './Boot/CheckBlueboard';
+import PrivacyPolicyModal from './Components/PrivacyPolicyModal';
 
 const [BlueboardProvider] = BlueboardClientInit(
     process.env.REACT_APP_BLUEBOARD_URL as string,
@@ -57,6 +58,7 @@ const ProviderStack = ({ children }: { children: React.ReactNode }): JSX.Element
                 <CheckBlueboard>
                     <AppBootstrapProvider>
                         <ToasterContainer />
+                        <PrivacyPolicyModal />
                         <GlobalListeners />
                         {children}
                     </AppBootstrapProvider>

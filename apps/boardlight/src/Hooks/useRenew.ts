@@ -14,9 +14,9 @@ const useRenew = (): (() => Promise<void>) => {
             logout().then(() => {
                 Swal.fire({
                     title: 'Probléma!',
-                    text: 'Hú csávókám hát, ez nagyon lent van, hogy kilettél rakva innen.',
+                    text: 'Hú csávókám hát, ez nagyon lent van, hogy ki lettél rakva innen. (Lejárt a session, kérlek jelentkezz be újra)',
                     icon: 'error',
-                    confirmButtonText: 'többet nem fordul elő...',
+                    confirmButtonText: 'Többet nem fordul elő...',
                 });
             });
         });

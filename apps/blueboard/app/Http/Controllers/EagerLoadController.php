@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Events\LoloAmountUpdated;
+use App\Helpers\LibBackboard\BackboardAdapter;
 use App\Helpers\LibBackboard\KretaGradeCategory;
+use App\Helpers\LibCrypto\Services\EncryptionManager;
 //use App\Helpers\LibKreta\RetiLimit;
 use App\Helpers\LibLolo\LoloGenerator;
 use App\Helpers\LibLolo\LoloHelper;
@@ -98,8 +100,12 @@ class EagerLoadController extends Controller
         } */
 
         $user = SessionManager::user();
+        $encryption_manager = EncryptionManager::use();
         $hash = $user->hash;
         $id = $user->id;
+
+        $adapter = new BackboardAdapter($user, $encryption_manager);
+        $adapter->tryUpdating();
 
         $ret = Octane::concurrently([
             fn() => self::getGrades($helper, $hash),

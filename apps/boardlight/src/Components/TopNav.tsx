@@ -275,6 +275,14 @@ const TopNav = (): JSX.Element => {
                                     }>
                                     Beállítások
                                 </DropdownItem>
+                                <DropdownItem
+                                    onClick={() =>
+                                        dispatch({
+                                            type: 'privacyPolicyModal/openPrivacyPolicyModal',
+                                        })
+                                    }>
+                                    Adatvédelem
+                                </DropdownItem>
                                 <DropdownItem divider={true} />
                                 <DropdownItem onClick={logout}>Kijelentkezés</DropdownItem>
                             </DropdownMenu>

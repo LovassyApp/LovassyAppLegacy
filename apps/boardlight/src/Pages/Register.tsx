@@ -246,6 +246,14 @@ const Register = (): JSX.Element => {
                 }}>
                 Már van fiókod? - Bejelentkezés
             </Link>
+            <br />
+            <Link
+                href="#"
+                onClick={() => {
+                    dispatch({ type: 'privacyPolicyModal/openPrivacyPolicyModal' });
+                }}>
+                Adatvédelem
+            </Link>
         </BaseLogin>
     );
 };

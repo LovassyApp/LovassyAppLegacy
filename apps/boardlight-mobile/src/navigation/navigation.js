@@ -22,6 +22,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useSelector } from "react-redux";
 import { useTheme } from "react-native-paper";
 import { useUser } from "../hooks/controlHooks";
+import { PrivacyPolicyScreen } from "../screens/settings/privacyPolicyScreen";
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -179,6 +180,7 @@ const SettingsNavigation = () => {
         }}>
         <Stack.Screen name="Kezdőlap" component={SettingsScreen} />
         <Stack.Screen name="Fejlesztők" component={ContributoprsScreen} />
+        <Stack.Screen name="AdatvédelmiTájékoztató" component={PrivacyPolicyScreen} />
       </Stack.Navigator>
     </View>
   );

@@ -157,6 +157,14 @@ const Login = (): JSX.Element => {
                 }}>
                 Még nincs fiókod? - Regisztrálás
             </Link>
+            <br />
+            <Link
+                href="#"
+                onClick={() => {
+                    dispatch({ type: 'privacyPolicyModal/openPrivacyPolicyModal' });
+                }}>
+                Adatvédelem
+            </Link>
         </BaseLogin>
     );
 };

@@ -8,6 +8,7 @@ import loaderReducer from './loaderReducer';
 import settingsModalReducer from './settingsModalReducer';
 import themeReducer from './themeReducer';
 import tokenReducer from './tokenReducer';
+import privacyPolicyModalReducer from './privacyPolicyModalReducer';
 
 const rootReducer = combineReducers({
     token: tokenReducer,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
     loader: loaderReducer,
     theme: themeReducer,
     settingsModal: settingsModalReducer,
+    privacyPolicyModal: privacyPolicyModalReducer,
 });
 
 const persistedState: any = { ...loadState(), ...LocalStorage.loadState() };
