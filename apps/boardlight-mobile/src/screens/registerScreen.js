@@ -1,10 +1,12 @@
 import {
   Button,
+  Checkbox,
   Dialog,
   Headline,
   HelperText,
   Paragraph,
   Portal,
+  Switch,
   Text,
   TextInput,
 } from "react-native-paper";
@@ -40,6 +42,9 @@ export const RegisterScreen = ({ navigation }) => {
 
   const [nameError, setNameError] = useState("");
   const [omIdError, setOmIdError] = useState("");
+
+  const [privacyPolicy, setPrivacyPolicy] = React.useState(false);
+  const [privacyPolicyError, setPrivacyPolicyError] = React.useState("");
 
   const [generalError, setGeneralError] = useState("");
 
@@ -82,6 +87,17 @@ export const RegisterScreen = ({ navigation }) => {
       flex: 1,
       marginLeft: 10,
     },
+    privacyPolicyContainer: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginHorizontal: 5,
+      marginBottom: -5,
+    },
+    link: {
+      color: "blue",
+      textDecorationLine: "underline",
+    },
   });
 
   const next = () => {
@@ -107,6 +123,12 @@ export const RegisterScreen = ({ navigation }) => {
   };
 
   const finish = async () => {
+    if (!privacyPolicy) {
+      setPrivacyPolicyError("A felhasználási feltételek elfogadása kötelező");
+      return;
+    }
+    setPrivacyPolicyError("");
+
     if (name === "") {
       setNameError("A név mező kitöltése kötelező");
       setOmIdError("");
@@ -247,6 +269,25 @@ export const RegisterScreen = ({ navigation }) => {
                 error={omIdError !== ""}
                 onChangeText={(text) => setOmId(text)}
               />
+              <View style={{ marginBottom: 20 }}>
+                <View style={styles.privacyPolicyContainer}>
+                  <Text>
+                    Elfogadom az{" "}
+                    <Text
+                      style={styles.link}
+                      onPress={() => navigation.navigate("AdatvédelmiTájékoztató")}>
+                      Adatvédelmi Tájékoztatót
+                    </Text>
+                  </Text>
+                  <Switch
+                    value={privacyPolicy}
+                    onValueChange={() => setPrivacyPolicy(!privacyPolicy)}
+                  />
+                </View>
+                {privacyPolicyError !== "" && (
+                  <HelperText type="error">{privacyPolicyError}</HelperText>
+                )}
+              </View>
               {omIdError !== "" && <HelperText type="error">{omIdError}</HelperText>}
               <View style={styles.buttonRow}>
                 <LaButton customStyle={styles.rowBackButton} onPress={() => setStageTwo(false)}>

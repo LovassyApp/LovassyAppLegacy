@@ -44,10 +44,7 @@ export const PrivacyPolicyScreen = ({ navigation }) => {
           A LovassyApp használatával jelzed, hogy ezt a tájékoztatót tudomásul vetted.
         </Paragraph>
       </View>
-      <LaButton
-        dense={true}
-        customStyle={{ margin: 10 }}
-        onPress={() => navigation.navigate("Kezdőlap")}>
+      <LaButton dense={true} customStyle={{ margin: 10 }} onPress={() => navigation.goBack()}>
         Vissza
       </LaButton>
     </ScreenContainer>

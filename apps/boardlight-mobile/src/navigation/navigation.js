@@ -6,6 +6,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { KretaScreen } from "../screens/kretaScreen";
 import { LoginScreen } from "../screens/loginScreen";
 import { NavigationContainer } from "@react-navigation/native";
+import { PrivacyPolicyScreen } from "../screens/settings/privacyPolicyScreen";
 import { ProductsScreen } from "../screens/admin/productsScreen";
 import { QrCodesScreen } from "../screens/admin/qrCodesScreen";
 import React from "react";
@@ -22,7 +23,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useSelector } from "react-redux";
 import { useTheme } from "react-native-paper";
 import { useUser } from "../hooks/controlHooks";
-import { PrivacyPolicyScreen } from "../screens/settings/privacyPolicyScreen";
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -145,6 +145,7 @@ const LoginNavigation = () => {
       }}>
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
+      <Stack.Screen name="AdatvédelmiTájékoztató" component={PrivacyPolicyScreen} />
     </Stack.Navigator>
   );
 };
