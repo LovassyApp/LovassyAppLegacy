@@ -1,11 +1,16 @@
+import { privacyPolicyModalState } from './privacyPolicyModalReducer';
 import { RootState } from '.';
+
+const defaultState = { privacyPolicyModal: { isOpen: true } } as {
+    privacyPolicyModal: privacyPolicyModalState;
+};
 
 export const loadState = (): any => {
     try {
         const serializedState = localStorage.getItem('boardlight.persist');
 
         if (serializedState === null) {
-            return undefined;
+            return defaultState;
         }
 
         return JSON.parse(serializedState);
@@ -18,6 +23,7 @@ export const loadState = (): any => {
 const savedStateFactory = (state: RootState): any => {
     return {
         theme: state.theme,
+        privacyPolicyModal: state.privacyPolicyModal,
     };
 };
 

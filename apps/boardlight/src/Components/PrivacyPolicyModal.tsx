@@ -77,7 +77,7 @@ const PrivacyPolicyModal = (): JSX.Element => {
                 <p>
                     Mint a legtöbb alkalmazás, a LovassyApp webes változata (Boardlight) is használ
                     sütiket. Ezek csak és kizárólag az alkalmazás használatát segítik (például a
-                    jelszó megjegyzése), semmi féle adatgyűjtési célzatuk nincs.
+                    jelszó megjegyzése), semmi féle adatgyűjtési céljuk nincs.
                 </p>
                 <p>Az alkalmazás használatával beleegyezel ezen sütik használatába.</p>
             </Modal.Body>

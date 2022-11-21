@@ -58,7 +58,6 @@ class BlueboardRequestsClient extends BlueboardBaseClient {
         verdict: BlueboardLoloRequestAction,
         amount?: number
     ) => {
-        console.log(amount);
         const data = {
             id: id,
             verdict: verdict,

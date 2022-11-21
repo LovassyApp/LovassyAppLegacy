@@ -10,7 +10,11 @@ import BlueboardTokenRefresher from './modules/BlueboardTokenRefresher';
 import BlueboardUsersClient from './modules/BlueboardUsersClient';
 import BlueboardStoreClient from './modules/BlueboardStoreClient';
 import BlueboardLoloClient from './modules/BlueboardLoloClient';
-import { BlueboardInventoryClient, BlueboardKretaClient, BlueboardRequestsClient } from '.';
+import {
+    BlueboardInventoryClient,
+    BlueboardKretaClient,
+    BlueboardRequestsClient,
+} from '.';
 
 class BlueboardClient {
     public readonly auth: BlueboardAuthClient;
@@ -30,7 +34,12 @@ class BlueboardClient {
     private state: BlueboardState = new BlueboardState();
 
     constructor(blueboardUrl: string, cookies = false, apiToken?: string) {
-        const config = new BlueboardClientModuleConfig(blueboardUrl, this.state, cookies, apiToken);
+        const config = new BlueboardClientModuleConfig(
+            blueboardUrl,
+            this.state,
+            cookies,
+            apiToken
+        );
 
         this.auth = new BlueboardAuthClient(config);
         this.account = new BlueboardAccountClient(config);

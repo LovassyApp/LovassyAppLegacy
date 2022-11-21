@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Http\Request;
 
 class VersionController extends Controller
 {
@@ -25,8 +26,10 @@ class VersionController extends Controller
         "Blueboard btw: Krétát kezelünk, tehát kötelező a tanszerrel kapcsolatos név. 'Tábla napló' (geez) még nincs, ezért Board, a Blue pedig hát... A Lovassy színe a kék, én meg basic vagyok... Szóval ja... Blueboard. (Jobb, mint a Kék tábla napló vagy idk)",
     ];
 
-    public function index()
+    public function index(Request $request)
     {
+        $sendOk = (bool) $request->query('sendOk', false);
+
         return ResponseMaker::generate(
             [
                 'whoami' => 'Blueboard - Server for LovassyApp',
@@ -37,8 +40,8 @@ class VersionController extends Controller
                 'repository' => 'https://github.com/LovassyApp/LovassyApp/tree/master/apps/blueboard',
                 'motd' => self::MOTDS[array_rand(self::MOTDS, 1)],
             ],
-            418,
-            "I'm a teapot BTW :)"
+            $sendOk ? 200 : 418,
+            $sendOk ? 'Try without sendOk instead. :/' : "I'm a teapot BTW :)"
         );
     }
 

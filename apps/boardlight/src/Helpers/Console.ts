@@ -1,3 +1,4 @@
+import { VERSION } from './../index';
 /* eslint-disable quotes */
 /* eslint-disable prefer-template */
 class BoardlightConsole {
@@ -23,6 +24,8 @@ class BoardlightConsole {
         line(":___.'`.__.'`.__,_;:_;  `.__.'`.__;:_;`._. ;:_;:_;:_; ");
         line('                                       .-. :          ');
         line("                                       `._.'          ");
+        lineBreak();
+        line(`Version v${VERSION}`);
         lineBreak();
         line('Kópérájt minigyima, Xeretis 2021-2022.');
         lineBreak();

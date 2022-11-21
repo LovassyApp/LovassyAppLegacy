@@ -1,11 +1,16 @@
 import { Modal, Switch, Text, useTheme } from '@nextui-org/react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { MdOutlineDarkMode, MdOutlineLightMode, MdCheck, MdClose } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
 import { Row, Col } from 'reactstrap';
 import styled from 'styled-components';
+import { VERSION } from '..';
+import { BlueboardAboutResponse, SDK_VERSION } from 'blueboard-client';
 import useSettingsModalState from '../Hooks/useSettingsModalState';
 import useThemePrefs from '../Hooks/useThemePrefs';
+import { useBlueboardClient } from 'blueboard-client-react';
+import Center from './Center';
+import TableLoader from './TableLoader';
 
 const Subheading = styled.h4`
     display: flex;
@@ -33,8 +38,23 @@ const SettingsModal = (): JSX.Element => {
     const isOpen = useSettingsModalState();
     const themeState = useThemePrefs();
     const dispatch = useDispatch();
-
     const theme = useTheme();
+    const client = useBlueboardClient();
+    const [loading, setLoading] = useState<boolean>(true);
+    const [serverProps, setServerProps] = useState<BlueboardAboutResponse | null>(null);
+
+    useEffect(() => {
+        (async (): Promise<void> => {
+            try {
+                const res = await client.account.about();
+                setLoading(false);
+                setServerProps(res);
+            } catch (err) {
+                console.log(err);
+            }
+        })();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [loading]);
 
     return (
         <Modal
@@ -42,7 +62,11 @@ const SettingsModal = (): JSX.Element => {
             blur={true}
             aria-labelledby="modal-title"
             open={isOpen}
-            onClose={() => dispatch({ type: 'settingsModal/closeSettingsModal' })}
+            onClose={() => {
+                dispatch({ type: 'settingsModal/closeSettingsModal' });
+                setLoading(true);
+                setServerProps(null);
+            }}
             preventClose={true}
             width="650px">
             <Modal.Header style={{ border: 'none' }}>
@@ -96,6 +120,49 @@ const SettingsModal = (): JSX.Element => {
                         </Row>
                     </Col>
                 </Row>
+                <Subheading color={theme.palette.accents_4}>az app névjegye</Subheading>
+                <Row>
+                    <Col sm={4}>Frontend</Col>
+                    <Col>Boardlight v{VERSION}</Col>
+                </Row>
+                <Row>
+                    <Col sm={4}>SDK</Col>
+                    <Col>blueboard-client v{SDK_VERSION}</Col>
+                </Row>
+                <Row>
+                    <Col sm={4}>Fejlesztők</Col>
+                    <Col>Gyimesi Máté (minigyima), Ocskó Nándor (Xeretis)</Col>
+                </Row>
+                <Subheading color={theme.palette.accents_4}>a szerver névjegye</Subheading>
+                {loading ? (
+                    <Center>
+                        <TableLoader />
+                    </Center>
+                ) : (
+                    <>
+                        <Row>
+                            <Col sm={4}>Szerver</Col>
+                            <Col>
+                                {serverProps?.whoami} v{serverProps?.blueboard_version}
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col sm={4}>SDK</Col>
+                            <Col>
+                                Laravel v{serverProps?.laravel_version}, PHP{' '}
+                                {serverProps?.php_version}
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col sm={4}>Fejlesztők</Col>
+                            <Col>{serverProps?.contributors.join(', ')}</Col>
+                        </Row>
+                        <Row>
+                            <Col sm={4}>Napi idézet</Col>
+                            <Col>{serverProps?.motd}</Col>
+                        </Row>
+                    </>
+                )}
             </Modal.Body>
             <Modal.Footer style={{ overflow: 'visible', border: 'none' }} />
         </Modal>

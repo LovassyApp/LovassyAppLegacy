@@ -305,8 +305,6 @@ const Inventory = (): JSX.Element => {
 
             const index = itemsClone.findIndex((x) => x.id === data.item.id);
 
-            console.log(index === -1);
-
             if (index === -1) {
                 itemsClone.push(newItem);
             } else {

@@ -4,6 +4,7 @@ import BlueboardBaseClient from '../BlueboardBaseClient';
 import { BlueboardBootResponseFactory } from '../factories';
 import BlueboardControl from '../models/BlueboardControl';
 import BlueboardControlException from '../errors/BlueboardControlException';
+import BlueboardAboutResponse from '../models/BlueboardAboutResponse';
 
 class BlueboardAccountClient extends BlueboardBaseClient {
     public async control(forcedToken?: string) {
@@ -47,6 +48,27 @@ class BlueboardAccountClient extends BlueboardBaseClient {
         });
 
         return res;
+    }
+
+    public async about() {
+        const url = this.endpoints.about;
+
+        const res = await this.stdGetRequest(
+            url,
+            {},
+            { sendOk: true },
+            { Accept: 'application/json' }
+        );
+
+        return new BlueboardAboutResponse(
+            res.whoami,
+            res.php_version,
+            res.laravel_version,
+            res.blueboard_version,
+            res.contributors,
+            res.repository,
+            res.motd
+        );
     }
 
     public async boot(refresh: boolean = false, forcedToken?: string) {

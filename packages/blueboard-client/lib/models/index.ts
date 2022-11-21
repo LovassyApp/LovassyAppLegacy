@@ -24,3 +24,4 @@ export { default as BlueboardItemUse } from './BlueboardItemUse';
 export { default as BlueboardLoloRequest } from './BlueboardLoloRequest';
 export { default as BlueboardLoloRequestAction } from './BlueboardLoloRequestAction';
 export { default as BlueboardBootResponse } from './BlueboardBootResponse';
+export { default as BlueboardAboutResponse } from './BlueboardAboutResponse';

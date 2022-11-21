@@ -6,6 +6,8 @@ import { Provider } from 'react-redux';
 import register from './Helpers/Console';
 // import reportWebVitals from './reportWebVitals';
 
+export const VERSION = '1.0.0';
+
 ReactDOM.render(
     <Provider store={store}>
         <App />

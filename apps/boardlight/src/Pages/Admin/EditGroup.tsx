@@ -124,7 +124,6 @@ const EditGroup = (): JSX.Element => {
                     }
 
                     if (err.errors.permissions === undefined && err.errors.name === undefined) {
-                        console.log('hello');
                         setGLOBERR(err.message);
                         globSetVisible(true);
                     }

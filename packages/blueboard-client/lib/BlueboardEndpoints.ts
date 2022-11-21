@@ -1,7 +1,7 @@
 class BlueboardEndpoints {
     public readonly base: string | null = null;
     public readonly apiBase: string = '/api';
-    public readonly version: string = '';
+    public readonly about: string = '';
     public readonly auth: {
         register: string;
         login: string;
@@ -30,7 +30,7 @@ class BlueboardEndpoints {
     constructor(baseUrl: string) {
         this.base = baseUrl + this.apiBase;
 
-        this.version = this.base + '/version';
+        this.about = this.base + '/version';
 
         this.auth = {
             register: this.base + '/register',
