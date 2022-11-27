@@ -4,6 +4,7 @@ namespace App\Helpers\LibBackboard;
 
 use App\Helpers\StrClean;
 use Carbon\Carbon;
+use stdClass;
 
 /**
  * Hát... Inkább nem kommentálnám.
@@ -143,7 +144,7 @@ class KretaGrade
     */
     private function getWeight(string $type): int
     {
-        if ($type === 'Írásbeli témazáró dolgozat' || $type === 'Írásbeli témazáró dolgozat (dupla súllyal)') {
+        if ($type === 'Írásbeli témazáró dolgozat (dupla súllyal)') {
             return 200;
         } else {
             return 100;
@@ -184,10 +185,10 @@ class KretaGrade
      * Parsing begins...
      * Hát igen. Ez is kicsit fájdalmas.
      *
-     * @param object $gradeJson
+     * @param stdClass $gradeJson
      * @param array $additionalAttributes
      */
-    public function __construct(object $gradeJson, array $additionalAttributes = [])
+    public function __construct(stdClass $gradeJson, array $additionalAttributes = [])
     {
         $date1 = $this->fixDate($gradeJson->recordDate);
         $date2 = $this->fixDate($gradeJson->createDate);

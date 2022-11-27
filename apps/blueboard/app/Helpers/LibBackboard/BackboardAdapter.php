@@ -3,6 +3,7 @@
 namespace App\Helpers\LibBackboard;
 
 use App\Helpers\LibBackboard\Errors\InvalidImportException;
+use App\Helpers\LibBackboard\Models\BackboardKretaGradeCollection;
 use App\Helpers\LibCrypto\Models\SodiumKeypair;
 use App\Helpers\LibCrypto\Services\EncryptionManager;
 use App\Models\Grade;
@@ -117,7 +118,7 @@ class BackboardAdapter
     /**
      * Feldolgozza a jegyeket, kicsit szebb formátumba, KretaGrade classokba
      *
-     * @param stdClass $gradeObject
+     * @param BackboardKretaGradeCollection $gradeObject
      * @return array
      */
     private function parse(stdClass $gradeObject): array
