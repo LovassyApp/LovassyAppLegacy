@@ -1,8 +1,14 @@
+import { EchoChannel } from './../index';
 import { useState, useEffect } from 'react';
 import { useEvent, useSocket } from './helpers';
-
-const useBlueboardChannel = (channelName: string, eventName: string, callback: CallableFunction) => {
-    const [wsChannel, setChannel] = useState({});
+const useBlueboardChannel = (
+    channelName: string,
+    eventName: string,
+    callback: CallableFunction
+) => {
+    const [wsChannel, setChannel] = useState<EchoChannel | undefined>(
+        undefined
+    );
 
     if (channelName == undefined) {
         throw new Error('No channel specified.');
@@ -16,8 +22,8 @@ const useBlueboardChannel = (channelName: string, eventName: string, callback: C
     const socket = useSocket();
 
     useEffect(() => {
-        if (typeof socket.channel === 'function') {
-            setChannel(socket.channel(channelName));
+        if (typeof socket?.channel === 'function') {
+            setChannel(socket.channel(channelName) as EchoChannel);
         }
     }, [socket]);
 

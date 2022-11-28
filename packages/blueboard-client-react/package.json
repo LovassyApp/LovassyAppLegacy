@@ -29,10 +29,12 @@
         "url": "git+https://github.com/Xeretis/LovassyApp.git"
     },
     "dependencies": {
-        "blueboard-client": "^0.1.0"
+        "blueboard-client": "^0.1.0",
+        "laravel-echo": "^1.11.3",
+        "pusher-js": "^7.0.3",
+        "@types/react": "^17.0.38"
     },
     "peerDependencies": {
-        "@types/react": "^17.0.38",
         "react": "^17.0.1"
     }
 }

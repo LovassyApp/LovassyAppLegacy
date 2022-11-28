@@ -1,15 +1,16 @@
-import BlueboardProvider from "./providers/BlueboardProvider";
-import BlueboardSocketProvider from "./providers/BlueboardSocketProvider";
-import BlueboardClientProvider from "./providers/BlueboardClientProvider";
-import BlueboardClientProps from "./models/BlueboardClientProps";
-import { BlueboardClient } from "blueboard-client";
-import { createContext } from "react";
+import BlueboardProvider from './providers/BlueboardProvider';
+import BlueboardSocketProvider from './providers/BlueboardSocketProvider';
+import BlueboardClientProvider from './providers/BlueboardClientProvider';
+import BlueboardClientProps from './models/BlueboardClientProps';
+import { BlueboardClient } from 'blueboard-client';
+import { Context, createContext } from 'react';
+import Echo from 'laravel-echo';
 
 let globalState: {
     props: BlueboardClientProps;
     BlueboardClientInstance: BlueboardClient;
-    BlueboardClientContext: any;
-    BlueboardSocketContext: any;
+    BlueboardClientContext: Context<BlueboardClient>;
+    BlueboardSocketContext: Context<Echo | undefined>;
 };
 
 export { globalState };
@@ -40,7 +41,7 @@ const BlueboardClientInit = (
         props: props,
         BlueboardClientInstance: client,
         BlueboardClientContext: createContext(client),
-        BlueboardSocketContext: createContext({}),
+        BlueboardSocketContext: createContext<Echo | undefined>(undefined),
     };
 
     return [

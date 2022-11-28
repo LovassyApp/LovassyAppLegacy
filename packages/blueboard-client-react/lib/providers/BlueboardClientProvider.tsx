@@ -1,4 +1,4 @@
-import { useEffect, useState, createContext } from 'react';
+import React, { useEffect, useState, createContext } from 'react';
 import { BlueboardClient } from 'blueboard-client';
 import providerProps from '../models/ProviderProps';
 import { globalState } from '../BlueboardClientInit';
@@ -6,7 +6,9 @@ import { globalState } from '../BlueboardClientInit';
 const BlueboardClientProvider = ({ token, children }: providerProps) => {
     const BlueboardClientContext = globalState.BlueboardClientContext;
 
-    const [client, setClient] = useState<BlueboardClient>(globalState.BlueboardClientInstance);
+    const [client, setClient] = useState<BlueboardClient>(
+        globalState.BlueboardClientInstance
+    );
 
     useEffect(() => {
         let newClient: BlueboardClient = new BlueboardClient(
@@ -18,7 +20,11 @@ const BlueboardClientProvider = ({ token, children }: providerProps) => {
         setClient(newClient);
     }, [token]);
 
-    return <BlueboardClientContext.Provider value={client}>{children}</BlueboardClientContext.Provider>;
+    return (
+        <BlueboardClientContext.Provider value={client}>
+            {children}
+        </BlueboardClientContext.Provider>
+    );
 };
 
 export default BlueboardClientProvider;
