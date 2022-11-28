@@ -8,8 +8,8 @@ const useSocket = () => {
 
 const useEvent = (
     channel: EchoChannel | undefined,
-    eventName: any,
-    callback: any
+    eventName: string,
+    callback: CallableFunction
 ) => {
     useEffect(() => {
         if (typeof channel?.listen === 'function') {
