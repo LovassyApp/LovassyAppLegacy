@@ -1,5 +1,5 @@
 import { Avatar, Headline, List, Text, Title, useTheme } from "react-native-paper";
-import { StyleSheet, View } from "react-native";
+import { Platform, StyleSheet, View } from "react-native";
 
 import BottomSheet from "../components/bottomSheet";
 import { GradeItem } from "../components/content/gradeItem";
@@ -162,6 +162,9 @@ export const KretaScreen = () => {
               <Avatar.Text
                 style={{ backgroundColor: colors[currentGrade?.grade], margin: 8 }}
                 size={56}
+                labelStyle={
+                  Platform.OS !== "ios" ? { marginTop: 5, flex: 1, alignSelf: "center" } : {}
+                }
                 color="#000000"
                 label={currentGrade?.grade === 0 ? "-" : currentGrade?.grade}
               />

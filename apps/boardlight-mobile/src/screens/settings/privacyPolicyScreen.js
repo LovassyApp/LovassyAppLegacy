@@ -1,5 +1,5 @@
 import { Headline, Paragraph, Text, Title } from "react-native-paper";
-import { StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 
 import { LaButton } from "../../components/content/customized/laButton";
 import React from "react";
@@ -18,7 +18,7 @@ export const PrivacyPolicyScreen = ({ navigation }) => {
   });
 
   return (
-    <ScreenContainer>
+    <ScreenContainer scrollable={true}>
       <Headline>Adatvédelmi tájékoztató</Headline>
       <View style={styles.container}>
         <Paragraph style={styles.paragraph}>

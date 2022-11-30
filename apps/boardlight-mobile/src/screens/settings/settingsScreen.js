@@ -13,7 +13,7 @@ import {
   useTheme,
 } from "react-native-paper";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { Platform, ScrollView, StyleSheet, View } from "react-native";
 import { darkTheme, lightTheme } from "../../utils/theme/themes";
 import { loadData, saveData } from "../../utils/misc/storageUtils";
 import { setAdmin, setPredictiveLoad, setTheme } from "../../store/slices/settingsSlice";
@@ -92,6 +92,11 @@ export const SettingsScreen = ({ navigation }) => {
         <View style={styles.accountContent}>
           <Avatar.Text
             size={64}
+            labelStyle={
+              Platform.OS !== "ios"
+                ? { marginTop: 6, marginRight: 1, flex: 1, alignSelf: "center" }
+                : {}
+            }
             label={control.user.name
               .split(" ")
               .map((name) => name[0])
@@ -210,10 +215,10 @@ export const SettingsScreen = ({ navigation }) => {
                 Utoljára frissítve: {"\n"}
                 {control.user.timestamps.updatedAt.split(".")[0].split("T").join(" ")}
               </Paragraph>
-              <Paragraph>
+              {/* <Paragraph>
                 Engedélyek: {"\n"}
                 {control.permissions.join(", ")}
-              </Paragraph>
+                </Paragraph>*/}
             </Dialog.Content>
             <Dialog.Actions>
               <Button onPress={() => setShowInformation(false)}>Ok</Button>

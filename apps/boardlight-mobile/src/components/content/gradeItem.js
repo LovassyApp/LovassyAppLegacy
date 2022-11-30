@@ -2,6 +2,7 @@
 import { Avatar, List, useTheme } from "react-native-paper";
 
 import React from "react";
+import { Platform } from "react-native";
 
 export const GradeItem = (props) => {
   const { grade } = props.data;
@@ -30,10 +31,18 @@ export const GradeItem = (props) => {
           style={{
             backgroundColor: colors[grade],
             margin: 8,
-            padding: 1,
-            paddingLeft: 2, // low budget weird centering cuz flexbox doesn't work here for some reason
           }}
-          size={40}
+          labelStyle={
+            Platform.OS !== "ios"
+              ? {
+                  flex: 1,
+                  flexDirection: "column",
+                  alignSelf: "center",
+                  marginTop: 4,
+                }
+              : {}
+          }
+          size={42}
           color="#000000"
           label={grade === 0 ? "-" : grade}
         />
