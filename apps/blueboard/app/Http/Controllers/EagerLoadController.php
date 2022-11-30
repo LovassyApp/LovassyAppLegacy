@@ -93,19 +93,15 @@ class EagerLoadController extends Controller
         $helper = app(PermissionHelper::class);
         $helper->cacheUser();
 
-        /*  if (($helper->authorize('General.grades', true) || $helper->authorize('General.lolo', true)) && $refresh) {
-            RetiLimit::useRateLimit(function () use ($helper, $refresh) {
-                LoloHelper::updateGrades();
-            });
-        } */
-
         $user = SessionManager::user();
         $encryption_manager = EncryptionManager::use();
         $hash = $user->hash;
         $id = $user->id;
 
-        $adapter = new BackboardAdapter($user, $encryption_manager);
-        $adapter->tryUpdating();
+        if (($helper->authorize('General.grades', true) || $helper->authorize('General.lolo', true)) && $refresh) {
+            $adapter = new BackboardAdapter($user, $encryption_manager);
+            $adapter->tryUpdating();
+        }
 
         $ret = Octane::concurrently([
             fn() => self::getGrades($helper, $hash),
