@@ -1,5 +1,5 @@
 import { Platform, ScrollView, StyleSheet, View } from "react-native";
-import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import React from "react";
 import { useTheme } from "react-native-paper";

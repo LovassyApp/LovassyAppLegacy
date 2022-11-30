@@ -86,7 +86,7 @@ export const SettingsScreen = ({ navigation }) => {
   };
 
   return (
-    <ScreenContainer scrollable={true}>
+    <ScreenContainer style={{ height: "100%" }} scrollable={true}>
       <Headline>Beállítások</Headline>
       <View style={styles.content}>
         <View style={styles.accountContent}>
