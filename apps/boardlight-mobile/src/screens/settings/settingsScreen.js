@@ -91,7 +91,7 @@ export const SettingsScreen = ({ navigation }) => {
       <View style={styles.content}>
         <View style={styles.accountContent}>
           <Avatar.Text
-            size={64}
+            size={Platform.OS !== "ios" ? 64 : 70}
             labelStyle={
               Platform.OS !== "ios"
                 ? { marginTop: 6, marginRight: 1, flex: 1, alignSelf: "center" }
