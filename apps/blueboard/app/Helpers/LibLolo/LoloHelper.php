@@ -23,7 +23,7 @@ class LoloHelper
      * Drága Júzerünk egyenlege
      * @var int
      */
-    public readonly int $balance;
+    public int $balance;
     /**
      * Eme *kolleksön* az "érméket" tartalmazza
      */
