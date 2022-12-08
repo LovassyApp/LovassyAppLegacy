@@ -3,6 +3,9 @@ import { Avatar, List, useTheme } from "react-native-paper";
 
 import React from "react";
 import { Platform } from "react-native";
+import { getOffset } from "../../utils/misc/offsetUtils";
+
+// Disguisting Android fix for more screensizes.
 
 export const GradeItem = (props) => {
   const { grade } = props.data;
@@ -38,7 +41,7 @@ export const GradeItem = (props) => {
                   flex: 1,
                   flexDirection: "column",
                   alignSelf: "center",
-                  marginTop: 4,
+                  marginTop: getOffset(10.25),
                 }
               : {}
           }

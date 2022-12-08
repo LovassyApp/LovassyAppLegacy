@@ -13,6 +13,7 @@ import { useBlueboardClient } from "blueboard-client-react";
 import { useLoading } from "../hooks/useLoading";
 import { usePermissions } from "../hooks/controlHooks";
 import { useSelector } from "react-redux";
+import { getOffset } from "../utils/misc/offsetUtils";
 
 export const KretaScreen = () => {
   const [currentSubjectData, setCurrentSubjectData] = React.useState(null);
@@ -163,7 +164,9 @@ export const KretaScreen = () => {
                 style={{ backgroundColor: colors[currentGrade?.grade], margin: 8 }}
                 size={56}
                 labelStyle={
-                  Platform.OS !== "ios" ? { marginTop: 5, flex: 1, alignSelf: "center" } : {}
+                  Platform.OS !== "ios"
+                    ? { marginTop: getOffset(12), flex: 1, alignSelf: "center" }
+                    : {}
                 }
                 color="#000000"
                 label={currentGrade?.grade === 0 ? "-" : currentGrade?.grade}

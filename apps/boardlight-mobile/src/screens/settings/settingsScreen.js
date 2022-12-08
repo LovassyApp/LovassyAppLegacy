@@ -24,6 +24,7 @@ import { RestrictedWrapper } from "../../components/restrictedWrapper";
 import { ScreenContainer } from "../../components/screenContainer";
 import { SettingsItem } from "../../components/content/settingsItem";
 import useLogout from "../../hooks/useLogout";
+import { getOffset } from "../../utils/misc/offsetUtils";
 
 export const SettingsScreen = ({ navigation }) => {
   const [showInformation, setShowInformation] = useState(false);
@@ -94,7 +95,7 @@ export const SettingsScreen = ({ navigation }) => {
             size={Platform.OS !== "ios" ? 64 : 70}
             labelStyle={
               Platform.OS !== "ios"
-                ? { marginTop: 6, marginRight: 1, flex: 1, alignSelf: "center" }
+                ? { marginTop: getOffset(11), marginRight: 1, flex: 1, alignSelf: "center" }
                 : {}
             }
             label={control.user.name
