@@ -1,4 +1,4 @@
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import store from './State';
@@ -8,11 +8,12 @@ import register from './Helpers/Console';
 
 export const VERSION = '1.0.0';
 
-ReactDOM.render(
+const root = createRoot(document.getElementById('root'));
+
+root.render(
     <Provider store={store}>
         <App />
     </Provider>,
-    document.getElementById('root'),
 );
 
 register();

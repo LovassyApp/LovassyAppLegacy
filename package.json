@@ -33,5 +33,6 @@
         "docker-start": "docker-compose --project-directory docker/ up",
         "docker-shell": "docker-compose --project-directory docker/ run blueboard-shell",
         "docker-down": "docker-compose --project-directory docker/ down --volumes -t 0"
-    }
+    },
+    "packageManager": "yarn@1.22.19"
 }

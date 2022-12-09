@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import Routes from './Routes';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '@fortawesome/fontawesome-free/css/all.css';
 import './CSS/style.css';
 import { Toaster } from 'react-hot-toast';
 import { ThemeProvider, useTheme } from '@nextui-org/react';
@@ -16,9 +14,9 @@ import CheckBlueboard from './Boot/CheckBlueboard';
 import PrivacyPolicyModal from './Components/PrivacyPolicyModal';
 
 const [BlueboardProvider] = BlueboardClientInit(
-    process.env.REACT_APP_BLUEBOARD_URL as string,
-    process.env.REACT_APP_BLUEBOARD_SOKETI_HOST as string,
-    process.env.REACT_APP_BLUEBOARD_SOKETI_KEY as string,
+    import.meta.env.VITE_BLUEBOARD_URL,
+    import.meta.env.VITE_BLUEBOARD_SOKETI_HOST,
+    import.meta.env.VITE_BLUEBOARD_SOKETI_KEY,
     true,
 );
 
