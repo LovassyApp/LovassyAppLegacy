@@ -27,8 +27,6 @@
         "@types/react-router-dom": "^5.3.3",
         "@types/styled-components": "^5.1.21",
         "@uiw/react-md-editor": "^3.7.0",
-        "blueboard-client": "*",
-        "blueboard-client-react": "*",
         "bootstrap": "^5.1.3",
         "jquery": "^3.6.0",
         "match-sorter": "^6.3.1",
@@ -50,13 +48,6 @@
         "styled-components": "^5.3.3",
         "sweetalert2": "^11.1.9",
         "sweetalert2-react-content": "^4.2.0"
-    },
-    "scripts": {
-        "start": "vite --host=0.0.0.0",
-        "build": "vite build",
-        "dev": "vite",
-        "lint": "eslint --ext .ts,.tsx src/ --fix",
-        "format": "prettier --write ."
     },
     "browserslist": {
         "production": [
@@ -84,7 +75,11 @@
         "typescript": "^4.5.4",
         "vite": "^4.0.0"
     },
-    "resolutions": {
-        "react-error-overlay": "6.0.9"
+    "scripts": {
+        "start": "vite --host=0.0.0.0",
+        "build": "vite build",
+        "dev": "vite",
+        "lint": "eslint --ext .ts,.tsx src/ --fix",
+        "format": "prettier --write ."
     }
 }

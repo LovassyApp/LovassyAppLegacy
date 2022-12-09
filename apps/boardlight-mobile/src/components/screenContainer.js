@@ -1,17 +1,18 @@
 import { Platform, ScrollView, StyleSheet, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 
 import React from "react";
 import { useTheme } from "react-native-paper";
 
 export const ScreenContainer = (props) => {
   const theme = useTheme();
+  const insets = useSafeAreaInsets();
 
   const styles = StyleSheet.create({
     container: {
       margin: 10,
       height: "100%",
-      paddingBottom: Platform.OS === "android" ? 25 : 0,
+      paddingBottom: insets.bottom !== 0 ? 0 : 25,
     },
   });
 

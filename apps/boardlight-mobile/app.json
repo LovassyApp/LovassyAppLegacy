@@ -22,7 +22,8 @@
             "adaptiveIcon": {
                 "foregroundImage": "./src/assets/adaptive-icon.png",
                 "backgroundColor": "#FFFFFF"
-            }
+            },
+            "package": "lovassyapp.boardlight.mobile"
         },
         "web": {
             "favicon": "./src/assets/favicon.png"
