@@ -9,3 +9,6 @@ src/assets
 .env
 .env.example
 .prettierignore
+android/
+ios/
+.gitignore
