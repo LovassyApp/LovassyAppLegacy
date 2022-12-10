@@ -1,6 +1,6 @@
 {
     "name": "boardlight",
-    "description": "The web client of LovassyApp",
+    "description": "The web client for LovassyApp",
     "author": "Máté Gyimesi <gyim.mate@gmail.com>",
     "contributors": [
         "Nándor Ocskó <ocskon@gmail.com>",
@@ -14,6 +14,8 @@
         "@brainhubeu/react-carousel": "^2.0.4",
         "@fortawesome/fontawesome-free": "^5.15.4",
         "@nextui-org/react": "^1.0.1-alpha.56",
+        "blueboard-client": "*",
+        "blueboard-client-react": "*",
         "@popperjs/core": "^2.10.2",
         "@reduxjs/toolkit": "^1.6.2",
         "@types/brainhubeu__react-carousel": "^2.0.5",

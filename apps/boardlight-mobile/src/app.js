@@ -98,7 +98,7 @@ const ListenerStack = ({ children }) => {
   return children;
 };
 
-const App = () => {
+export const App = () => {
   return (
     <Provider store={store}>
       <ProviderStack>
