@@ -14,9 +14,10 @@
             "fallbackToCacheTimeout": 0
         },
         "assetBundlePatterns": ["**/*"],
-        "entryPoint": "./src/app.js",
+        "entryPoint": "./index.js",
         "ios": {
-            "supportsTablet": true
+            "supportsTablet": true,
+            "bundleIdentifier": "lovassyapp.boardlight.mobile"
         },
         "android": {
             "adaptiveIcon": {

@@ -6,14 +6,10 @@ import {
   BlueboardLoloResponseFactory,
 } from "blueboard-client";
 import { Provider, useDispatch, useSelector } from "react-redux";
-import React, { useEffect } from "react";
+import React from "react";
 import { addItem, updateItem } from "./store/slices/inventorySlice";
-import { darkTheme, lightTheme } from "./utils/theme/themes";
-import { loadData, secureLoadData } from "./utils/misc/storageUtils";
-import { setState, setTheme } from "./store/slices/settingsSlice";
 
 import { AppBootstrapProvider } from "./boot/appBootstrapProvider";
-import { Appearance } from "react-native";
 import { CheckBlueboard } from "./boot/checkBlueboard";
 import { FullScreenLoading } from "./components/fullScreenLoading";
 import { Ionicons } from "@expo/vector-icons";
@@ -21,7 +17,6 @@ import { NavigationDecider } from "./navigation/navigation";
 import { Provider as PaperProvider } from "react-native-paper";
 import { StaticAssetLoader } from "./boot/staticAssetLoader";
 import { StatusBar } from "expo-status-bar";
-import { registerRootComponent } from "expo";
 import { setCoins } from "./store/slices/coinsSlice";
 import { setRequests } from "./store/slices/requestsSlice";
 import { setStore } from "./store/slices/storeSlice";
@@ -108,4 +103,4 @@ export const App = () => {
   );
 };
 
-registerRootComponent(App);
+// registerRootComponent(App);

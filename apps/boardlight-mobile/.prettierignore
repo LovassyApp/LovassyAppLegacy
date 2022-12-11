@@ -12,3 +12,5 @@ src/assets
 android/
 ios/
 .gitignore
+link.sh
+.java-version

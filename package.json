@@ -28,7 +28,7 @@
         ]
     },
     "scripts": {
-        "prepare": "husky install",
+        "prepare": "husky install && yarn --cwd apps/boardlight-mobile run liblink",
         "docker-build": "docker-compose --project-directory docker/ build blueboard && docker-compose --project-directory docker/ build",
         "docker-start": "docker-compose --project-directory docker/ up",
         "docker-shell": "docker-compose --project-directory docker/ run blueboard-shell",
