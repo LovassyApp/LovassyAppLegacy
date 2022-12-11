@@ -10,6 +10,88 @@
  */
 
 
+namespace App\Helpers\LibRefresh\Models{
+/**
+ * App\Helpers\LibRefresh\Models\RefreshMetadata
+ *
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string $password_encrypted
+ * @property int $metadata_owner_id
+ * @property string $metadata_owner_type
+ * @property string $salt
+ * @method static \Illuminate\Database\Eloquent\Builder|RefreshMetadata newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|RefreshMetadata newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|RefreshMetadata query()
+ * @method static \Illuminate\Database\Eloquent\Builder|RefreshMetadata whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RefreshMetadata whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RefreshMetadata whereMetadataOwnerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RefreshMetadata whereMetadataOwnerType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RefreshMetadata wherePasswordEncrypted($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RefreshMetadata whereSalt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RefreshMetadata whereUpdatedAt($value)
+ */
+	class RefreshMetadata extends \Eloquent {}
+}
+
+namespace App\Helpers\LibRefresh\Models{
+/**
+ * App\Helpers\LibRefresh\Models\RefreshToken
+ *
+ * @property int $id
+ * @property int $expires_at
+ * @property string $token
+ * @property string $name
+ * @property int $refreshable_id
+ * @property string $refreshable_type
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Helpers\LibRefresh\Models\RefreshMetadata|null $metadata
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $refreshable
+ * @method static \Illuminate\Database\Eloquent\Builder|RefreshToken newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|RefreshToken newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|RefreshToken query()
+ * @method static \Illuminate\Database\Eloquent\Builder|RefreshToken whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RefreshToken whereExpiresAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RefreshToken whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RefreshToken whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RefreshToken whereRefreshableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RefreshToken whereRefreshableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RefreshToken whereToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RefreshToken whereUpdatedAt($value)
+ */
+	class RefreshToken extends \Eloquent {}
+}
+
+namespace App\Helpers\SacroSanctum\Models{
+/**
+ * RefreshToken - For regenerating expired tokens
+ *
+ * @property int $id
+ * @property int $expires_at
+ * @property string $token
+ * @property string $name
+ * @property int $refreshable_id
+ * @property string $refreshable_type
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $refreshable
+ * @method static \Illuminate\Database\Eloquent\Builder|RefreshToken newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|RefreshToken newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|RefreshToken query()
+ * @method static \Illuminate\Database\Eloquent\Builder|RefreshToken whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RefreshToken whereExpiresAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RefreshToken whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RefreshToken whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RefreshToken whereRefreshableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RefreshToken whereRefreshableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RefreshToken whereToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RefreshToken whereUpdatedAt($value)
+ */
+	class RefreshToken extends \Eloquent {}
+}
+
 namespace App\Models{
 /**
  * App\Models\Grade
@@ -20,14 +102,16 @@ namespace App\Models{
  * @property string $user_id
  * @property string|null $lolo_id
  * @property string $uid
- * @property string $bounds
  * @property string $subject
+ * @property string $subject_category
  * @property string $teacher
+ * @property string $group
  * @property int $grade
  * @property string $textGrade
  * @property string $shortTextGrade
  * @property int $weight
  * @property string $date
+ * @property string $create_date
  * @property string $name
  * @property string $type
  * @property string $gradeType
@@ -36,18 +120,20 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Grade newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Grade newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Grade query()
- * @method static \Illuminate\Database\Eloquent\Builder|Grade whereBounds($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Grade whereCreateDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Grade whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Grade whereDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Grade whereEvaluationType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Grade whereEvaluationTypeDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Grade whereGrade($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Grade whereGradeType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Grade whereGroup($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Grade whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Grade whereLoloId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Grade whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Grade whereShortTextGrade($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Grade whereSubject($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Grade whereSubjectCategory($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Grade whereTeacher($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Grade whereTextGrade($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Grade whereType($value)
@@ -346,6 +432,7 @@ namespace App\Models{
  * @property string $password
  * @property string $public_key_hex
  * @property string $private_key_encrypted
+ * @property string $master_key_encrypted
  * @property string $om_code_encrypted
  * @property string $om_code_hashed
  * @property string|null $class
@@ -366,6 +453,8 @@ namespace App\Models{
  * @property-read int|null $lolo_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Helpers\LibRefresh\Models\RefreshToken[] $refreshTokens
+ * @property-read int|null $refresh_tokens_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\LoloRequest[] $requests
  * @property-read int|null $requests_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
@@ -379,6 +468,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereImportAvailable($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereMasterKeyEncrypted($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereOmCodeEncrypted($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereOmCodeHashed($value)

@@ -9,11 +9,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Helpers\LibRefresh\Contracts\HasRefreshTokens;
 
 class User extends Authenticatable
 {
     use \Spiritix\LadaCache\Database\LadaCacheTrait;
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRefreshTokens;
 
     /**
      * The attributes that are mass assignable.

@@ -6,13 +6,14 @@ use App\Exceptions\AuthErrorException;
 use App\Helpers\LibCrypto\Models\MasterKey;
 use App\Helpers\LibCrypto\Models\SodiumKeypair;
 use App\Helpers\LibCrypto\Services\EncryptionManager;
+use App\Helpers\LibRefresh\AuthCookie;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Helpers\LibSession\AuthCookie;
 use App\Helpers\LibSession\Services\SessionManager;
 use Validator;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -42,7 +43,7 @@ class AuthController extends Controller
             EncryptionManager::use()->setMasterKey($key);
 
             if ($remember) {
-                $authCookie = AuthCookie::make($data['email'], $data['password']);
+                $authCookie = AuthCookie::make($data['password']);
             } else {
                 $authCookie = AuthCookie::forget();
             }
@@ -56,6 +57,7 @@ class AuthController extends Controller
                         'user' => $user,
                         'token' => $token,
                         'remember_token' => $authCookie->rawBody ?? '',
+                        'remember_token_expiry' => $authCookie->expires_at ?? '',
                     ],
                     200
                 )
@@ -130,20 +132,16 @@ class AuthController extends Controller
         /*
             Rendes remember token query param-ként
         */
-        $encrypted = $request->cookie('blueboard_refresh', null) ?? ($request->query('token', null) ?? false);
+        $token = $request->cookie('blueboard_refresh', null) ?? ($request->query('token', null) ?? false);
 
-        if ($encrypted == false) {
+        if ($token == false) {
             throw new AuthErrorException('Auth cookie not set.');
         }
 
-        $val = AuthCookie::parse($encrypted);
-
-        if (!isset($val->username) || !isset($val->password)) {
-            throw new AuthErrorException('Invalid cookie / token.');
-        }
+        $val = AuthCookie::getPassword($token);
 
         $data = Validator::validate(
-            ['email' => $val->username, 'password' => $val->password],
+            ['email' => $val['email'], 'password' => $val['password']],
             [
                 'email' => ['required', 'string', 'email', 'max:255', 'exists:users'],
                 'password' => ['required', 'max:255', 'string'],
