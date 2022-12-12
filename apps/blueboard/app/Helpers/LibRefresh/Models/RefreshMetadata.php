@@ -9,6 +9,7 @@ use Illuminate\Encryption\Encrypter;
 
 class RefreshMetadata extends Model
 {
+    use \Spiritix\LadaCache\Database\LadaCacheTrait;
     use HasFactory;
     protected $fillable = ['salt', 'password_encrypted'];
 

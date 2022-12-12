@@ -14,9 +14,9 @@ class Session implements SessionInterface
 {
     /**
      * Session-ben tárolt adatok stdClass objektumként
-     * @var object
+     * @var array
      */
-    private object $data;
+    private array $data;
     /**
      * RedisManager instance
      * @var RedisManager
@@ -60,13 +60,13 @@ class Session implements SessionInterface
      */
     public function __construct(string $hash)
     {
-        $this->data = (object) [];
+        $this->data = [];
         $this->man = new LibSessionRedisManager($hash);
         $this->hash = $hash;
 
         $obj = $this->man->read();
         if (isset($obj->data)) {
-            $this->data = $obj->data;
+            $this->data = (array) $obj->data;
         }
         $this->expiry = $obj->expiry;
         $this->salt = $obj->salt;
@@ -107,7 +107,7 @@ class Session implements SessionInterface
      */
     public function __get(string $name): mixed
     {
-        return $this->data->{$name} ?? null;
+        return $this->data[$name] ?? null;
     }
 
     /**
@@ -118,7 +118,7 @@ class Session implements SessionInterface
      */
     public function __set(string $name, mixed $value): void
     {
-        $this->data->{$name} = $value;
+        $this->data[$name] = $value;
         $this->last_written = time();
         $this->man->write($this);
     }
@@ -146,16 +146,18 @@ class Session implements SessionInterface
      *
      * @return object
      */
-    public function all(bool $getProps = true): object
+    public function all(bool $getProps = true, array $except = []): object
     {
         if ($getProps) {
-            return (object) array_merge((array) $this->data, [
+            $initArr = array_merge($this->data, [
                 'salt' => $this->salt,
                 'user_salt' => $this->user_salt,
                 'expiry' => $this->expiry,
             ]);
+            $filtered = array_diff_key($initArr, array_flip($except));
+            return (object) $filtered;
         }
-        return $this->data;
+        return (object) array_diff_key($this->data, array_flip($except));
     }
 
     /**
@@ -165,7 +167,7 @@ class Session implements SessionInterface
      */
     public function __unset(string $name): void
     {
-        unset($this->data->{$name});
+        unset($this->data[$name]);
         $this->man->write($this);
     }
 

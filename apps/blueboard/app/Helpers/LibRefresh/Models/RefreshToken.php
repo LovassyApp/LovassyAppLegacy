@@ -7,6 +7,7 @@ use App\Helpers\SacroSanctum\Models\RefreshToken as SacroSanctumRefreshToken;
 
 class RefreshToken extends SacroSanctumRefreshToken
 {
+    use \Spiritix\LadaCache\Database\LadaCacheTrait;
     use HasRefreshMetadata;
 
     public function tryUsing(): bool

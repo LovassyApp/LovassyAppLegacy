@@ -18,17 +18,13 @@ class FrontendControlController extends Controller
         $user = User::where('id', Auth::user()->id)
             ->setEagerLoads([])
             ->first();
-        $sessionData = SessionManager::session()->all();
-        //$crypt = SessionManager::getKretaEncrypter();
-
-        //dd($locale = app()->getLocale());
+        $sessionData = SessionManager::session()->all(true, ['master_key', 'salt', 'user_salt']);
 
         return response()->json([
             'user' => $user,
             'session' => $sessionData,
             'permissions' => $this->permissionHelper()->getAllPermissions(),
             'groups' => $this->permissionHelper()->getUserGroups(),
-            //'kretaDecrypted' => $crypt->getCreds(),
         ]);
     }
 }
