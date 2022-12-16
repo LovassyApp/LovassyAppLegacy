@@ -9,6 +9,8 @@ use App\Helpers\LibLolo\LoloGenerator;
 use App\Helpers\LibLolo\LoloHelper;
 use App\Helpers\LibSession\Services\SessionManager;
 use App\Helpers\ResponseMaker;
+use App\Http\Requests\LoloRequest\CreateLoloRequestRequest;
+use App\Http\Requests\LoloRequest\OverruleLoloRequestRequest;
 use App\Models\LoloRequest;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
@@ -37,13 +39,10 @@ class LoloRequestController extends Controller
         return ResponseMaker::generate($requests);
     }
 
-    public function create(Request $request): JsonResponse
+    public function create(CreateLoloRequestRequest $request): JsonResponse
     {
         $this->checkPermission('new');
-        $data = $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'body' => ['required', 'string', 'max:65535'],
-        ]);
+        $data = $request->safe();
 
         $user = SessionManager::user();
 
@@ -52,17 +51,10 @@ class LoloRequestController extends Controller
         return ResponseMaker::generate($loloRequest, 200, 'Request made successfully!');
     }
 
-    public function update(Request $request): JsonResponse
+    public function update(OverruleLoloRequestRequest $request): JsonResponse
     {
         $this->checkPermission('overrule');
-        $data = $request->validate(
-            [
-                'id' => ['required', 'integer'],
-                'verdict' => ['required', 'integer', Rule::in([0, 1])],
-                'loloAmount' => ['required_if:verdict,1', 'integer'],
-            ],
-            ['loloAmount.required_if' => 'The amount is required when accepting a request.']
-        );
+        $data = $request->safe();
 
         $loloRequest = LoloRequest::with('user')
             ->where('id', $data['id'])

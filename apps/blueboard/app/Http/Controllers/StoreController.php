@@ -9,6 +9,7 @@ use App\Helpers\ResponseMaker;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Helpers\LibLolo\LoloHelper;
+use App\Http\Requests\Store\BuyRequest;
 use App\Models\InventoryItem;
 use App\Models\StoreHistory;
 use Auth;
@@ -25,13 +26,9 @@ class StoreController extends Controller
         return ResponseMaker::generate($products);
     }
 
-    public function buy(Request $request)
+    public function buy(BuyRequest $request)
     {
-        $this->checkPermission('buy');
-
-        $id = $request->validate([
-            'productId' => ['required', 'integer'],
-        ])['productId'];
+        $id = $request->safe()['productId'];
         $product = Product::findOrFail($id);
 
         $user = Auth::user();

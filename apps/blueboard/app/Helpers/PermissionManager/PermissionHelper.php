@@ -93,7 +93,11 @@ class PermissionHelper
             return $this->scopeCache[$scopeKey];
         }
 
-        $scopeName = self::SCOPES[$scopeKey];
+        try {
+            $scopeName = self::SCOPES[$scopeKey];
+        } catch (Exception $ex) {
+            throw new Exception("Scope $scopeKey does not exist");
+        }
         $scope = eval("return App\Helpers\PermissionManager\Permissions::$scopeName;");
         $this->scopeCache[$scopeKey] = $scope;
         return $scope;

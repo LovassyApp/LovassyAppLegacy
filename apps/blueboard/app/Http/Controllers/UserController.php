@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Events\UserGroupsChanged;
-use App\Exceptions\APIException;
 use App\Helpers\ResponseMaker;
-use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Exceptions\UserDeletionException;
 use App\Exceptions\UserGroupException;
+use App\Http\Requests\Users\UserDeleteRequest;
+use App\Http\Requests\Users\UserUpdateRequest;
 use App\Models\UserGroup;
 
 class UserController extends Controller
@@ -32,28 +32,11 @@ class UserController extends Controller
         return ResponseMaker::generate($user);
     }
 
-    public function update(Request $request)
+    public function update(UserUpdateRequest $request)
     {
-        $this->checkPermission('update');
-        $id = $request->validate([
-            'id' => ['required', 'integer'],
-        ])['id'];
+        $data = $request->safe();
 
-        $user = User::findOrFail($id);
-
-        $data = request()->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => [
-                'required',
-                'string',
-                'email',
-                'max:255',
-                'regex:/(.*)lovassy\.edu\.hu$/i',
-                'unique:users,email,' . $id,
-            ],
-            'groups' => ['nullable', 'array'],
-        ]);
-
+        $user = User::findOrFail($data['id']);
         $user->name = $data['name'];
         $user->email = $data['email'];
         $user->save();
@@ -70,12 +53,9 @@ class UserController extends Controller
         return ResponseMaker::generate([], 200, 'User updated successfully!');
     }
 
-    public function delete(Request $request)
+    public function delete(UserDeleteRequest $request)
     {
-        $this->checkPermission('delete');
-        $id = $request->validate([
-            'id' => ['required', 'integer'],
-        ])['id'];
+        $id = $request->safe()['id'];
 
         if ($id == Auth::user()->id) {
             throw new UserDeletionException();

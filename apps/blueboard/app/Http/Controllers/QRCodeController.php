@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\QRCode;
 use App\Helpers\ResponseMaker;
+use App\Http\Requests\QRCode\CreateQRCodeRequest;
+use App\Http\Requests\QRCode\DeleteQRCodeRequest;
 use Illuminate\Support\Str;
 use SimpleSoftwareIO\QrCode\Facades\QrCode as QRGen;
 use Response;
@@ -21,13 +22,9 @@ class QRCodeController extends Controller
         return ResponseMaker::generate($codes);
     }
 
-    public function create(Request $request)
+    public function create(CreateQRCodeRequest $request)
     {
-        $this->checkPermission('add');
-        $data = $request->validate([
-            'name' => ['required', 'max:255', 'string', 'unique:q_r_codes'],
-            'email' => ['required', 'string', 'max:255', 'email'],
-        ]);
+        $data = $request->safe();
         $code = new QRCode();
 
         $code->name = $data['name'];
@@ -60,12 +57,9 @@ class QRCodeController extends Controller
         ]);
     }
 
-    public function delete(Request $request)
+    public function delete(DeleteQRCodeRequest $request)
     {
-        $this->checkPermission('delete');
-        $id = $request->validate([
-            'id' => ['required', 'integer'],
-        ])['id'];
+        $id = $request->safe()['id'];
 
         $code = QRCode::findOrFail($id);
         $code->delete();

@@ -12,21 +12,20 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Helpers\LibSession\Services\SessionManager;
+use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\RegisterRequest;
 use Validator;
 use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $data = $request->validate([
-            'email' => ['required', 'string', 'email', 'max:255', 'exists:users'],
-            'password' => ['required', 'max:255', 'string'],
-        ]);
+        $data = $request->safe();
 
         $cookie = (bool) $request->remember ?? false;
 
-        return $this->doLogin($cookie, $data);
+        return $this->doLogin($cookie, $data->toArray());
     }
 
     private function doLogin(bool $remember, array $data)
@@ -71,24 +70,9 @@ class AuthController extends Controller
         Na akkor kérem.
         Ez lehet, hogy túlkomplikált, viszont! Garantálja a biztonságtot
     */
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        $data = $request->validate(
-            [
-                // 'Korlátok korláta'
-                // De azért jobb a békesség
-                'email' => ['required', 'string', 'email', 'max:255', 'regex:/(.*)lovassy\.edu\.hu$/i', 'unique:users'],
-                'password' => ['required', 'max:255', 'string'],
-
-                // La kréta
-                'name' => ['required', 'string', 'max:255'],
-                'om_code' => ['required', 'string', 'max:20'],
-                // Nem volt jobb üzenet ötletem. Don't @ me.
-            ],
-            [
-                'email.regex' => "Registration is only allowed for 'lovassy.edu.hu' E-mail addresses.",
-            ]
-        );
+        $data = $request->safe();
 
         // kíjdzsen hax klikbéjt jutúb tutoriál ikszdé
         $salt = EncryptionManager::generateSalt();

@@ -8,6 +8,8 @@
 
 import defImg from '../Assets/default.jpg';
 
+console.log(defImg);
+
 // Image URL-ről képet importál Blobként
 const importImage = async (imageUrl: string): Promise<BoardlightFile> => {
     const res = await fetch(imageUrl);
@@ -32,20 +34,8 @@ const makeFile = (blob: Blob, filename: string): BoardlightFile => {
 };
 
 // Webpack-ból importált alap kimentéses kép
-const getDefImg = (): BoardlightFile => {
-    const BASE64_MARKER = ';base64,';
-    const parts = defImg.split(BASE64_MARKER);
-    const contentType = parts[0].split(':')[1];
-    const raw = window.atob(parts[1]);
-    const rawLength = raw.length;
-    const uInt8Array = new Uint8Array(rawLength);
-
-    for (let i = 0; i < rawLength; ++i) {
-        uInt8Array[i] = raw.charCodeAt(i);
-    }
-
-    const blob = new Blob([uInt8Array], { type: contentType });
-    return makeFile(blob, 'defImg.jpg');
+const getDefImg = async (): Promise<BoardlightFile> => {
+    return await importImage(defImg);
 };
 
 // Base64-el egy képet a feltöltéshez

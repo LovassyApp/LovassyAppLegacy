@@ -11,7 +11,7 @@ class FrontendControlController extends Controller
 {
     protected string $permissionScope = 'General';
 
-    public function index(Request $request)
+    public function index()
     {
         $this->checkPermission('control');
 

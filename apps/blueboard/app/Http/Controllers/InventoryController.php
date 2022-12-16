@@ -9,6 +9,7 @@ use App\Exceptions\ItemAlreadyUsedException;
 use App\Exceptions\NotYourItemException;
 use App\Helpers\LibSession\Services\SessionManager;
 use App\Helpers\ResponseMaker;
+use App\Http\Requests\Inventory\UseItemRequest;
 use App\Jobs\ItemUseNotifier;
 use App\Models\QRCode;
 use Carbon\Carbon;
@@ -82,17 +83,9 @@ class InventoryController extends Controller
         );
     }
 
-    public function useItem(Request $request)
+    public function useItem(UseItemRequest $request)
     {
-        $this->checkPermission('use');
-        $itemID = $request->validate(
-            [
-                'itemID' => ['required', 'integer', 'exists:inventory_items,id'],
-            ],
-            [
-                'itemID.exists' => "The selected item doesn't exist.",
-            ]
-        )['itemID'];
+        $itemID = $request->safe()['itemID'];
 
         // Current session's user
         $user = SessionManager::user();

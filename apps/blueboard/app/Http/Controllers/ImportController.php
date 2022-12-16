@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ResponseMaker;
+use App\Http\Requests\Import\NewImportRequest;
 use App\Models\GradeImport;
 use App\Models\User;
 use DB;
@@ -21,13 +22,9 @@ class ImportController extends Controller
         return ResponseMaker::generate($data, 200, 'Users queried successfully!');
     }
 
-    public function save(Request $request): JsonResponse
+    public function save(NewImportRequest $request): JsonResponse
     {
-        $data = $request->validate([
-            'key_encrypted' => 'string|required',
-            'message_encrypted' => 'string|required',
-            'user_id' => 'integer|required|exists:users,id',
-        ]);
+        $data = $request->safe();
 
         $user = User::findOrFail($data['user_id']);
 

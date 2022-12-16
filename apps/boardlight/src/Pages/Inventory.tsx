@@ -299,6 +299,7 @@ const Inventory = (): JSX.Element => {
 
     const itemChange = React.useCallback(
         (data: any) => {
+            console.log(data);
             const newItem = BlueboardInventoryFactory.getItem(data.item);
 
             const itemsClone = [...itemsRef.current];

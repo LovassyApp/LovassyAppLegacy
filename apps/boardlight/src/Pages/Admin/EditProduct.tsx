@@ -120,7 +120,8 @@ const EditProduct = (): JSX.Element => {
             setFiles([image]);
             setVisible(product.visible);
         } else {
-            setFiles([getDefImg()]);
+            const file = await getDefImg();
+            setFiles([file]);
         }
 
         await client.qrcodes
@@ -140,13 +141,17 @@ const EditProduct = (): JSX.Element => {
     };
 
     React.useEffect(() => {
-        setLoading(true);
-        if (id !== 'new' && isNaN(Number(id))) {
-            setFiles([getDefImg()]);
-            setLoading(false);
-        } else {
-            bootstrap();
-        }
+        (async () => {
+            setLoading(true);
+            if (id !== 'new' && isNaN(Number(id))) {
+                const file = await getDefImg();
+                setFiles([file]);
+                setLoading(false);
+            } else {
+                bootstrap();
+            }
+        })();
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

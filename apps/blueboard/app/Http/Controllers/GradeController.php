@@ -14,17 +14,9 @@ class GradeController extends Controller
 {
     protected string $permissionScope = 'General';
 
-    public function index(Request $request)
+    public function index()
     {
         $this->checkPermission('grades');
-
-        $refresh = (bool) $request->query('refresh', false);
-
-        /* RetiLimit::useRateLimit(function () use ($refresh) {
-            if ($refresh == true) {
-                LoloHelper::updateGrades();
-            }
-        }); */
 
         $user = SessionManager::user();
         $encryption_manager = EncryptionManager::use();

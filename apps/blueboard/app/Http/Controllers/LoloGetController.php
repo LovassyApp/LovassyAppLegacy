@@ -14,16 +14,9 @@ class LoloGetController extends Controller
 {
     protected string $permissionScope = 'General';
 
-    public function index(Request $request)
+    public function index()
     {
         $this->checkPermission('lolo');
-
-        $refresh = (bool) $request->query('refresh', false);
-        /* RetiLimit::useRateLimit(function () use ($refresh) {
-            if ($refresh == true) {
-                LoloHelper::updateGrades();
-            }
-        }); */
 
         $gen = new LoloGenerator(SessionManager::user());
         $gen->generate();

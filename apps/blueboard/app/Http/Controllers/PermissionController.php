@@ -5,104 +5,67 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Helpers\PermissionManager\PermissionHelper;
 use App\Helpers\ResponseMaker;
+use App\Http\Requests\Groups\AddGroupRequest;
+use App\Http\Requests\Groups\DeleteGroupRequest;
+use App\Http\Requests\Groups\UpdateGroupRequest;
 use App\Models\UserGroup;
 use Illuminate\Validation\ValidationException;
 
 class PermissionController extends Controller
 {
-	protected string $permissionScope = 'Permissions';
+    protected string $permissionScope = 'Permissions';
 
-	public function index()
-	{
-		$this->checkPermission('view');
-		$all = UserGroup::all();
-		return ResponseMaker::generate($all);
-	}
+    public function index()
+    {
+        $this->checkPermission('view');
+        $all = UserGroup::all();
+        return ResponseMaker::generate($all);
+    }
 
-	public function getPermissions(PermissionHelper $permissionHelper)
-	{
-		$this->checkPermission('getpermissions');
-		$permissions = $permissionHelper->getDisplayPermissionList();
-		return ResponseMaker::generate($permissions);
-	}
+    public function getPermissions(PermissionHelper $permissionHelper)
+    {
+        $this->checkPermission('getpermissions');
+        $permissions = $permissionHelper->getDisplayPermissionList();
+        return ResponseMaker::generate($permissions);
+    }
 
-	public function getGroup($groupID)
-	{
-		$this->checkPermission('viewgroup');
-		$group = UserGroup::findOrFail($groupID);
-		return ResponseMaker::generate($group);
-	}
+    public function getGroup(int $groupID)
+    {
+        $this->checkPermission('viewgroup');
+        $group = UserGroup::findOrFail($groupID);
+        return ResponseMaker::generate($group);
+    }
 
-	public function save(Request $request, PermissionHelper $permissionHelper)
-	{
-		$this->checkPermission('update');
-		$data = $request->validate(
-			[
-				'name' => ['required', 'string', 'max:255', 'unique:user_groups'],
-				'permissions' => ['required', 'array'],
-			],
-			[
-				'permissions.required' => 'Please select at least one permission.',
-				'name.required' => 'Please enter a name for the group.',
-				'name.unique' => 'This group already exists.',
-			]
-		);
+    public function save(AddGroupRequest $request)
+    {
+        $data = $request->safe();
 
-		try {
-			$permissionHelper->validatePermissions($data['permissions']);
-		} catch (\Exception $e) {
-			throw ValidationException::withMessages(["<strong>{$e->getFile()}</strong>", $e->getMessage()]);
-		}
+        $group = new UserGroup();
+        $group->name = $data['name'];
+        $group->permissions = $data['permissions'];
+        $group->save();
 
-		$group = new UserGroup();
-		$group->name = $data['name'];
-		$group->permissions = $data['permissions'];
-		$group->save();
+        return ResponseMaker::generate([], 200, 'Group generated successfully!');
+    }
 
-		return ResponseMaker::generate([], 200, 'Group generated successfully!');
-	}
+    public function update(UpdateGroupRequest $request)
+    {
+        $data = $request->safe();
+        $group = UserGroup::findOrFail($data['id']);
 
-	public function update(Request $request, PermissionHelper $permissionHelper)
-	{
-		$this->checkPermission('update');
-		$id = $request->validate([
-			'id' => ['required', 'integer'],
-		])['id'];
-		$group = UserGroup::findOrFail($id);
+        $group->name = $data['name'];
+        $group->permissions = $data['permissions'];
+        $group->save();
 
-		$data = $request->validate(
-			[
-				'name' => ['required', 'string', 'max:255', 'unique:user_groups,name,' . $id],
-				'permissions' => ['required', 'array'],
-			],
-			[
-				'permissions.required' => 'Please select at least one permission.',
-				'name.required' => 'Please enter a name for the group.',
-				'name.unique' => 'This group already exists.',
-			]
-		);
+        return ResponseMaker::generate([], 200, 'Group updated successfully!');
+    }
 
-		try {
-			$permissionHelper->validatePermissions($data['permissions']);
-		} catch (\Exception $e) {
-			throw ValidationException::withMessages(["<strong>{$e->getFile()}</strong>", $e->getMessage()]);
-		}
+    public function delete(DeleteGroupRequest $request)
+    {
+        $id = $request->safe()['id'];
 
-		$group->name = $data['name'];
-		$group->permissions = $data['permissions'];
-		$group->save();
-
-		return ResponseMaker::generate([], 200, 'Group updated successfully!');
-	}
-
-	public function delete(Request $request)
-	{
-		$this->checkPermission('delete');
-		$id = $request->validate([
-			'id' => ['required', 'integer'],
-		])['id'];
-		$group = UserGroup::findOrFail($id);
-		$group->delete();
-		return ResponseMaker::generate([], 200, 'Group deleted successfully!');
-	}
+        $group = UserGroup::findOrFail($id);
+        $group->delete();
+        return ResponseMaker::generate([], 200, 'Group deleted successfully!');
+    }
 }

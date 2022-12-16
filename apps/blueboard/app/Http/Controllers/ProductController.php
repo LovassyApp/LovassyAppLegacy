@@ -5,98 +5,34 @@ namespace App\Http\Controllers;
 use App\Exceptions\BadFileException;
 use App\Exceptions\ImageNotFoundException;
 use App\Helpers\ResponseMaker;
+use App\Http\Requests\Product\CreateProductRequest;
+use App\Http\Requests\Product\DeleteProductRequest;
+use App\Http\Requests\Product\UpdateProductRequest;
 use App\Models\Product;
-use App\Rules\Base64Image;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\Rule;
 use Response;
-use Spatie\ValidationRules\Rules\Delimited;
 use Str;
 
 class ProductController extends Controller
 {
     protected string $permissionScope = 'Products';
 
-    public function create(Request $request)
+    public function create(CreateProductRequest $request)
     {
-        $this->checkPermission('create');
-
-        // Good luck to anyone reading this.
-        // K@rva validáció
-
-        $data = $request->validate(
-            [
-                'name' => 'required|max:255|unique:products|string',
-                'description' => 'required|max:255|string',
-                'markdownContent' => 'required',
-                'codeActivated' => 'required|boolean',
-                'visible' => 'required|boolean',
-                'codes' => 'required_if:codeActivated,true|array',
-                'price' => 'required|numeric|min:0',
-                'quantity' => 'required|numeric|min:0',
-                'inputs' => 'nullable|array',
-                'notified_mails' => ['nullable', (new Delimited('email'))->min(1)],
-                'notified_groups' => 'nullable|array',
-                // Jaj JSON valid kulcs regeksz
-                // Fáj az agyam
-                'inputs.*.name' => ['required', 'distinct', "regex:/^[a-z][a-z0-9_]*$/i"],
-                'inputs.*.title' => 'required|distinct',
-                'inputs.*.type' => ['required', Rule::in(['textbox', 'boolean'])],
-                'image' => ['required', new Base64Image(10)],
-            ],
-            [
-                'inputs.*.*.distinct' => 'The title and name must be unique.',
-                'inputs.*.name.regex' => 'Allowed format: a...Z, 0...9, _',
-                'inputs.*.type' => 'Invalid type supplied. Avalible types: textbox, boolean',
-            ]
-        );
+        $data = $request->safe();
 
         $product = new Product();
-        $this->save($data, $product);
+        $this->save($data->toArray(), $product);
 
         // NEM.
         return ResponseMaker::generate([], 200, 'Product generated successfully!');
     }
 
-    public function update(Request $request)
+    public function update(UpdateProductRequest $request)
     {
-        $this->checkPermission('update');
-
-        // Need I say more?
-        // nem.
-        $id = $request->validate([
-            'id' => ['required', 'integer'],
-        ])['id'];
-        $product = Product::findOrFail($id);
-        $data = $request->validate(
-            [
-                'name' => ['required', 'string', 'max:255', 'unique:products,name,' . $id],
-                'description' => 'required|max:255|string',
-                'markdownContent' => 'required',
-                'codeActivated' => 'required|boolean',
-                'visible' => 'required|boolean',
-                'codes' => 'required_if:codeActivated,true|array',
-                'notified_groups' => 'nullable|array',
-                'price' => 'required|numeric|min:0',
-                'quantity' => 'required|numeric|min:0',
-                'inputs' => 'nullable|array',
-                'notified_mails' => ['nullable', (new Delimited('email'))->min(1)],
-                // Jaj JSON valid kulcs regeksz
-                // Fáj az agyam
-                'inputs.*.name' => ['required', 'distinct', "regex:/^[a-z][a-z0-9_]*$/i"],
-                'inputs.*.title' => 'required|distinct',
-                'inputs.*.type' => ['required', Rule::in(['textbox', 'boolean'])],
-                'image' => ['required', new Base64Image(10)],
-            ],
-            [
-                'inputs.*.*.distinct' => 'The title and name must be unique.',
-                'inputs.*.name.regex' => 'Allowed format: a...Z, 0...9, _',
-                'inputs.*.type' => 'Invalid type supplied. Avalible types: textbox, boolean',
-            ]
-        );
-
-        $this->save($data, $product);
+        $data = $request->safe();
+        $product = Product::findOrFail($data['id']);
+        $data = $this->save($data->toArray(), $product);
 
         return ResponseMaker::generate([], 200, 'Product updated successfully!');
     }
@@ -154,13 +90,9 @@ class ProductController extends Controller
         return ResponseMaker::generate($product);
     }
 
-    public function delete(Request $request)
+    public function delete(DeleteProductRequest $request)
     {
-        $this->checkPermission('delete');
-
-        $id = $request->validate([
-            'id' => ['required', 'integer'],
-        ])['id'];
+        $id = $request->safe()['id'];
 
         $code = Product::findOrFail($id);
         $code->delete();
