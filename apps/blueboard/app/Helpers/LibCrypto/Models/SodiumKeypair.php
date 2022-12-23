@@ -1,12 +1,15 @@
 <?php
 
 namespace App\Helpers\LibCrypto\Models;
+
+use App\Helpers\LibCrypto\Interfaces\KeypairInterface;
+
 /**
  * Asszimetrikus titkosításhoz használt Sodium helper class
  *
  * Egy kulcspár akar lenni
  */
-class SodiumKeypair
+class SodiumKeypair extends KeypairInterface
 {
     /**
      * Privát kulcs
@@ -25,7 +28,7 @@ class SodiumKeypair
      *
      * @var string
      */
-    private string $publicKey;
+    protected string $publicKey;
 
     /**
      * Kulcspár constructor

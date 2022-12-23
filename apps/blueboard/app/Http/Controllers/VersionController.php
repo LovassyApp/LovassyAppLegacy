@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\ResponseMaker;
+use App\Helpers\Shared\Utils\ResponseMaker;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;

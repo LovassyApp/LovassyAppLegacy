@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Events\LoloAmountUpdated;
+use App\Helpers\LibCrypto\Services\HashManager;
 //use App\Helpers\LibKreta\RetiLimit;
 use Illuminate\Http\Request;
 use App\Helpers\LibLolo\LoloGenerator;
 use App\Helpers\LibLolo\LoloHelper;
 use App\Helpers\LibSession\Services\SessionManager;
-use App\Helpers\ResponseMaker;
+use App\Helpers\Shared\Utils\ResponseMaker;
 
 class LoloGetController extends Controller
 {

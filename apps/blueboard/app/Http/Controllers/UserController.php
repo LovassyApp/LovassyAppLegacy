@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\UserGroupsChanged;
-use App\Helpers\ResponseMaker;
+use App\Helpers\Shared\Utils\ResponseMaker;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Exceptions\UserDeletionException;

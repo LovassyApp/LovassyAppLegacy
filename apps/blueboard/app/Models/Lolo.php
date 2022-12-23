@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Traits\HasHashedID;
+use App\Helpers\LibCrypto\Contracts\HasHashAttribute;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,16 +12,13 @@ use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 
 class Lolo extends Model
 {
-    use \Spiritix\LadaCache\Database\LadaCacheTrait;
-    use HasFactory;
-    use HasHashedID;
+    use \Spiritix\LadaCache\Database\LadaCacheTrait, HasFactory, HasHashAttribute;
 
     private string $prefix = 'lolo';
 
-    protected $guarded = [];
-
     protected $appends = ['hash'];
     protected $hidden = ['hash'];
+    protected $guarded = [];
 
     public function grades(): HasMany
     {

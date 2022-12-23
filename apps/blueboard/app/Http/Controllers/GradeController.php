@@ -8,7 +8,7 @@ use App\Helpers\LibCrypto\Services\EncryptionManager;
 //use App\Helpers\LibKreta\RetiLimit;
 use Illuminate\Http\Request;
 use App\Helpers\LibSession\Services\SessionManager;
-use App\Helpers\ResponseMaker;
+use App\Helpers\Shared\Utils\ResponseMaker;
 
 class GradeController extends Controller
 {

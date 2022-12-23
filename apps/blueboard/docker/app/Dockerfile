@@ -35,7 +35,6 @@ RUN docker-php-ext-configure gd && \
     exif \
     gd \
     gettext \
-    mysqli \
     opcache \
     pdo_mysql \
     shmop \

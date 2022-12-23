@@ -11,7 +11,6 @@ use App\Models\User;
 use Cookie;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Cookie\CookieJar;
-use stdClass;
 use Str;
 
 /**

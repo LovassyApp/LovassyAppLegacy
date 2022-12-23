@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Helpers\PermissionManager\PermissionHelper;
-use App\Helpers\ResponseMaker;
+use App\Helpers\Shared\Utils\ResponseMaker;
 use App\Http\Requests\Groups\AddGroupRequest;
 use App\Http\Requests\Groups\DeleteGroupRequest;
 use App\Http\Requests\Groups\UpdateGroupRequest;

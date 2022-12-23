@@ -7,7 +7,9 @@ use App\Helpers\LibSession\Errors\SessionNotFoundException;
 use App\Helpers\LibSession\Errors\TokenMissingException;
 use App\Helpers\LibSession\Errors\UserNotLoggedInException;
 use App\Helpers\LibCrypto\Services\EncryptionManager;
+use App\Helpers\LibCrypto\Services\HashManager;
 use App\Helpers\LibSession\Models\Session;
+use App\Helpers\Shared\Interfaces\AbstractSingleton;
 use App\Models\PersonalAccessToken;
 use App\Models\User;
 use Exception;
@@ -22,7 +24,7 @@ use Illuminate\Support\Str;
  *
  * De komolyan
  */
-class SessionManager
+class SessionManager extends AbstractSingleton
 {
     /**
      * Hasheli az AuthToken-t, később kulcsként van használva
@@ -54,12 +56,6 @@ class SessionManager
      * @var Session|null
      */
     private Session|null $session = null;
-    /**
-     * Van -e jelenleg Session amit kezelünk
-     *
-     * @var boolean
-     */
-    private bool $active = false;
 
     /**
      * Konsztráktor (kell a humor ide kérem)
@@ -114,7 +110,7 @@ class SessionManager
     private function bootEncrypter(): void
     {
         $this->encrypter = new Encrypter(
-            EncryptionManager::generateBasicKey($this->token, $this->session->salt),
+            HashManager::generateBasicKey($this->token, $this->session->salt),
             EncryptionManager::DEFAULT_CIPHER
         );
     }
@@ -146,16 +142,6 @@ class SessionManager
         $this->active = true;
 
         return $this->token;
-    }
-
-    /**
-     * Aktív -e ez a SessionManager instance
-     *
-     * @return boolean
-     */
-    public function active(): bool
-    {
-        return $this->active;
     }
 
     /**

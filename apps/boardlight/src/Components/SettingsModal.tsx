@@ -44,17 +44,25 @@ const SettingsModal = (): JSX.Element => {
     const [serverProps, setServerProps] = useState<BlueboardAboutResponse | null>(null);
 
     useEffect(() => {
-        (async (): Promise<void> => {
-            try {
-                const res = await client.account.about();
-                setLoading(false);
-                setServerProps(res);
-            } catch (err) {
-                console.log(err);
-            }
-        })();
+        if (isOpen) {
+            (async (): Promise<void> => {
+                try {
+                    const res = await client.account.about();
+                    setLoading(false);
+                    setServerProps(res);
+                } catch (err) {
+                    console.log(err);
+                }
+            })();
+        } else {
+            setTimeout(() => {
+                setLoading(true);
+                setServerProps(null);
+            }, 300);
+        }
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [loading]);
+    }, [isOpen]);
 
     return (
         <Modal
@@ -64,8 +72,6 @@ const SettingsModal = (): JSX.Element => {
             open={isOpen}
             onClose={() => {
                 dispatch({ type: 'settingsModal/closeSettingsModal' });
-                setLoading(true);
-                setServerProps(null);
             }}
             preventClose={true}
             width="650px">

@@ -439,6 +439,8 @@ namespace App\Models{
  * @property int $import_available
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string $hasher_salt_encrypted
+ * @property string $hasher_salt_hashed
  * @property-read mixed $balance
  * @property-read mixed $hash
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Grade[] $grades
@@ -466,6 +468,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereClass($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereHasherSaltEncrypted($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereHasherSaltHashed($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereImportAvailable($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereMasterKeyEncrypted($value)

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\InventoryItemCreated;
 use App\Exceptions\InsufficientFundsException;
 use App\Exceptions\ProductOutOfStockException;
-use App\Helpers\ResponseMaker;
+use App\Helpers\Shared\Utils\ResponseMaker;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Helpers\LibLolo\LoloHelper;

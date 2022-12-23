@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\LibSession\Services\SessionManager;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 

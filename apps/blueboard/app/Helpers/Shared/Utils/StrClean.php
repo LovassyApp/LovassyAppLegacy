@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Helpers;
+namespace App\Helpers\Shared\Utils;
 
 /**
  * StackOverflow-ról lopva.

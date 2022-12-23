@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\QRCode;
-use App\Helpers\ResponseMaker;
+use App\Helpers\Shared\Utils\ResponseMaker;
 use App\Http\Requests\QRCode\CreateQRCodeRequest;
 use App\Http\Requests\QRCode\DeleteQRCodeRequest;
 use Illuminate\Support\Str;

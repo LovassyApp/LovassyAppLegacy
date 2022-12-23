@@ -11,7 +11,7 @@ use App\Helpers\LibLolo\LoloGenerator;
 use App\Helpers\LibLolo\LoloHelper;
 use App\Helpers\LibSession\Services\SessionManager;
 use App\Helpers\PermissionManager\PermissionHelper;
-use App\Helpers\ResponseMaker;
+use App\Helpers\Shared\Utils\ResponseMaker;
 use App\Models\Grade;
 use App\Models\InventoryItem;
 use App\Models\LoloRequest;

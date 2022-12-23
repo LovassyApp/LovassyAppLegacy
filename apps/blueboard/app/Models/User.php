@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Helpers\LibCrypto\Services\EncryptionManager;
+use App\Helpers\LibCrypto\Services\HashManager;
 use App\Helpers\LibSession\Services\SessionManager;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -30,6 +31,8 @@ class User extends Authenticatable
         'public_key_hex',
         'private_key_encrypted',
         'master_key_encrypted',
+        'hasher_salt_encrypted',
+        'hasher_salt_hashed',
     ];
 
     /**
@@ -46,6 +49,8 @@ class User extends Authenticatable
         'public_key_hex',
         'om_code_hashed',
         'master_key_encrypted',
+        'hasher_salt_encrypted',
+        'hasher_salt_hashed',
     ];
 
     /**
@@ -111,7 +116,7 @@ class User extends Authenticatable
     public function getHashAttribute()
     {
         if ($this?->id === SessionManager::user()?->id) {
-            return EncryptionManager::use()->hash((string) $this?->id, 'user');
+            return HashManager::use()->hash_salted((string) $this?->id, 'user');
         } else {
             return '';
         }

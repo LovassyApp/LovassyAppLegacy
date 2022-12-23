@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Helpers;
+namespace App\Helpers\Shared\Utils;
 
 use Illuminate\Http\JsonResponse;
 use JetBrains\PhpStorm\ArrayShape;

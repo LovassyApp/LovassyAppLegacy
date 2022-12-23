@@ -1,6 +1,7 @@
 <?php
 
 use App\Helpers\LibCrypto\Services\EncryptionManager;
+use App\Helpers\LibCrypto\Services\HashManager;
 use Laravel\Octane\Contracts\OperationTerminated;
 use Laravel\Octane\Events\RequestHandled;
 use Laravel\Octane\Events\RequestReceived;
@@ -124,7 +125,7 @@ return [
 
     'warm' => [...Octane::defaultServicesToWarm()],
 
-    'flush' => [SessionManager::class, EncryptionManager::class, PermissionHelper::class],
+    'flush' => [SessionManager::class, EncryptionManager::class, PermissionHelper::class, HashManager::class],
 
     /*
     |--------------------------------------------------------------------------

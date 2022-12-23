@@ -6,6 +6,7 @@ use App\Exceptions\AuthErrorException;
 use App\Helpers\LibCrypto\Models\MasterKey;
 use App\Helpers\LibCrypto\Models\SodiumKeypair;
 use App\Helpers\LibCrypto\Services\EncryptionManager;
+use App\Helpers\LibCrypto\Services\HashManager;
 use App\Helpers\LibRefresh\AuthCookie;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -16,6 +17,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use Validator;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -62,7 +64,7 @@ class AuthController extends Controller
                 )
                 ->withCookie($authCookie);
         } else {
-            throw new AuthErrorException('Bad credentials');
+            throw ValidationException::withMessages(['email' => 'Invalid credentials supplied']);
         }
     }
 
@@ -76,26 +78,33 @@ class AuthController extends Controller
 
         // kíjdzsen hax klikbéjt jutúb tutoriál ikszdé
         $salt = EncryptionManager::generateSalt();
+        $hasher_salt = EncryptionManager::generateSalt();
         $key = new MasterKey();
         $stored_key = $key->lock($data['password'], $salt);
         $man = EncryptionManager::boot_register($key);
         $keys = new SodiumKeypair(null);
 
-        // Akkor ez most egy júzer???? Igen.
-        $user = new User([
-            'name' => $data['name'],
-            'password' => Hash::make($data['password']),
-            'email' => $data['email'],
-            'om_code_hashed' => EncryptionManager::hash_general($data['om_code']),
-            'om_code_encrypted' => $man->encrypt($data['om_code']),
-            'public_key_hex' => $keys->publicKey_hex,
-            'master_key_encrypted' => $stored_key,
-            'private_key_encrypted' => $man->encrypt($keys->privateKey),
-        ]);
-        $user->save();
-        $user->groups()->sync([1]);
+        try {
+            // Akkor ez most egy júzer???? Igen.
+            $user = new User([
+                'name' => $data['name'],
+                'password' => Hash::make($data['password']),
+                'email' => $data['email'],
+                'om_code_hashed' => HashManager::hash($data['om_code']),
+                'om_code_encrypted' => $man->encrypt($data['om_code']),
+                'public_key_hex' => $keys->publicKey_hex,
+                'master_key_encrypted' => $stored_key,
+                'private_key_encrypted' => $man->encrypt($keys->privateKey),
+                'hasher_salt_encrypted' => $man->encrypt($hasher_salt),
+                'hasher_salt_hashed' => HashManager::hash($hasher_salt),
+            ]);
+            $user->save();
+            $user->groups()->sync([1]);
 
-        EncryptionManager::saveSalt($salt, $user->id);
+            EncryptionManager::saveSalt($salt, $user->id);
+        } catch (\Exception $ex) {
+            throw $ex;
+        }
 
         // Szépségességes dzséjszon response
         return response()->json(

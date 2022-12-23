@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\BadFileException;
 use App\Exceptions\ImageNotFoundException;
-use App\Helpers\ResponseMaker;
+use App\Helpers\Shared\Utils\ResponseMaker;
 use App\Http\Requests\Product\CreateProductRequest;
 use App\Http\Requests\Product\DeleteProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;

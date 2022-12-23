@@ -6,6 +6,8 @@ use App\Models\Salt;
 
 trait InteractsWithSalts
 {
+    public static int $SALT_LENGTH = 16;
+
     /**
      * Új salt generálás
      *
@@ -14,7 +16,7 @@ trait InteractsWithSalts
      */
     public static function generateSalt(): string
     {
-        return base64_encode(openssl_random_pseudo_bytes(16));
+        return bin2hex(openssl_random_pseudo_bytes(self::$SALT_LENGTH));
     }
 
     /**

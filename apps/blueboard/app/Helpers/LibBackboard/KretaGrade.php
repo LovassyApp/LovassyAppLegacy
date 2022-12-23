@@ -2,7 +2,8 @@
 
 namespace App\Helpers\LibBackboard;
 
-use App\Helpers\StrClean;
+use App\Helpers\LibCrypto\Services\HashManager;
+use App\Helpers\Shared\Utils\StrClean;
 use Carbon\Carbon;
 use stdClass;
 
@@ -213,8 +214,7 @@ class KretaGrade
         $this->shortTextGrade = $this->convertTextGrade($gradeJson->shortTextGrade);
         $this->grade = (int) $gradeJson->grade ?? (int) $this->convertValueToInteger($this->textGrade);
 
-        $this->uid = hash(
-            'sha256',
+        $this->uid = HashManager::hash(
             $this->date .
                 $this->create_date .
                 $this->subject .

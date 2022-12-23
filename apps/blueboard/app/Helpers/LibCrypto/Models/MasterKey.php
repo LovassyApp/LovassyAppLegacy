@@ -4,7 +4,8 @@ namespace App\Helpers\LibCrypto\Models;
 
 use App\Helpers\LibCrypto\Errors\KeyNotLockedException;
 use App\Helpers\LibCrypto\Errors\MasterKeyLockedException;
-use App\Helpers\LibCrypto\Services\EncryptionManager;
+use App\Helpers\LibCrypto\Interfaces\EncryptableKeyInterface;
+use App\Helpers\LibCrypto\Services\HashManager;
 use Illuminate\Encryption\Encrypter;
 
 /**
@@ -12,7 +13,7 @@ use Illuminate\Encryption\Encrypter;
  *
  * *Ezmiez?*
  */
-class MasterKey
+class MasterKey implements EncryptableKeyInterface
 {
     /**
      * A kulcs titkosított formája
@@ -89,7 +90,7 @@ class MasterKey
             throw new MasterKeyLockedException();
         }
 
-        $enc_key = EncryptionManager::generateBasicKey($password, $salt);
+        $enc_key = HashManager::generateBasicKey($password, $salt);
         $enc = new Encrypter($enc_key, self::$cipher);
         $this->key_encrypted = $enc->encryptString(base64_encode($this->key));
         return $this->key_encrypted;
@@ -106,7 +107,7 @@ class MasterKey
         if ($this->key_encrypted === null) {
             throw new KeyNotLockedException();
         }
-        $enc = new Encrypter(EncryptionManager::generateBasicKey($password, $salt), self::$cipher);
+        $enc = new Encrypter(HashManager::generateBasicKey($password, $salt), self::$cipher);
         $this->key = base64_decode($enc->decryptString($this->key_encrypted));
         $this->unlocked = true;
     }

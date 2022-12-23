@@ -8,7 +8,7 @@ use App\Exceptions\RequestOverruleException;
 use App\Helpers\LibLolo\LoloGenerator;
 use App\Helpers\LibLolo\LoloHelper;
 use App\Helpers\LibSession\Services\SessionManager;
-use App\Helpers\ResponseMaker;
+use App\Helpers\Shared\Utils\ResponseMaker;
 use App\Http\Requests\LoloRequest\CreateLoloRequestRequest;
 use App\Http\Requests\LoloRequest\OverruleLoloRequestRequest;
 use App\Models\LoloRequest;

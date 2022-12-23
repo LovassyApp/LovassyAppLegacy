@@ -6,30 +6,20 @@ use App\Helpers\LibCrypto\Contracts\InteractsWithSalts;
 use App\Helpers\LibCrypto\Errors\NoMasterKeySetException;
 use App\Helpers\LibCrypto\Models\MasterKey;
 use App\Helpers\LibSession\Services\SessionManager;
+use App\Helpers\Shared\Interfaces\AbstractSingleton;
 use Illuminate\Encryption\Encrypter;
 /**
  * Mesterkulcsos globális titkosító singleton
  *
  * *Remek négyszavas magyarázata ennek a clusterfucknak. Gratula Mate*
  */
-class EncryptionManager
+class EncryptionManager extends AbstractSingleton
 {
     /**
      * Default algoritmus / cipher titkosításhoz
      */
     public const DEFAULT_CIPHER = 'aes-256-gcm';
-    /**
-     * Default hashelő algoritmus kulcsok generálására
-     */
-    private const KEYGEN_HASH_ALGO = 'sha3-256';
-    /**
-     * Default hash algoritmus kulcsos hashelésre
-     */
-    private const DEFAULT_HASH_ALGO = 'sha512';
-    /**
-     * Default hash algoritmus belsőlegxd
-     */
-    private const GENERAL_HASH_ALGO = 'sha256';
+
     /**
      * Session-ben tárolt mesterkulcs neve
      */
@@ -55,14 +45,6 @@ class EncryptionManager
      * @var Encrypter|null
      */
     private Encrypter|null $encrypter = null;
-    /**
-     * Kulccsal generált hashek cachelve
-     *
-     * *kibaszott sokat gyorsít btw*
-     *
-     * @var array
-     */
-    private array $hash_cache = [];
 
     /**
      * Konsztráktor?
@@ -157,53 +139,6 @@ class EncryptionManager
     }
 
     /**
-     * 32 karakteres kulcs generálás stringből
-     * * _Konkrétan csak egy fancy hash_
-     *
-     * @param string $string
-     * @param string $salt
-     * @return string
-     *
-     */
-    public static function generateBasicKey(string $payload, string $salt): string
-    {
-        return hash_pbkdf2(self::KEYGEN_HASH_ALGO, $payload, $salt, 1000, 32);
-    }
-
-    /**
-     * Kulccsal hashelő függvény
-     *
-     * *Kes meg mindenis*
-     * @param string $payload
-     * @param string $prefix
-     * @return string
-     */
-    public function hash(string $payload, string $prefix = 'null'): string
-    {
-        if ($this->master_key === null) {
-            throw new NoMasterKeySetException();
-        }
-        if (array_key_exists($payload, $this->hash_cache)) {
-            return $this->hash_cache[$prefix . '_' . $payload];
-        } else {
-            $hashed = hash(self::DEFAULT_HASH_ALGO, "$this->master_key.$payload");
-            $this->hash_cache[$prefix . '_' . $payload] = $hashed;
-            return $hashed;
-        }
-    }
-
-    /**
-     * Hashelés, kulcs nélkül
-     *
-     * @param string $payload
-     * @return string
-     */
-    public static function hash_general(string $payload): string
-    {
-        return hash(self::GENERAL_HASH_ALGO, $payload);
-    }
-
-    /**
      * Kulcs accessor, mert szegény privátxd
      *
      * @return string
@@ -213,11 +148,11 @@ class EncryptionManager
         return $this->master_key;
     }
 
-    /**
-     * A jelenleg regisztrált singleton-t adja vissza
-     *
-     * @return self
-     */
+    public function active(): bool
+    {
+        return $this->master_key !== null;
+    }
+
     public static function use(): self
     {
         return app(self::class);
