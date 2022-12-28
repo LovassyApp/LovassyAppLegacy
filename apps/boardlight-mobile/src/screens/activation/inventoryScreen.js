@@ -70,7 +70,7 @@ export const InventoryScreen = ({ navigation }) => {
     loading(false);
   };
 
-  if (!items && permissions.includes("Inventory.view")) {
+  if (!items && permissions.includes("Inventory::ViewInventory")) {
     return (
       <ScreenContainer>
         <Headline>Áruház</Headline>
@@ -83,10 +83,10 @@ export const InventoryScreen = ({ navigation }) => {
   }
 
   return (
-    <ScreenContainer scrollable={permissions.includes("Inventory.view")}>
+    <ScreenContainer scrollable={permissions.includes("Inventory::ViewInventory")}>
       <Headline>Kincstár</Headline>
       <RestrictedWrapper
-        permission="Inventory.view"
+        permission="Inventory::ViewInventory"
         fallback={
           <View style={styles.noPermContainer}>
             <Text style={{ textAlign: "center" }}>Nincs hozzáférésed ehhez az oldalhoz</Text>

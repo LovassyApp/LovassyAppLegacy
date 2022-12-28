@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\InventoryItemCreated;
 use App\Exceptions\InsufficientFundsException;
 use App\Exceptions\ProductOutOfStockException;
+use App\Permissions\Store\ViewStore;
 use App\Helpers\Shared\Utils\ResponseMaker;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -16,11 +17,9 @@ use Auth;
 
 class StoreController extends Controller
 {
-    protected string $permissionScope = 'Store';
-
     public function index()
     {
-        $this->checkPermission('view');
+        $this->warden_authorize(ViewStore::use());
         $products = Product::allVisible();
 
         return ResponseMaker::generate($products);

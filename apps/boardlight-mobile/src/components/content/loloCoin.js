@@ -63,7 +63,7 @@ export const LoloCoin = (props) => {
         )}
         onPress={() =>
           props.data.reason !== BlueboardLoloReason.FromRequest &&
-          permissions.includes("General.grades") &&
+          permissions.includes("General::Grades") &&
           bottomSheetRef.current.show()
         }
         style={

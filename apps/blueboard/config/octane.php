@@ -1,5 +1,7 @@
 <?php
 
+use App\Helpers\Warden\Services\CacheEntryContainer;
+use App\Helpers\Warden\Services\Warden;
 use App\Helpers\LibCrypto\Services\EncryptionManager;
 use App\Helpers\LibCrypto\Services\HashManager;
 use Laravel\Octane\Contracts\OperationTerminated;
@@ -16,7 +18,6 @@ use Laravel\Octane\Events\WorkerStopping;
 use Laravel\Octane\Listeners\CollectGarbage;
 use Laravel\Octane\Listeners\DisconnectFromDatabases;
 use App\Helpers\LibSession\Services\SessionManager;
-use App\Helpers\PermissionManager\PermissionHelper;
 use Laravel\Octane\Listeners\EnsureUploadedFilesAreValid;
 use Laravel\Octane\Listeners\EnsureUploadedFilesCanBeMoved;
 use Laravel\Octane\Listeners\FlushTemporaryContainerInstances;
@@ -123,9 +124,9 @@ return [
     |
     */
 
-    'warm' => [...Octane::defaultServicesToWarm()],
+    'warm' => [...Octane::defaultServicesToWarm(), Warden::class],
 
-    'flush' => [SessionManager::class, EncryptionManager::class, PermissionHelper::class, HashManager::class],
+    'flush' => [SessionManager::class, EncryptionManager::class, HashManager::class, CacheEntryContainer::class],
 
     /*
     |--------------------------------------------------------------------------

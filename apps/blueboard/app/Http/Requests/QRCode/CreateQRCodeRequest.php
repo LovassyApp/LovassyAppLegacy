@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests\QRCode;
 
+use App\Permissions\QRCode\CreateQRCode;
 use App\Http\Requests\FormRequest as RequestsFormRequest;
 
 class CreateQRCodeRequest extends RequestsFormRequest
 {
-    protected string $permissionScope = 'QRCode';
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -15,7 +14,7 @@ class CreateQRCodeRequest extends RequestsFormRequest
      */
     public function authorize()
     {
-        return $this->checkPermission('add');
+        return $this->warden_authorize(CreateQRCode::use());
     }
 
     /**

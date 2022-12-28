@@ -24,6 +24,6 @@ Broadcast::channel('Store', function ($user) {
 Broadcast::channel('Groups.{id}', function ($user, $id) {
     return $user
         ->groups()
-        ->where('user_groups.id', (int) $id)
+        ->where('authorizables.authorizable_group_id', (int) $id)
         ->exists();
 });

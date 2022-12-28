@@ -2,23 +2,23 @@
 
 namespace App\Rules;
 
-use App\Helpers\PermissionManager\PermissionHelper;
+use App\Helpers\Warden\Services\Warden;
 use Illuminate\Contracts\Validation\Rule;
 
 class IsPermission implements Rule
 {
     private string $exceptionMessage;
-    private PermissionHelper $permissionHelper;
+    private Warden $permissionManager;
 
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct(PermissionHelper $permissionHelper)
+    public function __construct(Warden $permissionManager)
     {
         $this->exceptionMessage = '';
-        $this->permissionHelper = $permissionHelper;
+        $this->permissionManager = $permissionManager;
     }
 
     /**
@@ -36,7 +36,7 @@ class IsPermission implements Rule
                 $arr = [$arr];
             }
 
-            $this->permissionHelper->validatePermissions($arr);
+            $this->permissionManager->validatePermissions($arr);
         } catch (\Exception $exception) {
             $this->exceptionMessage = $exception->getMessage();
             return false;

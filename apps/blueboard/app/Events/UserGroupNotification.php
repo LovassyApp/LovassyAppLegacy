@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Models\UserGroup;
+use App\Models\Group;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -15,7 +15,7 @@ class UserGroupNotification
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    private UserGroup|null $group = null;
+    private Group|null $group = null;
     private string $title = '';
     private string $body = '';
 
@@ -24,7 +24,7 @@ class UserGroupNotification
      *
      * @return void
      */
-    public function __construct(UserGroup $group, string $title, string $body)
+    public function __construct(Group $group, string $title, string $body)
     {
         $this->group = $group;
         $this->title = $title;

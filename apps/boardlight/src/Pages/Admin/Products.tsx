@@ -144,7 +144,7 @@ const Products = (): JSX.Element => {
                 return (
                     <>
                         <Middleware
-                            permission="Products.update"
+                            permission="Products::UpdateProduct"
                             displayError={false}
                             component={
                                 <Button
@@ -158,7 +158,7 @@ const Products = (): JSX.Element => {
                             }
                         />
                         <Middleware
-                            permission="Products.delete"
+                            permission="Products::DeleteProduct"
                             displayError={false}
                             component={
                                 <Button
@@ -212,7 +212,7 @@ const Products = (): JSX.Element => {
                     <div className="mt-2" />
                     <Center>
                         <Middleware
-                            permission="Products.create"
+                            permission="Products::CreateProduct"
                             displayError={false}
                             component={
                                 <Button

@@ -2,13 +2,12 @@
 
 namespace App\Http\Requests\Groups;
 
+use App\Permissions\Permissions\CreateGroup;
 use App\Http\Requests\FormRequest;
 use App\Rules\IsPermission;
 
 class AddGroupRequest extends FormRequest
 {
-    protected string $permissionScope = 'Permissions';
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -16,7 +15,7 @@ class AddGroupRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->checkPermission('add');
+        return $this->warden_authorize(CreateGroup::use());
     }
 
     /**
@@ -27,8 +26,8 @@ class AddGroupRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'max:255', 'unique:user_groups'],
-            'permissions' => ['required', 'array', new IsPermission($this->permissionHelper())],
+            'name' => ['required', 'string', 'max:255', 'unique:authorizable_groups'],
+            'permissions' => ['required', 'array', new IsPermission($this->warden())],
         ];
     }
 

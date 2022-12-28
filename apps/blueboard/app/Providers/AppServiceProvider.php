@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Helpers\PermissionManager\PermissionHelper;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,9 +13,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(PermissionHelper::class, function ($app) {
-            return new PermissionHelper(true);
-        });
     }
 
     /**

@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests\LoloRequest;
 
+use App\Permissions\Requests\CreateRequest;
 use App\Http\Requests\FormRequest as RequestsFormRequest;
 
 class CreateLoloRequestRequest extends RequestsFormRequest
 {
-    protected string $permissionScope = 'Requests';
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -15,7 +14,7 @@ class CreateLoloRequestRequest extends RequestsFormRequest
      */
     public function authorize()
     {
-        return $this->checkPermission('new');
+        return $this->warden_authorize(CreateRequest::use());
     }
 
     /**

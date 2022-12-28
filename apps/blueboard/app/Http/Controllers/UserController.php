@@ -8,17 +8,17 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Exceptions\UserDeletionException;
 use App\Exceptions\UserGroupException;
+use App\Permissions\Users\ShowUser;
+use App\Permissions\Users\ViewUsers;
 use App\Http\Requests\Users\UserDeleteRequest;
 use App\Http\Requests\Users\UserUpdateRequest;
-use App\Models\UserGroup;
+use App\Models\Group;
 
 class UserController extends Controller
 {
-    protected string $permissionScope = 'Users';
-
     public function index()
     {
-        $this->checkPermission('view');
+        $this->warden_authorize(ViewUsers::use());
         $users = User::with(['lolo', 'groups'])->get();
 
         return ResponseMaker::generate($users);
@@ -26,7 +26,7 @@ class UserController extends Controller
 
     public function show(int $userID)
     {
-        $this->checkPermission('show');
+        $this->warden_authorize(ShowUser::use());
         $user = User::with(['lolo', 'groups'])->findOrFail($userID);
 
         return ResponseMaker::generate($user);
@@ -41,7 +41,9 @@ class UserController extends Controller
         $user->email = $data['email'];
         $user->save();
 
-        $res = UserGroup::whereIn('id', $data['groups'])->count();
+        $this->warden()->invalidate($user);
+
+        $res = Group::whereIn('id', $data['groups'])->count();
         if ($res !== count($data['groups'])) {
             throw new UserGroupException();
         }

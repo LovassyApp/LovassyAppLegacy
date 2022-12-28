@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Models\UserGroup;
+use App\Models\Group;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -15,14 +15,14 @@ class UserGroupUpdated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    private UserGroup $group;
+    private Group $group;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(UserGroup $group)
+    public function __construct(Group $group)
     {
         $this->group = $group;
     }

@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use App\Helpers\LibCrypto\Services\EncryptionManager;
+use App\Helpers\Warden\Contracts\Authorizable;
+use App\Helpers\Warden\Contracts\AuthorizableBehaviour;
 use App\Helpers\LibCrypto\Services\HashManager;
 use App\Helpers\LibSession\Services\SessionManager;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,10 +13,10 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Helpers\LibRefresh\Contracts\HasRefreshTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements Authorizable
 {
     use \Spiritix\LadaCache\Database\LadaCacheTrait;
-    use HasApiTokens, HasFactory, Notifiable, HasRefreshTokens;
+    use HasApiTokens, HasFactory, Notifiable, HasRefreshTokens, AuthorizableBehaviour;
 
     /**
      * The attributes that are mass assignable.
@@ -88,11 +89,6 @@ class User extends Authenticatable
         return $this->hasMany(GradeImport::class, 'user_id', 'id');
     }
 
-    public function groups()
-    {
-        return $this->belongsToMany(UserGroup::class, 'user_group', 'user_id', 'group_id');
-    }
-
     public function items(): HasMany
     {
         return $this->hasMany(InventoryItem::class);
@@ -121,11 +117,4 @@ class User extends Authenticatable
             return '';
         }
     }
-
-    /*public function getGroupsAttribute()
-    {
-        return $this->groups()
-            ->get()
-            ->pluck('id');
-    }*/
 }

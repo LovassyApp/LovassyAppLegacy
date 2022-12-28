@@ -7,6 +7,8 @@ use App\Exceptions\APIException;
 use App\Exceptions\InvalidCodeException;
 use App\Exceptions\ItemAlreadyUsedException;
 use App\Exceptions\NotYourItemException;
+use App\Permissions\Inventory\ViewInventory;
+use App\Permissions\QRCode\ValidateQRCode;
 use App\Helpers\LibSession\Services\SessionManager;
 use App\Helpers\Shared\Utils\ResponseMaker;
 use App\Http\Requests\Inventory\UseItemRequest;
@@ -17,14 +19,12 @@ use Illuminate\Http\Request;
 
 class InventoryController extends Controller
 {
-    protected string $permissionScope = 'Inventory';
-
     private string $stringInputRules = 'required|string|max:255';
     private string $boolInputRules = 'required|boolean';
 
     public function index()
     {
-        $this->checkPermission('view');
+        $this->warden_authorize(ViewInventory::use());
         $user = SessionManager::user();
         $items = $user
             ->items()
@@ -55,7 +55,7 @@ class InventoryController extends Controller
 
     public function validateCode(Request $request)
     {
-        $this->checkPermission('validate', 'QRCode');
+        $this->warden_authorize(ValidateQRCode::use());
 
         $user = SessionManager::user();
         $code = $this->getQR($request);

@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests\Product;
 
+use App\Permissions\Products\DeleteProduct;
 use App\Http\Requests\FormRequest as RequestsFormRequest;
 
 class DeleteProductRequest extends RequestsFormRequest
 {
-    protected string $permissionScope = 'Products';
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -15,7 +14,7 @@ class DeleteProductRequest extends RequestsFormRequest
      */
     public function authorize()
     {
-        return $this->checkPermission('delete');
+        return $this->warden_authorize(DeleteProduct::use());
     }
 
     /**

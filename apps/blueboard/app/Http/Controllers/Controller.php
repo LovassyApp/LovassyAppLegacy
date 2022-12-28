@@ -2,18 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\PermissionManager\Contracts\HasPermissionHelper;
+use App\Helpers\Warden\Contracts\WardenAuthorizer;
+use App\Helpers\Warden\Contracts\AuthorizesWithWarden;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
-use App\Helpers\PermissionManager\PermissionHelper;
-use Exception;
-use Illuminate\Container\Container;
-
-class Controller extends BaseController
+class Controller extends BaseController implements AuthorizesWithWarden
 {
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests, HasPermissionHelper;
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests, WardenAuthorizer;
     public function __construct()
     {
         // Nothing, since apparently controllers are also singletons... WHAT THE FUCK?

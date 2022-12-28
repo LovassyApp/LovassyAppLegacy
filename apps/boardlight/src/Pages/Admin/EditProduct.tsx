@@ -267,14 +267,14 @@ const EditProduct = (): JSX.Element => {
 
     const userPermissions = usePermissions();
 
-    if (id === 'new' && !checkPermission('Products.create', userPermissions)) {
+    if (id === 'new' && !checkPermission('Products::CreateProduct', userPermissions)) {
         return <Four0Three />;
     }
 
     if (
         id !== 'new' &&
         !isNaN(Number(id)) &&
-        !checkPermission('Products.update', userPermissions)
+        !checkPermission('Products::UpdateProduct', userPermissions)
     ) {
         return <Four0Three />;
     }

@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests\Inventory;
 
+use App\Permissions\Inventory\UseItem;
 use App\Http\Requests\FormRequest as RequestsFormRequest;
 
 class UseItemRequest extends RequestsFormRequest
 {
-    protected string $permissionScope = 'Inventory';
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -15,7 +14,7 @@ class UseItemRequest extends RequestsFormRequest
      */
     public function authorize()
     {
-        return $this->checkPermission('use');
+        return $this->warden_authorize(UseItem::use());
     }
 
     /**

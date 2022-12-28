@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests\QRCode;
 
+use App\Permissions\QRCode\DeleteQRCode;
 use App\Http\Requests\FormRequest as RequestsFormRequest;
 
 class DeleteQRCodeRequest extends RequestsFormRequest
 {
-    protected string $permissionScope = 'QRCode';
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -15,7 +14,7 @@ class DeleteQRCodeRequest extends RequestsFormRequest
      */
     public function authorize()
     {
-        return $this->checkPermission('delete');
+        return $this->warden_authorize(DeleteQRCode::use());
     }
 
     /**

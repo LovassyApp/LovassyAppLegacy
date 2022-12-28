@@ -119,11 +119,11 @@ export const SettingsScreen = ({ navigation }) => {
         />
         <RestrictedWrapper
           permissions={[
-            "Products.index",
-            "Requests.index",
-            "QRCode.view",
-            "Users.view",
-            "Permissions.view",
+            "Products::ViewProducts",
+            "Requests::ViewRequests",
+            "QRCode::ViewQRCodes",
+            "Users::ViewUsers",
+            "Permissions::ViewGroups",
           ]}>
           <Divider style={styles.devider} />
           <Caption>Titkos cuccok</Caption>

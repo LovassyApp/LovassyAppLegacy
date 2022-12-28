@@ -2,13 +2,12 @@
 
 namespace App\Http\Requests\Groups;
 
+use App\Permissions\Permissions\UpdateGroup;
 use App\Http\Requests\FormRequest as RequestsFormRequest;
 use App\Rules\IsPermission;
 
 class UpdateGroupRequest extends RequestsFormRequest
 {
-    protected string $permissionScope = 'Permissions';
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -16,7 +15,7 @@ class UpdateGroupRequest extends RequestsFormRequest
      */
     public function authorize()
     {
-        return $this->checkPermission('update');
+        return $this->warden_authorize(UpdateGroup::use());
     }
 
     /**
@@ -27,9 +26,9 @@ class UpdateGroupRequest extends RequestsFormRequest
     public function rules()
     {
         return [
-            'id' => ['required', 'integer', 'exists:user_groups'],
-            'name' => ['required', 'string', 'max:255', 'unique:user_groups,name,' . $this->id],
-            'permissions' => ['required', 'array', new IsPermission($this->permissionHelper())],
+            'id' => ['required', 'integer', 'exists:authorizable_groups'],
+            'name' => ['required', 'string', 'max:255', 'unique:authorizable_groups,name,' . $this->id],
+            'permissions' => ['required', 'array', new IsPermission($this->warden())],
         ];
     }
 

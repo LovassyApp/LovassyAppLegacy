@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\BadFileException;
 use App\Exceptions\ImageNotFoundException;
+use App\Permissions\Products\ShowProduct;
+use App\Permissions\Products\ViewProducts;
 use App\Helpers\Shared\Utils\ResponseMaker;
 use App\Http\Requests\Product\CreateProductRequest;
 use App\Http\Requests\Product\DeleteProductRequest;
@@ -15,8 +17,6 @@ use Str;
 
 class ProductController extends Controller
 {
-    protected string $permissionScope = 'Products';
-
     public function create(CreateProductRequest $request)
     {
         $data = $request->safe();
@@ -76,7 +76,7 @@ class ProductController extends Controller
 
     public function index()
     {
-        $this->checkPermission('index');
+        $this->warden_authorize(ViewProducts::use());
 
         $products = Product::all();
         return ResponseMaker::generate($products);
@@ -84,7 +84,7 @@ class ProductController extends Controller
 
     public function show(int $productID)
     {
-        $this->checkPermission('show');
+        $this->warden_authorize(ShowProduct::use());
 
         $product = Product::with('notifiedGroups')->findOrFail($productID);
         return ResponseMaker::generate($product);

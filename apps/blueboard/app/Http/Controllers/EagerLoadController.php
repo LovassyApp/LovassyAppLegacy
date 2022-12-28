@@ -3,14 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Events\LoloAmountUpdated;
+use App\Permissions\General\Grades;
+use App\Permissions\General\Lolo;
+use App\Permissions\Inventory\ViewInventory;
+use App\Permissions\Requests\ViewRequests;
+use App\Permissions\Store\ViewStore;
+use App\Helpers\Warden\Services\Warden;
 use App\Helpers\LibBackboard\BackboardAdapter;
 use App\Helpers\LibBackboard\KretaGradeCategory;
 use App\Helpers\LibCrypto\Services\EncryptionManager;
-//use App\Helpers\LibKreta\RetiLimit;
 use App\Helpers\LibLolo\LoloGenerator;
 use App\Helpers\LibLolo\LoloHelper;
 use App\Helpers\LibSession\Services\SessionManager;
-use App\Helpers\PermissionManager\PermissionHelper;
 use App\Helpers\Shared\Utils\ResponseMaker;
 use App\Models\Grade;
 use App\Models\InventoryItem;
@@ -18,6 +22,7 @@ use App\Models\LoloRequest;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Laravel\SerializableClosure\SerializableClosure;
 use Octane;
 
 class EagerLoadController extends Controller
@@ -31,9 +36,10 @@ class EagerLoadController extends Controller
         ];
     }
 
-    private static function getGrades($helper, $hash)
+    private static function getGrades(string $hash, int $user_id)
     {
-        if (!$helper->authorize('General.grades', true)) {
+        $warden = new Warden(fn() => User::findOrFail($user_id), false);
+        if (!$warden->authorize(Grades::use(), true)) {
             return self::makeFrame([], true, 'Unauthorized.');
         }
 
@@ -53,9 +59,10 @@ class EagerLoadController extends Controller
         return self::makeFrame($allGrades);
     }
 
-    private static function getStore($helper)
+    private static function getStore(int $user_id)
     {
-        if (!$helper->authorize('Store.view', true)) {
+        $warden = new Warden(fn() => User::findOrFail($user_id), false);
+        if (!$warden->authorize(ViewStore::use(), true)) {
             return self::makeFrame([], true, 'Unauthorized.');
         }
 
@@ -63,9 +70,10 @@ class EagerLoadController extends Controller
         return self::makeFrame($products);
     }
 
-    private static function getInventory($helper, $user_id)
+    private static function getInventory(int $user_id)
     {
-        if (!$helper->authorize('Inventory.view', true)) {
+        $warden = new Warden(fn() => User::findOrFail($user_id), false);
+        if (!$warden->authorize(ViewInventory::use(), true)) {
             return self::makeFrame([], true, 'Unauthorized.');
         }
 
@@ -76,9 +84,10 @@ class EagerLoadController extends Controller
         return self::makeFrame($items);
     }
 
-    private static function getRequests($helper, $user_id)
+    private static function getRequests(int $user_id)
     {
-        if (!$helper->authorize('Requests.view', true)) {
+        $warden = new Warden(fn() => User::findOrFail($user_id), false);
+        if (!$warden->authorize(ViewRequests::use(), true)) {
             return self::makeFrame([], true, 'Unauthorized.');
         }
 
@@ -90,29 +99,27 @@ class EagerLoadController extends Controller
     public function index(Request $request)
     {
         $refresh = (bool) $request->query('refresh', false);
-        $helper = app(PermissionHelper::class);
-        $helper->cacheUser();
-
+        $warden = Warden::use();
         $user = SessionManager::user();
         $encryption_manager = EncryptionManager::use();
         $hash = $user->hash;
         $id = $user->id;
 
-        if (($helper->authorize('General.grades', true) || $helper->authorize('General.lolo', true)) && $refresh) {
+        if (($warden->authorize(Grades::use(), true) || $warden->authorize(Lolo::use(), true)) && $refresh) {
             $adapter = new BackboardAdapter($user, $encryption_manager);
             $adapter->tryUpdating();
         }
 
         $ret = Octane::concurrently([
-            fn() => self::getGrades($helper, $hash),
-            fn() => self::getStore($helper),
-            fn() => self::getInventory($helper, $id),
-            fn() => self::getRequests($helper, $id),
+            fn() => self::getGrades($hash, $id),
+            fn() => self::getStore($id),
+            fn() => self::getInventory($id),
+            fn() => self::getRequests($id),
         ]);
 
         [$grades, $store, $inventory, $requests] = $ret;
 
-        if ($helper->authorize('General.lolo', true)) {
+        if ($warden->authorize(Lolo::use(), true)) {
             $gen = new LoloGenerator(SessionManager::user());
             $gen->generate();
 

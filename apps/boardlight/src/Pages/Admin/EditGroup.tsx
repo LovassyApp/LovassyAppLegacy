@@ -134,14 +134,14 @@ const EditGroup = (): JSX.Element => {
             });
     };
 
-    if (id === 'new' && !checkPermission('Permissions.add', userPermissions)) {
+    if (id === 'new' && !checkPermission('Permissions::CreateGroup', userPermissions)) {
         return <Four0Three />;
     }
 
     if (
         id !== 'new' &&
         !isNaN(Number(id)) &&
-        !checkPermission('Permissions.update', userPermissions)
+        !checkPermission('Permissions::UpdateGroup', userPermissions)
     ) {
         return <Four0Three />;
     }

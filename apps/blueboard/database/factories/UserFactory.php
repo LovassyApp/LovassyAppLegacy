@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Helpers\LibCrypto\Models\MasterKey;
 use App\Helpers\LibCrypto\Models\SodiumKeypair;
 use App\Helpers\LibCrypto\Services\EncryptionManager;
+use App\Helpers\LibCrypto\Services\HashManager;
 use App\Models\User;
 use Hash;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -37,6 +38,8 @@ class UserFactory extends Factory
             'public_key_hex' => '',
             'master_key_encrypted' => '',
             'private_key_encrypted' => '',
+            'hasher_salt_encrypted' => '',
+            'hasher_salt_hashed' => Str::random(16),
         ];
     }
 
@@ -50,11 +53,15 @@ class UserFactory extends Factory
             $keys = new SodiumKeypair(null);
             $omcode = Str::random(20);
 
-            $user->om_code_hashed = EncryptionManager::hash_general($omcode);
+            $hasher_salt = EncryptionManager::generateSalt();
+
+            $user->om_code_hashed = HashManager::hash($omcode);
             $user->om_code_encrypted = $man->encrypt($omcode);
             $user->public_key_hex = $keys->publicKey_hex;
             $user->master_key_encrypted = $stored_key;
             $user->private_key_encrypted = $man->encrypt($keys->privateKey);
+            $user->hasher_salt_hashed = HashManager::hash($hasher_salt);
+            $user->hasher_salt_encrypted = $man->encrypt($hasher_salt);
             $user->save();
 
             $user->groups()->sync([1]);

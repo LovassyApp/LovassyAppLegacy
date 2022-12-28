@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests\Groups;
 
+use App\Permissions\Permissions\DeleteGroup;
 use App\Http\Requests\FormRequest as RequestsFormRequest;
 
 class DeleteGroupRequest extends RequestsFormRequest
 {
-    protected string $permissionScope = 'Permissions';
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -15,7 +14,7 @@ class DeleteGroupRequest extends RequestsFormRequest
      */
     public function authorize()
     {
-        return $this->checkPermission('delete');
+        return $this->warden_authorize(DeleteGroup::use());
     }
 
     /**
@@ -26,7 +25,7 @@ class DeleteGroupRequest extends RequestsFormRequest
     public function rules()
     {
         return [
-            'id' => ['required', 'integer', 'exists:user_groups'],
+            'id' => ['required', 'integer', 'exists:authorizable_groups'],
         ];
     }
 }

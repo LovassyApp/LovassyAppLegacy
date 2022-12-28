@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests\Users;
 
+use App\Permissions\Users\DeleteUser;
 use App\Http\Requests\FormRequest as RequestsFormRequest;
 
 class UserDeleteRequest extends RequestsFormRequest
 {
-    protected string $permissionScope = 'Users';
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -15,7 +14,7 @@ class UserDeleteRequest extends RequestsFormRequest
      */
     public function authorize()
     {
-        return $this->checkPermission('delete');
+        return $this->warden_authorize(DeleteUser::use());
     }
 
     /**

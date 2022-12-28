@@ -143,7 +143,7 @@ return [
     | The version of the currently running Blueboard server
     |
     */
-    'blueboard_version' => '3.2.0',
+    'blueboard_version' => '3.3.1',
 
     /*
     |--------------------------------------------------------------------------
@@ -193,6 +193,7 @@ return [
          */
         App\Helpers\LibSession\Providers\SessionServiceProvider::class,
         App\Helpers\LibCrypto\Providers\EncryptionServiceProvider::class,
+        App\Helpers\Warden\Providers\WardenServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         App\Providers\BroadcastServiceProvider::class,

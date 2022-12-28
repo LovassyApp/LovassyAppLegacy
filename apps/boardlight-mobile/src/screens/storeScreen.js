@@ -144,7 +144,7 @@ export const StoreScreen = () => {
     loading(false);
   };
 
-  if (!products && permissions.includes("Store.view")) {
+  if (!products && permissions.includes("Store::ViewStore")) {
     return (
       <ScreenContainer>
         <Headline>Áruház</Headline>
@@ -158,11 +158,11 @@ export const StoreScreen = () => {
 
   return (
     <>
-      <ScreenContainer scrollable={permissions.includes("Store.view")}>
+      <ScreenContainer scrollable={permissions.includes("Store::ViewStore")}>
         <Headline>Áruház</Headline>
 
         <RestrictedWrapper
-          permission="Store.view"
+          permission="Store::ViewStore"
           fallback={
             <View style={styles.noPremContainer}>
               <Text style={{ textAlign: "center" }}>Nincs hozzáférésed ehhez az oldalhoz</Text>

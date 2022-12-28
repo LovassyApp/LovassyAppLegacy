@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Events\LoloAmountUpdated;
 use App\Exceptions\APIException;
 use App\Exceptions\RequestOverruleException;
+use App\Permissions\Requests\CreateRequest;
+use App\Permissions\Requests\OverruleRequest;
+use App\Permissions\Requests\ViewOwnRequests;
+use App\Permissions\Requests\ViewRequests;
 use App\Helpers\LibLolo\LoloGenerator;
 use App\Helpers\LibLolo\LoloHelper;
 use App\Helpers\LibSession\Services\SessionManager;
@@ -19,11 +23,9 @@ use Illuminate\Validation\Rule;
 
 class LoloRequestController extends Controller
 {
-    protected string $permissionScope = 'Requests';
-
     public function index(): JsonResponse
     {
-        $this->checkPermission('index');
+        $this->warden_authorize(ViewRequests::use());
         $requests = LoloRequest::with('user')->get();
 
         return ResponseMaker::generate($requests);
@@ -31,7 +33,7 @@ class LoloRequestController extends Controller
 
     public function show(): JsonResponse
     {
-        $this->checkPermission('view');
+        $this->warden_authorize(ViewOwnRequests::use());
         $requests = SessionManager::user()
             ->requests()
             ->get();
@@ -41,8 +43,8 @@ class LoloRequestController extends Controller
 
     public function create(CreateLoloRequestRequest $request): JsonResponse
     {
-        $this->checkPermission('new');
-        $data = $request->safe();
+        $this->warden_authorize(CreateRequest::use());
+        $data = $request->safe()->toArray();
 
         $user = SessionManager::user();
 
@@ -53,7 +55,7 @@ class LoloRequestController extends Controller
 
     public function update(OverruleLoloRequestRequest $request): JsonResponse
     {
-        $this->checkPermission('overrule');
+        $this->warden_authorize(OverruleRequest::use());
         $data = $request->safe();
 
         $loloRequest = LoloRequest::with('user')

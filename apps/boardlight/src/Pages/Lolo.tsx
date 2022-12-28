@@ -207,7 +207,7 @@ const Lolo = (): JSX.Element => {
                                                 Frissítés
                                             </Button>
                                             <Middlware
-                                                permission="Requests.new"
+                                                permission="Requests::CreateRequest"
                                                 component={
                                                     <Button
                                                         rounded={true}

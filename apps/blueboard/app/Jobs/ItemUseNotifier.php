@@ -3,10 +3,10 @@
 namespace App\Jobs;
 
 use App\Mail\ProductUsedMail;
+use App\Models\Group;
 use App\Models\InventoryItem;
 use App\Models\QRCode;
 use App\Models\User;
-use App\Models\UserGroup;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -46,7 +46,7 @@ class ItemUseNotifier implements ShouldQueue
 
     private function getNotifiedGroups(): Collection
     {
-        return UserGroup::where('permissions', 'like', '%' . $this->notifiedPermission . '%')->get();
+        return Group::where('permissions', 'like', '%' . $this->notifiedPermission . '%')->get();
     }
 
     /**

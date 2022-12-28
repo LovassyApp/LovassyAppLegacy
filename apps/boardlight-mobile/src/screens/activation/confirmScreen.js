@@ -199,7 +199,7 @@ export const ConfirmScreen = ({ navigation, route }) => {
               dense={true}
               customStyle={{ margin: 10 }}
               onPress={() => confirm()}
-              disabled={!permissions.includes("Inventory.use")}>
+              disabled={!permissions.includes("Inventory::UseItem")}>
               Beváltás
             </LaButton>
           </View>

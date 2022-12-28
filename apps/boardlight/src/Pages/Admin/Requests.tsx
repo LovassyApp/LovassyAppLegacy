@@ -251,7 +251,7 @@ const Requests = (): JSX.Element => {
 
                 return (
                     <Middleware
-                        permission="Requests.overrule"
+                        permission="Requests::OverruleRequest"
                         displayError={false}
                         component={
                             <Button

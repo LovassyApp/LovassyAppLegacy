@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests\Users;
 
+use App\Permissions\Users\UpdateUser;
 use App\Http\Requests\FormRequest as RequestsFormRequest;
 
 class UserUpdateRequest extends RequestsFormRequest
 {
-    protected string $permissionScope = 'Users';
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -15,7 +14,7 @@ class UserUpdateRequest extends RequestsFormRequest
      */
     public function authorize()
     {
-        return $this->checkPermission('update');
+        return $this->warden_authorize(UpdateUser::use());
     }
 
     /**

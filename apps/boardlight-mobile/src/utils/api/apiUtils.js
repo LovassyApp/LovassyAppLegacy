@@ -4,7 +4,7 @@ export const fetchLolo = async (client, refresh = true, token = null) => {
   const { dispatch } = store;
   const state = store.getState();
 
-  if (state.control.value.permissions.includes("General.lolo")) {
+  if (state.control.value.permissions.includes("General::Lolo")) {
     console.log("DEBUG: Fetching lolo...");
 
     try {
@@ -29,7 +29,7 @@ export const fetchGrades = async (client, refresh = true, token = null) => {
   const { dispatch } = store;
   const state = store.getState();
 
-  if (state.control.value.permissions.includes("General.grades")) {
+  if (state.control.value.permissions.includes("General::Grades")) {
     console.log("DEBUG: Fetching grades...");
 
     try {
@@ -49,7 +49,7 @@ export const fetchStore = async (client, token = null) => {
   const { dispatch } = store;
   const state = store.getState();
 
-  if (state.control.value.permissions.includes("Store.view")) {
+  if (state.control.value.permissions.includes("Store::ViewStore")) {
     console.log("DEBUG: Fetching store...");
 
     try {
@@ -69,7 +69,7 @@ export const fetchInventory = async (client, token = null) => {
   const { dispatch } = store;
   const state = store.getState();
 
-  if (state.control.value.permissions.includes("Inventory.view")) {
+  if (state.control.value.permissions.includes("Inventory::ViewInventory")) {
     console.log("DEBUG: Fetching inventory...");
 
     try {
@@ -89,7 +89,7 @@ export const fetchRequests = async (client, token = null) => {
   const { dispatch } = store;
   const state = store.getState();
 
-  if (state.control.value.permissions.includes("Requests.view")) {
+  if (state.control.value.permissions.includes("Requests::ViewOwnRequests")) {
     console.log("DEBUG: Fetching requests...");
 
     try {

@@ -48,6 +48,7 @@ const AuthedListeners = ({
     });
     useBlueboardPrivateChannel(`Users.${user.id}`, 'UserGroupsChanged', (res: any) => {
         dispatch(setGroups(res.groups));
+        toast.success('Felhasználói csoportok frissítve!');
     });
 
     return <></>;

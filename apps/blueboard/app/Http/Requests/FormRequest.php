@@ -2,10 +2,11 @@
 
 namespace App\Http\Requests;
 
-use App\Helpers\PermissionManager\Contracts\HasPermissionHelper;
+use App\Helpers\Warden\Contracts\WardenAuthorizer;
+use App\Helpers\Warden\Contracts\AuthorizesWithWarden;
 use Illuminate\Foundation\Http\FormRequest as IlluminateFormRequest;
 
-class FormRequest extends IlluminateFormRequest
+class FormRequest extends IlluminateFormRequest implements AuthorizesWithWarden
 {
-    use HasPermissionHelper;
+    use WardenAuthorizer;
 }

@@ -2,37 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Helpers\PermissionManager\PermissionHelper;
+use App\Permissions\Permissions\ShowGroup;
+use App\Permissions\Permissions\ViewGroups;
+use App\Permissions\Permissions\ViewPermissions;
 use App\Helpers\Shared\Utils\ResponseMaker;
 use App\Http\Requests\Groups\AddGroupRequest;
 use App\Http\Requests\Groups\DeleteGroupRequest;
 use App\Http\Requests\Groups\UpdateGroupRequest;
-use App\Models\UserGroup;
-use Illuminate\Validation\ValidationException;
+use App\Models\Group;
 
 class PermissionController extends Controller
 {
-    protected string $permissionScope = 'Permissions';
-
     public function index()
     {
-        $this->checkPermission('view');
-        $all = UserGroup::all();
+        $this->warden_authorize(ViewGroups::use());
+        $all = Group::all();
         return ResponseMaker::generate($all);
     }
 
-    public function getPermissions(PermissionHelper $permissionHelper)
+    public function getPermissions()
     {
-        $this->checkPermission('getpermissions');
-        $permissions = $permissionHelper->getDisplayPermissionList();
+        $this->warden_authorize(ViewPermissions::use());
+        $permissions = $this->warden()->getDisplayPermissionList();
         return ResponseMaker::generate($permissions);
     }
 
     public function getGroup(int $groupID)
     {
-        $this->checkPermission('viewgroup');
-        $group = UserGroup::findOrFail($groupID);
+        $this->warden_authorize(ShowGroup::use());
+        $group = Group::findOrFail($groupID);
         return ResponseMaker::generate($group);
     }
 
@@ -40,7 +38,7 @@ class PermissionController extends Controller
     {
         $data = $request->safe();
 
-        $group = new UserGroup();
+        $group = new Group();
         $group->name = $data['name'];
         $group->permissions = $data['permissions'];
         $group->save();
@@ -51,11 +49,19 @@ class PermissionController extends Controller
     public function update(UpdateGroupRequest $request)
     {
         $data = $request->safe();
-        $group = UserGroup::findOrFail($data['id']);
+        $group = Group::findOrFail($data['id']);
 
         $group->name = $data['name'];
         $group->permissions = $data['permissions'];
         $group->save();
+
+        $this->warden()->invalidate(
+            $group
+                ->users()
+                ->get()
+                ->pluck('id')
+                ->toArray()
+        );
 
         return ResponseMaker::generate([], 200, 'Group updated successfully!');
     }
@@ -64,7 +70,14 @@ class PermissionController extends Controller
     {
         $id = $request->safe()['id'];
 
-        $group = UserGroup::findOrFail($id);
+        $group = Group::findOrFail($id);
+        $this->warden()->invalidate(
+            $group
+                ->users()
+                ->get()
+                ->pluck('id')
+                ->toArray()
+        );
         $group->delete();
         return ResponseMaker::generate([], 200, 'Group deleted successfully!');
     }

@@ -48,7 +48,7 @@ class Product extends Model
 
     public function notifiedGroups(): BelongsToMany
     {
-        return $this->belongsToMany(UserGroup::class, 'user_group_product', 'product_id', 'group_id');
+        return $this->belongsToMany(Group::class, 'user_group_product', 'product_id', 'group_id');
     }
 
     public function items(): HasMany

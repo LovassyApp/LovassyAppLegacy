@@ -91,7 +91,7 @@ const TopNav = (): JSX.Element => {
                                     </NavLink>
                                 </NavItem>
                             }
-                            permission="Inventory.view"
+                            permission="Inventory::ViewInventory"
                             displayError={false}
                         />
 
@@ -109,7 +109,7 @@ const TopNav = (): JSX.Element => {
                                     </NavLink>
                                 </NavItem>
                             }
-                            permission="General.grades"
+                            permission="General::Grades"
                             displayError={false}
                         />
 
@@ -127,7 +127,7 @@ const TopNav = (): JSX.Element => {
                                     </NavLink>
                                 </NavItem>
                             }
-                            permission="General.lolo"
+                            permission="General::Lolo"
                             displayError={false}
                         />
 
@@ -145,7 +145,7 @@ const TopNav = (): JSX.Element => {
                                     </NavLink>
                                 </NavItem>
                             }
-                            permission="Store.view"
+                            permission="Store::ViewStore"
                             displayError={false}
                         />
 
@@ -164,7 +164,7 @@ const TopNav = (): JSX.Element => {
                                     </NavLink>
                                 </NavItem>
                             }
-                            permission="Products.index"
+                            permission="Products::ViewProducts"
                             displayError={false}
                         />
 
@@ -182,7 +182,7 @@ const TopNav = (): JSX.Element => {
                                     </NavLink>
                                 </NavItem>
                             }
-                            permission="Requests.index"
+                            permission="Requests::ViewRequests"
                             displayError={false}
                         />
 
@@ -200,7 +200,7 @@ const TopNav = (): JSX.Element => {
                                     </NavLink>
                                 </NavItem>
                             }
-                            permission="QRCode.view"
+                            permission="QRCode::ViewQRCodes"
                             displayError={false}
                         />
                         <Middleware
@@ -217,7 +217,7 @@ const TopNav = (): JSX.Element => {
                                     </NavLink>
                                 </NavItem>
                             }
-                            permission="Users.view"
+                            permission="Users::ViewUsers"
                             displayError={false}
                         />
                         <Middleware
@@ -234,7 +234,7 @@ const TopNav = (): JSX.Element => {
                                     </NavLink>
                                 </NavItem>
                             }
-                            permission="Permissions.view"
+                            permission="Permissions::ViewGroups"
                             displayError={false}
                         />
 

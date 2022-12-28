@@ -34,7 +34,7 @@ const protectedRoutes: ProtectedRoute[] = [
     {
         path: '/grades',
         component: (
-            <Middleware permission="General.grades" displayError={true} component={<Grades />} />
+            <Middleware permission="General::Grades" displayError={true} component={<Grades />} />
         ),
         exact: true,
     },
@@ -42,21 +42,27 @@ const protectedRoutes: ProtectedRoute[] = [
     {
         path: '/lolo',
         component: (
-            <Middleware permission="General.lolo" displayError={true} component={<Lolo />} />
+            <Middleware permission="General::Lolo" displayError={true} component={<Lolo />} />
         ),
         exact: true,
     },
 
     {
         path: '/store',
-        component: <Middleware permission="Store.view" displayError={true} component={<Store />} />,
+        component: (
+            <Middleware permission="Store::ViewStore" displayError={true} component={<Store />} />
+        ),
         exact: true,
     },
 
     {
         path: '/home',
         component: (
-            <Middleware permission="Inventory.view" displayError={true} component={<Inventory />} />
+            <Middleware
+                permission="Inventory::ViewInventory"
+                displayError={true}
+                component={<Inventory />}
+            />
         ),
         exact: true,
     },
@@ -64,13 +70,19 @@ const protectedRoutes: ProtectedRoute[] = [
     // Admin stuff
     {
         path: '/admin/users',
-        component: <Middleware permission="Users.view" displayError={true} component={<Users />} />,
+        component: (
+            <Middleware permission="Users::ViewUsers" displayError={true} component={<Users />} />
+        ),
         exact: true,
     },
     {
         path: '/admin/users/edit/:id',
         component: (
-            <Middleware permission="Users.update" displayError={true} component={<EditUser />} />
+            <Middleware
+                permission="Users::UpdateUser"
+                displayError={true}
+                component={<EditUser />}
+            />
         ),
         exact: false,
     },
@@ -79,7 +91,7 @@ const protectedRoutes: ProtectedRoute[] = [
         path: '/admin/permissions',
         component: (
             <Middleware
-                permission="Permissions.view"
+                permission="Permissions::ViewGroups"
                 displayError={true}
                 component={<Permissions />}
             />
@@ -91,7 +103,11 @@ const protectedRoutes: ProtectedRoute[] = [
     {
         path: '/admin/qrcodes',
         component: (
-            <Middleware permission="QRCode.view" displayError={true} component={<QRCodes />} />
+            <Middleware
+                permission="QRCode::ViewQRCodes"
+                displayError={true}
+                component={<QRCodes />}
+            />
         ),
         exact: true,
     },
@@ -99,7 +115,11 @@ const protectedRoutes: ProtectedRoute[] = [
     {
         path: '/admin/requests',
         component: (
-            <Middleware permission="Requests.index" displayError={true} component={<Requests />} />
+            <Middleware
+                permission="Requests::ViewRequests"
+                displayError={true}
+                component={<Requests />}
+            />
         ),
         exact: true,
     },
@@ -107,7 +127,11 @@ const protectedRoutes: ProtectedRoute[] = [
     {
         path: '/admin/products',
         component: (
-            <Middleware permission="Products.index" displayError={true} component={<Products />} />
+            <Middleware
+                permission="Products::ViewProducts"
+                displayError={true}
+                component={<Products />}
+            />
         ),
         exact: true,
     },

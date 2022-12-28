@@ -68,7 +68,7 @@ const ItemFooter = ({
             <Col sm="2" xl="3" className="align-self-center">
                 <Row className="align-self-center">
                     <Middleware
-                        permission="Inventory.use"
+                        permission="Inventory::UseItem"
                         displayError={false}
                         component={
                             <Button
@@ -136,7 +136,7 @@ const ProductFooter = ({
             <Col>
                 <Row>
                     <Middleware
-                        permission="Store.buy"
+                        permission="Store::BuyProduct"
                         displayError={false}
                         component={
                             <Button

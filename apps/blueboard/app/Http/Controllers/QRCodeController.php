@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Permissions\QRCode\ViewQRCodes;
 use App\Models\QRCode;
 use App\Helpers\Shared\Utils\ResponseMaker;
 use App\Http\Requests\QRCode\CreateQRCodeRequest;
@@ -12,11 +13,9 @@ use Response;
 
 class QRCodeController extends Controller
 {
-    protected string $permissionScope = 'QRCode';
-
     public function index()
     {
-        $this->checkPermission('view');
+        $this->warden_authorize(ViewQRCodes::use());
         $codes = QRCode::all();
 
         return ResponseMaker::generate($codes);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Product;
 
+use App\Permissions\Products\CreateProduct;
 use App\Http\Requests\FormRequest as RequestsFormRequest;
 use App\Rules\Base64Image;
 use Illuminate\Validation\Rule;
@@ -9,8 +10,6 @@ use Spatie\ValidationRules\Rules\Delimited;
 
 class CreateProductRequest extends RequestsFormRequest
 {
-    protected string $permissionScope = 'Products';
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -18,7 +17,7 @@ class CreateProductRequest extends RequestsFormRequest
      */
     public function authorize()
     {
-        return $this->checkPermission('create');
+        return $this->warden_authorize(CreateProduct::use());
     }
 
     /**

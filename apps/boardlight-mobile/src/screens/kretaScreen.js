@@ -121,10 +121,10 @@ export const KretaScreen = () => {
   };
 
   return (
-    <ScreenContainer scrollable={permissions.includes("General.grades")}>
+    <ScreenContainer scrollable={permissions.includes("General::Grades")}>
       <Headline>Kréta</Headline>
       <RestrictedWrapper
-        permission="General.grades"
+        permission="General::Grades"
         fallback={
           <View style={styles.noPremContainer}>
             <Text style={{ textAlign: "center" }}>Nincs hozzáférésed ehhez az oldalhoz</Text>

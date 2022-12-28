@@ -104,7 +104,7 @@ const Users = (): JSX.Element => {
                 return (
                     <>
                         <Middleware
-                            permission="Users.update"
+                            permission="Users::UpdateUser"
                             displayError={false}
                             component={
                                 <Button
@@ -119,7 +119,7 @@ const Users = (): JSX.Element => {
                         />
 
                         <Middleware
-                            permission="Users.delete"
+                            permission="Users::DeleteUser"
                             displayError={false}
                             component={
                                 <Button

@@ -87,7 +87,7 @@ const Groups = (): JSX.Element => {
                 return (
                     <>
                         <Middleware
-                            permission="Permissions.update"
+                            permission="Permissions::UpdateGroup"
                             component={
                                 <>
                                     <Button
@@ -105,7 +105,7 @@ const Groups = (): JSX.Element => {
                         />
 
                         <Middleware
-                            permission="Permissions.delete"
+                            permission="Permissions::DeleteGroup"
                             component={
                                 <>
                                     <Button
@@ -157,7 +157,7 @@ const Groups = (): JSX.Element => {
                     <div className="mt-2" />
                     <Center>
                         <Middleware
-                            permission="Permissions.add"
+                            permission="Permissions::CreateGroup"
                             component={
                                 <>
                                     <Button

@@ -75,7 +75,7 @@ const QRCard = ({
                         </Text>
                     </Row>
                     <Middleware
-                        permission="QRCode.delete"
+                        permission="QRCode::DeleteQRCode"
                         displayError={false}
                         component={
                             <Button
@@ -292,7 +292,7 @@ const QRCodes = (): JSX.Element => {
                             <QRCard key={key} deleteCallback={deleteC} code={el} />
                         ))}
                         <Middleware
-                            permission="QRCode.add"
+                            permission="QRCode::CreateQRCode"
                             displayError={false}
                             component={<AddCard bootstrap={bootstrap} />}
                         />

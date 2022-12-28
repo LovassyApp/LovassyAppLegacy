@@ -2,13 +2,12 @@
 
 namespace App\Http\Requests\LoloRequest;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Permissions\Requests\OverruleRequest;
+use App\Http\Requests\FormRequest as RequestsFormRequest;
 use Illuminate\Validation\Rule;
 
-class OverruleLoloRequestRequest extends FormRequest
+class OverruleLoloRequestRequest extends RequestsFormRequest
 {
-    protected string $permissionScope = 'Requests';
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -16,7 +15,7 @@ class OverruleLoloRequestRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->checkPermission('overrule');
+        return $this->warden_authorize(OverruleRequest::use());
     }
 
     /**

@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests\Store;
 
+use App\Permissions\Store\BuyProduct;
 use App\Http\Requests\FormRequest as RequestsFormRequest;
 
 class BuyRequest extends RequestsFormRequest
 {
-    protected string $permissionScope = 'Store';
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -15,7 +14,7 @@ class BuyRequest extends RequestsFormRequest
      */
     public function authorize()
     {
-        return $this->checkPermission('buy');
+        return $this->warden_authorize(BuyProduct::use());
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Product;
 
+use App\Permissions\Products\UpdateProduct;
 use App\Http\Requests\FormRequest as RequestsFormRequest;
 use App\Rules\Base64Image;
 use Illuminate\Validation\Rule;
@@ -9,8 +10,6 @@ use Spatie\ValidationRules\Rules\Delimited;
 
 class UpdateProductRequest extends RequestsFormRequest
 {
-    protected string $permissionScope = 'Products';
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -18,7 +17,7 @@ class UpdateProductRequest extends RequestsFormRequest
      */
     public function authorize()
     {
-        return $this->checkPermission('update');
+        return $this->warden_authorize(UpdateProduct::use());
     }
 
     /**

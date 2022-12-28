@@ -131,14 +131,14 @@ export const HomeScreen = () => {
         <LaCard
           title={displayCoins ? "Érmék" : "Egyenleg"}
           actionIcon={
-            permissions.includes("General.lolo")
+            permissions.includes("General::Lolo")
               ? displayCoins
                 ? "arrow-back"
                 : "arrow-forward"
               : null
           }
           onPress={() => setDisplayCoins(!displayCoins)}
-          error={coins === null && permissions.includes("General.lolo")}
+          error={coins === null && permissions.includes("General::Lolo")}
           retry={() => tryAgainCoins()}>
           {displayCoins ? (
             <>{getCoins()}</>
@@ -149,7 +149,7 @@ export const HomeScreen = () => {
                 <Subheading>{user.balance}</Subheading>
               </View>
 
-              <RestrictedWrapper permission="General.lolo">
+              <RestrictedWrapper permission="General::Lolo">
                 <Divider style={{ width: "100%", marginVertical: 5 }} />
                 <View style={styles.balanceView}>
                   <Text>Összes loló jegyekből:</Text>
@@ -169,11 +169,11 @@ export const HomeScreen = () => {
         </LaCard>
         <LaCard
           title="Kérvények"
-          actionIcon={permissions.includes("Requests.new") && "add"}
+          actionIcon={permissions.includes("Requests::CreateRequest") && "add"}
           onPress={() => setShowNewRequest(true)}
-          error={requests === null && permissions.includes("Requests.view")}
+          error={requests === null && permissions.includes("Requests::ViewOwnRequests")}
           retry={() => tryAgainRequests()}>
-          <RestrictedWrapper permission="Requests.view">
+          <RestrictedWrapper permission="Requests::ViewOwnRequests">
             {requests.length === 0 ? (
               <Text style={{ alignSelf: "center", margin: 25 }}>
                 Úgy néz ki nincsenek kérvényeid
