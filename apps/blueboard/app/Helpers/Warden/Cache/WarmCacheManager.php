@@ -4,21 +4,20 @@ namespace App\Helpers\Warden\Cache;
 
 use App\Helpers\Warden\Cache\Models\CacheEntry;
 use App\Helpers\Warden\Contracts\Authorizable;
-use App\Helpers\Warden\Errors\PermissionNotResolvedException;
-use App\Helpers\Warden\Interfaces\CacheDriver;
-use App\Helpers\Warden\Interfaces\Permission;
+use App\Helpers\Warden\Interfaces\WarmCacheDriver;
 use App\Helpers\Shared\Utils\ArrayUtils;
 use App\Helpers\Shared\Utils\CheckForSwoole;
-use App\Helpers\Shared\Utils\ConsoleLogger;
+use App\Helpers\Warden\Errors\ColdCacheAlreadySetException;
+use App\Helpers\Warden\Interfaces\ColdCacheDriver;
 use Illuminate\Cache\Repository;
 use Illuminate\Support\Facades\Cache;
 
 /**
- * The default caching implementation used in Warden
+ * The default warm caching implementation used in Warden
  *  * It uses the Octane cache if available, falling back to the default cache driver in other cases.
  * @package Warden
  */
-class CacheManager implements CacheDriver
+class WarmCacheManager implements WarmCacheDriver
 {
     /**
      * The prefix applied to all keys
@@ -29,27 +28,6 @@ class CacheManager implements CacheDriver
      * Caching interval. Set to 7 days for safety reasons
      */
     private const INTERVAL = 604800;
-
-    /**
-     * Resolved Permissions and their PermissionStrings
-     *
-     * @var array
-     */
-    private array $permission_resolutions;
-
-    /**
-     * The same as 'permission_resolutions', but the key-value pairs are flipped
-     *
-     * @var array
-     */
-    private array $permission_resolutions_flipped;
-
-    /**
-     * The cached permission scopes, and all of their permissions
-     *
-     * @var array
-     */
-    private array $scope_cache;
 
     /**
      * To swoole or not to swoole (Determines whether the Octane caching mechanism is used or not)
@@ -66,32 +44,11 @@ class CacheManager implements CacheDriver
     private Repository|null $store = null;
 
     /**
-     * The configured identifier field on Authorizable objects
+     * The currently loaded cold cache
      *
-     * @var string
+     * @var ColdCacheDriver
      */
-    private string $authorizable_identifier_key;
-
-    /**
-     * The prefix applied to all Authorizable cache entries
-     *
-     * @var string
-     */
-    private string $cache_prefix;
-
-    /**
-     * The configured superuser field on Authorizable objects
-     *
-     * @var string
-     */
-    private string $authorizable_super_key;
-
-    /**
-     * The configured array of valid superuser 'super_key' values
-     *
-     * @var array
-     */
-    private array $super_user_array;
+    private ColdCacheDriver|null $cold_cache = null;
 
     /**
      * Reads the keys that the CacheManager has written from the cache
@@ -175,25 +132,6 @@ class CacheManager implements CacheDriver
     }
 
     /**
-     * Loads the 'Cold' cache information containing the Permission map, and resolutions
-     *
-     * @return void
-     */
-    private function loadColdCache(): void
-    {
-        if (!file_exists(config('warden.cache_path'))) {
-            ConsoleLogger::log_warning('Cache unavailable. Rebuilding...', 'PermissionCacheManager');
-            CacheBuilder::rebuild();
-            ConsoleLogger::log_success('Cache rebuild successfully! Booting...', 'PermissionCacheManager');
-        }
-
-        $cached = require config('warden.cache_path');
-        $this->permission_resolutions = $cached['permission_resolutions'];
-        $this->permission_resolutions_flipped = $cached['permission_resolutions_flipped'];
-        $this->scope_cache = $cached['scope_cache'];
-    }
-
-    /**
      * Sets the used cache repository
      *
      * @return void
@@ -209,19 +147,6 @@ class CacheManager implements CacheDriver
     }
 
     /**
-     * Caches the configuration on startup
-     *
-     * @return void
-     */
-    private function loadConfig(): void
-    {
-        $this->authorizable_identifier_key = config('warden.authorizable_key');
-        $this->cache_prefix = config('warden.cache_prefix');
-        $this->authorizable_super_key = config('warden.authorizable_super_key');
-        $this->super_user_array = config('warden.superusers');
-    }
-
-    /**
      * Returns a cache key associated with an Authorizable object
      *
      * @param Authorizable $authorizable
@@ -229,7 +154,7 @@ class CacheManager implements CacheDriver
      */
     private function generateCacheKey(Authorizable $authorizable): string
     {
-        return $this->cache_prefix . $authorizable->{$this->authorizable_identifier_key};
+        return $this->cold_cache->cache_prefix() . $authorizable->{$this->cold_cache->authorizableIdentifierKey()};
     }
 
     /**
@@ -238,69 +163,22 @@ class CacheManager implements CacheDriver
     public function __construct()
     {
         $this->use_swoole = CheckForSwoole::check();
-        $this->loadConfig();
-        $this->loadColdCache();
         $this->setStore();
     }
 
     /**
-     * Returns the 'Cold' Scope cache (and all permissions in each scope)
+     * Sets the currently used ColdCacheDriver
      *
-     * @return array
+     * @param ColdCacheDriver $cold_cache
+     * @return void
      */
-    public function scopeCache(): array
+    public function setColdCache(ColdCacheDriver $cold_cache): void
     {
-        return $this->scope_cache;
-    }
+        if (!is_null($this->cold_cache)) {
+            throw new ColdCacheAlreadySetException();
+        }
 
-    /**
-     * Returns the PermissionString-Class resolutions for all loaded Permission objects
-     *
-     * @return array
-     */
-    public function permissionResolutions(): array
-    {
-        return $this->permission_resolutions;
-    }
-
-    /**
-     * Returns the Class-PermissionString resolutions for all loaded Permission objects
-     *
-     * @return array
-     */
-    public function permissionResolutionsFlipped(): array
-    {
-        return $this->permission_resolutions_flipped;
-    }
-
-    /**
-     * Returns the cached superuser field on Authorizable objects
-     *
-     * @return string
-     */
-    public function authorizableSuperKey(): string
-    {
-        return $this->authorizable_super_key;
-    }
-
-    /**
-     * Returns the cached identifier field on Authorizable objects
-     *
-     * @return string
-     */
-    public function authorizableIdentifierKey(): string
-    {
-        return $this->authorizable_identifier_key;
-    }
-
-    /**
-     * Returns the cached array of superuser 'super_key' values
-     *
-     * @return array
-     */
-    public function superUserArray(): array
-    {
-        return $this->super_user_array;
+        $this->cold_cache = $cold_cache;
     }
 
     /**
@@ -312,7 +190,7 @@ class CacheManager implements CacheDriver
     public function getCache(Authorizable $authorizable): CacheEntry
     {
         $serialized_data = $this->cache_read($this->generateCacheKey($authorizable));
-        return new CacheEntry($authorizable, $this, $serialized_data);
+        return new CacheEntry($authorizable, $this, $this->cold_cache, $serialized_data);
     }
 
     /**
@@ -347,7 +225,7 @@ class CacheManager implements CacheDriver
     public function invalidatedSuccess(CacheEntry $entry): bool
     {
         $invalidated_keys = $this->invalidatedKeys();
-        $keyValue = $entry->authorizable->{$this->authorizable_identifier_key};
+        $keyValue = $entry->authorizable->{$this->cold_cache->authorizableIdentifierKey()};
         $array = ArrayUtils::deleteIfExists($invalidated_keys, $keyValue);
         return $this->cache_write('invalidated', json_encode($array));
     }
@@ -371,7 +249,7 @@ class CacheManager implements CacheDriver
      */
     public function invalidateAuthorizable(Authorizable $authorizable): bool
     {
-        $keyValue = $authorizable->{$this->authorizable_identifier_key};
+        $keyValue = $authorizable->{$this->cold_cache->authorizableIdentifierKey()};
         $array = array_unique([...$this->invalidatedKeys(), $keyValue]);
         return $this->cache_write('invalidated', json_encode($array));
     }
@@ -386,22 +264,6 @@ class CacheManager implements CacheDriver
     {
         $array = array_unique([...$this->invalidatedKeys(), ...$keys]);
         return $this->cache_write('invalidated', json_encode($array));
-    }
-
-    /**
-     * Resolves a given Permission's PermissionString
-     *
-     * @param Permission $permission
-     * @return string
-     */
-    public function resolvePermission(Permission $permission): string
-    {
-        if (array_key_exists($permission::class, $this->permission_resolutions_flipped)) {
-            return $this->permission_resolutions_flipped[$permission::class];
-        }
-        throw new PermissionNotResolvedException(
-            'Permission ' . $permission::class . ' could not be resolved from the Cache. Please rebuild'
-        );
     }
 
     /**

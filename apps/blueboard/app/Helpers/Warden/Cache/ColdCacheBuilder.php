@@ -3,7 +3,7 @@
 namespace App\Helpers\Warden\Cache;
 
 use App\Helpers\Warden\Interfaces\Permission;
-use App\Helpers\Warden\Interfaces\PersistCacheDriver;
+use App\Helpers\Warden\Interfaces\ColdCacheWriter;
 use Exception;
 use Spatie\LaravelIgnition\Support\Composer\ComposerClassMap;
 use Str;
@@ -12,7 +12,7 @@ use Str;
  * The default 'Cold' cache builder implementation for Warden
  * @package Warden
  */
-class CacheBuilder extends PersistCacheDriver
+class ColdCacheBuilder extends ColdCacheWriter
 {
     /**
      * Resolved Permissions and their PermissionStrings
@@ -149,7 +149,7 @@ class CacheBuilder extends PersistCacheDriver
      */
     public static function rebuild(): void
     {
-        $builder = new CacheBuilder();
+        $builder = new ColdCacheBuilder();
         foreach ($builder->classes as $class) {
             $builder->processClass($class);
         }

@@ -6,10 +6,11 @@ use App\Exceptions\AuthErrorException;
 use App\Helpers\Warden\Cache\Models\CacheEntry;
 use App\Helpers\Warden\Contracts\Authorizable;
 use App\Helpers\Warden\Errors\InvalidPermissionException;
-use App\Helpers\Warden\Interfaces\CacheDriver;
+use App\Helpers\Warden\Interfaces\WarmCacheDriver;
 use App\Helpers\Warden\Interfaces\Permission;
 use App\Helpers\Shared\Interfaces\AbstractSingleton;
 use App\Helpers\Warden\Contracts\ResolvesCacheDriver;
+use App\Helpers\Warden\Interfaces\ColdCacheDriver;
 use Closure;
 use Laravel\SerializableClosure\SerializableClosure;
 
@@ -22,11 +23,18 @@ class Warden extends AbstractSingleton
     use ResolvesCacheDriver;
 
     /**
-     * The instance of the cache driver currently used in Warden
+     * The instance of the warm cache driver currently used in Warden
      *
-     * @var CacheDriver
+     * @var WarmCacheDriver
      */
-    private CacheDriver $cache;
+    private WarmCacheDriver $warm_cache;
+
+    /**
+     * The instance of the cold cache driver currently used in Warden
+     *
+     * @var ColdCacheDriver
+     */
+    private ColdCacheDriver $cold_cache;
 
     /**
      * The Closure used for resolving the current Authorizable
@@ -94,7 +102,7 @@ class Warden extends AbstractSingleton
      */
     public function resolveCacheUsingAuthorizable(): CacheEntry
     {
-        return $this->cache->getCache($this->authorizable());
+        return $this->warm_cache->getCache($this->authorizable());
     }
 
     /**
@@ -107,8 +115,10 @@ class Warden extends AbstractSingleton
     public function __construct(SerializableClosure|Closure $authorizable_resolver, bool $singleton_mode = true)
     {
         $this->authorizable_resolver = $authorizable_resolver;
-        $this->cache = self::newCacheDriver();
-        $this->cache->flush();
+        $this->cold_cache = self::newColdCacheDriver();
+        $this->warm_cache = self::newWarmCacheDriver();
+        $this->warm_cache->flush();
+        $this->warm_cache->setColdCache($this->cold_cache);
         $this->active = true;
         $this->singleton_mode = $singleton_mode;
         if (!$singleton_mode) {
@@ -160,7 +170,7 @@ class Warden extends AbstractSingleton
      */
     public function invalidate(Authorizable|array $invalidated): void
     {
-        $driver = $this->cache;
+        $driver = $this->warm_cache;
         if (is_array($invalidated)) {
             $driver->invalidateRaw($invalidated);
             return;
@@ -189,7 +199,7 @@ class Warden extends AbstractSingleton
     public function getDisplayPermissionList(): array
     {
         $all_permissions = [];
-        foreach ($this->cache->scopeCache() as $scopeName => $permissions) {
+        foreach ($this->cold_cache->scopeCache() as $scopeName => $permissions) {
             $all_permissions[$scopeName] = (object) [
                 'scopeDisplayName' => $scopeName,
                 'permissions' => $permissions,
@@ -208,7 +218,7 @@ class Warden extends AbstractSingleton
     public function validatePermissions(array $permissionStringArray): bool
     {
         foreach ($permissionStringArray as $permissionString) {
-            if (in_array($permissionString, $this->cache->permissionResolutionsFlipped())) {
+            if (in_array($permissionString, $this->cold_cache->permissionResolutionsFlipped())) {
                 continue;
             } else {
                 throw new InvalidPermissionException("Invalid Permission $permissionString");
@@ -236,8 +246,8 @@ class Warden extends AbstractSingleton
      */
     public static function getAllScopedPermissions(): array
     {
-        $cache = self::newCacheDriver();
-        return array_values($cache->permissionResolutionsFlipped());
+        $cold_cache = self::newColdCacheDriver();
+        return array_values($cold_cache->permissionResolutionsFlipped());
     }
 
     /**

@@ -6,52 +6,18 @@ use App\Helpers\Warden\Cache\Models\CacheEntry;
 use App\Helpers\Warden\Contracts\Authorizable;
 
 /**
- * The cache driver interface
+ * The 'Warm' cache driver interface
  * @package Warden
  */
-interface CacheDriver
+interface WarmCacheDriver
 {
     /**
-     * Returns the 'Cold' Scope cache (and all permissions in each scope)
+     * Sets the current ColdCacheDriver for use in CacheEntries
      *
-     * @return array
+     * @param ColdCacheDriver $coldCacheDriver
+     * @return void
      */
-    public function scopeCache(): array;
-
-    /**
-     * Returns the PermissionString-Class resolutions for all loaded Permission objects
-     *
-     * @return array
-     */
-    public function permissionResolutions(): array;
-
-    /**
-     * Returns the Class-PermissionString resolutions for all loaded Permission objects
-     *
-     * @return array
-     */
-    public function permissionResolutionsFlipped(): array;
-
-    /**
-     * Returns the cached array of superuser 'super_key' values
-     *
-     * @return array
-     */
-    public function superUserArray(): array;
-
-    /**
-     * Returns the cached superuser field on Authorizable objects
-     *
-     * @return string
-     */
-    public function authorizableSuperKey(): string;
-
-    /**
-     * Returns the cached identifier field on Authorizable objects
-     *
-     * @return string
-     */
-    public function authorizableIdentifierKey(): string;
+    public function setColdCache(ColdCacheDriver $cold_cache): void;
 
     /**
      * Returns the CacheEntry object for a given Authorizable
@@ -107,14 +73,6 @@ interface CacheDriver
      * @return boolean
      */
     public function invalidateAuthorizable(Authorizable $authorizable): bool;
-
-    /**
-     * Resolves a given Permission's PermissionString
-     *
-     * @param Permission $permission
-     * @return string
-     */
-    public function resolvePermission(Permission $permission): string;
 
     /**
      * Clean the cache, delete all keys

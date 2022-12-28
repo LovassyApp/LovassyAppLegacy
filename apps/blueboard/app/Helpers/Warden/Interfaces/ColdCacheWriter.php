@@ -3,10 +3,10 @@
 namespace App\Helpers\Warden\Interfaces;
 
 /**
- * An abstract class for Persistent cache implementations
+ * An abstract class for Persistent cache writer implementations
  * @package Warden
  */
-abstract class PersistCacheDriver
+abstract class ColdCacheWriter
 {
     /**
      * Rebuild and write the cache

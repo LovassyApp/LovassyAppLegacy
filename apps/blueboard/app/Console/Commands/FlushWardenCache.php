@@ -29,7 +29,7 @@ class FlushWardenCache extends Command
      */
     public function handle()
     {
-        $driver = self::newCacheDriver();
+        $driver = self::newWarmCacheDriver();
         $driver->flush();
 
         $this->info('Cache flushed');

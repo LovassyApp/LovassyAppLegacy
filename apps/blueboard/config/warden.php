@@ -1,6 +1,7 @@
 <?php
 
-use App\Helpers\Warden\Cache\CacheManager;
+use App\Helpers\Warden\Cache\ColdCacheManager;
+use App\Helpers\Warden\Cache\WarmCacheManager;
 
 return [
     /*
@@ -107,12 +108,23 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Cache Driver
+    | Warm Cache Driver
     |--------------------------------------------------------------------------
     |
-    | The default Caching driver used by Warden
+    | The default 'Warm' Caching driver used by Warden
     |
     */
 
-    'cache_driver' => CacheManager::class,
+    'warm_cache_driver' => WarmCacheManager::class,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Cold Cache Driver
+    |--------------------------------------------------------------------------
+    |
+    | The default 'Cold' Caching driver used by Warden
+    |
+    */
+
+    'cold_cache_driver' => ColdCacheManager::class,
 ];

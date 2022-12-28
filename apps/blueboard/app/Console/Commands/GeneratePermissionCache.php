@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Helpers\Warden\Cache\CacheBuilder;
+use App\Helpers\Warden\Cache\ColdCacheBuilder;
 use Illuminate\Console\Command;
 
 /**
@@ -33,7 +33,7 @@ class GeneratePermissionCache extends Command
     public function handle()
     {
         $this->info('# Retrieving Permission Classes...');
-        $cache_writer = new CacheBuilder();
+        $cache_writer = new ColdCacheBuilder();
         $this->info('# Processing Permission classes...');
         echo PHP_EOL;
 

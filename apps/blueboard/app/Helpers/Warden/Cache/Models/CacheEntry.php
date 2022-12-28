@@ -3,7 +3,8 @@
 namespace App\Helpers\Warden\Cache\Models;
 
 use App\Helpers\Warden\Contracts\Authorizable;
-use App\Helpers\Warden\Interfaces\CacheDriver;
+use App\Helpers\Warden\Interfaces\ColdCacheDriver;
+use App\Helpers\Warden\Interfaces\WarmCacheDriver;
 use App\Helpers\Warden\Interfaces\Permission;
 /**
  * The entry associated with an Authorizable in the cache
@@ -26,11 +27,18 @@ class CacheEntry
     public readonly Authorizable $authorizable;
 
     /**
-     * The currently loaded cache driver
+     * The currently loaded warm cache driver
      *
-     * @var CacheDriver
+     * @var WarmCacheDriver
      */
-    private CacheDriver $cache;
+    private WarmCacheDriver $warm_cache;
+
+    /**
+     * The currently loaded cold cache driver
+     *
+     * @var ColdCacheDriver
+     */
+    private ColdCacheDriver $cold_cache;
 
     /**
      * Every Permission of the associated Authorizable
@@ -84,8 +92,8 @@ class CacheEntry
      */
     private function setSuper(): bool
     {
-        $key = $this->cache->authorizableSuperKey();
-        return in_array($this->authorizable->{$key}, $this->cache->superUserArray());
+        $key = $this->cold_cache->authorizableSuperKey();
+        return in_array($this->authorizable->{$key}, $this->cold_cache->superUserArray());
     }
 
     /**
@@ -97,10 +105,10 @@ class CacheEntry
      */
     private function checkInvalidate(): bool
     {
-        $key = $this->cache->authorizableIdentifierKey();
-        if (in_array($this->authorizable->{$key}, $this->cache->invalidatedKeys())) {
-            $this->cache->invalidateCache($this);
-            $this->cache->invalidatedSuccess($this);
+        $key = $this->cold_cache->authorizableIdentifierKey();
+        if (in_array($this->authorizable->{$key}, $this->warm_cache->invalidatedKeys())) {
+            $this->warm_cache->invalidateCache($this);
+            $this->warm_cache->invalidatedSuccess($this);
             return true;
         }
         return false;
@@ -110,13 +118,18 @@ class CacheEntry
      * Constructor, Bootstraps the Entry, checks for invalidation, and loads the permissions if necessary.
      *
      * @param Authorizable $authorizable
-     * @param CacheDriver $cache
+     * @param WarmCacheDriver $warm_cache
      * @param string $serialized_data
      */
-    public function __construct(Authorizable $authorizable, CacheDriver $cache, string $serialized_data)
-    {
+    public function __construct(
+        Authorizable $authorizable,
+        WarmCacheDriver $warm_cache,
+        ColdCacheDriver $cold_cache,
+        string $serialized_data
+    ) {
         $this->authorizable = $authorizable;
-        $this->cache = $cache;
+        $this->warm_cache = $warm_cache;
+        $this->cold_cache = $cold_cache;
         $this->is_authorizable_super = $this->setSuper();
         if ($this->checkInvalidate()) {
             $this->all_permissions = $this->setAllPermissions();
@@ -175,7 +188,7 @@ class CacheEntry
      */
     public function get(Permission $permission): bool
     {
-        $permissionString = $this->cache->resolvePermission($permission);
+        $permissionString = $this->cold_cache->resolvePermission($permission);
         return $this->tryCache($permissionString) ??
             ($this->cached_permissions[$permissionString] = (bool) in_array($permissionString, $this->all_permissions));
     }
@@ -185,6 +198,6 @@ class CacheEntry
      */
     public function __destruct()
     {
-        $this->cache->setCache($this);
+        $this->warm_cache->setCache($this);
     }
 }
