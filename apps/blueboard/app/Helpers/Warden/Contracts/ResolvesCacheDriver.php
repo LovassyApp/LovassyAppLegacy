@@ -2,6 +2,7 @@
 
 namespace App\Helpers\Warden\Contracts;
 
+use App\Helpers\Warden\Constants\ConfigDefaults;
 use App\Helpers\Warden\Interfaces\ColdCacheDriver;
 use App\Helpers\Warden\Interfaces\WarmCacheDriver;
 
@@ -18,7 +19,7 @@ trait ResolvesCacheDriver
      */
     private static function newWarmCacheDriver(): WarmCacheDriver
     {
-        $driver = config('warden.warm_cache_driver');
+        $driver = config('warden.warm_cache_driver', ConfigDefaults::WARM_CACHE_DRIVER);
         return new $driver();
     }
 
@@ -29,7 +30,7 @@ trait ResolvesCacheDriver
      */
     private static function newColdCacheDriver(): ColdCacheDriver
     {
-        $driver = config('warden.cold_cache_driver');
+        $driver = config('warden.cold_cache_driver', ConfigDefaults::COLD_CACHE_DRIVER);
         return new $driver();
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Helpers\Warden\Cache;
 
 use App\Helpers\Shared\Utils\ConsoleLogger;
+use App\Helpers\Warden\Constants\ConfigDefaults;
 use App\Helpers\Warden\Errors\PermissionNotResolvedException;
 use App\Helpers\Warden\Interfaces\ColdCacheDriver;
 use App\Helpers\Warden\Interfaces\Permission;
@@ -70,13 +71,13 @@ class ColdCacheManager implements ColdCacheDriver
      */
     private function loadColdCache(): void
     {
-        if (!file_exists(config('warden.cache_path'))) {
+        if (!file_exists(config('warden.cache_path', storage_path(ConfigDefaults::CACHE_PATH)))) {
             ConsoleLogger::log_warning('Cache unavailable. Rebuilding...', 'PermissionCacheManager');
             ColdCacheBuilder::rebuild();
             ConsoleLogger::log_success('Cache rebuild successfully! Booting...', 'PermissionCacheManager');
         }
 
-        $cached = require config('warden.cache_path');
+        $cached = require config('warden.cache_path', storage_path(ConfigDefaults::CACHE_PATH));
         $this->permission_resolutions = $cached['permission_resolutions'];
         $this->permission_resolutions_flipped = $cached['permission_resolutions_flipped'];
         $this->scope_cache = $cached['scope_cache'];
@@ -89,10 +90,10 @@ class ColdCacheManager implements ColdCacheDriver
      */
     private function loadConfig(): void
     {
-        $this->authorizable_identifier_key = config('warden.authorizable_key');
-        $this->cache_prefix = config('warden.cache_prefix');
-        $this->authorizable_super_key = config('warden.authorizable_super_key');
-        $this->super_user_array = config('warden.superusers');
+        $this->authorizable_identifier_key = config('warden.authorizable_key', ConfigDefaults::AUTHORIZABLE_KEY);
+        $this->cache_prefix = config('warden.cache_prefix', ConfigDefaults::CACHE_PREFIX);
+        $this->authorizable_super_key = config('warden.authorizable_super_key', ConfigDefaults::AUTHORIZABLE_SUPER_KEY);
+        $this->super_user_array = config('warden.superusers', ConfigDefaults::SUPERUSERS);
     }
 
     /**

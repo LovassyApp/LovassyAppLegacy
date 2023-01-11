@@ -2,6 +2,7 @@
 
 namespace App\Helpers\Warden\Cache;
 
+use App\Helpers\Warden\Constants\ConfigDefaults;
 use App\Helpers\Warden\Interfaces\Permission;
 use App\Helpers\Warden\Interfaces\ColdCacheWriter;
 use Exception;
@@ -51,7 +52,7 @@ class ColdCacheBuilder extends ColdCacheWriter
     {
         $namespaces = array_keys((new ComposerClassMap())->listClasses());
         return array_filter($namespaces, function ($item) {
-            return Str::startsWith($item, config('warden.permission_namespace'));
+            return Str::startsWith($item, config('warden.permission_namespace', ConfigDefaults::PERMISSION_NAMESPACE));
         });
     }
 
@@ -125,7 +126,7 @@ class ColdCacheBuilder extends ColdCacheWriter
      */
     public function write(): void
     {
-        $path = storage_path(config('warden.cache_foler'));
+        $path = storage_path(config('warden.cache_foler', ConfigDefaults::CACHE_FOLDER));
 
         if (!file_exists($path)) {
             mkdir($path, 0755, true);
@@ -133,7 +134,7 @@ class ColdCacheBuilder extends ColdCacheWriter
 
         ob_start();
 
-        $handle = fopen(config('warden.cache_path'), 'w');
+        $handle = fopen(config('warden.cache_path', storage_path(ConfigDefaults::CACHE_PATH)), 'w');
         fwrite($handle, $this->generate_output());
         fclose($handle);
 

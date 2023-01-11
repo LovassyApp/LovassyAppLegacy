@@ -2,6 +2,8 @@
 
 namespace App\Helpers\Warden\Interfaces;
 
+use App\Helpers\Warden\Constants\ConfigDefaults;
+
 /**
  * An abstract class implementing the basic functionality of a Permission
  * @package Warden
@@ -62,7 +64,7 @@ abstract class Permission
      */
     protected function default_message(): string
     {
-        return config('warden.page_denied');
+        return config('warden.page_denied', ConfigDefaults::PAGE_DENIED);
     }
 
     /**
