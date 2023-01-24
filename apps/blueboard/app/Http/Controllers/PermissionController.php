@@ -36,7 +36,7 @@ class PermissionController extends Controller
 
     public function save(AddGroupRequest $request)
     {
-        $data = $request->safe();
+        $data = $request->safe()->toArray();
 
         $group = new Group();
         $group->name = $data['name'];
@@ -48,7 +48,7 @@ class PermissionController extends Controller
 
     public function update(UpdateGroupRequest $request)
     {
-        $data = $request->safe();
+        $data = $request->safe()->toArray();
         $group = Group::findOrFail($data['id']);
 
         $group->name = $data['name'];

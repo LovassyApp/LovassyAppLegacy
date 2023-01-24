@@ -19,13 +19,17 @@ class GradeImportSeeder extends Seeder
 
     private static array $numbers = ['9ny', '9', '10', '11', '12'];
     private static array $letters = ['A', 'B', 'C', 'D'];
+
     private static array $textGrades = [
         5 => 'Jeles(5)',
         4 => 'Jó(4)',
-        3 => 'Közepes(3)',
-        2 => 'Elégséges(2)',
-        1 => 'Elégtelen(1)',
+        //3 => 'Közepes(3)',
+        //2 => 'Elégséges(2)',
+        //1 => 'Elégtelen(1)',
     ];
+
+    private static int $maxGrade = 5;
+    private static int $minGrade = 4;
 
     private static array $types = [
         'Szorgalmi feladat',
@@ -54,7 +58,7 @@ class GradeImportSeeder extends Seeder
                 $letter = self::$letters[array_rand(self::$letters)];
 
                 $groupID = $number . '.' . $letter . '_' . $this->faker->word();
-                $grade = $this->faker->numberBetween(1, 5);
+                $grade = $this->faker->numberBetween(self::$minGrade, self::$maxGrade);
 
                 $grade = new BackboardKretaGrade(
                     $subjects[$i][1],

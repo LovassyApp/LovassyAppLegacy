@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Events\LoloAmountUpdated;
+use App\Helpers\LibBackboard\BackboardAdapter;
+use App\Helpers\LibCrypto\Services\EncryptionManager;
 use App\Permissions\General\Lolo;
-use App\Helpers\LibCrypto\Services\HashManager;
-//use App\Helpers\LibKreta\RetiLimit;
-use Illuminate\Http\Request;
 use App\Helpers\LibLolo\LoloGenerator;
 use App\Helpers\LibLolo\LoloHelper;
 use App\Helpers\LibSession\Services\SessionManager;
@@ -18,17 +17,21 @@ class LoloGetController extends Controller
     {
         $this->warden_authorize(Lolo::use());
 
-        $gen = new LoloGenerator(SessionManager::user());
+        $user = SessionManager::user();
+        $encryption_manager = EncryptionManager::use();
+
+        $adapter = new BackboardAdapter($user, $encryption_manager);
+        $adapter->tryUpdating();
+
+        $gen = new LoloGenerator($user);
         $gen->generate();
 
         $helper = LoloHelper::getLolo();
         LoloAmountUpdated::dispatch($helper->user, $helper->balance, $helper->coins->toArray());
 
-        $res = [
+        return ResponseMaker::generate([
             'balance' => $helper->balance,
             'coins' => $helper->coins,
-        ];
-
-        return ResponseMaker::generate($res);
+        ]);
     }
 }
