@@ -1,4 +1,5 @@
 name: test action
+on: "workflow-dispatch"
 jobs:
   write-to-console:
     runs-on: ubuntu-latest
