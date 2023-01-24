@@ -32,7 +32,7 @@ class UserFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'password' => Hash::make(self::$password),
-            'email' => $this->faker->unique()->safeEmail(),
+            'email' => $this->faker->unique()->word() . '@lovassy.edu.hu',
             'om_code_hashed' => Str::random(30),
             'om_code_encrypted' => '',
             'public_key_hex' => '',

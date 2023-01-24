@@ -1132,16 +1132,16 @@
     "mv" "~2"
     "safe-json-stringify" "~1"
 
-"@expo/cli@0.3.2":
-  "integrity" "sha512-P6yogdPCRKaoLjuH7D8jgq6kTzM4gWuQ+vssBPWhbnoymV5AClQOxvACPDHD+biKhvGsaXEQLMoi93lPQzcDlQ=="
-  "resolved" "https://registry.npmjs.org/@expo/cli/-/cli-0.3.2.tgz"
-  "version" "0.3.2"
+"@expo/cli@0.3.3":
+  "integrity" "sha512-5uDbjLntXkJOPx2SOZ6Pj9MC448YWtGenBJE+jNBfAbUPaf62Fy9uIyWWeKeRWXNfSs9jmOVpIgyYLTklV1vpg=="
+  "resolved" "https://registry.npmjs.org/@expo/cli/-/cli-0.3.3.tgz"
+  "version" "0.3.3"
   dependencies:
     "@babel/runtime" "^7.14.0"
     "@expo/code-signing-certificates" "^0.0.2"
     "@expo/config" "~7.0.1"
     "@expo/config-plugins" "~5.0.1"
-    "@expo/dev-server" "~0.1.120"
+    "@expo/dev-server" "0.1.120"
     "@expo/devcert" "^1.0.0"
     "@expo/json-file" "^8.2.35"
     "@expo/metro-config" "~0.4.0"
@@ -1227,7 +1227,7 @@
     "xcode" "^3.0.1"
     "xml2js" "0.4.23"
 
-"@expo/config-types@^46.0.1":
+"@expo/config-types@^43.0.1", "@expo/config-types@^46.0.1":
   "integrity" "sha512-PXkmOgNwRyBfgVT1HmFZhfh3Qm7WKKyV6mk3/5HJ/LzPh1t+Zs2JrWX8U2YncTLV1QzV7nV8tnkyvszzqnZEzQ=="
   "resolved" "https://registry.npmjs.org/@expo/config-types/-/config-types-46.0.2.tgz"
   "version" "46.0.2"
@@ -1285,21 +1285,18 @@
     "xcode" "^3.0.0"
     "xml-js" "^1.6.11"
 
-"@expo/dev-server@~0.1.120":
-  "integrity" "sha512-N6UVzzeemfX0AONUSWInvkAAbqon8hRXpyYE/nMPaC6TvAmgGY5ILZAGoXwlpxwY2VKNT0Lx4s/UJ53ytIaHbA=="
-  "resolved" "https://registry.npmjs.org/@expo/dev-server/-/dev-server-0.1.123.tgz"
-  "version" "0.1.123"
+"@expo/dev-server@0.1.120":
+  "integrity" "sha512-x5/jCv0EOpz6FyehXpI5bgDQTVsGZYvgISkAw7n60RhtG+aid6N2CCR9SDMCH70XaUpFnfTW9qvderpCEj7Puw=="
+  "resolved" "https://registry.npmjs.org/@expo/dev-server/-/dev-server-0.1.120.tgz"
+  "version" "0.1.120"
   dependencies:
     "@expo/bunyan" "4.0.0"
-    "@expo/metro-config" "~0.5.1"
+    "@expo/metro-config" "~0.4.0"
     "@expo/osascript" "2.0.33"
-    "@expo/spawn-async" "^1.5.0"
     "body-parser" "1.19.0"
     "chalk" "^4.0.0"
     "connect" "^3.7.0"
     "fs-extra" "9.0.0"
-    "is-docker" "^2.0.0"
-    "is-wsl" "^2.1.1"
     "node-fetch" "^2.6.0"
     "open" "^8.3.0"
     "resolve-from" "^5.0.0"
@@ -1352,26 +1349,19 @@
     "json5" "^1.0.1"
     "write-file-atomic" "^2.3.0"
 
+"@expo/json-file@8.2.33":
+  "version" "8.2.33"
+  dependencies:
+    "@babel/code-frame" "~7.10.4"
+    "json5" "^1.0.1"
+    "write-file-atomic" "^2.3.0"
+
 "@expo/metro-config@~0.4.0":
   "integrity" "sha512-QhOiotuzklalLbbsTMXJ5v4q4jffQ5xXhy1zsosgc2DL/ZzUr/Yhm3xUcOGnPQ2x7UyeY9Tl3njPHBOJJe7CSA=="
   "resolved" "https://registry.npmjs.org/@expo/metro-config/-/metro-config-0.4.0.tgz"
   "version" "0.4.0"
   dependencies:
     "@expo/config" "7.0.1"
-    "@expo/json-file" "8.2.36"
-    "chalk" "^4.1.0"
-    "debug" "^4.3.2"
-    "find-yarn-workspace-root" "~2.0.0"
-    "getenv" "^1.0.0"
-    "resolve-from" "^5.0.0"
-    "sucrase" "^3.20.0"
-
-"@expo/metro-config@~0.5.1":
-  "integrity" "sha512-Rvy4ZFgKNDfXO401z2OQF8fWbPj1lLVDL4GF1aqCIhCDHCKrezbwB0xejpcUyndJRCxBL2BMAM+P24t6cKv9Fw=="
-  "resolved" "https://registry.npmjs.org/@expo/metro-config/-/metro-config-0.5.1.tgz"
-  "version" "0.5.1"
-  dependencies:
-    "@expo/config" "~7.0.2"
     "@expo/json-file" "8.2.36"
     "chalk" "^4.1.0"
     "debug" "^4.3.2"
@@ -1408,6 +1398,13 @@
   "integrity" "sha512-+48gRqUiz65R21CZ/IXa7RNBXgAI/uPSdvJqoN9x1hfL44DNbUoWHgHiEXTx7XelcATpDwNTz6sHLfy0iNqf+w=="
   "resolved" "https://registry.npmjs.org/@expo/plist/-/plist-0.0.18.tgz"
   "version" "0.0.18"
+  dependencies:
+    "@xmldom/xmldom" "~0.7.0"
+    "base64-js" "^1.2.3"
+    "xmlbuilder" "^14.0.0"
+
+"@expo/plist@0.0.15":
+  "version" "0.0.15"
   dependencies:
     "@xmldom/xmldom" "~0.7.0"
     "base64-js" "^1.2.3"
@@ -1824,12 +1821,7 @@
   "resolved" "https://registry.npmjs.org/@react-native/assets/-/assets-1.0.0.tgz"
   "version" "1.0.0"
 
-"@react-native/normalize-color@^2.0.0":
-  "integrity" "sha512-Z1jQI2NpdFJCVgpY+8Dq/Bt3d+YUi1928Q+/CZm/oh66fzM0RUl54vvuXlPJKybH4pdCZey1eDTPaLHkMPNgWA=="
-  "resolved" "https://registry.npmjs.org/@react-native/normalize-color/-/normalize-color-2.1.0.tgz"
-  "version" "2.1.0"
-
-"@react-native/normalize-color@2.0.0":
+"@react-native/normalize-color@^2.0.0", "@react-native/normalize-color@2.0.0":
   "integrity" "sha512-Wip/xsc5lw8vsBlmY2MO/gFLp3MvuZ2baBZjDeTjjndMgM0h5sxz7AZR62RDPGgstp8Np7JzjvVqVT7tpFZqsw=="
   "resolved" "https://registry.npmjs.org/@react-native/normalize-color/-/normalize-color-2.0.0.tgz"
   "version" "2.0.0"
@@ -3820,14 +3812,14 @@
   "resolved" "https://registry.npmjs.org/expo-application/-/expo-application-4.2.2.tgz"
   "version" "4.2.2"
 
-"expo-asset@~8.6.1":
-  "integrity" "sha512-XqlXjkuUCEiojbHwbHPjQs1oboRz6w3eV96+9NBD+wb3EUqgAAYY2Do+IWyVCAl8UIFbFi3xzMiqk0Xm9+H8uQ=="
-  "resolved" "https://registry.npmjs.org/expo-asset/-/expo-asset-8.6.2.tgz"
-  "version" "8.6.2"
+"expo-asset@~8.6.3":
+  "integrity" "sha512-AOuB0FBbwYUfuLKtQtIsKUvm08d9OAPWZu9NZjUyIvAxmmdVKPUdN5tFUZQXXLRy3SYmk2z76JVQCoaHgJ5wvw=="
+  "resolved" "https://registry.npmjs.org/expo-asset/-/expo-asset-8.6.3.tgz"
+  "version" "8.6.3"
   dependencies:
     "blueimp-md5" "^2.10.0"
-    "expo-constants" "~14.0.0"
-    "expo-file-system" "~15.1.0"
+    "expo-constants" "~13.2.2"
+    "expo-file-system" "~14.1.0"
     "invariant" "^2.2.4"
     "md5-file" "^3.2.3"
     "path-browserify" "^1.0.0"
@@ -3850,20 +3842,12 @@
     "@koale/useworker" "^4.0.2"
     "invariant" "^2.2.4"
 
-"expo-constants@~13.2.4":
+"expo-constants@~13.2.2", "expo-constants@~13.2.4":
   "integrity" "sha512-Zobau8EuTk2GgafwkfGnWM6CmSLB7X8qnQXVuXe0nd3v92hfQUmRWGhJwH88uxXj3LrfqctM6PaJ8taG1vxfBw=="
   "resolved" "https://registry.npmjs.org/expo-constants/-/expo-constants-13.2.4.tgz"
   "version" "13.2.4"
   dependencies:
     "@expo/config" "~7.0.0"
-    "uuid" "^3.3.2"
-
-"expo-constants@~14.0.0":
-  "integrity" "sha512-wzV3nrzTXTI8yG0tfas3fnqCfKV6YE+1GphEREyVDAShEB6mBInX1b6HgtpHFy2wOtnml+lPVmTCeGtjjLnZhA=="
-  "resolved" "https://registry.npmjs.org/expo-constants/-/expo-constants-14.0.2.tgz"
-  "version" "14.0.2"
-  dependencies:
-    "@expo/config" "~7.0.2"
     "uuid" "^3.3.2"
 
 "expo-error-recovery@~3.2.0":
@@ -3877,13 +3861,6 @@
   "version" "14.1.0"
   dependencies:
     "@expo/config-plugins" "~5.0.0"
-    "uuid" "^3.4.0"
-
-"expo-file-system@~15.1.0":
-  "integrity" "sha512-MYYDKxjLo9VOkvGHqym5EOAUS+ero9O66X5zI+EXJzqNznKvnfScdXeeAaQzShmWtmLkdVDCoYFGOaTvTA1wTQ=="
-  "resolved" "https://registry.npmjs.org/expo-file-system/-/expo-file-system-15.1.1.tgz"
-  "version" "15.1.1"
-  dependencies:
     "uuid" "^3.4.0"
 
 "expo-font@~10.2.0", "expo-font@~10.2.1":
@@ -3914,10 +3891,10 @@
     "find-up" "^5.0.0"
     "fs-extra" "^9.1.0"
 
-"expo-modules-core@0.11.9":
-  "integrity" "sha512-6AlOE4KHN3/WWbY8hH7W6ceuIFj0qbk1N+UhmMhiCEUas3NvXA6wcH3xjO+8JZ+BRcIB9M4QEeX72j6vDDuExg=="
-  "resolved" "https://registry.npmjs.org/expo-modules-core/-/expo-modules-core-0.11.9.tgz"
-  "version" "0.11.9"
+"expo-modules-core@0.11.10":
+  "integrity" "sha512-wn7bdL1AXMNuuDEFhuIeE65A+dlvBL+6nC5fGy4NO7x3TXPBR1xCgL28i8d8WWyK5evI4z4TVvJp3YYzdapbqQ=="
+  "resolved" "https://registry.npmjs.org/expo-modules-core/-/expo-modules-core-0.11.10.tgz"
+  "version" "0.11.10"
   dependencies:
     "compare-versions" "^3.4.0"
     "invariant" "^2.2.4"
@@ -3948,24 +3925,24 @@
   "resolved" "https://registry.npmjs.org/expo-status-bar/-/expo-status-bar-1.4.2.tgz"
   "version" "1.4.2"
 
-"expo@*", "expo@^46.0.0":
-  "integrity" "sha512-rB+KMvjU3lFMkec5LcVFFn0Q2iJUEIoyB9TckKMirA15H5mW4yZMao0ilR7239fJ5ytVoDC8SIf7ZAvTmiMuMw=="
-  "resolved" "https://registry.npmjs.org/expo/-/expo-46.0.17.tgz"
-  "version" "46.0.17"
+"expo@*", "expo@~46.0.19":
+  "integrity" "sha512-bNvLMcByZia/JsTngCXEKmI+outPQo6/V5M896yzUo4hdLApwIwq7kV/6bZqHuWyYFSdRgem3NATJRisHQrP1A=="
+  "resolved" "https://registry.npmjs.org/expo/-/expo-46.0.20.tgz"
+  "version" "46.0.20"
   dependencies:
     "@babel/runtime" "^7.14.0"
-    "@expo/cli" "0.3.2"
+    "@expo/cli" "0.3.3"
     "@expo/vector-icons" "^13.0.0"
     "babel-preset-expo" "~9.2.0"
     "cross-spawn" "^6.0.5"
     "expo-application" "~4.2.2"
-    "expo-asset" "~8.6.1"
+    "expo-asset" "~8.6.3"
     "expo-constants" "~13.2.4"
     "expo-file-system" "~14.1.0"
     "expo-font" "~10.2.1"
     "expo-keep-awake" "~10.2.0"
     "expo-modules-autolinking" "0.10.3"
-    "expo-modules-core" "0.11.9"
+    "expo-modules-core" "0.11.10"
     "fbemitter" "^3.0.0"
     "getenv" "^1.0.0"
     "invariant" "^2.2.4"
@@ -4255,7 +4232,7 @@
     "jsonfile" "^2.1.0"
     "klaw" "^1.0.0"
 
-"fs-extra@^8.1.0", "fs-extra@~8.1.0":
+"fs-extra@^8.1.0", "fs-extra@~8.1.0", "fs-extra@9.0.0":
   "integrity" "sha512-yhlQgA6mnOJUKOsRUFsgJdQCvkKhcz8tlZG5HBQfReYZy46OwLcY+Zia0mtdHsOo9y/hP+CxMN0TU9QxoOtG4g=="
   "resolved" "https://registry.npmjs.org/fs-extra/-/fs-extra-8.1.0.tgz"
   "version" "8.1.0"
@@ -4283,16 +4260,6 @@
     "graceful-fs" "^4.2.0"
     "jsonfile" "^6.0.1"
     "universalify" "^2.0.0"
-
-"fs-extra@9.0.0":
-  "integrity" "sha512-pmEYSk3vYsG/bF651KPUXZ+hvjpgWYw/Gc7W9NFUe3ZVLczKKWIij3IKpOrQcdw4TILtibFslZ0UmR8Vvzig4g=="
-  "resolved" "https://registry.npmjs.org/fs-extra/-/fs-extra-9.0.0.tgz"
-  "version" "9.0.0"
-  dependencies:
-    "at-least-node" "^1.0.0"
-    "graceful-fs" "^4.2.0"
-    "jsonfile" "^6.0.1"
-    "universalify" "^1.0.0"
 
 "fs-minipass@^2.0.0":
   "integrity" "sha512-V/JgOLFCS+R6Vcq0slCuaeWEdNC3ouDlJMNIsacH2VtALiu9mV4LPrHc5cDl8k5aw6J8jwgWWpiTo5RYhmIzvg=="
@@ -5034,7 +5001,7 @@
   "resolved" "https://registry.npmjs.org/is-wsl/-/is-wsl-1.1.0.tgz"
   "version" "1.1.0"
 
-"is-wsl@^2.1.1", "is-wsl@^2.2.0":
+"is-wsl@^2.2.0":
   "integrity" "sha512-fKzAra0rGJUUBwGBgNkHZuToZcn+TtXHpeCgmkMJMMYx1sQDYaCSyjJBSCa2nH1DGm7s3n1oBnohoVTBaN7Lww=="
   "resolved" "https://registry.npmjs.org/is-wsl/-/is-wsl-2.2.0.tgz"
   "version" "2.2.0"
@@ -5259,14 +5226,7 @@
   "resolved" "https://registry.npmjs.org/json5/-/json5-0.5.1.tgz"
   "version" "0.5.1"
 
-"json5@^1.0.1":
-  "integrity" "sha512-aKS4WQjPenRxiQsC93MNfjx+nbF4PAdYzmd/1JIj8HYzqfbu86beTuNgXDzPknWk0n0uARlyewZo4s++ES36Ow=="
-  "resolved" "https://registry.npmjs.org/json5/-/json5-1.0.1.tgz"
-  "version" "1.0.1"
-  dependencies:
-    "minimist" "^1.2.0"
-
-"json5@^2.2.1":
+"json5@^1.0.1", "json5@^2.2.1":
   "integrity" "sha512-1hqLFMSrGHRHxav9q9gNjJ5EXznIxGVO09xQRrwplcS8qs28pZ8s8hupZAmqDwZUmVZ2Qb2jnyPOWcDH8m8dlA=="
   "resolved" "https://registry.npmjs.org/json5/-/json5-2.2.1.tgz"
   "version" "2.2.1"
