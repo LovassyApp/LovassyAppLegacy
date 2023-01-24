@@ -60,9 +60,9 @@ const PrivacyPolicyModal = (): JSX.Element => {
                     férnek hozzá. Az adatok az e-Kréta rendszer egy, az iskolavezetésnek szánt
                     kimutatásából származnak, melyhez közvetlen hozzáférése a rendszer
                     fejlesztőinek, karbantartóinak és üzemeltetőinek nincs. Ezáltal az érdemjegyek
-                    megtekintésére valamint módosítására a rendszer rendszer fejlesztőinek,
-                    karbantartóinak és üzemeltetőinek nincs lehetősége, valamint ezeket harmadik fél
-                    számára nem továbbítjuk.
+                    megtekintésére valamint módosítására a rendszer fejlesztőinek, karbantartóinak
+                    és üzemeltetőinek nincs lehetősége, valamint ezeket harmadik fél számára nem
+                    továbbítjuk.
                 </p>
                 <p>
                     Ha az adataiddal kapcsolatban bármilyen kérdésed van (mint például azok
