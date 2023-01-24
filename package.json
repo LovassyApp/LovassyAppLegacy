@@ -31,8 +31,16 @@
         "prepare": "husky install && yarn --cwd apps/boardlight-mobile run liblink",
         "docker-build": "docker-compose --project-directory docker/ build blueboard && docker-compose --project-directory docker/ build",
         "docker-start": "docker-compose --project-directory docker/ up",
+        "docker-start-headless": "docker-compose --project-directory docker/ up -d",
         "docker-shell": "docker-compose --project-directory docker/ run blueboard-shell",
-        "docker-down": "docker-compose --project-directory docker/ down --volumes -t 0"
+        "docker-down": "docker-compose --project-directory docker/ down --volumes -t 0",
+        "maintenance-down": "docker-compose --project-directory docker/ run blueboard-shell php artisan down",
+        "maintenance-up": "docker-compose --project-directory docker/ run blueboard-shell php artisan up",
+        "composer-update": "docker-compose --project-directory docker/ run blueboard-shell composer update --prefer-dist --optimize-autoloader --ignore-platform-reqs",
+        "migrate": "docker-compose --project-directory docker/ run blueboard-shell php artisan migrate --force",
+        "optimize": "docker-compose --project-directory docker/ run blueboard-shell php artisan optimize",
+        "warden-build": "docker-compose --project-directory docker/ run blueboard-shell php artisan warden:build",
+        "build": "yarn --cwd apps/boardlight run build"
     },
     "packageManager": "yarn@1.22.19"
 }

@@ -1,7 +1,7 @@
 name: Deploy Blueboard to production server
 on: "workflow_dispatch"
 jobs:
-  write-to-console:
+  deploy-to-prod:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout master
@@ -15,3 +15,5 @@ jobs:
         run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
       - name: Deploy with rsync
         run: rsync -avz ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/opt/lovassyapp
+      - name: Run deploy script on server
+        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "bash /opt/lovassyapp/deploy.sh"
