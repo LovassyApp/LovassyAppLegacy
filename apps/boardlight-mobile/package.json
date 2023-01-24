@@ -38,7 +38,7 @@
         "axios-retry": "^3.2.4",
         "blueboard-client": "*",
         "blueboard-client-react": "*",
-        "expo": "^46.0.0",
+        "expo": "~46.0.19",
         "expo-app-loading": "~2.1.0",
         "expo-barcode-scanner": "~11.4.0",
         "expo-camera": "~12.4.0",
