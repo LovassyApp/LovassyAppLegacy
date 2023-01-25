@@ -1,6 +1,7 @@
 {
     "expo": {
-        "name": "LovassyApp",
+        "name": "boardlight-mobile",
+        "owner": "lovassyapp",
         "slug": "LovassyApp",
         "version": "1.0.0",
         "orientation": "portrait",
@@ -28,6 +29,11 @@
         },
         "web": {
             "favicon": "./src/assets/favicon.png"
+        },
+        "extra": {
+            "eas": {
+                "projectId": "bccf8d21-8b24-4432-8502-7ed33be9530f"
+            }
         }
     }
 }

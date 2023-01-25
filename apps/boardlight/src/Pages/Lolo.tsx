@@ -169,6 +169,54 @@ const Lolo = (): JSX.Element => {
                 </Center>
             ) : (
                 <>
+                    <Container fluid={true} style={{ width: '95%' }}>
+                        <Card hoverable={true}>
+                            <Row>
+                                <Col md="4" sm="12">
+                                    <Text className="mt-2">
+                                        Jelenlegi egyenleged:{' '}
+                                        <Badge
+                                            pill={true}
+                                            color={
+                                                (lolo.balance ?? 0) > 0
+                                                    ? (lolo.balance ?? 0) > 2
+                                                        ? 'success'
+                                                        : 'warning'
+                                                    : 'danger'
+                                            }>
+                                            {lolo.balance} LoLó
+                                        </Badge>
+                                    </Text>
+                                </Col>
+                                <Col md="4" sm="0" />
+                                <Col md="4" sm="12">
+                                    <Button
+                                        rounded={true}
+                                        onClick={bootstrap}
+                                        auto={true}
+                                        className="float-md-end mt-md-0 mt-2"
+                                        color="gradient">
+                                        Frissítés
+                                    </Button>
+                                    <Middlware
+                                        permission="Requests::CreateRequest"
+                                        component={
+                                            <Button
+                                                rounded={true}
+                                                onClick={() => setShow(true)}
+                                                auto={true}
+                                                className="float-md-end mt-md-0 me-2 mt-2"
+                                                color="success"
+                                                flat={true}>
+                                                Új kérvény
+                                            </Button>
+                                        }
+                                        displayError={false}
+                                    />
+                                </Col>
+                            </Row>
+                        </Card>
+                    </Container>
                     {lolo.coins.length === 0 ? (
                         <Center>
                             <div className="mt-4">
@@ -177,54 +225,6 @@ const Lolo = (): JSX.Element => {
                         </Center>
                     ) : (
                         <>
-                            <Container fluid={true} style={{ width: '95%' }}>
-                                <Card hoverable={true}>
-                                    <Row>
-                                        <Col md="4" sm="12">
-                                            <Text className="mt-2">
-                                                Jelenlegi egyenleged:{' '}
-                                                <Badge
-                                                    pill={true}
-                                                    color={
-                                                        (lolo.balance ?? 0) > 0
-                                                            ? (lolo.balance ?? 0) > 2
-                                                                ? 'success'
-                                                                : 'warning'
-                                                            : 'danger'
-                                                    }>
-                                                    {lolo.balance} LoLó
-                                                </Badge>
-                                            </Text>
-                                        </Col>
-                                        <Col md="4" sm="0" />
-                                        <Col md="4" sm="12">
-                                            <Button
-                                                rounded={true}
-                                                onClick={bootstrap}
-                                                auto={true}
-                                                className="float-md-end mt-md-0 mt-2"
-                                                color="gradient">
-                                                Frissítés
-                                            </Button>
-                                            <Middlware
-                                                permission="Requests::CreateRequest"
-                                                component={
-                                                    <Button
-                                                        rounded={true}
-                                                        onClick={() => setShow(true)}
-                                                        auto={true}
-                                                        className="float-md-end mt-md-0 me-2 mt-2"
-                                                        color="success"
-                                                        flat={true}>
-                                                        Új kérvény
-                                                    </Button>
-                                                }
-                                                displayError={false}
-                                            />
-                                        </Col>
-                                    </Row>
-                                </Card>
-                            </Container>
                             <Container fluid={true} style={{ width: '95%' }}>
                                 <Grid.Container justify="center" className="my-2" gap={2}>
                                     {lolo.coins.map((coin) => (

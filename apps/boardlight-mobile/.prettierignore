@@ -14,3 +14,7 @@ ios/
 .gitignore
 link.sh
 .java-version
+release-*
+.npmrc
+build-android.sh
+get_android_build.sh

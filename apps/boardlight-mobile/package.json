@@ -41,7 +41,7 @@
         "expo": "~46.0.19",
         "expo-app-loading": "~2.1.0",
         "expo-barcode-scanner": "~11.4.0",
-        "expo-camera": "~12.4.0",
+        "expo-camera": "~12.5.0",
         "expo-font": "~10.2.0",
         "expo-secure-store": "~11.3.0",
         "expo-splash-screen": "~0.16.2",
