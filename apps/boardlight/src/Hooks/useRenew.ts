@@ -14,7 +14,7 @@ const useRenew = (): (() => Promise<void>) => {
             logout().then(() => {
                 Swal.fire({
                     title: 'Probléma!',
-                    text: 'Hú csávókám hát, ez nagyon lent van, hogy ki lettél rakva innen. (Lejárt a session, kérlek jelentkezz be újra)',
+                    text: 'Hú csávókám, ez nagyon lent van, hogy ki lettél rakva innen. (Lejárt a session, kérlek jelentkezz be újra)',
                     icon: 'error',
                     confirmButtonText: 'Többet nem fordul elő...',
                 });

@@ -8,11 +8,16 @@ const useLogout = (): (() => Promise<void>) => {
     return async () => {
         dispatch({ type: 'loader/forceLoader' });
         client.renew.stop();
-        await client.auth.logout().then(() => {
+        try {
+            await client.auth.logout();
+        } catch (err) {
+            console.log('hello');
+            console.log(err);
+        } finally {
             dispatch({ type: 'token/removeToken' });
             dispatch({ type: 'control/removeControl' });
             dispatch({ type: 'loader/removeLoader' });
-        });
+        }
     };
 };
 

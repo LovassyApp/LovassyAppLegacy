@@ -9,6 +9,7 @@ import getGreeting from '../Helpers/GetGreeting';
 import { useBlueboardClient } from 'blueboard-client-react';
 import useRenew from '../Hooks/useRenew';
 import { useHistory } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const Login = (): JSX.Element => {
     const dispatch = useDispatch();
@@ -50,13 +51,24 @@ const Login = (): JSX.Element => {
                 .login(username, password, remember)
                 .then((res) => {
                     const { token } = res;
-                    client.account.control(token).then((res) => {
-                        dispatch({ type: 'control/setControl', payload: res });
-                        const { name } = res.user;
-                        toast.success(`${getGreeting() + (name.split(' ')[1] ?? name)}!`);
-                        dispatch({ type: 'token/setToken', payload: token });
-                        renew();
-                    });
+                    client.account
+                        .control(token)
+                        .then((res) => {
+                            dispatch({ type: 'control/setControl', payload: res });
+                            const { name } = res.user;
+                            toast.success(`${getGreeting() + (name.split(' ')[1] ?? name)}!`);
+                            dispatch({ type: 'token/setToken', payload: token });
+                            renew();
+                        })
+                        .catch(() => {
+                            Swal.fire({
+                                title: 'Letiltott fiók',
+                                text: 'Oly bár tűnik, tetteid következményeként egy rendszergazda tiltással sújtott le rád. Hú csávókám, ez nagyon lent van.',
+                                icon: 'error',
+                                confirmButtonText: 'Ez van.',
+                            });
+                            setLoading(false);
+                        });
                 })
                 .catch((err) => {
                     console.log(err);

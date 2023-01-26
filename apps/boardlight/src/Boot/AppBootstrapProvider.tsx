@@ -58,6 +58,7 @@ const AppBootstrapProvider = ({ children }: { children: React.ReactNode }): JSX.
                                 icon: 'error',
                                 confirmButtonText: 'Igenis!',
                             });
+                            setBootstrapInProgress(false);
                         });
                     } else {
                         throw err;
