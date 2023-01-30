@@ -1,8 +1,9 @@
-import { Link, Modal, Text, useTheme } from '@nextui-org/react';
+import { Button, Link, Modal, Text, useTheme } from '@nextui-org/react';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import usePrivacyPolicyModalState from '../Hooks/usePrivacyPolicyModalState';
+import Center from './Center';
 
 const Subheading = styled.h4`
     display: flex;
@@ -80,6 +81,17 @@ const PrivacyPolicyModal = (): JSX.Element => {
                     jelszó megjegyzése), semmi féle adatgyűjtési céljuk nincs.
                 </p>
                 <p>Az alkalmazás használatával beleegyezel ezen sütik használatába.</p>
+                <Center>
+                    <Button
+                        onClick={() =>
+                            dispatch({ type: 'privacyPolicyModal/closePrivacyPolicyModal' })
+                        }
+                        type="button"
+                        rounded={true}
+                        color="gradient">
+                        Igenis, Kapitány!
+                    </Button>
+                </Center>
             </Modal.Body>
             <Modal.Footer style={{ overflow: 'visible', border: 'none' }} />
         </Modal>

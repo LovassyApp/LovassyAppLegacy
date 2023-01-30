@@ -156,7 +156,12 @@ const Login = (): JSX.Element => {
                     <h4 className="alert-heading">Hoppácska!</h4>
                     <p>{GLOBERR}</p>
                 </Alert>
-                <Button type="submit" loading={loading} loaderType="points" color="gradient">
+                <Button
+                    type="submit"
+                    loading={loading}
+                    rounded={true}
+                    loaderType="points"
+                    color="gradient">
                     Essünk néki!
                 </Button>
             </form>

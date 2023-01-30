@@ -230,3 +230,11 @@
 .badge.bg-warning {
     color: var(--bs-dark) !important;
 }
+
+#nextui-modal > .backdrop > .content > .modal-wrapper-enter-active {
+    animation: swal2-show 0.3s !important;
+}
+
+#nextui-modal > .backdrop > .content > .modal-wrapper-leave-active {
+    animation: swal2-hide 0.25s !important;
+}

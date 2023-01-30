@@ -379,7 +379,7 @@ const EditProduct = (): JSX.Element => {
                 <Modal.Footer style={{ overflow: 'visible', border: 'none' }}>
                     <UncontrolledDropdown direction="up">
                         <DropdownToggle data-toggle="dropdown" tag="div">
-                            <Button auto={true} flat={true} color="success">
+                            <Button auto={true} flat={true} rounded={true} color="success">
                                 Input hozzáadása
                             </Button>
                         </DropdownToggle>
@@ -401,6 +401,7 @@ const EditProduct = (): JSX.Element => {
                     <Button
                         auto={true}
                         flat={true}
+                        rounded={true}
                         color="error"
                         onClick={() => {
                             setModalShow(false);
