@@ -20,7 +20,14 @@
         {
             "src": "icon_base.png",
             "type": "image/png",
-            "sizes": "1024x1024"
+            "sizes": "1024x1024",
+            "purpose": "maskable"
+        },
+        {
+            "src": "adaptive_icon.png",
+            "type": "image/png",
+            "sizes": "1024x1024",
+            "purpose": "transparent"
         }
     ],
     "start_url": ".",
