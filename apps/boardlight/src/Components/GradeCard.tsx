@@ -53,6 +53,19 @@ const GradeCircle = styled.div`
     }
 `;
 
+const renderGradeType = (gradeType: string): string => {
+    switch (gradeType) {
+        case 'Írásbeli témazáró dolgozat (dupla súllyal)':
+            return 'Témazáró';
+        case 'Írásbeli röpdolgozat':
+            return 'Röpdolgozat';
+        default:
+            gradeType;
+    }
+
+    return gradeType;
+};
+
 const getColor = (grade: number): string => {
     // eslint-disable-next-line
     switch (grade) {
@@ -78,7 +91,13 @@ const convert = (num: number): string => {
     return String(num);
 };
 
-const GradeCard = ({ grade }: { grade: BlueboardKretaGrade }): JSX.Element => {
+const GradeCard = ({
+    grade,
+    enlarge,
+}: {
+    grade: BlueboardKretaGrade;
+    enlarge: boolean;
+}): JSX.Element => {
     const theme = useTheme();
 
     const shadow_light = '0 8px 30px rgba(0, 0, 0, 0.15)';
@@ -101,12 +120,12 @@ const GradeCard = ({ grade }: { grade: BlueboardKretaGrade }): JSX.Element => {
                 </div>
                 <div className="col">
                     <p className={style.cardSubjectN}>
-                        <b>
-                            {grade.name} - {grade.type}
-                        </b>
+                        <b>{grade.name}</b>
+                        <br />
+                        <small>{enlarge ? renderGradeType(grade.type) : grade.type}</small>
                     </p>
                 </div>
-                <div className="col-3">
+                <div className="col-4">
                     <p className={style.cardSubjectN}>{grade.teacher}</p>
                 </div>
             </div>

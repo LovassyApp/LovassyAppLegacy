@@ -27,7 +27,7 @@ class BoardlightConsole {
         lineBreak();
         line(`Version v${VERSION}`);
         lineBreak();
-        line('Kópérájt minigyima, Xeretis 2021-2022.');
+        line('Kópérájt minigyima, Xeretis 2021-2023.');
         lineBreak();
         line('Óll rájtsz rizörvd. Meg a fenét.');
         lineBreak();

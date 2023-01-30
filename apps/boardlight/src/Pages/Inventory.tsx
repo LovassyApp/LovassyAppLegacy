@@ -27,6 +27,7 @@ import { matchSorter } from 'match-sorter';
 // import { useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 import { useUser } from '../Hooks/ControlHooks';
+import useMediaQuery from '../Hooks/useMediaQuery';
 
 const defaultItem = {} as BlueboardInventoryItem;
 const defaultProduct = {} as BlueboardProduct;
@@ -358,6 +359,8 @@ const Inventory = (): JSX.Element => {
         }, 200);
     }, [setItem, setProduct]);
 
+    const isPhone = !useMediaQuery('(min-width: 650px)');
+
     return (
         <AuthLayout>
             <Modal
@@ -387,11 +390,21 @@ const Inventory = (): JSX.Element => {
                         <Card hoverable={true}>
                             <Row>
                                 <Col md="4" sm="12">
-                                    <Text className="mt-1">
-                                        <Badge pill={true} className="badge-primary">
-                                            {renderedItems.length} / {items.length} tárgy
-                                        </Badge>
-                                    </Text>
+                                    {isPhone ? (
+                                        <Center>
+                                            <Text className="mt-1 mb-2 align-self-center">
+                                                <Badge pill={true} className="badge-primary">
+                                                    {renderedItems.length} / {items.length} tárgy
+                                                </Badge>
+                                            </Text>
+                                        </Center>
+                                    ) : (
+                                        <Text className="mt-1 align-self-center">
+                                            <Badge pill={true} className="badge-primary">
+                                                {renderedItems.length} / {items.length} tárgy
+                                            </Badge>
+                                        </Text>
+                                    )}
                                 </Col>
                                 <Col md="4" sm="0" />
                                 <Col md="4" sm="12">

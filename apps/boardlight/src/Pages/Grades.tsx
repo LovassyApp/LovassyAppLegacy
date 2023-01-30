@@ -11,11 +11,13 @@ import { Col, Container, Row /* Badge*/ } from 'reactstrap';
 import Center from '../Components/Center';
 import { BlueboardKretaGradeData } from 'blueboard-client';
 import toast from 'react-hot-toast';
+import useMediaQuery from '../Hooks/useMediaQuery';
 
 const Grades = (): JSX.Element => {
     const client = useBlueboardClient();
     const [loading, setLoading] = React.useState(true);
     const [grades, setGrades] = React.useState<BlueboardKretaGradeData[]>([]);
+    const canRenderCards = useMediaQuery('(min-width: 650px)');
 
     React.useEffect(() => {
         client.kreta
@@ -73,7 +75,9 @@ const Grades = (): JSX.Element => {
                                     </Row>
                                 </Card>
                             </Container>*/}
-                            <Container fluid={true} style={{ width: '95%' }}>
+                            <Container
+                                fluid={true}
+                                style={{ width: canRenderCards ? '95%' : '100%' }}>
                                 <Collapse.Group>
                                     {grades.map((value, key) => (
                                         <Collapse
@@ -81,17 +85,27 @@ const Grades = (): JSX.Element => {
                                             // eslint-disable-next-line react/no-array-index-key
                                             key={key}
                                             title={<Text h4={true}>{value.subject}</Text>}>
-                                            <Row className="ms-3 me-1 my-4">
+                                            <div
+                                                className={
+                                                    canRenderCards
+                                                        ? 'ms-3 me-1 my-4 row'
+                                                        : ' my-4 row row-sm-cust'
+                                                }>
                                                 {value.grades.map((el) => (
                                                     <Col
                                                         xl={6}
                                                         md={12}
+                                                        xs={12}
+                                                        sm={12}
                                                         className="mb-3"
                                                         key={el.id}>
-                                                        <GradeCard grade={el} />
+                                                        <GradeCard
+                                                            enlarge={!canRenderCards}
+                                                            grade={el}
+                                                        />
                                                     </Col>
                                                 ))}
-                                            </Row>
+                                            </div>
                                         </Collapse>
                                     ))}
                                 </Collapse.Group>

@@ -3,6 +3,7 @@ import { BlueboardInventoryItem, BlueboardProduct } from 'blueboard-client';
 import { Button, Card, Text } from '@nextui-org/react';
 
 import Middleware from '../Helpers/Middleware';
+import useMediaQuery from '../Hooks/useMediaQuery';
 
 const ProductCard = ({
     product,
@@ -63,6 +64,8 @@ const ItemFooter = ({
     item: BlueboardInventoryItem;
     buttonCallback(product: BlueboardProduct, item: BlueboardInventoryItem): void;
 }): JSX.Element => {
+    const isPhone = !useMediaQuery('(min-width: 650px)');
+
     return (
         <Row className="m-0 px-2 py-2 w-100">
             <Col sm="2" xl="3" className="align-self-center">
@@ -88,7 +91,12 @@ const ItemFooter = ({
                     />
                 </Row>
             </Col>
-            <Col className="float-end text-end align-self-center">
+            <Col
+                className={
+                    isPhone
+                        ? 'ps-0 ms-1 mt-1 align-self-center'
+                        : 'float-end text-end align-self-center'
+                }>
                 {item.usedAt === null ? (
                     <>
                         {item.product.codeActivated ? (
@@ -113,7 +121,7 @@ const ItemFooter = ({
                         </Row>
                     </>
                 ) : (
-                    <div className="mt-1">
+                    <div>
                         <Badge pill={true} color="danger">
                             Felhasználva ({item.usedAt})
                         </Badge>

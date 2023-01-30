@@ -181,3 +181,34 @@
 .card {
     border-radius: 14px;
 }
+
+.container.expanded.animated {
+    overflow: visible !important;
+}
+
+@media (min-width: 768px) {
+    .container > .content {
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+    .container.expanded.animated {
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+}
+
+@media (min-width: 576px) {
+    .container .content {
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+    .container.expanded.animated {
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+}
+
+.row.row-sm-cust > * {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
