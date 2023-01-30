@@ -2,7 +2,7 @@ import * as React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import Routes from './Routes';
 import './CSS/style.css';
-import { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import { ThemeProvider, useTheme } from '@nextui-org/react';
 import { createTheme } from 'react-data-table-component';
 import useToken from './Hooks/useToken';
@@ -18,6 +18,14 @@ const [BlueboardProvider] = BlueboardClientInit(
     import.meta.env.VITE_BLUEBOARD_SOKETI_HOST,
     import.meta.env.VITE_BLUEBOARD_SOKETI_KEY,
     true,
+    () => {
+        toast.error(
+            'A Blueboard-al megszakadt a kapcsolat, kérlek ellenőrizd, hogy van -e még interneted',
+        );
+    },
+    () => {
+        toast.success('A kapcsolat helyreállt :)');
+    },
 );
 
 const ToasterContainer = (): JSX.Element => {

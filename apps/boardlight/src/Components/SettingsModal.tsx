@@ -83,12 +83,12 @@ const SettingsModal = (): JSX.Element => {
             <Modal.Body>
                 <Subheading color={theme.palette.accents_4}>téma</Subheading>
                 <Row>
-                    <Col>
+                    <Col md="6" className="mb-2">
                         <Row>
-                            <Col sm="4">
+                            <Col xs="4">
                                 <Text className="mt-1">Sötét mód</Text>
                             </Col>
-                            <Col>
+                            <Col xs="8">
                                 <Switch
                                     className="float-end"
                                     iconOff={<MdOutlineLightMode />}
@@ -102,12 +102,12 @@ const SettingsModal = (): JSX.Element => {
                             </Col>
                         </Row>
                     </Col>
-                    <Col>
+                    <Col md="6">
                         <Row>
-                            <Col sm="8">
+                            <Col xs="8">
                                 <Text className="mt-1">Rendszertéma követése</Text>
                             </Col>
-                            <Col>
+                            <Col xs="4">
                                 <Switch
                                     className="float-end"
                                     iconOff={<MdClose />}

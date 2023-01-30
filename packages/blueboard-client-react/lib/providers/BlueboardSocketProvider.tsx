@@ -22,7 +22,9 @@ const BlueboardSocketProvider = ({ token, children }: providerProps) => {
             globalState.props.blueboardUrl,
             globalState.props.blueboardWsUrl,
             globalState.props.blueboardSocketKey,
-            token
+            token,
+            globalState.props.wsDisconnectCallback,
+            globalState.props.wsConnectCallback
         );
 
         sock.connect();

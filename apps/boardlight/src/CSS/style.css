@@ -182,7 +182,7 @@
     border-radius: 14px;
 }
 
-.container.expanded.animated {
+.view > .expanded.animated {
     overflow: visible !important;
 }
 
@@ -191,7 +191,7 @@
         max-width: 100% !important;
         width: 100% !important;
     }
-    .container.expanded.animated {
+    .view > .container.animated {
         max-width: 100% !important;
         width: 100% !important;
     }
@@ -202,7 +202,7 @@
         max-width: 100% !important;
         width: 100% !important;
     }
-    .container.expanded.animated {
+    .view > .container.animated {
         max-width: 100% !important;
         width: 100% !important;
     }
@@ -211,4 +211,18 @@
 .row.row-sm-cust > * {
     padding-left: 0 !important;
     padding-right: 0 !important;
+}
+
+.navbar.blur {
+    z-index: 20 !important;
+}
+
+.navbar.blur-dark {
+    z-index: 20 !important;
+}
+
+.menu-navbar {
+    border-radius: 10 !important;
+    background: 'transparent' !important;
+    z-index: '5';
 }

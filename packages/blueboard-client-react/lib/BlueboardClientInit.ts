@@ -19,7 +19,9 @@ const BlueboardClientInit = (
     blueboardUrl: string,
     blueboardWsUrl: string,
     blueboardSocketKey: string,
-    cookies: boolean = false
+    cookies: boolean = false,
+    wsDisconnectCallback: (event: any) => void = (event: any) => {},
+    wsConnectCallback: (event: any) => void = (event: any) => {}
 ): [
     typeof BlueboardProvider,
     typeof BlueboardSocketProvider,
@@ -29,7 +31,9 @@ const BlueboardClientInit = (
         blueboardUrl,
         blueboardWsUrl,
         blueboardSocketKey,
-        cookies
+        cookies,
+        wsDisconnectCallback,
+        wsConnectCallback
     );
 
     const client: BlueboardClient = new BlueboardClient(

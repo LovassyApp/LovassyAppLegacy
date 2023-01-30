@@ -8,12 +8,17 @@ class BlueboardSocketManager {
     private pusher: Pusher | null = null;
     private pusherOptions: object;
     private key: string = '';
+    private disconnectCallback: (event: any) => void;
+    private connectCallback: (event: any) => void;
+    private disconnectedPreviously: boolean = false;
 
     constructor(
         blueboardUrl: string,
         blueboardSoketiUrl: string,
         blueboardSoketiKey: string,
-        token?: string
+        token?: string,
+        disconnectCallback?: (event: any) => void,
+        connectCallback?: (event: any) => void
     ) {
         const endpoints = new BlueboardEndpoints(blueboardUrl);
 
@@ -33,12 +38,38 @@ class BlueboardSocketManager {
             },
         };
 
+        if (!connectCallback) {
+            this.connectCallback = () => {};
+        }
+        if (!disconnectCallback) {
+            this.disconnectCallback = () => {};
+        }
+
+        this.disconnectCallback = disconnectCallback as (event: any) => void;
+        this.connectCallback = connectCallback as (event: any) => void;
+
         this.key = blueboardSoketiKey;
     }
 
     public connect = () => {
         try {
             this.pusher = new Pusher(this.key, this.pusherOptions);
+
+            this.pusher.bind('pusher:error', (event: any) => {
+                this.disconnectedPreviously = true;
+                this.disconnectCallback(event);
+            });
+            this.pusher.connection.bind('connected', (event: any) => {
+                if (this.disconnectedPreviously) {
+                    this.disconnectedPreviously = false;
+                    this.connectCallback(event);
+                }
+            });
+            this.pusher.connection.bind('unavailable', (event: any) => {
+                this.disconnectedPreviously = true;
+                this.disconnectCallback(event);
+            });
+
             this.echo = new Echo({
                 broadcaster: 'pusher',
                 client: this.pusher,

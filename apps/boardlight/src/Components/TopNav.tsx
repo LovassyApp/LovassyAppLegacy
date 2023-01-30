@@ -31,6 +31,7 @@ import { useTheme } from '@nextui-org/react';
 import useLogout from '../Hooks/useLogout';
 import { RootState } from '../State';
 import Middleware from '../Helpers/Middleware';
+import useMediaQuery from '../Hooks/useMediaQuery';
 
 const TopNav = (): JSX.Element => {
     const history = useHistory();
@@ -38,6 +39,10 @@ const TopNav = (): JSX.Element => {
     const state: RootState = useSelector<RootState>((state) => state) as RootState;
     const theme = useTheme();
     const dispatch = useDispatch();
+
+    const isTransparent = !useMediaQuery('(min-width: 1200px)');
+
+    console.log(isTransparent);
 
     const logout = useLogout();
 
@@ -262,11 +267,14 @@ const TopNav = (): JSX.Element => {
                                 dark={theme.type === 'dark'}
                                 style={{
                                     borderRadius: 10,
-                                    background:
-                                        theme.type === 'dark'
-                                            ? theme.palette.background
-                                            : theme.palette.accents_1,
+                                    background: isTransparent
+                                        ? 'transparent'
+                                        : theme.type === 'dark'
+                                        ? theme.palette.background
+                                        : theme.palette.accents_1,
+
                                     zIndex: '5',
+                                    border: isTransparent ? 0 : '',
                                 }}
                                 end={true}>
                                 <DropdownItem

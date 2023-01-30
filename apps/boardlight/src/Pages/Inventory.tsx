@@ -23,8 +23,6 @@ import TableLoader from '../Components/TableLoader';
 import itemUsedModal from '../Helpers/ItemUsedModal';
 import itemUsedModalFresh from '../Helpers/ItemUsedModalFresh';
 import { matchSorter } from 'match-sorter';
-// import { useTheme } from '@nextui-org/react';
-// import { useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 import { useUser } from '../Hooks/ControlHooks';
 import useMediaQuery from '../Hooks/useMediaQuery';
@@ -320,11 +318,29 @@ const Inventory = (): JSX.Element => {
         [itemsRef],
     );
 
+    const productChange = ({ products }: { products: BlueboardProduct[] }): void => {
+        products.forEach((product) => {
+            const itemsClone = [...itemsRef.current];
+            const indexes = itemsClone
+                .map((car, i) => (car.product.id === product.id ? i : -1))
+                .filter((index) => index !== -1);
+
+            indexes.forEach((index) => {
+                const newItem = { ...itemsClone[index], product: product };
+                itemsClone[index] = newItem;
+            });
+
+            itemsRef.current = itemsClone;
+            setItems(itemsRef.current);
+        });
+    };
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
     React.useEffect(bootstrap, []);
 
     useBlueboardPrivateChannel(`Users.${user.id}`, 'InventoryItemUsed', itemChange);
     useBlueboardPrivateChannel(`Users.${user.id}`, 'InventoryItemCreated', itemChange);
+    useBlueboardPrivateChannel('Store', 'ProductUpdated', productChange);
 
     const renderedItems =
         query === ''
