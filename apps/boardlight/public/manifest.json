@@ -1,6 +1,6 @@
 {
-    "short_name": "Boardlight",
-    "name": "LovassyApp Web",
+    "short_name": "LovassyApp Boardlight",
+    "name": "LovassyApp Boardlight",
     "icons": [
         {
             "src": "favicon.png",
@@ -26,5 +26,5 @@
     "start_url": ".",
     "display": "standalone",
     "theme_color": "#5193f4",
-    "background_color": "#ff4ecd"
+    "background_color": "#000000"
 }
