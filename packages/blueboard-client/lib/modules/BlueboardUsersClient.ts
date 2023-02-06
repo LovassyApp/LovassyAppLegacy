@@ -1,40 +1,47 @@
 import BlueboardBaseClient from '../BlueboardBaseClient';
+import { BlueboardUserFactory } from '../factories';
 import BlueboardResponse from '../models/BlueboardResponse';
 import BlueboardUser from '../models/BlueboardUser';
 
 class BlueboardUsersClient extends BlueboardBaseClient {
-	public all = async () => {
-		const url = this.endpoints.admin.users;
+    public all = async () => {
+        const url = this.endpoints.admin.users;
 
-		const res = (await this.stdGetRequest(url)) as Array<BlueboardUser>;
+        const res = (await this.stdGetRequest(url)) as Array<any>;
 
-		return res;
-	};
+        return BlueboardUserFactory.getResponse(res);
+    };
 
-	public get = async (id: number) => {
-		const url = this.endpoints.admin.users + `/${id}`;
+    public get = async (id: number) => {
+        const url = this.endpoints.admin.users + `/${id}`;
 
-		const res = (await this.stdGetRequest(url)) as BlueboardUser;
+        const res = await this.stdGetRequest(url);
 
-		return res;
-	};
+        return BlueboardUserFactory.getUser(res);
+    };
 
-	public save = async (data: BlueboardUser) => {
-		const url = this.endpoints.admin.users;
+    public save = async (data: BlueboardUser) => {
+        const url = this.endpoints.admin.users;
 
-		const res = (await this.stdPatchRequest(url, data)) as BlueboardResponse;
+        const res = (await this.stdPatchRequest(
+            url,
+            data
+        )) as BlueboardResponse;
 
-		return res;
-	};
+        return res;
+    };
 
-	public delete = async (id: number) => {
-		const data: { id: number } = { id: id };
-		const url = this.endpoints.admin.users;
+    public delete = async (id: number) => {
+        const data: { id: number } = { id: id };
+        const url = this.endpoints.admin.users;
 
-		const res = (await this.stdDeleteRequest(url, data)) as BlueboardResponse;
+        const res = (await this.stdDeleteRequest(
+            url,
+            data
+        )) as BlueboardResponse;
 
-		return res;
-	};
+        return res;
+    };
 }
 
 export default BlueboardUsersClient;

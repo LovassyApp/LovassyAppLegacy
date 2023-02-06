@@ -1,7 +1,7 @@
 import React from 'react';
 import AuthLayout from '../../Layouts/Auth';
 import HeaderCard from '../../Components/HeaderCard';
-import DataTable from 'react-data-table-component';
+import DataTable, { TableColumn } from 'react-data-table-component';
 import { Container, Col, Row, Card, CardBody, Badge } from 'reactstrap';
 import { Button, useTheme } from '@nextui-org/react';
 import TableLoader from '../../Components/TableLoader';
@@ -82,20 +82,22 @@ const Products = (): JSX.Element => {
         history.push(`/admin/products/edit/${id}`);
     };
 
-    const columns = [
+    const columns: Array<TableColumn<BlueboardProduct>> = [
         {
-            name: 'ID',
+            name: '#',
             selector: (row: BlueboardProduct) => row.id,
             maxWidth: '10px',
         },
         {
             name: 'Név',
             selector: (row: BlueboardProduct) => row.name,
+            compact: true,
         },
         {
             name: 'Rövid leírás',
             selector: (row: BlueboardProduct) => row.description,
             wrap: true,
+            compact: true,
         },
         {
             name: 'Kód kell?',
@@ -103,25 +105,30 @@ const Products = (): JSX.Element => {
                 return row.codeActivated ? <MdCheck fontSize={20} /> : <MdClose fontSize={20} />;
             },
             maxWidth: '10px',
+            compact: true,
         },
         {
             name: 'Látható a bazárban?',
             cell: (row: BlueboardProduct) => {
                 return row.visible ? <MdCheck fontSize={20} /> : <MdClose fontSize={20} />;
             },
+            compact: true,
         },
         {
             name: 'Ár (LoLó)',
             selector: (row: BlueboardProduct) => row.price,
             maxWidth: '10px',
+            compact: true,
         },
         {
             name: 'Mennyiség',
             selector: (row: BlueboardProduct) => row.quantity,
             maxWidth: '10px',
+            compact: true,
         },
         {
             name: 'Aktiváló kódok',
+            compact: true,
             cell: (row: BlueboardProduct) => (
                 <div>
                     {row.codes?.length === 0 ? (
@@ -140,6 +147,7 @@ const Products = (): JSX.Element => {
         },
         {
             name: '',
+            compact: true,
             cell: (el: BlueboardProduct) => {
                 return (
                     <>

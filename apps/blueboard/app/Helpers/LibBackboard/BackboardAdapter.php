@@ -111,6 +111,22 @@ class BackboardAdapter
                 $this->user->save();
             }
         } catch (Exception $e) {
+            // throw new InvalidImportException('The imported data provided is invalid.', 500, $e);
+        }
+    }
+
+    /**
+     * Ha van a feltöltésben név, akkor azt beállítja az adott usernek
+     *
+     * @param stdClass $gradeObject
+     * @return void
+     */
+    private function updateRealName(stdClass $gradeObject)
+    {
+        try {
+            $this->user->real_name = $gradeObject->student_name;
+            $this->user->save();
+        } catch (Exception $e) {
             throw new InvalidImportException('The imported data provided is invalid.', 500, $e);
         }
     }
@@ -150,6 +166,7 @@ class BackboardAdapter
             return;
         }
 
+        $this->updateRealName($gradeObject);
         $this->updateClass($gradeObject);
 
         $this->parsedGrades = $this->parse($gradeObject);

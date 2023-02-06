@@ -519,6 +519,13 @@ const EditProduct = (): JSX.Element => {
                                             components={animatedComponents}
                                             closeMenuOnSelect={false}
                                             isMulti={true}
+                                            styles={{
+                                                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                                                menu: (baseStyles, state) => ({
+                                                    ...baseStyles,
+                                                    zIndex: 20,
+                                                }),
+                                            }}
                                             defaultValue={selectedCodes}
                                             theme={(dropTheme) => {
                                                 return {
@@ -609,6 +616,13 @@ const EditProduct = (): JSX.Element => {
                                             components={animatedComponents}
                                             closeMenuOnSelect={false}
                                             isMulti={true}
+                                            styles={{
+                                                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                                                menu: (baseStyles, state) => ({
+                                                    ...baseStyles,
+                                                    zIndex: 20,
+                                                }),
+                                            }}
                                             defaultValue={groups}
                                             theme={(dropTheme) => {
                                                 return {

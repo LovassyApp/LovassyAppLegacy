@@ -1,7 +1,7 @@
 import React from 'react';
 import AuthLayout from '../../Layouts/Auth';
 import HeaderCard from '../../Components/HeaderCard';
-import DataTable from 'react-data-table-component';
+import DataTable, { TableColumn } from 'react-data-table-component';
 import { Container, Col, Row, Card, CardBody, Badge } from 'reactstrap';
 import { Button, useTheme } from '@nextui-org/react';
 import TableLoader from '../../Components/TableLoader';
@@ -61,22 +61,30 @@ const Users = (): JSX.Element => {
         history.push(`/admin/users/edit/${el.id}`);
     };
 
-    const columns = [
+    const columns: Array<TableColumn<BlueboardUser>> = [
         {
-            name: 'ID',
+            name: '#',
             selector: (row: BlueboardUser) => row.id,
         },
         {
             name: 'Név',
             selector: (row: BlueboardUser) => row.name,
+            compact: true,
+        },
+        {
+            name: 'Igazi név',
+            selector: (row: BlueboardUser) => row.realName ?? '',
+            compact: true,
         },
         {
             name: 'E-mail cím',
             selector: (row: BlueboardUser) => row.email,
+            compact: true,
         },
         {
-            name: 'LoLó egyenleg',
+            name: 'Egyenleg',
             selector: (row: BlueboardUser) => row.balance ?? 0,
+            maxWidth: '10px',
         },
         {
             name: 'Csoportok',
@@ -97,9 +105,11 @@ const Users = (): JSX.Element => {
                 </div>
             ),
             wrap: true,
+            compact: true,
         },
         {
             name: '',
+            compact: true,
             cell: (el: BlueboardUser) => {
                 return (
                     <>

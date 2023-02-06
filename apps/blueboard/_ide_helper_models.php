@@ -92,6 +92,56 @@ namespace App\Helpers\SacroSanctum\Models{
 	class RefreshToken extends \Eloquent {}
 }
 
+namespace App\Helpers\Warden\Models{
+/**
+ * The pivot model used for linking AuthorizableGroups to Authorizables
+ *
+ * @package Warden
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string $authorizable_type
+ * @property int $authorizable_id
+ * @property int $authorizable_group_id
+ * @property-read \App\Helpers\Warden\Models\AuthorizableGroup|null $group
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $model
+ * @method static \Illuminate\Database\Eloquent\Builder|Authorizable newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Authorizable newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Authorizable query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Authorizable whereAuthorizableGroupId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Authorizable whereAuthorizableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Authorizable whereAuthorizableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Authorizable whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Authorizable whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Authorizable whereUpdatedAt($value)
+ */
+	class Authorizable extends \Eloquent {}
+}
+
+namespace App\Helpers\Warden\Models{
+/**
+ * The Group model
+ *
+ * @package Warden
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string $name
+ * @property mixed $permissions
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Helpers\Warden\Models\Authorizable[] $authorizables
+ * @property-read int|null $authorizables_count
+ * @method static \Illuminate\Database\Eloquent\Builder|AuthorizableGroup newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|AuthorizableGroup newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|AuthorizableGroup query()
+ * @method static \Illuminate\Database\Eloquent\Builder|AuthorizableGroup whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AuthorizableGroup whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AuthorizableGroup whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AuthorizableGroup wherePermissions($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AuthorizableGroup whereUpdatedAt($value)
+ */
+	class AuthorizableGroup extends \Eloquent {}
+}
+
 namespace App\Models{
 /**
  * App\Models\Grade
@@ -166,6 +216,31 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|GradeImport whereUserId($value)
  */
 	class GradeImport extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Group
+ *
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string $name
+ * @property mixed $permissions
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Helpers\Warden\Models\Authorizable[] $authorizables
+ * @property-read int|null $authorizables_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
+ * @property-read int|null $users_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Group newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Group newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Group query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Group whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Group whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Group whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Group wherePermissions($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Group whereUpdatedAt($value)
+ */
+	class Group extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -328,7 +403,7 @@ namespace App\Models{
  * @property-read mixed $image_url
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\InventoryItem[] $items
  * @property-read int|null $items_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserGroup[] $notifiedGroups
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Group[] $notifiedGroups
  * @property-read int|null $notified_groups_count
  * @method static \Illuminate\Database\Eloquent\Builder|Product newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Product newQuery()
@@ -441,11 +516,12 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string $hasher_salt_encrypted
  * @property string $hasher_salt_hashed
+ * @property string|null $real_name
  * @property-read mixed $balance
  * @property-read mixed $hash
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Grade[] $grades
  * @property-read int|null $grades_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserGroup[] $groups
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Helpers\Warden\Models\AuthorizableGroup[] $groups
  * @property-read int|null $groups_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\GradeImport[] $imports
  * @property-read int|null $imports_count
@@ -479,31 +555,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePrivateKeyEncrypted($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePublicKeyHex($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereRealName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  */
-	class User extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
- * App\Models\UserGroup
- *
- * @property int $id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property string $name
- * @property mixed $permissions
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
- * @property-read int|null $users_count
- * @method static \Illuminate\Database\Eloquent\Builder|UserGroup newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|UserGroup newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|UserGroup query()
- * @method static \Illuminate\Database\Eloquent\Builder|UserGroup whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|UserGroup whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|UserGroup whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|UserGroup wherePermissions($value)
- * @method static \Illuminate\Database\Eloquent\Builder|UserGroup whereUpdatedAt($value)
- */
-	class UserGroup extends \Eloquent {}
+	class User extends \Eloquent implements \App\Helpers\Warden\Contracts\Authorizable {}
 }
 

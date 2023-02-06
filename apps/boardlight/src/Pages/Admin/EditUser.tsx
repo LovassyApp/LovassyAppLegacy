@@ -190,6 +190,13 @@ const EditUser = (): JSX.Element => {
                                                     closeMenuOnSelect={false}
                                                     defaultValue={groups}
                                                     isMulti={true}
+                                                    styles={{
+                                                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                                                        menu: (baseStyles, state) => ({
+                                                            ...baseStyles,
+                                                            zIndex: 20,
+                                                        }),
+                                                    }}
                                                     theme={(dropTheme) => {
                                                         return {
                                                             ...dropTheme,

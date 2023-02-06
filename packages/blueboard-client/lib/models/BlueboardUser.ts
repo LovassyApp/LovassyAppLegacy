@@ -9,7 +9,8 @@ class BlueboardUser {
         public readonly groups: Array<number> | Array<BlueboardUserGroup>,
         public readonly timestamps?: BlueboardTimestamps,
         public readonly balance?: number,
-        public readonly schoolClass?: string
+        public readonly schoolClass?: string,
+        public readonly realName?: string
     ) {}
 }
 

@@ -24,6 +24,7 @@ class VersionController extends Controller
         'Lovassy a LEGJOBB :) (hehe)',
         'A strange game. The only winning move is not to play.',
         "Blueboard btw: Krétát kezelünk, tehát kötelező a tanszerrel kapcsolatos név. 'Tábla napló' (geez) még nincs, ezért Board, a Blue pedig hát... A Lovassy színe a kék, én meg basic vagyok... Szóval ja... Blueboard. (Jobb, mint a Kék tábla napló vagy idk)",
+        'Itt ez a krokogyélus...',
     ];
 
     public function index(Request $request)

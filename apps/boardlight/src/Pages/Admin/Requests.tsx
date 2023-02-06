@@ -1,7 +1,7 @@
 import React from 'react';
 import AuthLayout from '../../Layouts/Auth';
 import HeaderCard from '../../Components/HeaderCard';
-import DataTable from 'react-data-table-component';
+import DataTable, { TableColumn } from 'react-data-table-component';
 import {
     Container,
     Col,
@@ -206,22 +206,34 @@ const Requests = (): JSX.Element => {
 
     React.useEffect(bootstrap, [bootstrap]);
 
-    const columns = [
+    const columns: Array<TableColumn<BlueboardLoloRequest>> = [
         {
-            name: 'ID',
+            name: '#',
             selector: (row: BlueboardLoloRequest) => row.id,
         },
         {
             name: 'Cím',
             selector: (row: BlueboardLoloRequest) => row.title,
+            compact: true,
         },
         {
             name: 'Diák neve',
             selector: (row: BlueboardLoloRequest) => row.user?.name ?? '',
+            compact: true,
+        },
+        {
+            name: 'Diák igazi neve',
+            selector: (row: BlueboardLoloRequest) => row.user?.realName ?? '',
+            compact: true,
         },
         {
             name: 'Diák e-mail címe',
             selector: (row: BlueboardLoloRequest) => row.user?.email ?? '',
+            compact: true,
+        },
+        {
+            name: 'Diák osztálya',
+            selector: (row: BlueboardLoloRequest) => row.user?.schoolClass ?? '',
         },
         {
             name: 'Benyújtás ideje',
@@ -230,9 +242,11 @@ const Requests = (): JSX.Element => {
                 const date = new Date(unix);
                 return date.toLocaleString();
             },
+            compact: true,
         },
         {
             name: '',
+            compact: true,
             cell: (row: BlueboardLoloRequest) => {
                 if (row.acceptedAt !== null) {
                     return (
