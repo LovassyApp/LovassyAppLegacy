@@ -25,6 +25,13 @@ class VersionController extends Controller
         'A strange game. The only winning move is not to play.',
         "Blueboard btw: Krétát kezelünk, tehát kötelező a tanszerrel kapcsolatos név. 'Tábla napló' (geez) még nincs, ezért Board, a Blue pedig hát... A Lovassy színe a kék, én meg basic vagyok... Szóval ja... Blueboard. (Jobb, mint a Kék tábla napló vagy idk)",
         'Itt ez a krokogyélus...',
+        'KELGYÓÓÓ',
+        'TÉTEL *kettőspont*',
+        'FONTOS *kettőspont*',
+        'BIZONYÍTÁS *kettőspont*',
+        'Azt hinné az ember, hogy ez csoda, de nem csoda, csak fizika.',
+        'Félek a villanykapcsolótól.',
+        'In vino veritas.',
     ];
 
     public function index(Request $request)

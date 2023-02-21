@@ -74,7 +74,8 @@ const SettingsModal = (): JSX.Element => {
                 dispatch({ type: 'settingsModal/closeSettingsModal' });
             }}
             preventClose={true}
-            width="650px">
+            width="650px"
+            style={{ overflowY: 'hidden' }}>
             <Modal.Header style={{ border: 'none' }}>
                 <Text id="modal-title" size={18}>
                     Beállítások
