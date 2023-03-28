@@ -16,7 +16,7 @@ abstract class AbstractSingleton implements ReportsStatus
      *
      * @return self
      */
-    abstract public static function use(): self;
+    abstract public static function use(): static;
 
     /**
      * Aktív -e a service vagy nem (getter edition)

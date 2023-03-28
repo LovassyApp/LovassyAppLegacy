@@ -1,6 +1,6 @@
 # Blueboard 2.0 compose stuff
 # YAAAY
-version: '3.9'
+version: "3.9"
 
 services:
   blueboard:
@@ -13,7 +13,7 @@ services:
       blueboard:
         ipv4_address: 172.128.3.1
     volumes:
-      - ../:/var/www/api/
+      - ../:/srv/www/
       - ./data/logs:/var/log/
       - ./data/root:/root
     depends_on:
@@ -27,7 +27,7 @@ services:
     profiles:
       - nope
     volumes:
-      - ../:/var/www/api/
+      - ../:/srv/www/
       - ./data/logs:/var/log/
       - ./data/root:/root
     hostname: blueboard-shell
@@ -45,7 +45,7 @@ services:
       blueboard:
         ipv4_address: 172.128.3.2
     volumes:
-      - ../:/var/www/api/
+      - ../:/srv/www/
       - ./data/logs:/var/log/
       - ./data/root:/root
     depends_on:
@@ -62,7 +62,7 @@ services:
       blueboard:
         ipv4_address: 172.128.3.3
     volumes:
-      - ../:/var/www/api/
+      - ../:/srv/www/
       - ./data/logs:/var/log/
       - ./data/root:/root
     depends_on:
@@ -75,7 +75,7 @@ services:
     image: qoomon/docker-host
     container_name: blueboard-router
     hostname: blueboard-router
-    cap_add: [ 'NET_ADMIN', 'NET_RAW' ]
+    cap_add: ["NET_ADMIN", "NET_RAW"]
     restart: on-failure
     environment:
       - PORTS=3306,9000
@@ -120,21 +120,21 @@ services:
       - ./redis:/redis
 
   soketi:
-    image: 'quay.io/soketi/soketi:latest-16-alpine'
+    image: "quay.io/soketi/soketi:latest-16-alpine"
     container_name: blueboard-soketi
     hostname: blueboard-soketi
     environment:
-      SOKETI_DEBUG: '0'
-      SOKETI_METRICS_SERVER_PORT: '9601'
-      SOKETI_DB_MYSQL_HOST: '172.128.3.4'
-      SOKETI_DB_MYSQL_PORT: '3306'
-      SOKETI_DB_MYSQL_USERNAME: 'lovassyapp'
-      SOKETI_DB_MYSQL_PASSWORD: 'lOvAsSyApP!2021'
-      SOKETI_DB_MYSQL_DATABASE: 'lovassyapp'
-      SOKETI_APP_MANAGER_DRIVER: 'mysql'
-      SOKETI_APP_MANAGER_MYSQL_TABLE: 'soketi_apps'
-      SOKETI_APP_MANAGER_MYSQL_VERSION: '10'
-      SOKETI_APP_MANAGER_MYSQL_USE_V2: 'false'
+      SOKETI_DEBUG: "0"
+      SOKETI_METRICS_SERVER_PORT: "9601"
+      SOKETI_DB_MYSQL_HOST: "172.128.3.4"
+      SOKETI_DB_MYSQL_PORT: "3306"
+      SOKETI_DB_MYSQL_USERNAME: "lovassyapp"
+      SOKETI_DB_MYSQL_PASSWORD: "lOvAsSyApP!2021"
+      SOKETI_DB_MYSQL_DATABASE: "lovassyapp"
+      SOKETI_APP_MANAGER_DRIVER: "mysql"
+      SOKETI_APP_MANAGER_MYSQL_TABLE: "soketi_apps"
+      SOKETI_APP_MANAGER_MYSQL_VERSION: "10"
+      SOKETI_APP_MANAGER_MYSQL_USE_V2: "false"
     depends_on:
       - mysql
     ports:

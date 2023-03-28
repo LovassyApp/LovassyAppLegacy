@@ -153,7 +153,7 @@ class HashManager extends AbstractSingleton
         return hash_pbkdf2(self::KEYGEN_HASH_ALGO, $payload, $salt, 1000, 32);
     }
 
-    public static function use(): self
+    public static function use(): static
     {
         return app(self::class);
     }

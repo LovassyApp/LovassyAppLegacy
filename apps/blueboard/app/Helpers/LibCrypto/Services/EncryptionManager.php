@@ -153,7 +153,7 @@ class EncryptionManager extends AbstractSingleton
         return $this->master_key !== null;
     }
 
-    public static function use(): self
+    public static function use(): static
     {
         return app(self::class);
     }

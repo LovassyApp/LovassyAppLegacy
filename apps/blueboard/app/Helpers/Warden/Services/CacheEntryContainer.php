@@ -36,7 +36,7 @@ class CacheEntryContainer extends AbstractSingleton
      *
      * @return self
      */
-    public static function use(): self
+    public static function use(): static
     {
         return app(self::class);
     }

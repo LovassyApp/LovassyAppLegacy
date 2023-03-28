@@ -23,7 +23,7 @@
 # For more information see the manual pages of crontab(5) and cron(8)
 #
 # m h  dom mon dow   command
-* * * * * /usr/local/bin/php /var/www/api/artisan session:clean > /proc/1/fd/1 2> /proc/1/fd/2
-0 1 * * * /usr/local/bin/php /var/www/api/artisan refresh:clean > /proc/1/fd/1 2> /proc/1/fd/2
+* * * * * /usr/local/bin/php /srv/www/artisan session:clean > /proc/1/fd/1 2> /proc/1/fd/2
+0 1 * * * /usr/local/bin/php /srv/www/artisan refresh:clean > /proc/1/fd/1 2> /proc/1/fd/2
 
 # * * * * * /usr/local/bin/php /var/www/api/artisan schedule:run > /proc/1/fd/1 2> /proc/1/fd/2
