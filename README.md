@@ -1,5 +1,7 @@
 # LovassyApp
 
+**Aktív fejlesztés alatt álló verzió**: https://github.com/LovassyApp/LovassyApp
+
 Mobil app, weboldal és API a Loló rendszerhez és a Kréta e-napló egyes funkcióihoz.
 
 ## Fejelsztői környezet felállítása
